@@ -4,12 +4,15 @@ import { EcLevelSelect } from '@/ui/cores/select/EcLevelSelect/EcLevelSelect'
 import { UploadFile } from '@/ui/cores/uploadFile/UploadFile'
 import { convertBase64ToFile, convertImageToBase64 } from '@/utils/file'
 import { Box, Input, Slider, TextField } from '@mui/material'
-import React, { useMemo } from 'react'
+import React, { FC, useMemo } from 'react'
 import { Step01Slider } from '@/ui/cores/slider'
 import { ImageForm } from '@/ui/fragments/Form/OptionalForm/ImageForm/ImageForm'
 import { LogoPaddingStyleSelect } from '@/ui/cores/select'
-
-export const OptionalForm = () => {
+type Props = {
+  file: File | null
+  setFile: (value: File | null) => void
+}
+export const OptionalForm: FC<Props> = ({ file, setFile }) => {
   const {
     bgColor,
     size,
@@ -19,8 +22,7 @@ export const OptionalForm = () => {
     setFgColor,
     ecLevel,
     setEcLevel,
-    logoImage,
-    setLogoImage,
+
     logoOpacity,
     setLogoOpacity,
     logoPaddingStyle,
@@ -77,7 +79,7 @@ export const OptionalForm = () => {
         value={logoOpacity}
         onChange={(event) => setLogoOpacity(Number(event.target.value))}
       />
-      <ImageForm />
+      <ImageForm file={file} setFile={setFile} />
       <Step01Slider min={0} max={1} value={1} onChange={setLogoOpacity} />
       <LogoPaddingStyleSelect
         value={logoPaddingStyle}

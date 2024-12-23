@@ -19,7 +19,7 @@ import { UploadFile } from '@/ui/cores/uploadFile/UploadFile'
 import { WidthSlider } from '@/ui/cores/slider'
 import { HeightSlider } from '@/ui/cores/slider/heightSlider/HeightSlider'
 import GeneratedQrcode from '@/ui/cores/qrcode/qrcode'
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import { convertBase64ToFile } from '@/utils/file'
 import QrCheckButton from '@/ui/cores/button/QrCheckButton'
 import { usePathQueryParameter } from '@/ui/pages/root/hooks/usePathQueryParameter'
@@ -42,7 +42,7 @@ export const IndexPage = () => {
   const { url, bgColor, setBgColor, setFgColor, fgColor } =
     usePathQueryParameter()
 
-  console.log('gvsgs', url)
+  const [file, setFile] = useState<File | null>(null)
   return (
     <>
       <PageWrapper>
@@ -65,11 +65,11 @@ export const IndexPage = () => {
                   />
                 )}
               />
-              <OptionalForm />
+              <OptionalForm file={file} setFile={setFile} />
             </Stack>
 
             <Box>
-              <GeneratedQrcode ref={ref} value={url} />
+              <GeneratedQrcode ref={ref} value={url} file={file} />
 
               <QrCheckButton ref={ref} />
               <Button type={'submit'}>Generate</Button>

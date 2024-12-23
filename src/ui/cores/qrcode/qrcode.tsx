@@ -6,16 +6,25 @@ import React, {
   ForwardedRef,
   MutableRefObject,
   RefObject,
+  useEffect,
   useMemo,
-  useRef
+  useRef,
+  useState
 } from 'react'
 import { IProps } from 'react-qrcode-logo/lib'
 import { useQrcode, useWindowSize } from '@/hooks'
 import { Box, Input, Slider, Stack } from '@mui/material'
 import { CornerHighlightBox } from '@/ui/cores/box'
+import { convertImageToBase64 } from '@/utils/file'
 export type EcLevelType = 'L' | 'M' | 'Q' | 'H'
-const GeneratedQrcode = React.forwardRef<HTMLDivElement, IProps>(
-  ({ value }, ref) => {
+
+type Props = {
+  file: File | null
+  value: string
+}
+
+const GeneratedQrcode = React.forwardRef<HTMLDivElement, Props>(
+  ({ value, file }, ref) => {
     const {
       ecLevel,
       enableCORS,
@@ -30,7 +39,6 @@ const GeneratedQrcode = React.forwardRef<HTMLDivElement, IProps>(
       logoPadding,
       logoPaddingStyle,
       QrStyle,
-      logoImage,
       setSize
     } = useQrcode()
     const { height, width } = useWindowSize()
@@ -40,6 +48,28 @@ const GeneratedQrcode = React.forwardRef<HTMLDivElement, IProps>(
       }
       return width - 500
     }, [height, width])
+
+    const [logoImage, setLogoImage] = useState<string | undefined>(undefined)
+
+    useEffect(() => {
+      const convertImageToBase64 = async (file: File): Promise<string> => {
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader()
+          reader.onload = () => resolve(reader.result as string)
+          reader.onerror = reject
+          reader.readAsDataURL(file)
+        })
+      }
+
+      if (file) {
+        ;(async () => {
+          const base64 = await convertImageToBase64(file)
+          setLogoImage(base64)
+        })()
+      } else {
+        setLogoImage(undefined)
+      }
+    }, [file])
 
     return (
       <Stack p={4}>
