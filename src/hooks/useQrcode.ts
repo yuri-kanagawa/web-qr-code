@@ -105,10 +105,8 @@ export const useQrcode = () => {
     return Number(value)
   }
 
-  const getEcLevel = (
-    value: string | null
-  ): 'L' | 'M' | 'Q' | 'H' | undefined => {
-    if (!value) return undefined
+  const getEcLevel = (value: string | null): 'L' | 'M' | 'Q' | 'H' => {
+    if (!value) return 'M'
     switch (value) {
       case 'L':
       case 'M':
@@ -116,17 +114,17 @@ export const useQrcode = () => {
       case 'H':
         return value
       default:
-        return undefined
+        return 'M'
     }
   }
-  const getLogoPaddingStyle = (value?: string) => {
-    if (!value) return undefined
+  const getLogoPaddingStyle = (value: string | null) => {
+    if (!value) return 'square'
     switch (value) {
       case 'square':
       case 'circle':
         return value
       default:
-        return undefined
+        return 'square'
     }
   }
 
@@ -146,7 +144,7 @@ export const useQrcode = () => {
     ? Boolean(searchParams.get('enableCORS'))
     : undefined
   const size = getSize(searchParams.get('size'))
-  const quietZone = Number(searchParams.get('quietZone')) ?? 100
+  const logoImage = searchParams.get('logoImage') ?? undefined
   const bgColor = searchParams.get('bgColor') ?? ''
   const fgColor = searchParams.get('fgColor') ?? ''
   const logoWidth = Number(searchParams.get('logoWidth')) ?? undefined
@@ -156,7 +154,7 @@ export const useQrcode = () => {
     Boolean(searchParams.get('removeQrCodeBehindLogo')) ?? undefined
   const logoPadding = Number(searchParams.get('logoPadding')) ?? undefined
   const logoPaddingStyle = getLogoPaddingStyle(
-    searchParams.get('logoPaddingStyle') ?? undefined
+    searchParams.get('logoPaddingStyle')
   )
   const QrStyle = getQrStyle(searchParams.get('qrStyle'))
   const setEcLevel = (value: string) => {
@@ -200,18 +198,21 @@ export const useQrcode = () => {
     addQueryParameter({ logoPadding: String(value) })
   }
 
-  const setLogoPaddingStyle = (value: number) => {
-    addQueryParameter({ logoPaddingStyle: String(value) })
+  const setLogoPaddingStyle = (value: string) => {
+    addQueryParameter({ logoPaddingStyle: value })
   }
   const setQrValue = (value: string) => {
     addQueryParameter({ qrValue: value })
   }
-
+  const setLogoImage = (value: string) => {
+    addQueryParameter({ logoImage: value })
+  }
   return {
     ecLevel,
+    logoImage,
     enableCORS,
     size,
-    quietZone,
+
     bgColor,
     fgColor,
     logoWidth,
@@ -233,7 +234,8 @@ export const useQrcode = () => {
     setRemoveQrCodeBehindLogo,
     setLogoPadding,
     setLogoPaddingStyle,
-    setQrValue
+    setQrValue,
+    setLogoImage
     // qrValue,
     // updateExceptRef,
     // updateQrValue,

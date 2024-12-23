@@ -5,7 +5,7 @@ import {
   ListItemText
 } from '@mui/material'
 import PhoneIcon from '@mui/icons-material/Phone'
-import { useRouter } from 'next/navigation'
+
 import { path } from '@/constants/path'
 import Link from 'next/link'
 export const Contact = () => {

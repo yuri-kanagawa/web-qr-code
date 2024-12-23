@@ -23,6 +23,8 @@ import { useRef } from 'react'
 import { convertBase64ToFile } from '@/utils/file'
 import QrCheckButton from '@/ui/cores/button/QrCheckButton'
 import { usePathQueryParameter } from '@/ui/pages/root/hooks/usePathQueryParameter'
+import { MuiColorInput } from 'mui-color-input'
+import { OptionalForm } from '@/ui/fragments/Form'
 
 export const IndexPage = () => {
   const ref = useRef<HTMLDivElement | null>(null)
@@ -37,7 +39,10 @@ export const IndexPage = () => {
     }
   }
   const { control, onSubmit } = useUrlQRCodeForm()
-  const { url } = usePathQueryParameter()
+  const { url, bgColor, setBgColor, setFgColor, fgColor } =
+    usePathQueryParameter()
+
+  console.log('gvsgs', url)
   return (
     <>
       <PageWrapper>
@@ -60,37 +65,9 @@ export const IndexPage = () => {
                   />
                 )}
               />
-              {/*<Controller*/}
-              {/*  name="bgColor"*/}
-              {/*  control={control}*/}
-              {/*  render={({ field: { ref, ...field }, fieldState }) => (*/}
-              {/*    <MuiColorInput*/}
-              {/*      {...field}*/}
-              {/*      inputRef={ref}*/}
-              {/*      format="hex"*/}
-              {/*      value={field.value}*/}
-              {/*      label={'Module Color'}*/}
-              {/*      onChange={changeBgColor}*/}
-              {/*      isAlphaHidden={true}*/}
-              {/*    />*/}
-              {/*  )}*/}
-              {/*/>*/}
-              {/*<Controller*/}
-              {/*  name="fgColor"*/}
-              {/*  control={control}*/}
-              {/*  render={({ field: { ref, ...field }, fieldState }) => (*/}
-              {/*    <MuiColorInput*/}
-              {/*      {...field}*/}
-              {/*      inputRef={ref}*/}
-              {/*      format="hex"*/}
-              {/*      value={field.value}*/}
-              {/*      label={'Space Color'}*/}
-              {/*      onChange={changeFgColor}*/}
-              {/*      isAlphaHidden={true}*/}
-              {/*    />*/}
-              {/*  )}*/}
-              {/*/>*/}
+              <OptionalForm />
             </Stack>
+
             <Box>
               <GeneratedQrcode ref={ref} value={url} />
 
@@ -100,6 +77,7 @@ export const IndexPage = () => {
               {/*<QrCheckButton forwardedRef={qrValue.ref} />*/}
             </Box>
           </Stack>
+
           {/*<SelectLevel />*/}
           {/*<MuiColorInput*/}
           {/*  format="hex"*/}
@@ -114,16 +92,6 @@ export const IndexPage = () => {
           <Stack direction={'row'}>
             <HeightSlider width={100} height={100}>
               <></>
-              {/*<UploadFile*/}
-              {/*  file={*/}
-              {/*    !!qrValue.logoImage*/}
-              {/*      ? convertBase64ToFile(qrValue.logoImage, 'qr')*/}
-              {/*      : null*/}
-              {/*  }*/}
-              {/*  onChange={onChange}*/}
-              {/*  width={100}*/}
-              {/*  height={100}*/}
-              {/*/>*/}
             </HeightSlider>
           </Stack>
 

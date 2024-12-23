@@ -20,7 +20,7 @@ const GeneratedQrcode = React.forwardRef<HTMLDivElement, IProps>(
       ecLevel,
       enableCORS,
       size,
-      quietZone,
+      // quietZone,
       bgColor,
       fgColor,
       logoWidth,
@@ -30,9 +30,9 @@ const GeneratedQrcode = React.forwardRef<HTMLDivElement, IProps>(
       logoPadding,
       logoPaddingStyle,
       QrStyle,
+      logoImage,
       setSize
     } = useQrcode()
-
     const { height, width } = useWindowSize()
     const maxSize = useMemo(() => {
       if (height < width) {
@@ -40,6 +40,7 @@ const GeneratedQrcode = React.forwardRef<HTMLDivElement, IProps>(
       }
       return width - 500
     }, [height, width])
+
     return (
       <Stack p={4}>
         {/*<Box*/}
@@ -55,29 +56,23 @@ const GeneratedQrcode = React.forwardRef<HTMLDivElement, IProps>(
         {/*</Box>*/}
         <CornerHighlightBox height={maxSize + 50} width={maxSize + 50}>
           <div ref={ref}>
-            <QRCode
-              value={value}
-              size={size}
-              // ecLevel={ecLevel}
-              // enableCORS={enableCORS}
-              // size={500}
-            />
+            {value !== '' && (
+              <QRCode
+                value={value}
+                size={size}
+                bgColor={bgColor}
+                fgColor={fgColor}
+                ecLevel={ecLevel}
+                logoImage={logoImage}
+                logoOpacity={logoOpacity}
+                eyeRadius={[40, 43, 4]}
+                eyeColor={[fgColor, '', fgColor]}
+                logoPaddingStyle={logoPaddingStyle}
+                logoPadding={6}
+              />
+            )}
           </div>
         </CornerHighlightBox>
-
-        <Input />
-        <Slider
-          value={size}
-          min={5}
-          step={1}
-          max={maxSize}
-          // scale={size}
-          // getAriaValueText={valueLabelFormat}
-          // valueLabelFormat={valueLabelFormat}
-          onChange={(event, value) => setSize(Number(value))}
-          valueLabelDisplay="auto"
-          aria-labelledby="non-linear-slider"
-        />
       </Stack>
     )
   }

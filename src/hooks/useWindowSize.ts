@@ -20,21 +20,30 @@ const theme = createTheme({
 
 export const useWindowSize = () => {
   const [windowSize, setWindowSize] = useState({
-    width: window.innerWidth,
-    height: window.innerHeight
+    width: 0,
+    height: 0
   })
 
   useEffect(() => {
-    const resize = () => {
+    // window オブジェクトがクライアントサイドでのみ利用可能なので、useEffect内で設定
+    const handleResize = () => {
       setWindowSize({
         width: window.innerWidth,
         height: window.innerHeight
       })
     }
 
-    window.addEventListener('resize', resize)
-    return () => window.removeEventListener('resize', resize)
-  }, [])
+    // 初期サイズを設定
+    handleResize()
+
+    // リサイズ時に再計算
+    window.addEventListener('resize', handleResize)
+
+    // クリーンアップ
+    return () => {
+      window.removeEventListener('resize', handleResize)
+    }
+  }, []) // 空の依存配列で、最初のレンダリング後に1度だけ実行
 
   const isOverMobile: boolean = useMediaQuery(theme.breakpoints.up('sm'))
   const isLessTablet: boolean = useMediaQuery(theme.breakpoints.down('md'))
