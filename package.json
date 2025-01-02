@@ -17,6 +17,8 @@
     "@mui/icons-material": "^6.2.1",
     "@mui/material": "^5.15.20",
     "@mui/material-nextjs": "^5.15.11",
+    "@typescript-eslint/eslint-plugin": "^8.18.2",
+    "@typescript-eslint/parser": "^8.18.2",
     "grammy": "^1.25.2",
     "mui-color-input": "^3.0.0",
     "next": "14.2.3",
@@ -38,7 +40,7 @@
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
-    "eslint": "^8",
+    "eslint": "^9.17.0",
     "eslint-config-next": "14.2.3",
     "typescript": "^5"
   }

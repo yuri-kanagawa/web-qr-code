@@ -1,46 +1,39 @@
-import React, { MutableRefObject, RefObject, useCallback } from 'react'
+import React, {
+  MutableRefObject,
+  RefObject,
+  useCallback,
+  useEffect
+} from 'react'
 import { Button } from '@mui/material'
 import QrScanner from 'qr-scanner'
 import { useNotify } from '@/hooks/useNotify'
+import { extractPngDataUrl, isUrl } from '@/utils/qr'
+import { useQrScanner } from '@/api/qrScanner/useQrScanner'
 
-type Props = {
-  // forwardedRef: RefObject<HTMLDivElement>
-}
+type Props = {}
 
 export const QrCheckButton = React.forwardRef<HTMLDivElement, Props>(
   (props, ref) => {
     const { successNotify, errorNotify } = useNotify()
+    const { trigger } = useQrScanner()
     const onClick = useCallback(async () => {
       const mutableRef = ref as MutableRefObject<HTMLDivElement | null>
+      const pngDataUrl = extractPngDataUrl(mutableRef)
+      if (!pngDataUrl) return
 
-      if (!mutableRef.current) {
-        console.log('ref is null or undefined')
-        return
-      }
-
-      // Access the first child as an HTMLCanvasElement
-      const canvas = mutableRef.current.children[0] as HTMLCanvasElement
-      if (!canvas) return
-      const pngDataUrl = canvas.toDataURL('image/png')
-      console.log('ganogaoe')
-      console.log(pngDataUrl)
-      // QRコードを読み取る
       try {
-        const result = await QrScanner.scanImage(pngDataUrl, {
-          returnDetailedScanResult: true
-        })
-        console.log(result)
+        const result = await trigger(pngDataUrl)
         const qrData = result.data
-        if (qrData.startsWith('https')) {
+        if (isUrl(qrData)) {
           return window.open(qrData)
         } else if (qrData.startsWith('sms:')) {
           return (window.location.href = qrData)
         }
       } catch (error) {
-        console.log('fskll')
         errorNotify('読み込めない')
       }
     }, [ref, errorNotify])
+
     return (
       <Button variant={'contained'} onClick={onClick}>
         Confirm

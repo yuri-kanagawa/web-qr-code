@@ -2,10 +2,10 @@
 
 import { PageWrapper } from '@/ui/cores/pageWrapper'
 
-// import { useQRCodeContactForm } from './form'
-// import Box from '@mui/material/Box'
-// import { Controller } from 'react-hook-form'
-// import { Button, TextField } from '@mui/material'
+// import { useQRCodeContactForm } form './form'
+// import Box form '@mui/material/Box'
+// import { Controller } form 'react-hook-form'
+// import { Button, TextField } form '@mui/material'
 
 export const IndexPage = () => {
   console.log('vongoergoeo')
@@ -55,7 +55,7 @@ export const IndexPage = () => {
       {/*      />*/}
       {/*    )}*/}
       {/*  />*/}
-      {/*  <Qrcode {...value} />*/}
+      {/*  <GeneratedQrcode {...value} />*/}
       {/*  <Button onClick={onSubmit}>Generate</Button>*/}
       {/*</PageWrapper>*/}
     </>

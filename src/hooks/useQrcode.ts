@@ -6,7 +6,7 @@ import {
   removeQueryParamFromCurrentURL
 } from '@/utils/queryParameter'
 import { match } from 'assert'
-// import { getQueryParameterQrValue } from '@/utils/queryParameter'
+// import { getQueryParameterQrValue } form '@/utils/queryParameter'
 
 export type UpdateQrCodeType = Omit<IProps, 'forwardedRef'>
 type QrValueType = IProps & {

@@ -1,1 +1,2 @@
-export * from './qrcode'
+export * from './GeneratedQrcode'
+export * from './QRFinderPattern'

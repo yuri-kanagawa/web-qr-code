@@ -1,7 +1,9 @@
 'use client'
 import {
+  Backdrop,
   Box,
   Button,
+  Collapse,
   Drawer,
   IconButton,
   ListItem,
@@ -10,30 +12,35 @@ import {
   ListItemText,
   Typography
 } from '@mui/material'
-import { useState } from 'react'
+import { FC, forwardRef, useState } from 'react'
 
-import { DrawerItems } from './DrawerItems'
+import { DrawerItems } from './ResponsiveSwitcher/Common/DrawerItems'
+import { useDisclosure } from '@/hooks/useDisclosure'
+import { ResponsiveSwitcher } from '@/ui/cores/drawer/ResponsiveSwitcher/ResponsiveSwitcher'
+import { useWindowSize } from '@/hooks'
 
-export const LeftDrawer = () => {
-  // const onClick = () => setOpen(open!)
-  const [isOpen, setIsOpen] = useState(false)
+type Props = {}
 
-  const handleToggle = () => {
-    setIsOpen(!isOpen)
-  }
+export const LeftDrawer = forwardRef<HTMLDivElement, Props>(({}, ref) => {
+  const { isOpen, toggleOpen } = useDisclosure()
+  const { isOverLaptop } = useWindowSize()
   return (
-    <Drawer
-      variant="permanent"
-      sx={{
-        // width: width,
-        // display: 'flex',
-        // flexShrink: 0,
-        [`& .MuiDrawer-paper`]: { boxSizing: 'border-box' }
-      }}
-    >
-      <Box sx={{ overflow: 'auto', height: '100%' }}>
-        <DrawerItems isOpen={isOpen} setIsOpen={handleToggle} />
-      </Box>
-    </Drawer>
+    <>
+      <Drawer
+        variant="permanent"
+        sx={{
+          [`& .MuiDrawer-paper`]: {
+            boxSizing: 'border-box'
+          }
+        }}
+      >
+        <Box ref={ref} sx={{ overflow: 'auto', height: '100%' }}>
+          <ResponsiveSwitcher isOpen={isOpen} toggleOpen={toggleOpen} />
+        </Box>
+      </Drawer>
+      {isOpen && !isOverLaptop && (
+        <Backdrop open={isOpen} onClick={toggleOpen} />
+      )}
+    </>
   )
-}
+})

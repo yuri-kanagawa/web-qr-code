@@ -1,11 +1,11 @@
-// import { UpdateQrCodeType } from '@/hooks/useQrcode'
-// import { RefObject } from 'react'
-// import { convertStringToBoolean } from '@/utils/convert'
-// import { convertBase64ToFile } from '@/utils/file'
-// import { boolean } from 'zod'
-// import { IProps } from 'react-qrcode-logo/lib'
-// import * as React from 'react'
-// import { EcLevelType } from '@/ui/cores/qrcode'
+// import { UpdateQrCodeType } form '@/hooks/useQrcode'
+// import { RefObject } form 'react'
+// import { convertStringToBoolean } form '@/utils/convert'
+// import { convertBase64ToFile } form '@/utils/file'
+// import { boolean } form 'zod'
+// import { IProps } form 'react-GeneratedQrcode-logo/lib'
+// import * as React form 'react'
+// import { EcLevelType } form '@/ui/cores/GeneratedQrcode'
 //
 // // forwardedRef: RefObject<HTMLDivElement>
 // // value: string
