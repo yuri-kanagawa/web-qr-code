@@ -20,7 +20,15 @@ export const Sms: FC<Props> = ({ isOpen }) => {
           <ListItemIcon>
             <SmsIcon />
           </ListItemIcon>
-          {isOpen && <ListItemText primary={'Sms'} />}
+          <ListItemText
+            primary={'SMS'}
+            sx={{
+              visibility: isOpen ? 'visible' : 'hidden',
+              width: isOpen ? 'auto' : 0,
+              opacity: isOpen ? 1 : 0,
+              transition: 'opacity 0.2s ease'
+            }}
+          />
         </ListItemButton>
       </ListItem>
     </Link>

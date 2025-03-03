@@ -14,12 +14,20 @@ type Props = {
 export const Multiple: FC<Props> = ({ isOpen }) => {
   return (
     <Link href={path.multiple('')} passHref legacyBehavior>
-      <ListItem disablePadding>
+      <ListItem disablePadding sx={{ height: 30 }}>
         <ListItemButton>
           <ListItemIcon>
             <BookmarksIcon />
           </ListItemIcon>
-          <ListItemText primary={isOpen ? 'Multiple' : undefined} />
+          <ListItemText
+            primary={'MULTIPLE'}
+            sx={{
+              visibility: isOpen ? 'visible' : 'hidden',
+              width: isOpen ? 'auto' : 0,
+              opacity: isOpen ? 1 : 0,
+              transition: 'opacity 0.2s ease'
+            }}
+          />
         </ListItemButton>
       </ListItem>
     </Link>

@@ -24,15 +24,7 @@ export const Mobile = React.forwardRef<HTMLDivElement, Props>(
             <UrlForm file={file} setFile={setFile} control={control} />
           </Stack>
         </Box>
-        <Stack spacing={8}>
-          <Stack direction={'row'}>
-            <HeightSlider width={100} height={100}>
-              <></>
-            </HeightSlider>
-          </Stack>
 
-          <WidthSlider />
-        </Stack>
         <QrFloatingActionButton />
       </>
     )

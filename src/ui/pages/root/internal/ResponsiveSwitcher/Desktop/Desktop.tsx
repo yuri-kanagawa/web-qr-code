@@ -8,15 +8,17 @@ import QrCheckButton from '../../../../../cores/button/QrCheckButton'
 import QrDownloadButton from '@/ui/cores/button/QrDownloadButton'
 import { HeightSlider, WidthSlider } from '@/ui/cores/slider'
 import { QrFloatingActionButton } from '@/ui/fragments/floatingActionButton'
-import React, { FC } from 'react'
+import React, { FC, useMemo } from 'react'
 import { usePathQueryParameter } from '@/ui/pages/root/hooks/usePathQueryParameter'
 import { RegisterQrCodeUrlSchema } from '@/ui/pages/root/hooks'
 import { Props } from '../ResponsiveSwitcher'
 import { UrlForm } from '@/ui/pages/root/internal/ResponsiveSwitcher/Common/UrlForm'
+import { useSearchParams } from 'next/navigation'
 
 export const Desktop = React.forwardRef<HTMLDivElement, Props>(
   ({ control, setFile, file }, ref) => {
-    const { url } = usePathQueryParameter()
+    const searchParams = useSearchParams()
+    const url = searchParams.get('url') ?? ''
     return (
       <>
         <Box>
@@ -32,15 +34,6 @@ export const Desktop = React.forwardRef<HTMLDivElement, Props>(
             </Box>
           </Stack>
         </Box>
-        <Stack spacing={8}>
-          <Stack direction={'row'}>
-            <HeightSlider width={100} height={100}>
-              <></>
-            </HeightSlider>
-          </Stack>
-
-          <WidthSlider />
-        </Stack>
       </>
     )
   }

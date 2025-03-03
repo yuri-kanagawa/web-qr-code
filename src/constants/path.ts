@@ -1,5 +1,14 @@
+import { isEn } from '@/constants/locale/utils'
+
 export const path = {
-  url: (lang: string) => '/',
+  url: ({ lang }: { lang: string }) => {
+    const path = '/'
+    if (isEn(lang)) {
+      return path
+    } else {
+      return `/${lang}${path}`
+    }
+  },
   socialMedia: (lang: string) => '/social-media',
   multiple: (lang: string) => '/multiple',
   wifi: (lang: string) => '/wi-fi',

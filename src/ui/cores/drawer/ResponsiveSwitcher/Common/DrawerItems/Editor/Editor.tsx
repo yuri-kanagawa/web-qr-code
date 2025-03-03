@@ -16,12 +16,20 @@ type Props = {
 export const Editor: FC<Props> = ({ isOpen }) => {
   return (
     <Link href={path.editor('')} passHref legacyBehavior>
-      <ListItem disablePadding>
+      <ListItem disablePadding sx={{ height: 30 }}>
         <ListItemButton>
           <ListItemIcon>
             <EditIcon />
           </ListItemIcon>
-          {isOpen && <ListItemText primary={'Edit'} />}
+          <ListItemText
+            primary={'Edit'}
+            sx={{
+              visibility: isOpen ? 'visible' : 'hidden',
+              width: isOpen ? 'auto' : 0,
+              opacity: isOpen ? 1 : 0,
+              transition: 'opacity 0.2s ease'
+            }}
+          />
         </ListItemButton>
       </ListItem>
     </Link>

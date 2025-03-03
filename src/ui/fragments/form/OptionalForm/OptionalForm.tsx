@@ -31,7 +31,17 @@ export const OptionalForm: FC<Props> = ({ file, setFile }) => {
     logoOpacity,
     setLogoOpacity,
     logoPaddingStyle,
-    setLogoPaddingStyle
+    setLogoPaddingStyle,
+    eyeColor1,
+    setEyeColor1,
+    eyeColor2,
+    setEyeColor2,
+    eyeColor3,
+    setEyeColor3,
+    logoHeight,
+    setLogoWidth,
+    logoWidth,
+    setLogoHeight
   } = useQrcode()
   const { height, width } = useWindowSize()
   const maxSize = useMemo(() => {
@@ -40,11 +50,13 @@ export const OptionalForm: FC<Props> = ({ file, setFile }) => {
     }
     return width - 500
   }, [height, width])
-
   return (
     <>
       <TextField
         value={size}
+        inputProps={{
+          style: { textAlign: 'right' } // これを追加すると確実に右寄せされる
+        }}
         onChange={(event) => {
           const value = Number(event.currentTarget.value)
           if (value > maxSize) return
@@ -85,7 +97,14 @@ export const OptionalForm: FC<Props> = ({ file, setFile }) => {
         value={logoOpacity}
         onChange={(event) => setLogoOpacity(Number(event.target.value))}
       />
-      <ImageForm file={file} setFile={setFile} />
+      <ImageForm
+        file={file}
+        setFile={setFile}
+        logHeight={logoHeight}
+        logWidth={logoWidth}
+        setLogoHeight={setLogoHeight}
+        setLogoWidth={setLogoWidth}
+      />
       <Step01Slider
         min={0}
         max={1}
@@ -98,9 +117,18 @@ export const OptionalForm: FC<Props> = ({ file, setFile }) => {
       />
       {/*<QRFinderPattern size={100} borderRadius={80} />*/}
 
-      <LeftTopQrFinderPattern />
-      <RightTopQrFinderPattern />
-      <LeftBottomQrFinderPattern />
+      <LeftTopQrFinderPattern
+        eyeColor1={eyeColor1}
+        setEyeColor1={setEyeColor1}
+      />
+      <RightTopQrFinderPattern
+        eyeColor2={eyeColor2}
+        setEyeColor2={setEyeColor2}
+      />
+      <LeftBottomQrFinderPattern
+        eyeColor3={eyeColor3}
+        setEyeColor3={setEyeColor3}
+      />
     </>
   )
 }

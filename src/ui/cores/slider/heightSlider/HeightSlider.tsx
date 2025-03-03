@@ -1,38 +1,48 @@
 import React, { FC, useState } from 'react'
-import { Box, Grid, Input, Slider, Stack, Typography } from '@mui/material'
+import {
+  Box,
+  Grid,
+  Input,
+  Slider,
+  Stack,
+  StackProps,
+  Typography
+} from '@mui/material'
 import { VolumeUp } from '@mui/icons-material'
 
 type Props = {
-  children: React.ReactNode
-  width: number
-  height: number
-}
+  value: number
+  onChange: (value: number) => void
+} & Omit<StackProps, 'height' | 'width' | 'onChange'>
 
-export const HeightSlider: FC<Props> = ({ height, width, children }) => {
-  const [value, setValue] = useState(30)
-
+export const HeightSlider: FC<Props> = ({
+  children,
+  value,
+  onChange,
+  ...rest
+}) => {
   const handleSliderChange = (event: Event, newValue: number | number[]) => {
-    setValue(newValue as number)
+    onChange(newValue as number)
   }
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(event.target.value === '' ? 0 : Number(event.target.value))
+    onChange(event.target.value === '' ? 0 : Number(event.target.value))
   }
 
   const handleBlur = () => {
     if (value < 0) {
-      setValue(0)
+      onChange(0)
     } else if (value > 100) {
-      setValue(100)
+      onChange(100)
     }
   }
 
   return (
-    <Stack sx={{ width: 250, height: height }} spacing={2}>
+    <Stack {...rest} spacing={2}>
       <Box px={1}>
         <Input
           sx={{ width: 50 }}
-          value={value}
+          value={value ?? 0}
           size="small"
           onChange={handleInputChange}
           onBlur={handleBlur}
@@ -49,7 +59,7 @@ export const HeightSlider: FC<Props> = ({ height, width, children }) => {
         direction={'row'}
         // sx={{ height: 300 }}
         spacing={5}
-        sx={{ height }}
+        sx={rest.sx}
         display={'flex'}
         alignItems={'center'}
         alignContent={'center'}

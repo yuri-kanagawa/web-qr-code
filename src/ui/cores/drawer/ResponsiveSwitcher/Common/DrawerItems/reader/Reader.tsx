@@ -20,7 +20,15 @@ export const Reader: FC<Props> = ({ isOpen }) => {
           <ListItemIcon>
             <QrCodeScannerIcon />
           </ListItemIcon>
-          {isOpen && <ListItemText primary={'Reader'} />}
+          <ListItemText
+            primary={'READER'}
+            sx={{
+              visibility: isOpen ? 'visible' : 'hidden',
+              width: isOpen ? 'auto' : 0,
+              opacity: isOpen ? 1 : 0,
+              transition: 'opacity 0.2s ease'
+            }}
+          />
         </ListItemButton>
       </ListItem>
     </Link>

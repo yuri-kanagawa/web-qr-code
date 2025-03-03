@@ -12,7 +12,7 @@ import {
   ListItemText,
   Typography
 } from '@mui/material'
-import { FC, forwardRef, useState } from 'react'
+import { FC, forwardRef, ReactNode, useEffect, useState } from 'react'
 
 import { DrawerItems } from './ResponsiveSwitcher/Common/DrawerItems'
 import { useDisclosure } from '@/hooks/useDisclosure'
@@ -22,25 +22,33 @@ import { useWindowSize } from '@/hooks'
 type Props = {}
 
 export const LeftDrawer = forwardRef<HTMLDivElement, Props>(({}, ref) => {
-  const { isOpen, toggleOpen } = useDisclosure()
   const { isOverLaptop } = useWindowSize()
+  const { isOpen, toggleOpen, setIsOpen } = useDisclosure()
+  useEffect(() => {
+    if (isOverLaptop) {
+      setIsOpen(true)
+    } else {
+      setIsOpen(false)
+    }
+  }, [isOverLaptop, setIsOpen])
   return (
-    <>
-      <Drawer
-        variant="permanent"
+    <Drawer
+      variant="permanent"
+      sx={{
+        [`& .MuiDrawer-paper`]: {
+          boxSizing: 'border-box'
+        }
+      }}
+    >
+      <Box
+        ref={ref}
         sx={{
-          [`& .MuiDrawer-paper`]: {
-            boxSizing: 'border-box'
-          }
+          overflow: 'auto',
+          height: '100%'
         }}
       >
-        <Box ref={ref} sx={{ overflow: 'auto', height: '100%' }}>
-          <ResponsiveSwitcher isOpen={isOpen} toggleOpen={toggleOpen} />
-        </Box>
-      </Drawer>
-      {isOpen && !isOverLaptop && (
-        <Backdrop open={isOpen} onClick={toggleOpen} />
-      )}
-    </>
+        <ResponsiveSwitcher isOpen={isOpen} toggleOpen={toggleOpen} />
+      </Box>
+    </Drawer>
   )
 })

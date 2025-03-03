@@ -22,7 +22,15 @@ export const Contact: FC<Props> = ({ isOpen }) => {
           <ListItemIcon>
             <PhoneIcon />
           </ListItemIcon>
-          {isOpen && <ListItemText primary={'Contact'} />}
+          <ListItemText
+            primary={'CONTACT'}
+            sx={{
+              visibility: isOpen ? 'visible' : 'hidden',
+              width: isOpen ? 'auto' : 0,
+              opacity: isOpen ? 1 : 0,
+              transition: 'opacity 0.2s ease'
+            }}
+          />
         </ListItemButton>
       </ListItem>
     </Link>

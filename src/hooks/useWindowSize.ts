@@ -47,7 +47,6 @@ export const useWindowSize = () => {
   const isTablet: boolean = isOverTablet && isLessLaptop
   const isLaptop: boolean = isOverLaptop && isLessDesktop
   const isOverDesktop: boolean = useMediaQuery(theme.breakpoints.up('xl'))
-
   return {
     ...windowSize,
     isOverMobile,

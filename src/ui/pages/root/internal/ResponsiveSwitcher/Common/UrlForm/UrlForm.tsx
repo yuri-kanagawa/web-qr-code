@@ -26,7 +26,7 @@ export const UrlForm: FC<Props> = ({ control, setFile, file }) => {
         }
       }}
     >
-      <Stack spacing={3} py={3}>
+      <Stack spacing={3} py={3} px={2}>
         <Controller
           control={control}
           name="url"

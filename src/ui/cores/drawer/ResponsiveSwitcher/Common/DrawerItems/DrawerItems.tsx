@@ -11,6 +11,9 @@ import { Editor } from './Editor'
 import { OpenButton } from '@/ui/cores/drawer/ResponsiveSwitcher/Common/DrawerItems/OpenButton/OpenButton'
 import { FC } from 'react'
 import { Backdrop } from '@mui/material'
+import { DrawerItemIcon } from '@/ui/cores/drawer/ResponsiveSwitcher/Common/DrawerItems/DrawerItemIcon/DrawerItemIcon'
+import LinkIcon from '@mui/icons-material/Link'
+import { path } from '@/constants/path'
 type Props = {
   isOpen: boolean
   toggleOpen: () => void
@@ -18,7 +21,11 @@ type Props = {
 export const DrawerItems: FC<Props> = ({ isOpen, toggleOpen }) => {
   return (
     <List>
-      <Url isOpen={isOpen} />
+      <DrawerItemIcon
+        isOpen={isOpen}
+        icon={<LinkIcon />}
+        path={path.url({ lang: 'en' })}
+      />
       <SocialMedia isOpen={isOpen} />
       <Multiple isOpen={isOpen} />
       <Wifi isOpen={isOpen} />

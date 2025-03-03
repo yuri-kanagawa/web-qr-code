@@ -14,88 +14,6 @@ type QrValueType = IProps & {
 }
 
 export const useQrcode = () => {
-  // const [qrValue, setQrValue] = useState<IProps>({
-  //   // ...getQueryParameterQrValue()
-  // })
-
-  // const updateExceptRef = (value: UpdateQrCodeType) => {
-  //   setQrValue((prevState) => ({
-  //     ...prevState,
-  //     ...value
-  //   }))
-  // }
-  // const updateQrValue = useCallback((value: string) => {
-  //   setQrValue((prevState) => ({
-  //     ...prevState,
-  //     value: value
-  //   }))
-  // }, [])
-  //
-  // const updateBgColor = useCallback((bgColor: string) => {
-  //   setQrValue((prevState) => ({
-  //     ...prevState,
-  //     bgColor: bgColor
-  //   }))
-  // }, [])
-  //
-  // const updateFgColor = useCallback((fgColor: string) => {
-  //   setQrValue((prevState) => ({
-  //     ...prevState,
-  //     fgColor: fgColor
-  //   }))
-  // }, [])
-  //
-  // const updateFile = (base64: string) => {
-  //   // const fileURL = URL.createObjectURL(file)
-  //   setQrValue((prevState) => ({
-  //     ...prevState,
-  //     logoImage: base64
-  //     // imageSettings: {
-  //     //   src: fileURL,
-  //     //   width: 50,
-  //     //   height: 50,
-  //     //   excavate: prevState.imageSettings
-  //     //     ? prevState.imageSettings.excavate
-  //     //     : false
-  //     // }
-  //   }))
-  // }
-  //
-  // const updateImageSettingExcavate = () => {
-  //   // setQrValue((prevState) => ({
-  //   //   ...prevState,
-  //   //   imageSettings: {
-  //   //     src: prevState.imageSettings.src,
-  //   //     width: prevState.imageSettings.width,
-  //   //     height: prevState.imageSettings.height,
-  //   //     excavate: !prevState.imageSettings.excavate
-  //   //   }
-  //   // }))
-  // }
-  // const [isSameRatio, setIsSameRatio] = useState(false)
-  // const updateImageSettingSize = (width: number, height: number) => {
-  //   if (isSameRatio) {
-  //     setQrValue((prevState) => ({
-  //       ...prevState,
-  //       logoWidth: prevState.logoWidth === width ? height : width,
-  //       logoHeight: prevState.logoHeight === height ? width : height
-  //       // imageSettings: {
-  //       //   src: prevState.imageSettings.src,
-  //       //   width: prevState.imageSettings.width === width ? height : width,
-  //       //   height: prevState.imageSettings.height === height ? width : height,
-  //       //   excavate: !prevState.imageSettings.excavate
-  //       // }
-  //     }))
-  //   } else {
-  //     setQrValue((prevState) => ({
-  //       ...prevState,
-  //       logoHeight: height,
-  //       logoWidth: width
-  //     }))
-  //   }
-  // }
-  //
-  // const changeSameRatio = () => setIsSameRatio(!isSameRatio)
   const searchParams = useSearchParams()
 
   const getSize = (value: string | null): number => {
@@ -157,6 +75,7 @@ export const useQrcode = () => {
     searchParams.get('logoPaddingStyle')
   )
   const QrStyle = getQrStyle(searchParams.get('qrStyle'))
+
   const setEcLevel = (value: string) => {
     const inputValue = getEcLevel(value)
     if (!inputValue) return
@@ -207,6 +126,26 @@ export const useQrcode = () => {
   const setLogoImage = (value: string) => {
     addQueryParameter({ logoImage: value })
   }
+  const eyeColor1 = searchParams.get('eyeColor1') ?? ''
+  const eyeColor2 = searchParams.get('eyeColor2') ?? ''
+  const eyeColor3 = searchParams.get('eyeColor3') ?? ''
+  const setEyeColor1 = (value: string) =>
+    addQueryParameter({ eyeColor1: String(value) })
+
+  const setEyeColor2 = (value: string) =>
+    addQueryParameter({ eyeColor2: String(value) })
+  const setEyeColor3 = (value: string) =>
+    addQueryParameter({ eyeColor3: String(value) })
+  const eyeRadius1 = Number(searchParams.get('eyeRadius1')) ?? 0
+  const eyeRadius2 = Number(searchParams.get('eyeRadius2')) ?? 0
+  const eyeRadius3 = Number(searchParams.get('eyeRadius3')) ?? 0
+  const setEyeRadius1 = (value: number) =>
+    addQueryParameter({ eyeColor1: String(value) })
+
+  const setEyeRadius2 = (value: number) =>
+    addQueryParameter({ eyeColor2: String(value) })
+  const setEyeRadius3 = (value: number) =>
+    addQueryParameter({ eyeColor3: String(value) })
   return {
     ecLevel,
     logoImage,
@@ -235,7 +174,19 @@ export const useQrcode = () => {
     setLogoPadding,
     setLogoPaddingStyle,
     setQrValue,
-    setLogoImage
+    setLogoImage,
+    eyeColor1,
+    setEyeColor1,
+    eyeColor2,
+    setEyeColor2,
+    eyeColor3,
+    setEyeColor3,
+    eyeRadius1,
+    eyeRadius2,
+    eyeRadius3,
+    setEyeRadius1,
+    setEyeRadius2,
+    setEyeRadius3
     // qrValue,
     // updateExceptRef,
     // updateQrValue,

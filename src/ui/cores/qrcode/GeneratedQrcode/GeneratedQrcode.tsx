@@ -39,7 +39,13 @@ const GeneratedQrcode = React.forwardRef<HTMLDivElement, Props>(
       logoPadding,
       logoPaddingStyle,
       QrStyle,
-      setSize
+      setSize,
+      eyeColor1,
+      eyeColor2,
+      eyeColor3,
+      eyeRadius1,
+      eyeRadius2,
+      eyeRadius3
     } = useQrcode()
     const { height, width } = useWindowSize()
     const maxSize = useMemo(() => {
@@ -94,9 +100,11 @@ const GeneratedQrcode = React.forwardRef<HTMLDivElement, Props>(
                 fgColor={fgColor}
                 ecLevel={ecLevel}
                 logoImage={logoImage}
+                logoWidth={logoWidth}
+                logoHeight={logoHeight}
                 logoOpacity={logoOpacity}
-                eyeRadius={[40, 54, 80]}
-                eyeColor={[fgColor, '', fgColor]}
+                eyeRadius={[eyeRadius1, eyeRadius2, eyeRadius3]}
+                eyeColor={[eyeColor1, eyeColor2, eyeColor3]}
                 logoPaddingStyle={logoPaddingStyle}
                 logoPadding={9}
               />
