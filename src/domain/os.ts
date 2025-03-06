@@ -15,3 +15,20 @@ export const isLinux = (value: number) => value === OS.linux
 export const isOther = (value: number) => value === OS.other
 
 export const getOsKeyLabelPairs = () => Object.values(OS)
+export function detectOS() {
+  const userAgent = navigator.userAgent.toLowerCase()
+
+  if (/windows nt/i.test(userAgent)) {
+    return OS.windowsAndroid
+  } else if (/macintosh|mac os x/i.test(userAgent)) {
+    return OS.macintoshIos
+  } else if (/android/i.test(userAgent)) {
+    return OS.windowsAndroid
+  } else if (/iphone|ipad|ipod/i.test(userAgent)) {
+    return OS.macintoshIos
+  } else if (/linux/i.test(userAgent)) {
+    return OS.linux
+  } else {
+    return OS.other
+  }
+}

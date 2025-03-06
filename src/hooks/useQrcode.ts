@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { IProps } from 'react-qrcode-logo/lib'
 import { useSearchParams } from 'next/navigation'
 import {
@@ -6,6 +6,9 @@ import {
   removeQueryParamFromCurrentURL
 } from '@/utils/queryParameter'
 import { match } from 'assert'
+import { detectDevice } from '@/domain/device'
+import { getDeviceOs } from '@/domain/deviceOs'
+import { detectOS } from '@/domain/os'
 // import { getQueryParameterQrValue } form '@/utils/queryParameter'
 
 export type UpdateQrCodeType = Omit<IProps, 'forwardedRef'>
@@ -146,7 +149,7 @@ export const useQrcode = () => {
     addQueryParameter({ eyeColor2: String(value) })
   const setEyeRadius3 = (value: number) =>
     addQueryParameter({ eyeColor3: String(value) })
-  const keys = searchParams.get('keys')?.split(',') ?? []
+  const keys = searchParams.get('keys')?.split(',').map(Number) ?? []
   const setKeys = (value: string[]) => {
     addQueryParameter({ keys: value.join(',') })
   }
@@ -155,6 +158,19 @@ export const useQrcode = () => {
   const setValues = (value: string[]) => {
     addQueryParameter({ keys: value.join(',') })
   }
+
+  const keyIndex = useMemo(() => {
+    const os = detectOS()
+    const device = detectDevice()
+    const { deviceOs } = getDeviceOs({
+      device,
+      os
+    })
+    console.log('device', device)
+    console.log('os', os)
+    console.log('deviceOs', deviceOs)
+    return keys.indexOf(deviceOs)
+  }, [])
 
   return {
     ecLevel,
@@ -197,8 +213,11 @@ export const useQrcode = () => {
     setEyeRadius1,
     setEyeRadius2,
     setEyeRadius3,
+    keys,
+    setKeys,
     values,
-    setValues
+    setValues,
+    keyIndex
     // qrValue,
     // updateExceptRef,
     // updateQrValue,
