@@ -14,6 +14,8 @@ import { Backdrop } from '@mui/material'
 import { DrawerItemIcon } from '@/ui/cores/drawer/ResponsiveSwitcher/Common/DrawerItems/DrawerItemIcon/DrawerItemIcon'
 import LinkIcon from '@mui/icons-material/Link'
 import { path } from '@/constants/path'
+import SmsIcon from '@mui/icons-material/Sms'
+import SmartphoneIcon from '@mui/icons-material/Smartphone'
 type Props = {
   isOpen: boolean
   toggleOpen: () => void
@@ -23,13 +25,25 @@ export const DrawerItems: FC<Props> = ({ isOpen, toggleOpen }) => {
     <List>
       <DrawerItemIcon
         isOpen={isOpen}
+        label={'CONTACT'}
         icon={<LinkIcon />}
-        path={path.url({ lang: 'en' })}
+        path={path.url.index({ lang: 'en' })}
       />
-      <SocialMedia isOpen={isOpen} />
+      <DrawerItemIcon
+        isOpen={isOpen}
+        label={'SOCIAL MEDIA'}
+        icon={<SmsIcon />}
+        path={path.socialMedia.index({ lang: 'en' })}
+      />
+
       <Multiple isOpen={isOpen} />
       <Wifi isOpen={isOpen} />
-
+      <DrawerItemIcon
+        isOpen={isOpen}
+        label={'TERMINAL'}
+        icon={<SmartphoneIcon />}
+        path={path.terminal.index({ lang: 'en' })}
+      />
       <Terminal isOpen={isOpen} />
       <Contact isOpen={isOpen} />
       <Sms isOpen={isOpen} />

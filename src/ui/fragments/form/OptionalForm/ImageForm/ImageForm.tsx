@@ -17,10 +17,15 @@ type Props = {
 
 export const ImageForm: FC<Props> = memo(
   ({ file, setFile, setLogoHeight, setLogoWidth, logHeight, logWidth }) => {
+    const isRelationFileDisabled = file == null
     return (
       <Stack spacing={8}>
         <Stack direction={'row'}>
-          <HeightSlider value={logHeight} onChange={setLogoHeight}>
+          <HeightSlider
+            value={logHeight}
+            onChange={setLogoHeight}
+            disabled={isRelationFileDisabled}
+          >
             <UploadFile
               file={file}
               onChange={async (value) => {
@@ -31,7 +36,11 @@ export const ImageForm: FC<Props> = memo(
             />
           </HeightSlider>
         </Stack>
-        <WidthSlider value={logWidth} onChange={setLogoWidth} />
+        <WidthSlider
+          value={logWidth}
+          onChange={setLogoWidth}
+          disabled={isRelationFileDisabled}
+        />
       </Stack>
     )
   }

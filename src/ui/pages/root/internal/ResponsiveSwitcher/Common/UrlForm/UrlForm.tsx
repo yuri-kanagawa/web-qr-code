@@ -1,7 +1,7 @@
 import { Box, Stack, TextField } from '@mui/material'
 import { Control, Controller } from 'react-hook-form'
 import { OptionalForm } from '@/ui/fragments/form'
-import React, { FC } from 'react'
+import React, { FC, useEffect } from 'react'
 import { RegisterQrCodeUrlSchema } from '@/ui/pages/root/hooks'
 import { useWindowSize } from '@/hooks'
 
@@ -13,6 +13,7 @@ type Props = {
 
 export const UrlForm: FC<Props> = ({ control, setFile, file }) => {
   const { height, width } = useWindowSize()
+
   return (
     <Box
       sx={{

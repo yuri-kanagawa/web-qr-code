@@ -14,14 +14,12 @@ export const IndexPage = () => {
 
   return (
     <PageWrapper>
-      <Box component="form" onSubmit={onSubmit}>
-        <ResponsiveSwitcher
-          control={control}
-          setFile={setFile}
-          file={file}
-          ref={ref}
-        />
-      </Box>
+      <ResponsiveSwitcher
+        control={control}
+        setFile={setFile}
+        file={file}
+        ref={ref}
+      />
     </PageWrapper>
   )
 }

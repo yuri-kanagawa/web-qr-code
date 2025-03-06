@@ -15,9 +15,10 @@ type Props = {
   isOpen: boolean
   icon: ReactNode
   path: string
+  label: string
 }
 
-export const DrawerItemIcon: FC<Props> = ({ isOpen, icon, path }) => {
+export const DrawerItemIcon: FC<Props> = ({ isOpen, icon, path, label }) => {
   const pathname = usePathname()
   const isCurrentPath = pathname === path
   return (
@@ -27,13 +28,14 @@ export const DrawerItemIcon: FC<Props> = ({ isOpen, icon, path }) => {
         sx={{
           borderLeft: 6,
           borderColor: isCurrentPath ? colors.primary.main : 'white',
-          height: '100%'
+          height: '100%',
+          background: isCurrentPath ? '#E0E0E0' : 'white'
         }}
       >
         <ListItemButton>
           <ListItemIcon>{icon}</ListItemIcon>
           <ListItemText
-            primary={'CONTACT'}
+            primary={label}
             sx={{
               visibility: isOpen ? 'visible' : 'hidden',
               width: isOpen ? 'auto' : 0,

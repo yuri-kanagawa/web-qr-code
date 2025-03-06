@@ -11,6 +11,11 @@ import { usePathQueryParameter } from './usePathQueryParameter'
 import { useNotify } from '@/hooks/useNotify'
 import { extractPngDataUrl } from '@/utils/qr'
 import { useQrScanner } from '@/api/qrScanner/useQrScanner'
+import {
+  addQueryParameter,
+  removeQueryParamFromCurrentURL
+} from '@/utils/queryParameter'
+import { isValidUrl } from '@/utils/regexp'
 
 export const useUrlQRCodeForm = () => {
   const { url, setUrl } = usePathQueryParameter()
@@ -21,7 +26,7 @@ export const useUrlQRCodeForm = () => {
     }
   }, [url])
 
-  const { handleSubmit, reset, control, ...rest } =
+  const { handleSubmit, reset, control, watch, formState, ...rest } =
     useForm<RegisterQrCodeUrlSchema>({
       resolver: zodResolver(registerQrCodeUrlSchema),
       mode: 'onChange',
@@ -56,11 +61,19 @@ export const useUrlQRCodeForm = () => {
   ) => {
     console.error(errors)
   }
+  const currentUrl = watch('url')
+  const errors = formState.errors.url
+  useEffect(() => {
+    if (errors) return
+    addQueryParameter({ url: currentUrl })
+  }, [errors, currentUrl])
 
   return {
     ref,
     onSubmit: handleSubmit(submitHandler, submitErrorHandler),
     control,
+    watch,
+    formState,
     ...rest
   }
 }

@@ -15,7 +15,7 @@ type Props = {
 
 export const Terminal: FC<Props> = ({ isOpen }) => {
   return (
-    <Link href={path.terminal('')} passHref legacyBehavior>
+    <Link href={path.terminal.index({ lang: 'en' })} passHref legacyBehavior>
       <ListItem disablePadding>
         <ListItemButton>
           <ListItemIcon>

@@ -63,8 +63,8 @@ export const useQrcode = () => {
     : undefined
   const size = getSize(searchParams.get('size'))
   const logoImage = searchParams.get('logoImage') ?? undefined
-  const bgColor = searchParams.get('bgColor') ?? ''
-  const fgColor = searchParams.get('fgColor') ?? ''
+  const bgColor = searchParams.get('bgColor') ?? 'black'
+  const fgColor = searchParams.get('fgColor') ?? 'white'
   const logoWidth = Number(searchParams.get('logoWidth')) ?? undefined
   const logoHeight = Number(searchParams.get('logoHeight')) ?? undefined
   const logoOpacity = Number(searchParams.get('logoOpacity')) ?? undefined
@@ -146,6 +146,16 @@ export const useQrcode = () => {
     addQueryParameter({ eyeColor2: String(value) })
   const setEyeRadius3 = (value: number) =>
     addQueryParameter({ eyeColor3: String(value) })
+  const keys = searchParams.get('keys')?.split(',') ?? []
+  const setKeys = (value: string[]) => {
+    addQueryParameter({ keys: value.join(',') })
+  }
+
+  const values = searchParams.get('values')?.split(',') ?? []
+  const setValues = (value: string[]) => {
+    addQueryParameter({ keys: value.join(',') })
+  }
+
   return {
     ecLevel,
     logoImage,
@@ -186,7 +196,9 @@ export const useQrcode = () => {
     eyeRadius3,
     setEyeRadius1,
     setEyeRadius2,
-    setEyeRadius3
+    setEyeRadius3,
+    values,
+    setValues
     // qrValue,
     // updateExceptRef,
     // updateQrValue,

@@ -13,12 +13,14 @@ import { VolumeUp } from '@mui/icons-material'
 type Props = {
   value: number
   onChange: (value: number) => void
+  disabled?: boolean
 } & Omit<StackProps, 'height' | 'width' | 'onChange'>
 
 export const HeightSlider: FC<Props> = ({
   children,
   value,
   onChange,
+  disabled,
   ...rest
 }) => {
   const handleSliderChange = (event: Event, newValue: number | number[]) => {
@@ -46,6 +48,7 @@ export const HeightSlider: FC<Props> = ({
           size="small"
           onChange={handleInputChange}
           onBlur={handleBlur}
+          disabled={disabled}
           inputProps={{
             step: 1,
             min: 0,
@@ -67,7 +70,7 @@ export const HeightSlider: FC<Props> = ({
         <Slider
           value={value}
           onChange={handleSliderChange}
-          // aria-labelledby="input-slider"
+          disabled={disabled}
           orientation={'vertical'}
         />
 

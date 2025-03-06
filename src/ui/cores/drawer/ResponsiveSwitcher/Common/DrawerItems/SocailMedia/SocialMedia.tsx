@@ -15,7 +15,7 @@ type Props = {
 }
 export const SocialMedia: FC<Props> = ({ isOpen }) => {
   return (
-    <Link href={path.socialMedia('')} passHref legacyBehavior>
+    <Link href={path.socialMedia.index({ lang: 'en' })} passHref legacyBehavior>
       <ListItem disablePadding sx={{ height: 30 }}>
         <ListItemButton
           sx={{

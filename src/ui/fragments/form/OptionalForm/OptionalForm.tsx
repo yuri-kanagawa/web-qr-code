@@ -50,6 +50,8 @@ export const OptionalForm: FC<Props> = ({ file, setFile }) => {
     }
     return width - 500
   }, [height, width])
+
+  const isRelationFileDisabled = file == null
   return (
     <>
       <TextField
@@ -94,6 +96,7 @@ export const OptionalForm: FC<Props> = ({ file, setFile }) => {
 
       <TextField
         label={'Logo Opacity'}
+        disabled={isRelationFileDisabled}
         value={logoOpacity}
         onChange={(event) => setLogoOpacity(Number(event.target.value))}
       />
@@ -108,6 +111,7 @@ export const OptionalForm: FC<Props> = ({ file, setFile }) => {
       <Step01Slider
         min={0}
         max={1}
+        disabled={isRelationFileDisabled}
         value={logoOpacity}
         onChange={setLogoOpacity}
       />
