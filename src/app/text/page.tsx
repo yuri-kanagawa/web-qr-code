@@ -1,7 +1,7 @@
 import React from 'react'
 import { useQrcode } from '@/hooks'
-import { WiFiPage } from '@/ui/pages/wi-fi'
+import { TextPage } from '@/ui/pages/text'
 
 export default function Page() {
-  return <WiFiPage />
+  return <TextPage />
 }

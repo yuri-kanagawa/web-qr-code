@@ -5,7 +5,7 @@ import {
   ListItemText
 } from '@mui/material'
 import SmartphoneIcon from '@mui/icons-material/Smartphone'
-import { path } from '@/constants/path'
+import { path } from '@/config/path'
 import Link from 'next/link'
 import { FC } from 'react'
 

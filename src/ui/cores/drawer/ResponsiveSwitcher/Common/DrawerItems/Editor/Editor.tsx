@@ -5,7 +5,7 @@ import {
   ListItemText
 } from '@mui/material'
 import EditIcon from '@mui/icons-material/Edit'
-import { path } from '@/constants/path'
+import { path } from '@/config/path'
 import Link from 'next/link'
 import { FC } from 'react'
 

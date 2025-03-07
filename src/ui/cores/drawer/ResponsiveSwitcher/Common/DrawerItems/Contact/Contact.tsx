@@ -6,7 +6,7 @@ import {
 } from '@mui/material'
 import PhoneIcon from '@mui/icons-material/Phone'
 
-import { path } from '@/constants/path'
+import { path } from '@/config/path'
 import Link from 'next/link'
 import { FC } from 'react'
 

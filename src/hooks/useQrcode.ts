@@ -149,28 +149,31 @@ export const useQrcode = () => {
     addQueryParameter({ eyeColor2: String(value) })
   const setEyeRadius3 = (value: number) =>
     addQueryParameter({ eyeColor3: String(value) })
-  const keys = searchParams.get('keys')?.split(',').map(Number) ?? []
-  const setKeys = (value: string[]) => {
-    addQueryParameter({ keys: value.join(',') })
+  const deviceOs = searchParams.get('deviceOs')?.split(',').map(Number) ?? []
+  const setDeviceOs = (value: string[]) => {
+    addQueryParameter({ deviceOs: value.join(',') })
   }
 
-  const values = searchParams.get('values')?.split(',') ?? []
-  const setValues = (value: string[]) => {
-    addQueryParameter({ keys: value.join(',') })
+  const urls = searchParams.get('urls')?.split(',') ?? []
+  const setUrls = (value: string[]) => {
+    addQueryParameter({ urls: value.join(',') })
   }
 
-  const keyIndex = useMemo(() => {
+  const deviceOsIndex = useMemo(() => {
     const os = detectOS()
     const device = detectDevice()
-    const { deviceOs } = getDeviceOs({
+    const value = getDeviceOs({
       device,
       os
     })
     console.log('device', device)
     console.log('os', os)
     console.log('deviceOs', deviceOs)
-    return keys.indexOf(deviceOs)
+    return deviceOs.indexOf(value.deviceOs)
   }, [])
+
+  const text = searchParams.get('text') ?? ''
+  const setText = (value: string) => addQueryParameter({ text: value })
 
   return {
     ecLevel,
@@ -213,11 +216,13 @@ export const useQrcode = () => {
     setEyeRadius1,
     setEyeRadius2,
     setEyeRadius3,
-    keys,
-    setKeys,
-    values,
-    setValues,
-    keyIndex
+    deviceOs,
+    setDeviceOs,
+    urls,
+    setUrls,
+    deviceOsIndex,
+    text,
+    setText
     // qrValue,
     // updateExceptRef,
     // updateQrValue,

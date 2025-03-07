@@ -1,6 +1,5 @@
-'use client'
-import { IndexPage } from '@/ui/pages/contact/indexPage'
+import { ContactPage } from '@/ui/pages/contact/ContactPage'
 
 export default function Page() {
-  return <IndexPage />
+  return <ContactPage />
 }

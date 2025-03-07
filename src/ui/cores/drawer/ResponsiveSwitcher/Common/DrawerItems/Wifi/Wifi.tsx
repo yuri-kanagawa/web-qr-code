@@ -5,7 +5,7 @@ import {
   ListItemText
 } from '@mui/material'
 import WifiIcon from '@mui/icons-material/Wifi'
-import { path } from '@/constants/path'
+import { path } from '@/config/path'
 import Link from 'next/link'
 import { FC } from 'react'
 type Props = {

@@ -7,7 +7,7 @@ import {
 } from '@mui/material'
 import LinkIcon from '@mui/icons-material/Link'
 import { colors } from '@/constants'
-import { path } from '@/constants/path'
+import { path } from '@/config/path'
 import Link from 'next/link'
 import { FC } from 'react'
 import { usePathname, useRouter } from 'next/navigation'

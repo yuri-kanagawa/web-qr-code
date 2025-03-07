@@ -6,7 +6,7 @@ import {
 } from '@mui/material'
 import SmsIcon from '@mui/icons-material/Sms'
 import { useRouter } from 'next/navigation'
-import { path } from '@/constants/path'
+import { path } from '@/config/path'
 import Link from 'next/link'
 import { FC } from 'react'
 import { colors } from '@/constants'

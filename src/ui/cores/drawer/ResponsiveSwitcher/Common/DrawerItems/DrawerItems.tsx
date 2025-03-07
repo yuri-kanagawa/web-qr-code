@@ -13,9 +13,11 @@ import { FC } from 'react'
 import { Backdrop } from '@mui/material'
 import { DrawerItemIcon } from '@/ui/cores/drawer/ResponsiveSwitcher/Common/DrawerItems/DrawerItemIcon/DrawerItemIcon'
 import LinkIcon from '@mui/icons-material/Link'
-import { path } from '@/constants/path'
+import { path } from '@/config/path'
 import SmsIcon from '@mui/icons-material/Sms'
 import SmartphoneIcon from '@mui/icons-material/Smartphone'
+import { SlEnvolopeLetter } from 'react-icons/sl'
+import { IoIosMail } from 'react-icons/io'
 type Props = {
   isOpen: boolean
   toggleOpen: () => void
@@ -47,6 +49,13 @@ export const DrawerItems: FC<Props> = ({ isOpen, toggleOpen }) => {
       <Terminal isOpen={isOpen} />
       <Contact isOpen={isOpen} />
       <Sms isOpen={isOpen} />
+      <DrawerItemIcon
+        isOpen={isOpen}
+        label={'Text'}
+        icon={<IoIosMail size={24} />}
+        path={path.text.index({ lang: 'en' })}
+      />
+
       <Reader isOpen={isOpen} />
       <Editor isOpen={isOpen} />
 

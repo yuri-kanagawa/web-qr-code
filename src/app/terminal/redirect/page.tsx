@@ -6,10 +6,10 @@ import { useSearchParams } from 'next/navigation'
 import { useQrcode } from '@/hooks'
 
 export default function Page() {
-  const { keyIndex, values } = useQrcode()
+  const { deviceOsIndex, urls } = useQrcode()
   useEffect(() => {
-    console.log(keyIndex, values)
-    let url = values[keyIndex]
+    console.log(deviceOsIndex, urls)
+    let url = urls[deviceOsIndex]
     if (url == null) {
       return
     }
@@ -19,6 +19,6 @@ export default function Page() {
     }
     console.log(url)
     window.location.href = url
-  }, [values, keyIndex])
+  }, [urls, deviceOsIndex])
   return <></>
 }

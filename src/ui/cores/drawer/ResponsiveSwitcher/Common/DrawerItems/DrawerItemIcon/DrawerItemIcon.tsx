@@ -1,6 +1,6 @@
 import { FC, ReactNode } from 'react'
 import Link from 'next/link'
-import { path } from '@/constants/path'
+import { path } from '@/config/path'
 import {
   ListItem,
   ListItemButton,

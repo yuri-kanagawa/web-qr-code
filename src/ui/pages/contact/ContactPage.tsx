@@ -7,7 +7,7 @@ import { PageWrapper } from '@/ui/cores/pageWrapper'
 // import { Controller } form 'react-hook-form'
 // import { Button, TextField } form '@mui/material'
 
-export const IndexPage = () => {
+export const ContactPage = () => {
   console.log('vongoergoeo')
   return (
     <>

@@ -5,7 +5,7 @@ import {
   ListItemText
 } from '@mui/material'
 import BookmarksIcon from '@mui/icons-material/Bookmarks'
-import { path } from '@/constants/path'
+import { path } from '@/config/path'
 import Link from 'next/link'
 import { FC } from 'react'
 type Props = {

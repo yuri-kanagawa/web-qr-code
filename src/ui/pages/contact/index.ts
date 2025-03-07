@@ -1,1 +1,1 @@
-export * from './indexPage'
+export * from './ContactPage'
