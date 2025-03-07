@@ -6,12 +6,12 @@ import { useUrlQRCodeForm } from '@/ui/pages/root/hooks/useUrlQRCodeForm'
 import { useState } from 'react'
 import { ResponsiveSwitcher } from './internal'
 import { Box } from '@mui/material'
+import { useQrcode } from '@/hooks'
 
 export const IndexPage = () => {
   const { control, onSubmit, ref } = useUrlQRCodeForm()
 
-  const [file, setFile] = useState<File | null>(null)
-
+  const { setFile, file } = useQrcode()
   return (
     <PageWrapper>
       <ResponsiveSwitcher

@@ -42,11 +42,10 @@ export const DrawerItems: FC<Props> = ({ isOpen, toggleOpen }) => {
       <Wifi isOpen={isOpen} />
       <DrawerItemIcon
         isOpen={isOpen}
-        label={'TERMINAL'}
+        label={'DEVICE'}
         icon={<SmartphoneIcon />}
         path={path.terminal.index({ lang: 'en' })}
       />
-      <Terminal isOpen={isOpen} />
       <Contact isOpen={isOpen} />
       <Sms isOpen={isOpen} />
       <DrawerItemIcon

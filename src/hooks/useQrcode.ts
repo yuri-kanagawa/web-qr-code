@@ -174,7 +174,7 @@ export const useQrcode = () => {
 
   const text = searchParams.get('text') ?? ''
   const setText = (value: string) => addQueryParameter({ text: value })
-
+  const [file, setFile] = useState<File | null>(null)
   return {
     ecLevel,
     logoImage,
@@ -222,7 +222,9 @@ export const useQrcode = () => {
     setUrls,
     deviceOsIndex,
     text,
-    setText
+    setText,
+    file,
+    setFile
     // qrValue,
     // updateExceptRef,
     // updateQrValue,
