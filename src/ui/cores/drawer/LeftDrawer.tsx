@@ -44,7 +44,8 @@ export const LeftDrawer = forwardRef<HTMLDivElement, Props>(({}, ref) => {
         ref={ref}
         sx={{
           overflow: 'auto',
-          height: '100%'
+          height: '100%',
+          width: isOpen ? 210 : 60
         }}
       >
         <ResponsiveSwitcher isOpen={isOpen} toggleOpen={toggleOpen} />

@@ -38,8 +38,8 @@ export const DrawerItems: FC<Props> = ({ isOpen, toggleOpen }) => {
         path={path.socialMedia.index({ lang: 'en' })}
       />
 
-      <Multiple isOpen={isOpen} />
-      <Wifi isOpen={isOpen} />
+      {/*<Multiple isOpen={isOpen} />*/}
+      {/*<Wifi isOpen={isOpen} />*/}
       <DrawerItemIcon
         isOpen={isOpen}
         label={'DEVICE'}

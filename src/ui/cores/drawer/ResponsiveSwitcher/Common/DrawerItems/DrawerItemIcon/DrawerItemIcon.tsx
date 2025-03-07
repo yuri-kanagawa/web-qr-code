@@ -10,6 +10,7 @@ import {
 import PhoneIcon from '@mui/icons-material/Phone'
 import { usePathname } from 'next/navigation'
 import { colors } from '@/constants'
+import { auto } from '@popperjs/core'
 
 type Props = {
   isOpen: boolean
@@ -37,8 +38,8 @@ export const DrawerItemIcon: FC<Props> = ({ isOpen, icon, path, label }) => {
           <ListItemText
             primary={label}
             sx={{
-              visibility: isOpen ? 'visible' : 'hidden',
-              width: isOpen ? 'auto' : 0,
+              whiteSpace: 'nowrap',
+              overflow: 'hidden',
               opacity: isOpen ? 1 : 0,
               transition: 'opacity 0.2s ease'
             }}
