@@ -1,33 +1,38 @@
+import { DEVICES } from '@/domain/device'
+
 export const OS = {
   notSet: 0, //NotSet
-  windowsAndroid: 1,
-  macintoshIos: 2,
+  'windows/Android': 1,
+  'macintosh/ios': 2,
   linux: 3,
   other: 4
 } as const
 
-export const os = () => Object.values(OS)
+export const os = Object.values(OS)
+export const getOsName = (value: number): string => {
+  const entry = Object.entries(OS).find(([key, val]) => val === value)
+  return entry ? entry[0] : ''
+}
 
-export const isWindowsOrAndroid = (value: number) => value === OS.notSet
+export const isWindowsOrAndroid = (value: number) =>
+  value === OS['windows/Android']
 
-export const isMacintoshOrIos = (value: number) => value === OS.macintoshIos
+export const isMacintoshOrIos = (value: number) => value === OS['macintosh/ios']
 
 export const isLinux = (value: number) => value === OS.linux
 
 export const isOther = (value: number) => value === OS.other
-
-export const getOsKeyLabelPairs = () => Object.values(OS)
 export function detectOS() {
   const userAgent = navigator.userAgent.toLowerCase()
 
   if (/windows nt/i.test(userAgent)) {
-    return OS.windowsAndroid
+    return OS['windows/Android']
   } else if (/macintosh|mac os x/i.test(userAgent)) {
-    return OS.macintoshIos
+    return OS['macintosh/ios']
   } else if (/android/i.test(userAgent)) {
-    return OS.windowsAndroid
+    return OS['windows/Android']
   } else if (/iphone|ipad|ipod/i.test(userAgent)) {
-    return OS.macintoshIos
+    return OS['macintosh/ios']
   } else if (/linux/i.test(userAgent)) {
     return OS.linux
   } else {

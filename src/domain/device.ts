@@ -1,3 +1,5 @@
+import { SocialMedia } from '@/domain/socialMedia'
+
 export const DEVICES = {
   notSet: 0,
   all: 1,
@@ -6,7 +8,7 @@ export const DEVICES = {
   desktop: 4
 } as const
 
-export const devices = () => Object.values(DEVICES)
+export const devices = Object.values(DEVICES)
 
 export const isNotSet = (value: number) => value === DEVICES.notSet
 export const isAll = (value: number) => value === DEVICES.all
@@ -34,4 +36,9 @@ export function detectDevice() {
     return DEVICES.desktop
   }
   return DEVICES.desktop
+}
+
+export const getDeviceName = (value: number): string => {
+  const entry = Object.entries(DEVICES).find(([key, val]) => val === value)
+  return entry ? entry[0] : ''
 }
