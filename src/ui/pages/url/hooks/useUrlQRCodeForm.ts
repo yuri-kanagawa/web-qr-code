@@ -9,7 +9,7 @@ import { useEffect, useMemo, useRef } from 'react'
 
 import { useNotify } from '@/hooks/useNotify'
 import { extractPngDataUrl } from '@/utils/qr'
-import { useQrScanner } from '@/api/qrScanner/useQrScanner'
+import { useQrScanner } from '@/hooks/useQrScanner'
 import {
   addQueryParameter,
   removeQueryParamFromCurrentURL

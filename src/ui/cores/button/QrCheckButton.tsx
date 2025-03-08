@@ -8,7 +8,7 @@ import { Button } from '@mui/material'
 import QrScanner from 'qr-scanner'
 import { useNotify } from '@/hooks/useNotify'
 import { extractPngDataUrl, isUrl } from '@/utils/qr'
-import { useQrScanner } from '@/api/qrScanner/useQrScanner'
+import { useQrScanner } from '@/hooks/useQrScanner'
 
 type Props = {}
 
