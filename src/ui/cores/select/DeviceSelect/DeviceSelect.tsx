@@ -5,6 +5,7 @@ import MenuItem from '@mui/material/MenuItem'
 import FormControl from '@mui/material/FormControl'
 import Select, { SelectChangeEvent } from '@mui/material/Select'
 import { devices, getDeviceName } from '@/domain/device'
+import { getOsName } from '@/domain'
 type Props = {
   id: number
   onChange: ({ id, name }: { id: number; name: string }) => void
@@ -30,12 +31,13 @@ export const DeviceSelect: FC<Props> = ({
         id="demo-simple-select"
         value={id}
         label="Age"
-        onChange={(e) =>
+        onChange={(e) => {
+          const value = Number(e.target.value)
           onChange({
-            id: Number(e.target.value),
-            name: ''
+            id: value,
+            name: getDeviceName(value)
           })
-        }
+        }}
       >
         {array.map((e) => (
           <MenuItem key={e} value={Number(e)}>

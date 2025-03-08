@@ -1,23 +1,22 @@
 import { FC, useMemo } from 'react'
-
-import InputLabel from '@mui/material/InputLabel'
-import MenuItem from '@mui/material/MenuItem'
+import { getSocialMediaName, socialMediaList } from '@/domain'
 import FormControl from '@mui/material/FormControl'
-import Select, { SelectChangeEvent } from '@mui/material/Select'
+import InputLabel from '@mui/material/InputLabel'
+import Select from '@mui/material/Select'
+import MenuItem from '@mui/material/MenuItem'
 
-import { getOsName, osList } from '@/domain'
 type Props = {
   id: number
   onChange: ({ id, name }: { id: number; name: string }) => void
   isOptional?: boolean
 }
 
-export const OsSelect: FC<Props> = ({ id, onChange, isOptional = false }) => {
+export const SocialMediaSelect: FC<Props> = ({ id, onChange, isOptional }) => {
   const array = useMemo(() => {
     if (isOptional) {
-      return osList
+      return socialMediaList
     }
-    return osList.filter((e) => e !== 0)
+    return socialMediaList.filter((e) => e !== 0)
   }, [isOptional])
   return (
     <FormControl fullWidth>
@@ -31,13 +30,13 @@ export const OsSelect: FC<Props> = ({ id, onChange, isOptional = false }) => {
           const value = Number(e.target.value)
           onChange({
             id: value,
-            name: getOsName(value)
+            name: getSocialMediaName(value)
           })
         }}
       >
         {array.map((e) => (
           <MenuItem key={e} value={Number(e)}>
-            {getOsName(e)}
+            {getSocialMediaName(e)}
           </MenuItem>
         ))}
       </Select>
