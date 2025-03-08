@@ -6,6 +6,8 @@ export const OS = {
   other: 4
 } as const
 
+export const os = () => Object.values(OS)
+
 export const isWindowsOrAndroid = (value: number) => value === OS.notSet
 
 export const isMacintoshOrIos = (value: number) => value === OS.macintoshIos

@@ -6,7 +6,7 @@ export const DEVICES = {
   desktop: 4
 } as const
 
-export const getDevices = () => Object.values(DEVICES)
+export const devices = () => Object.values(DEVICES)
 
 export const isNotSet = (value: number) => value === DEVICES.notSet
 export const isAll = (value: number) => value === DEVICES.all
