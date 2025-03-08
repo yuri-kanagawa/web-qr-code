@@ -8,7 +8,7 @@ export const OS = {
   other: 4
 } as const
 
-export const os = Object.values(OS)
+export const osList = Object.values(OS)
 export const getOsName = (value: number): string => {
   const entry = Object.entries(OS).find(([key, val]) => val === value)
   return entry ? entry[0] : ''

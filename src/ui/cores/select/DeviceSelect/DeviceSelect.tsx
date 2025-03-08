@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, useMemo } from 'react'
 import Box from '@mui/material/Box'
 import InputLabel from '@mui/material/InputLabel'
 import MenuItem from '@mui/material/MenuItem'
@@ -8,9 +8,20 @@ import { devices, getDeviceName } from '@/domain/device'
 type Props = {
   id: number
   onChange: ({ id, name }: { id: number; name: string }) => void
+  isOptional?: boolean
 }
 
-export const DeviceSelect: FC<Props> = ({ id, onChange }) => {
+export const DeviceSelect: FC<Props> = ({
+  id,
+  onChange,
+  isOptional = false
+}) => {
+  const array = useMemo(() => {
+    if (isOptional) {
+      return devices
+    }
+    return devices.filter((e) => e !== 0)
+  }, [isOptional])
   return (
     <FormControl fullWidth>
       <InputLabel id="demo-simple-select-label">Age</InputLabel>
@@ -26,13 +37,11 @@ export const DeviceSelect: FC<Props> = ({ id, onChange }) => {
           })
         }
       >
-        {devices
-          .filter((e) => e !== 0)
-          .map((e) => (
-            <MenuItem key={e} value={Number(e)}>
-              {getDeviceName(e)}
-            </MenuItem>
-          ))}
+        {array.map((e) => (
+          <MenuItem key={e} value={Number(e)}>
+            {getDeviceName(e)}
+          </MenuItem>
+        ))}
       </Select>
     </FormControl>
   )
