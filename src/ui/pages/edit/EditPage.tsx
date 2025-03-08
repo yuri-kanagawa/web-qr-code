@@ -1,7 +1,7 @@
 'use client'
 import React, { FC } from 'react'
 import { useQrcode } from '@/hooks'
-import { PageWrapper } from '@/ui/cores/pageWrapper'
+import { PageWrapper } from '../../fragments/pageWrapper'
 import { TextField } from '@mui/material'
 
 type Props = {}

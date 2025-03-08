@@ -1,63 +1,26 @@
 'use client'
 
-import { PageWrapper } from '@/ui/cores/pageWrapper'
+import { PageWrapper } from '../../fragments/pageWrapper'
+import { useQrcode } from '@/hooks'
+import { TextField } from '@mui/material'
+import React, { FC } from 'react'
 
-// import { useQRCodeContactForm } form './form'
-// import Box form '@mui/material/Box'
-// import { Controller } form 'react-hook-form'
-// import { Button, TextField } form '@mui/material'
+type Props = {}
 
-export const ContactPage = () => {
-  console.log('vongoergoeo')
+export const ContactPage: FC<Props> = ({}) => {
+  const { text, setText } = useQrcode()
   return (
-    <>
-      {/*<PageWrapper>*/}
-      {/*  <Box sx={{ height: 200 }}></Box>*/}
-      {/*  <Controller*/}
-      {/*    name="fullName"*/}
-      {/*    control={control}*/}
-      {/*    render={({ field, formState }) => (*/}
-      {/*      <TextField*/}
-      {/*        required*/}
-      {/*        {...field}*/}
-      {/*        label="hsehse"*/}
-      {/*        placeholder="https://"*/}
-      {/*        error={!!formState.errors.fullName}*/}
-      {/*        helperText={formState.errors.fullName?.message}*/}
-      {/*      />*/}
-      {/*    )}*/}
-      {/*  />*/}
-      {/*  <Controller*/}
-      {/*    name="firstName"*/}
-      {/*    control={control}*/}
-      {/*    render={({ field, formState }) => (*/}
-      {/*      <TextField*/}
-      {/*        required*/}
-      {/*        {...field}*/}
-      {/*        label="URL"*/}
-      {/*        placeholder="https://"*/}
-      {/*        error={!!formState.errors.firstName}*/}
-      {/*        helperText={formState.errors.firstName?.message}*/}
-      {/*      />*/}
-      {/*    )}*/}
-      {/*  />*/}
-      {/*  <Controller*/}
-      {/*    name="lastName"*/}
-      {/*    control={control}*/}
-      {/*    render={({ field, formState }) => (*/}
-      {/*      <TextField*/}
-      {/*        required*/}
-      {/*        {...field}*/}
-      {/*        label="URL"*/}
-      {/*        placeholder="https://"*/}
-      {/*        error={!!formState.errors.lastName}*/}
-      {/*        helperText={formState.errors.lastName?.message}*/}
-      {/*      />*/}
-      {/*    )}*/}
-      {/*  />*/}
-      {/*  <GeneratedQrcode {...value} />*/}
-      {/*  <Button onClick={onSubmit}>Generate</Button>*/}
-      {/*</PageWrapper>*/}
-    </>
+    <PageWrapper>
+      <TextField
+        placeholder="MultiLine with rows: "
+        multiline
+        rows={20}
+        sx={{
+          width: '30%'
+        }}
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+      />
+    </PageWrapper>
   )
 }

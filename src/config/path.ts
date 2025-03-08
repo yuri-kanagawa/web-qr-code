@@ -39,7 +39,15 @@ export const path = {
       return `/${lang}${path}`
     }
   },
-  contact: (lang: string) => '/contact',
+  contact: {
+    index: ({ lang }: { lang: string }) => {
+      const path = '/contact'
+      if (isEn(lang)) {
+        return path
+      }
+      return `/${lang}${path}`
+    }
+  },
   text: {
     index: ({ lang }: { lang: string }) => {
       const path = '/text'
@@ -56,7 +64,31 @@ export const path = {
       return `/${lang}${path}`
     }
   },
-  sms: (lang: string) => '/sms',
-  reader: (lang: string) => '/reader',
-  editor: (lang: string) => '/editor'
+  sms: {
+    index: ({ lang }: { lang: string }) => {
+      const path = '/sms'
+      if (isEn(lang)) {
+        return path
+      }
+      return `/${lang}${path}`
+    }
+  },
+  reader: {
+    index: ({ lang }: { lang: string }) => {
+      const path = '/reader'
+      if (isEn(lang)) {
+        return path
+      }
+      return `/${lang}${path}`
+    }
+  },
+  edit: {
+    index: ({ lang }: { lang: string }) => {
+      const path = '/edit'
+      if (isEn(lang)) {
+        return path
+      }
+      return `/${lang}${path}`
+    }
+  }
 } as const

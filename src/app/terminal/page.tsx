@@ -1,4 +1,4 @@
-import { PageWrapper } from '@/ui/cores/pageWrapper'
+import { PageWrapper } from '../../ui/fragments/pageWrapper'
 
 export default function Page() {
   return (

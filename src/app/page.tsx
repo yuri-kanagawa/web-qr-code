@@ -1,5 +1,5 @@
-import { IndexPage } from '@/ui/pages/root'
+import { UrlPage } from '@/ui/pages/url'
 
 export default function Page() {
-  return <IndexPage />
+  return <UrlPage />
 }

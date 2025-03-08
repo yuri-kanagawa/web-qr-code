@@ -2,7 +2,7 @@
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 import { colors } from '@/constants'
 import { FC } from 'react'
-import { NotifyProvider } from '@/stores'
+import { NotifyProvider, SidebarProvider } from '@/stores'
 
 export const theme = createTheme({
   palette: colors,
@@ -30,7 +30,9 @@ type Props = {
 export const StateWrap: FC<Props> = ({ children }) => {
   return (
     <ThemeProvider theme={theme}>
-      <NotifyProvider>{children}</NotifyProvider>
+      <SidebarProvider>
+        <NotifyProvider>{children}</NotifyProvider>
+      </SidebarProvider>
     </ThemeProvider>
   )
 }

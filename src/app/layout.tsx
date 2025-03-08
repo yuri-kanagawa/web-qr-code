@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
-import { IndexPage } from '@/ui/pages/root/IndexPage'
+import { UrlPage } from '@/ui/pages/url/UrlPage'
 import Home from '@/app/page'
 import React from 'react'
 

@@ -1,5 +1,5 @@
 'use client'
-import { PageWrapper } from '@/ui/cores/pageWrapper'
+import { PageWrapper } from '../../../ui/fragments/pageWrapper'
 import { useEffect } from 'react'
 import { detectDevice } from '@/domain/device'
 import { useSearchParams } from 'next/navigation'

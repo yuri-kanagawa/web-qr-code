@@ -1,6 +1,6 @@
 'use client'
 import { useQrcode } from '@/hooks'
-import { PageWrapper } from '@/ui/cores/pageWrapper'
+import { PageWrapper } from '../../../fragments/pageWrapper'
 import { Box, TextField } from '@mui/material'
 import React from 'react'
 

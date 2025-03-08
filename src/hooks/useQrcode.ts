@@ -9,7 +9,7 @@ import { match } from 'assert'
 import { detectDevice } from '@/domain/device'
 import { getDeviceOs } from '@/domain/deviceOs'
 import { detectOS } from '@/domain/os'
-// import { getQueryParameterQrValue } form '@/utils/queryParameter'
+// import { getQueryParameterQrValue } hooks '@/utils/queryParameter'
 
 export type UpdateQrCodeType = Omit<IProps, 'forwardedRef'>
 type QrValueType = IProps & {
@@ -175,6 +175,8 @@ export const useQrcode = () => {
   const text = searchParams.get('text') ?? ''
   const setText = (value: string) => addQueryParameter({ text: value })
   const [file, setFile] = useState<File | null>(null)
+  const url = searchParams.get('url') ?? ''
+  const setUrl = (value: string) => addQueryParameter({ url: value })
   return {
     ecLevel,
     logoImage,
@@ -224,7 +226,9 @@ export const useQrcode = () => {
     text,
     setText,
     file,
-    setFile
+    setFile,
+    url,
+    setUrl
     // qrValue,
     // updateExceptRef,
     // updateQrValue,
