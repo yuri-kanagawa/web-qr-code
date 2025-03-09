@@ -21,6 +21,7 @@
     "@typescript-eslint/parser": "^8.18.2",
     "grammy": "^1.25.2",
     "mui-color-input": "^3.0.0",
+    "mui-tel-input": "^8.0.1",
     "next": "14.2.3",
     "prettier": "^3.3.2",
     "punycode": "^2.3.1",
