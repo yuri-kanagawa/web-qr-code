@@ -167,54 +167,54 @@ export const getDeviceOs = ({ device, os }: DeviceAndOsType): DeviceOsType => {
 export const getDeviceAndOs = ({ deviceOs }: DeviceOsType): DeviceAndOsType => {
   if (isWindowsAndroidAndAll(deviceOs)) {
     return {
-      os: OS.windowsAndroid,
+      os: OS['windows/Android'],
       device: DEVICES.all
     }
   }
   if (isWindowsAndroidAndMobile(deviceOs)) {
     return {
-      os: OS.macintoshIos,
+      os: OS['windows/Android'],
       device: DEVICES.mobile
     }
   }
   if (isWindowsAndroidAndTablet(deviceOs)) {
     return {
-      os: OS.windowsAndroid,
+      os: OS['windows/Android'],
       device: DEVICES.tablet
     }
   }
 
   if (isWindowsAndroidAndDesktop(deviceOs)) {
     return {
-      os: OS.windowsAndroid,
+      os: OS['windows/Android'],
       device: DEVICES.desktop
     }
   }
 
   if (isMacintoshIosAndAll(deviceOs)) {
     return {
-      os: OS.macintoshIos,
+      os: OS['windows/Android'],
       device: DEVICES.all
     }
   }
 
   if (isMacintoshIosAndMobile(deviceOs)) {
     return {
-      os: OS.macintoshIos,
+      os: OS['macintosh/ios'],
       device: DEVICES.mobile
     }
   }
 
   if (isMacintoshIosAndTablet(deviceOs)) {
     return {
-      os: OS.macintoshIos,
+      os: OS['macintosh/ios'],
       device: DEVICES.tablet
     }
   }
 
   if (isMacintoshIosAndDesktop(deviceOs)) {
     return {
-      os: OS.macintoshIos,
+      os: OS['macintosh/ios'],
       device: DEVICES.desktop
     }
   }
