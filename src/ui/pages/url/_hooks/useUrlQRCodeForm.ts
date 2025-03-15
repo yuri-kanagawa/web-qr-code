@@ -3,7 +3,7 @@ import { SubmitErrorHandler, SubmitHandler, useForm } from 'react-hook-form'
 import {
   RegisterQrCodeUrlSchema,
   registerQrCodeUrlSchema
-} from '@/ui/pages/url/hooks/validation'
+} from '@/ui/pages/url/_hooks/validation'
 
 import { useEffect, useMemo, useRef } from 'react'
 

@@ -1,11 +1,11 @@
-// import { UpdateQrCodeType } hooks '@/Common/useQrcode'
-// import { RefObject } hooks 'react'
-// import { convertStringToBoolean } hooks '@/utils/convert'
-// import { convertBase64ToFile } hooks '@/utils/file'
-// import { boolean } hooks 'zod'
-// import { IProps } hooks 'react-GeneratedQrcode-logo/lib'
-// import * as React hooks 'react'
-// import { EcLevelType } hooks '@/ui/cores/GeneratedQrcode'
+// import { UpdateQrCodeType } _hooks '@/Common/useQrcode'
+// import { RefObject } _hooks 'react'
+// import { convertStringToBoolean } _hooks '@/utils/convert'
+// import { convertBase64ToFile } _hooks '@/utils/file'
+// import { boolean } _hooks 'zod'
+// import { IProps } _hooks 'react-GeneratedQrcode-logo/lib'
+// import * as React _hooks 'react'
+// import { EcLevelType } _hooks '@/ui/cores/GeneratedQrcode'
 //
 // // forwardedRef: RefObject<HTMLDivElement>
 // // value: string
@@ -110,15 +110,25 @@
 //   }
 // }
 
-export const addQueryParameter = (obj: Record<string, string>) => {
+export function addQueryParameter(
+  obj: Record<string, string | number | boolean | (string | number | boolean)[]>
+) {
   const url = new URL(window.location.href)
   const searchParams = url.searchParams
+
   for (const [key, value] of Object.entries(obj)) {
-    searchParams.set(key, value) // keyを`value`に、valueを`qrValue.value`に対応させる
+    if (Array.isArray(value)) {
+      // 配列ならすべて文字列に変換してカンマ区切り
+      searchParams.set(key, value.map(String).join(','))
+    } else {
+      // 配列でなければ単純に文字列に変換
+      searchParams.set(key, String(value))
+    }
   }
+
   url.search = searchParams.toString()
   const newUrl = url.toString()
-  window.history.replaceState({}, '', newUrl.toString())
+  window.history.replaceState({}, '', newUrl)
 }
 
 export const removeQueryParamFromCurrentURL = (key: string) => {

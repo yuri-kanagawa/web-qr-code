@@ -4,14 +4,19 @@ import FormControl from '@mui/material/FormControl'
 import InputLabel from '@mui/material/InputLabel'
 import Select from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
+import { SelectProps } from '@mui/material/Select/Select'
 
 type Props = {
-  id: number
+  value: number
   onChange: ({ id, name }: { id: number; name: string }) => void
   isOptional?: boolean
-}
+} & Omit<SelectProps, 'onChange' | 'value'>
 
-export const SocialMediaSelect: FC<Props> = ({ id, onChange, isOptional }) => {
+export const SocialMediaSelect: FC<Props> = ({
+  value,
+  onChange,
+  isOptional
+}) => {
   const array = useMemo(() => {
     if (isOptional) {
       return socialMediaList
@@ -24,8 +29,8 @@ export const SocialMediaSelect: FC<Props> = ({ id, onChange, isOptional }) => {
       <Select
         labelId="demo-simple-select-label"
         id="demo-simple-select"
-        value={id}
-        label="Age"
+        value={value}
+        label="social media"
         onChange={(e) => {
           const value = Number(e.target.value)
           onChange({

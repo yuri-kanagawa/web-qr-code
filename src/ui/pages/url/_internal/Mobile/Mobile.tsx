@@ -5,7 +5,7 @@ import { QrFloatingActionButton } from '@/ui/fragments/floatingActionButton'
 import React from 'react'
 
 import { Props } from '../type'
-import { UrlForm } from '@/ui/pages/url/internal/Common/UrlForm'
+import { UrlForm } from '@/ui/pages/url/_internal/Common/UrlForm'
 
 export const Mobile = React.forwardRef<HTMLDivElement, Props>(
   ({ control, setFile, file }, ref) => {

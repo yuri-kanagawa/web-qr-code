@@ -9,7 +9,7 @@ import QrDownloadButton from '@/ui/cores/button/QrDownloadButton'
 
 import React, { FC, useMemo } from 'react'
 
-import { UrlForm } from '@/ui/pages/url/internal/Common/UrlForm'
+import { UrlForm } from '@/ui/pages/url/_internal/Common/UrlForm'
 import { useSearchParams } from 'next/navigation'
 import { Props } from '../type'
 

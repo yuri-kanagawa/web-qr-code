@@ -2,7 +2,7 @@ import { Box, Stack, TextField } from '@mui/material'
 import { Control, Controller } from 'react-hook-form'
 import { OptionalForm } from '@/ui/fragments/form'
 import React, { FC, useEffect } from 'react'
-import { RegisterQrCodeUrlSchema } from '@/ui/pages/url/hooks'
+import { RegisterQrCodeUrlSchema } from '../../../_hooks'
 import { useWindowSize } from '@/hooks'
 
 type Props = {

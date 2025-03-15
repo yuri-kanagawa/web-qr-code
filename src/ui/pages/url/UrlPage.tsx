@@ -1,10 +1,10 @@
 'use client'
-import { useUrlQRCodeForm } from '@/ui/pages/url/hooks/useUrlQRCodeForm'
+import { useUrlQRCodeForm } from '@/ui/pages/url/_hooks/useUrlQRCodeForm'
 
 import { PageWrapper } from '@/ui/fragments/pageWrapper'
-import { Desktop, Mobile } from './internal'
+import { Desktop, Mobile } from './_internal'
 import { ResponsiveSwitcher } from '@/ui/cores/ResponsiveSwitcher'
-import { UrlForm } from '@/ui/pages/url/internal/Common/UrlForm'
+
 import { useQrcode } from '@/hooks'
 
 export const UrlPage = () => {

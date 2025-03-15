@@ -3,23 +3,14 @@ import React, { FC } from 'react'
 import { useQrcode } from '@/hooks'
 import { PageWrapper } from '../../fragments/pageWrapper'
 import { TextField } from '@mui/material'
-
+import { FileReader } from './_internal'
 type Props = {}
 
 export const ReaderPage: FC<Props> = ({}) => {
   const { text, setText } = useQrcode()
   return (
     <PageWrapper>
-      <TextField
-        placeholder="MultiLine with rows: "
-        multiline
-        rows={20}
-        sx={{
-          width: '30%'
-        }}
-        value={text}
-        onChange={(e) => setText(e.target.value)}
-      />
+      <FileReader />
     </PageWrapper>
   )
 }

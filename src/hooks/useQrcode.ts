@@ -9,7 +9,7 @@ import { match } from 'assert'
 import { detectDevice } from '@/domain/device'
 import { getDeviceOs } from '@/domain/deviceOs'
 import { detectOS } from '@/domain/os'
-// import { getQueryParameterQrValue } hooks '@/utils/queryParameter'
+// import { getQueryParameterQrValue } _hooks '@/utils/queryParameter'
 
 export type UpdateQrCodeType = Omit<IProps, 'forwardedRef'>
 type QrValueType = IProps & {
@@ -143,20 +143,26 @@ export const useQrcode = () => {
   const eyeRadius2 = Number(searchParams.get('eyeRadius2')) ?? 0
   const eyeRadius3 = Number(searchParams.get('eyeRadius3')) ?? 0
   const setEyeRadius1 = (value: number) =>
-    addQueryParameter({ eyeColor1: String(value) })
+    addQueryParameter({ eyeColor1: value })
 
   const setEyeRadius2 = (value: number) =>
-    addQueryParameter({ eyeColor2: String(value) })
+    addQueryParameter({ eyeColor2: value })
   const setEyeRadius3 = (value: number) =>
-    addQueryParameter({ eyeColor3: String(value) })
+    addQueryParameter({ eyeColor3: value })
   const deviceOs = searchParams.get('deviceOs')?.split(',').map(Number) ?? []
   const setDeviceOs = (value: string[]) => {
-    addQueryParameter({ deviceOs: value.join(',') })
+    addQueryParameter({ deviceOs: value })
   }
 
   const urls = searchParams.get('urls')?.split(',') ?? []
   const setUrls = (value: string[]) => {
-    addQueryParameter({ urls: value.join(',') })
+    addQueryParameter({ urls: value })
+  }
+
+  const socialMedia =
+    searchParams.get('socialMedia')?.split(',').map(Number) ?? []
+  const setSocialMedia = (value: number[]) => {
+    addQueryParameter({ socialMedia: value })
   }
 
   const deviceOsIndex = useMemo(() => {
@@ -166,9 +172,6 @@ export const useQrcode = () => {
       device,
       os
     })
-    console.log('device', device)
-    console.log('os', os)
-    console.log('deviceOs', deviceOs)
     return deviceOs.indexOf(value.deviceOs)
   }, [])
 
@@ -228,7 +231,9 @@ export const useQrcode = () => {
     file,
     setFile,
     url,
-    setUrl
+    setUrl,
+    socialMedia,
+    setSocialMedia
     // qrValue,
     // updateExceptRef,
     // updateQrValue,

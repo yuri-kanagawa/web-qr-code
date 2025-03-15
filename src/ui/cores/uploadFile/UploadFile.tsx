@@ -70,7 +70,11 @@ export const UploadFile: FC<Props> = ({
   const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault()
   }
-
+  const onRemove = () => {
+    if (!file) return
+    onChange(null)
+    setImage(undefined)
+  }
   return (
     <Box>
       <CornerHighlightBox width={props.width} height={props.height}>
@@ -122,7 +126,6 @@ export const UploadFile: FC<Props> = ({
               <Box
                 component="img"
                 src={image}
-                alt="QR Code"
                 sx={{
                   width: '100%',
                   height: '100%',
@@ -140,7 +143,7 @@ export const UploadFile: FC<Props> = ({
                   right: -25,
                   zIndex: 9999 // 高いzIndexで他の要素より上に表示
                 }}
-                onClick={() => alert('Button clicked!')}
+                onClick={onRemove}
               >
                 <TiDelete />
               </IconButton>
