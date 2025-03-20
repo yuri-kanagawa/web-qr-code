@@ -1,20 +1,14 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { IProps } from 'react-qrcode-logo/lib'
+import { useMemo, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
-import {
-  addQueryParameter,
-  removeQueryParamFromCurrentURL
-} from '@/utils/queryParameter'
-import { match } from 'assert'
+import { addQueryParameter } from '@/utils/queryParameter'
 import { detectDevice } from '@/domain/device'
 import { getDeviceOs } from '@/domain/deviceOs'
 import { detectOS } from '@/domain/os'
-// import { getQueryParameterQrValue } _hooks '@/utils/queryParameter'
-
-export type UpdateQrCodeType = Omit<IProps, 'forwardedRef'>
-type QrValueType = IProps & {
-  ref: HTMLDivElement | null
-}
+import {
+  CellPhoneTextFieldProps,
+  FaxTextFieldProps,
+  WorkPhoneTextFieldProps
+} from '@/ui/cores/textField/PhoneTextField/Device'
 
 export const useQrcode = () => {
   const searchParams = useSearchParams()
@@ -180,6 +174,28 @@ export const useQrcode = () => {
   const [file, setFile] = useState<File | null>(null)
   const url = searchParams.get('url') ?? ''
   const setUrl = (value: string) => addQueryParameter({ url: value })
+  const firstName = searchParams.get('firstName') ?? ''
+  const setFirstName = (value: string) =>
+    addQueryParameter({ firstName: value })
+  const lastName = searchParams.get('lastName') ?? ''
+  const setLastName = (value: string) => addQueryParameter({ lastName: value })
+  const middleName = searchParams.get('middleName') ?? ''
+  const setMiddleName = (value: string) =>
+    addQueryParameter({ middleName: value })
+  const email = searchParams.get('email') ?? ''
+  const setEmail = (value: string) => addQueryParameter({ email: value })
+
+  const cellPhone = searchParams.get('cellPhone') ?? ''
+  const setCellPhone = (value: string) =>
+    addQueryParameter({ cellPhone: value })
+  const fax = searchParams.get('fax') ?? ''
+  const setFax = (value: string) => addQueryParameter({ fax: value })
+  const homePhone = searchParams.get('homePhone') ?? ''
+  const setHomePhone = (value: string) =>
+    addQueryParameter({ homePhone: value })
+  const workPhone = searchParams.get('workPhone') ?? ''
+  const setWorkPhone = (value: string) =>
+    addQueryParameter({ workPhone: value })
   return {
     ecLevel,
     logoImage,
@@ -233,16 +249,22 @@ export const useQrcode = () => {
     url,
     setUrl,
     socialMedia,
-    setSocialMedia
-    // qrValue,
-    // updateExceptRef,
-    // updateQrValue,
-    // updateBgColor,
-    // updateFgColor,
-    // updateFile,
-    // updateImageSettingExcavate,
-    // updateImageSettingSize,
-    // isSameRatio,
-    // setIsSameRatio: changeSameRatio
+    setSocialMedia,
+    firstName,
+    setFirstName,
+    lastName,
+    setLastName,
+    middleName,
+    setMiddleName,
+    email,
+    setEmail,
+    cellPhone,
+    setCellPhone,
+    fax,
+    setFax,
+    homePhone,
+    setHomePhone,
+    workPhone,
+    setWorkPhone
   }
 }
