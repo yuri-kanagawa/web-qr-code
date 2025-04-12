@@ -15,8 +15,8 @@
 // // level: string
 // // ImageSettings: ImageSettingType
 // export const addQueryParameterQrValue = (qrValue: UpdateQrCodeType) => {
-//   const url = new URL(window.location.href)
-//   const searchParams = url.searchParams
+//   const Url = new URL(window.location.href)
+//   const searchParams = Url.searchParams
 //   searchParams.set('value', qrValue.value)
 //   searchParams.set('bgColor', qrValue.bgColor)
 //   searchParams.set('fgColor', qrValue.fgColor)
@@ -33,10 +33,10 @@
 //     qrValue.imageSettings.excavate.toString()
 //   )
 //
-//   url.search = searchParams.toString()
-//   const newUrl = url.toString()
+//   Url.search = searchParams.toString()
+//   const newUrl = Url.toString()
 //   window.history.replaceState(
-//     { ...window.history.state, as: newUrl, url: newUrl },
+//     { ...window.history.state, as: newUrl, Url: newUrl },
 //     '',
 //     newUrl
 //   )

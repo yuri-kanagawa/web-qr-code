@@ -9,7 +9,7 @@
 // TEXT	テキストメッセージ (SMS) が可能な番号
 // VIDEO	ビデオ通話が可能な番号
 // BBS	電子掲示板システム (Bulletin Board System)
-// CAR	車載電話 (Car phone)
+// CAR	車載電話 (Car Phone)
 // PREF	優先番号 (Preferred)
 // TLX	テレックス番号 (Telex)
 // 📝 複数のタイプを組み合わせることも可能

@@ -31,9 +31,10 @@ export const UrlForm: FC<Props> = ({ control, setFile, file }) => {
         <Controller
           control={control}
           name="url"
-          render={({ field: { value, onChange }, fieldState }) => (
+          render={({ field: { value, onChange, ref }, fieldState }) => (
             <TextField
               label="URL*"
+              inputRef={ref}
               placeholder="https://"
               value={value}
               onChange={(e) => {

@@ -1,20 +1,16 @@
-import { useWindowSize } from '@/hooks'
-import { PageWrapper } from '../../../../fragments/pageWrapper'
-import { Box, Button, Stack, TextField } from '@mui/material'
-import { Control, Controller, FieldValues } from 'react-hook-form'
-import { OptionalForm } from '@/ui/fragments/form'
+import { Box, Button, Stack } from '@mui/material'
+
 import GeneratedQrcode from '@/ui/cores/qrcode/GeneratedQrcode/GeneratedQrcode'
-import QrCheckButton from '../../../../cores/button/QrCheckButton'
-import QrDownloadButton from '@/ui/cores/button/QrDownloadButton'
 
 import React, { FC, useMemo } from 'react'
 
-import { UrlForm } from '@/ui/pages/url/_internal/Common/UrlForm'
+import { UrlForm } from '@/ui/pages/Url/_internal/Common/UrlForm'
 import { useSearchParams } from 'next/navigation'
 import { Props } from '../type'
+import { QrConfirmButton, QrDownloadButton } from '@/ui/cores/button'
 
 export const Desktop = React.forwardRef<HTMLDivElement, Props>(
-  ({ control, setFile, file }, ref) => {
+  ({ control, setFile, file, onDownload, onConfirm }, ref) => {
     const searchParams = useSearchParams()
     const url = searchParams.get('url') ?? ''
     return (
@@ -26,9 +22,9 @@ export const Desktop = React.forwardRef<HTMLDivElement, Props>(
               <GeneratedQrcode ref={ref} value={url} file={file} />
             </Box>
             <Box>
-              <QrCheckButton ref={ref} />
+              <QrConfirmButton onClick={onConfirm} />
               {/*<Button type={'submit'}>Generate</Button>*/}
-              <QrDownloadButton ref={ref} />
+              <QrDownloadButton onClick={onDownload} />
             </Box>
           </Stack>
         </Box>

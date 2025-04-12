@@ -3,6 +3,9 @@ import { MutableRefObject } from 'react'
 export const extractPngDataUrl = (
   ref: MutableRefObject<HTMLDivElement | null>
 ): string | null => {
+  if (ref == null) {
+    return null
+  }
   if (!ref.current) {
     console.log('ref is null or undefined')
     return null

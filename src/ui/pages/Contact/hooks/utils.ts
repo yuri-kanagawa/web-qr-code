@@ -1,4 +1,4 @@
-import { RegisterQrCodeContactSchema } from '@/ui/pages/contact/hooks/validation'
+import { RegisterQrCodeContactSchema } from '@/ui/pages/Contact/hooks/validation'
 
 export const convertContact = (value: RegisterQrCodeContactSchema) => {
   return `

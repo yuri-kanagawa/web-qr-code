@@ -3,9 +3,9 @@ import { SubmitErrorHandler, SubmitHandler, useForm } from 'react-hook-form'
 import {
   RegisterQrCodeUrlSchema,
   registerQrCodeUrlSchema
-} from '@/ui/pages/url/_hooks/validation'
+} from '@/ui/pages/Url/_hooks/validation'
 
-import { useEffect, useMemo, useRef } from 'react'
+import { MutableRefObject, useEffect, useMemo, useRef } from 'react'
 
 import { useNotify } from '@/hooks/useNotify'
 import { extractPngDataUrl } from '@/utils/qr'
@@ -18,18 +18,19 @@ import { isValidUrl } from '@/utils/regexp'
 import { useQrcode } from '@/hooks'
 
 export const useUrlQRCodeForm = () => {
-  const { url, setUrl } = useQrcode()
-  const ref = useRef<HTMLDivElement | null>(null)
+  const { url, setUrl, ref, setFile, file, onConfirm, onDownload } = useQrcode()
+
   const defaultValues: RegisterQrCodeUrlSchema = useMemo(() => {
     return {
       url
     }
   }, [url])
 
-  const { handleSubmit, reset, control, watch, formState, ...rest } =
+  const { handleSubmit, reset, control, watch, formState, setFocus, ...rest } =
     useForm<RegisterQrCodeUrlSchema>({
       resolver: zodResolver(registerQrCodeUrlSchema),
       mode: 'onChange',
+      reValidateMode: 'onSubmit',
       defaultValues
     })
 
@@ -60,6 +61,9 @@ export const useUrlQRCodeForm = () => {
     errors
   ) => {
     console.error(errors)
+    if (errors.url) {
+      return setFocus('url')
+    }
   }
   const currentUrl = watch('url')
   const errors = formState.errors.url
@@ -69,11 +73,14 @@ export const useUrlQRCodeForm = () => {
   }, [errors, currentUrl])
 
   return {
-    ref,
     onSubmit: handleSubmit(submitHandler, submitErrorHandler),
     control,
     watch,
-    formState,
+    setFile,
+    file,
+    ref,
+    onConfirm: handleSubmit(onConfirm, submitErrorHandler),
+    onDownload: handleSubmit(onDownload, submitErrorHandler),
     ...rest
   }
 }

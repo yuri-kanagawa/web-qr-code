@@ -14,23 +14,25 @@ import EditIcon from '@mui/icons-material/Edit'
 import QrCodeScannerIcon from '@mui/icons-material/QrCodeScanner'
 import PhoneIcon from '@mui/icons-material/Phone'
 import { useSidebar } from '@/stores'
+import { MdPermContactCalendar } from 'react-icons/md'
+import { RiMailFill, RiText } from 'react-icons/ri'
+import { FaCommentSms } from 'react-icons/fa6'
 
 export const DrawerItems = forwardRef<HTMLDivElement, Props>(({}, ref) => {
   const { isSidebarOpen, toggleSidebar, setIsSidebarOpen } = useSidebar()
-
   return (
-    <Collapse in={isSidebarOpen} orientation="horizontal" collapsedSize={60}>
+    <Collapse in={isSidebarOpen} orientation="horizontal" collapsedSize={70}>
       <Stack
         ref={ref}
         sx={{
           overflow: 'auto',
-          width: isSidebarOpen ? 210 : 60,
           display: 'flex',
           height: '100vh',
-          justifyContent: 'space-between'
+          justifyContent: 'space-between',
+          width: '100%'
         }}
       >
-        <Stack spacing={0}>
+        <Stack spacing={0} width={'100%'}>
           <DrawerItemIcon
             label={'URL'}
             icon={<LinkIcon />}
@@ -46,20 +48,31 @@ export const DrawerItems = forwardRef<HTMLDivElement, Props>(({}, ref) => {
             icon={<SmartphoneIcon />}
             path={path.terminal.index({ lang: 'en' })}
           />
+
           <DrawerItemIcon
             label={'CONTACT'}
-            icon={<PhoneIcon />}
+            icon={<MdPermContactCalendar size={24} />}
             path={path.contact.index({ lang: 'en' })}
           />
           <DrawerItemIcon
+            label={'PHONE'}
+            icon={<PhoneIcon />}
+            path={path.phone.index({ lang: 'en' })}
+          />
+          <DrawerItemIcon
+            label={'EMAIL'}
+            icon={<RiMailFill size={24} />}
+            path={path.email.index({ lang: 'en' })}
+          />
+          <DrawerItemIcon
             label={'SMS'}
-            icon={<SmsIcon />}
+            icon={<FaCommentSms />}
             path={path.sms.index({ lang: 'en' })}
           />
 
           <DrawerItemIcon
             label={'Text'}
-            icon={<IoIosMail size={24} />}
+            icon={<RiText size={24} />}
             path={path.text.index({ lang: 'en' })}
           />
 

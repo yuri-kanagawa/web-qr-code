@@ -28,6 +28,7 @@ export const DrawerItemIcon: FC<Props> = ({ icon, path, label }) => {
       <ListItem
         disablePadding
         sx={{
+          width: '100%',
           borderLeft: isCurrentPath ? 6 : 0,
           borderColor: isCurrentPath ? colors.primary.main : undefined,
           height: '100%',

@@ -1,10 +1,9 @@
 'use client'
 
 import { PageWrapper } from '../../fragments/pageWrapper'
-import { useQrcode } from '@/hooks'
-import { TextField } from '@mui/material'
+
 import React, { FC } from 'react'
-import { ContactForm } from '@/ui/pages/contact/internal'
+import { ContactForm } from '@/ui/pages/Contact/internal'
 
 type Props = {}
 

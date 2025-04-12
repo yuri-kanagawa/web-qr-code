@@ -5,8 +5,8 @@
 // import {
 //   RegisterQrCodeContactSchema,
 //   registerQrCodeContactSchema
-// } _hooks '@/ui/pages/contact/_hooks/validation'
-// import { convertContact } _hooks '@/ui/pages/contact/_hooks/utils'
+// } _hooks '@/ui/pages/Contact/_hooks/validation'
+// import { convertContact } _hooks '@/ui/pages/Contact/_hooks/utils'
 // export const useQRCodeContactForm = () => {
 //   const { qrValue, setQrValue } = useQrcode()
 //   const { control, handleSubmit, ...other } = useForm({
@@ -23,7 +23,7 @@
 //       privateCellularTelephone: '',
 //       email: '',
 //       address: '',
-//       url: ''
+//       Url: ''
 //     }
 //   })
 //

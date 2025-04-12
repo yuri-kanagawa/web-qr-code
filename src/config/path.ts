@@ -73,6 +73,15 @@ export const path = {
       return `/${lang}${path}`
     }
   },
+  email: {
+    index: ({ lang }: { lang: string }) => {
+      const path = '/email'
+      if (isEn(lang)) {
+        return path
+      }
+      return `/${lang}${path}`
+    }
+  },
   reader: {
     index: ({ lang }: { lang: string }) => {
       const path = '/reader'
@@ -85,6 +94,15 @@ export const path = {
   edit: {
     index: ({ lang }: { lang: string }) => {
       const path = '/edit'
+      if (isEn(lang)) {
+        return path
+      }
+      return `/${lang}${path}`
+    }
+  },
+  phone: {
+    index: ({ lang }: { lang: string }) => {
+      const path = '/phone'
       if (isEn(lang)) {
         return path
       }

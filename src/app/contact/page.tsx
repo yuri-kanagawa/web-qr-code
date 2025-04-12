@@ -1,4 +1,4 @@
-import { ContactPage } from '@/ui/pages/contact/ContactPage'
+import { ContactPage } from '@/ui/pages/Contact/ContactPage'
 
 export default function Page() {
   return <ContactPage />
