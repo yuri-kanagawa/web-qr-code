@@ -7,14 +7,14 @@ export const colors = {
     // main: teal[500]
     // main: '#3f51b5'
     // main: '#3f51b5'
-    // light: will be calculated _hooks palette.primary.main,
-    // dark: will be calculated _hooks palette.primary.main,
+    // light: will be calculated hooks palette.primary.main,
+    // dark: will be calculated hooks palette.primary.main,
     // contrastText: will be calculated to contrast with palette.primary.main
   },
   secondary: {
     main: '#E0C2FF',
     light: '#F5EBFF',
-    // dark: will be calculated _hooks palette.secondary.main,
+    // dark: will be calculated hooks palette.secondary.main,
     contrastText: '#47008F'
   },
   dark: {},

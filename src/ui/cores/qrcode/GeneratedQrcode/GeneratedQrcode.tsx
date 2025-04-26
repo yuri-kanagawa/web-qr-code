@@ -21,10 +21,11 @@ export type EcLevelType = 'L' | 'M' | 'Q' | 'H'
 type Props = {
   file: File | null
   value: string
+  isValid?: boolean
 }
 
 const GeneratedQrcode = React.forwardRef<HTMLDivElement, Props>(
-  ({ value, file }, ref) => {
+  ({ value, file, isValid }, ref) => {
     const {
       ecLevel,
       enableCORS,
@@ -92,7 +93,7 @@ const GeneratedQrcode = React.forwardRef<HTMLDivElement, Props>(
         {/*</Box>*/}
         <CornerHighlightBox height={maxSize + 50} width={maxSize + 50}>
           <div ref={ref}>
-            {value !== '' && (
+            {isValid && (
               <QRCode
                 value={value}
                 size={size}

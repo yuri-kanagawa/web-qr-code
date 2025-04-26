@@ -4,11 +4,7 @@ import { addQueryParameter } from '@/utils/queryParameter'
 import { detectDevice } from '@/domain/device'
 import { getDeviceOs } from '@/domain/deviceOs'
 import { detectOS } from '@/domain/os'
-import {
-  CellPhoneTextFieldProps,
-  FaxTextFieldProps,
-  WorkPhoneTextFieldProps
-} from '@/ui/cores/textField/PhoneTextField/Device'
+
 import { extractPngDataUrl, isUrl } from '@/utils/qr'
 import { useQrScanner } from '@/hooks/useQrScanner'
 import { useNotify } from '@/hooks/useNotify'
@@ -127,8 +123,8 @@ export const useQrcode = () => {
     addQueryParameter({ logoImage: value })
   }
   const eyeColor1 = searchParams.get('eyeColor1') ?? ''
-  const eyeColor2 = searchParams.get('eyeColor2') ?? ''
-  const eyeColor3 = searchParams.get('eyeColor3') ?? ''
+  const eyeColor2 = searchParams.get('eyeColor2') ?? fgColor
+  const eyeColor3 = searchParams.get('eyeColor3') ?? fgColor
   const setEyeColor1 = (value: string) =>
     addQueryParameter({ eyeColor1: String(value) })
 

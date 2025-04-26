@@ -1,12 +1,12 @@
-// import { useCallback, useState } _hooks 'react'
-// import { useQrcode } _hooks '@/Common/useQrcode'
-// import { zodResolver } _hooks '@hookform/resolvers/zod'
-// import { SubmitHandler, useForm } _hooks 'react-hook-_hooks'
+// import { useCallback, useState } hooks 'react'
+// import { useQrcode } hooks '@/Common/useQrcode'
+// import { zodResolver } hooks '@hookform/resolvers/zod'
+// import { SubmitHandler, useForm } hooks 'react-hook-hooks'
 // import {
 //   RegisterQrCodeContactSchema,
 //   registerQrCodeContactSchema
-// } _hooks '@/ui/pages/Contact/_hooks/validation'
-// import { convertContact } _hooks '@/ui/pages/Contact/_hooks/utils'
+// } hooks '@/ui/pages/Contact/hooks/validation'
+// import { convertContact } hooks '@/ui/pages/Contact/hooks/utils'
 // export const useQRCodeContactForm = () => {
 //   const { qrValue, setQrValue } = useQrcode()
 //   const { control, handleSubmit, ...other } = useForm({

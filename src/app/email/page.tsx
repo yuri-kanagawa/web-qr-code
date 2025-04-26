@@ -1,5 +1,5 @@
-import { EditPage } from '../../ui/pages/Edit'
+import { EmailPage } from '@/ui/pages/Email/EmailPage'
 
 export default function Page() {
-  return <EditPage />
+  return <EmailPage />
 }
