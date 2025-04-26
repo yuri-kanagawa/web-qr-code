@@ -61,23 +61,11 @@ export const OptionalForm: FC<Props> = ({ file, setFile }) => {
         }}
         onChange={(event) => {
           const value = Number(event.currentTarget.value)
-          if (value > maxSize) return
 
           setSize(value)
         }}
       />
-      <Slider
-        value={size}
-        min={5}
-        step={1}
-        max={maxSize}
-        // scale={size}
-        // getAriaValueText={valueLabelFormat}
-        // valueLabelFormat={valueLabelFormat}
-        onChange={(event, value) => setSize(Number(value))}
-        valueLabelDisplay="auto"
-        aria-labelledby="non-linear-slider"
-      />
+
       <MuiColorInput
         format="hex"
         value={bgColor}
