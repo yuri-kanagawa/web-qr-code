@@ -30,7 +30,7 @@ export const Desktop = React.forwardRef<HTMLDivElement, Props>(
             <Stack
               spacing={4}
               pt={3}
-              pb={10}
+              pb={15}
               px={4}
               sx={{
                 height,

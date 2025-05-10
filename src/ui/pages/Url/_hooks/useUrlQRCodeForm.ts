@@ -32,10 +32,7 @@ export const useUrlQRCodeForm = () => {
     control,
     watch,
     trigger: validate,
-    formState: {
-      errors: { url: errorsUrl },
-      isValid
-    },
+    formState: { errors, isValid },
     setFocus,
     ...rest
   } = useForm<RegisterQrCodeUrlSchema>({
@@ -79,13 +76,13 @@ export const useUrlQRCodeForm = () => {
   const currentUrl = watch('url')
 
   useEffect(() => {
-    if (errorsUrl) return
+    if (errors.url) return
     addQueryParameter({ url: currentUrl })
-  }, [errorsUrl, currentUrl])
+  }, [errors.url, currentUrl])
   const handleConfirm = async (): Promise<string | undefined> => {
     if (!isValid) {
-      await validate()
-      setFocus('url')
+      submitErrorHandler(errors)
+      return
     }
     return await onConfirm()
   }
