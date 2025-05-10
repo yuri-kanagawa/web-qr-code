@@ -61,8 +61,8 @@ export const Desktop = React.forwardRef<HTMLDivElement, Props>(
                 pt={4}
                 pb={2}
               >
-                <QrConfirmButton onClick={onConfirm} isValid={isValid} />
-                <QrDownloadButton onClick={onDownload} isValid={isValid} />
+                <QrConfirmButton onClick={onConfirm} />
+                <QrDownloadButton onClick={onDownload} />
               </Stack>
             </Stack>
           </Box>

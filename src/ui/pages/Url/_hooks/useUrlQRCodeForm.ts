@@ -26,13 +26,24 @@ export const useUrlQRCodeForm = () => {
     }
   }, [url])
 
-  const { handleSubmit, reset, control, watch, formState, setFocus, ...rest } =
-    useForm<RegisterQrCodeUrlSchema>({
-      resolver: zodResolver(registerQrCodeUrlSchema),
-      mode: 'onChange',
-      reValidateMode: 'onSubmit',
-      defaultValues
-    })
+  const {
+    handleSubmit,
+    reset,
+    control,
+    watch,
+    trigger: validate,
+    formState: {
+      errors: { url: errorsUrl },
+      isValid
+    },
+    setFocus,
+    ...rest
+  } = useForm<RegisterQrCodeUrlSchema>({
+    resolver: zodResolver(registerQrCodeUrlSchema),
+    mode: 'onChange',
+    reValidateMode: 'onSubmit',
+    defaultValues
+  })
 
   useEffect(() => {
     reset(defaultValues)
@@ -66,12 +77,18 @@ export const useUrlQRCodeForm = () => {
     }
   }
   const currentUrl = watch('url')
-  const errors = formState.errors.url
-  useEffect(() => {
-    if (errors) return
-    addQueryParameter({ url: currentUrl })
-  }, [errors, currentUrl])
 
+  useEffect(() => {
+    if (errorsUrl) return
+    addQueryParameter({ url: currentUrl })
+  }, [errorsUrl, currentUrl])
+  const handleConfirm = async (): Promise<string | undefined> => {
+    if (!isValid) {
+      await validate()
+      setFocus('url')
+    }
+    return await onConfirm()
+  }
   return {
     onSubmit: handleSubmit(submitHandler, submitErrorHandler),
     control,
@@ -79,7 +96,7 @@ export const useUrlQRCodeForm = () => {
     setFile,
     file,
     ref,
-    onConfirm,
+    onConfirm: handleConfirm,
     onDownload: handleSubmit(onDownload, submitErrorHandler),
     ...rest
   }

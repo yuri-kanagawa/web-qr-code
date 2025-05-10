@@ -5,7 +5,6 @@ import { detectDevice } from '@/domain/device'
 import { getDeviceOs } from '@/domain/deviceOs'
 import { detectOS } from '@/domain/os'
 
-import { extractPngDataUrl, isUrl } from '@/utils/qr'
 import { useQrScanner } from '@/hooks/useQrScanner'
 import { useNotify } from '@/hooks/useNotify'
 
@@ -59,8 +58,8 @@ export const useQrcode = () => {
     : undefined
   const size = getSize(searchParams.get('size'))
   const logoImage = searchParams.get('logoImage') ?? undefined
-  const bgColor = searchParams.get('bgColor') ?? 'black'
-  const fgColor = searchParams.get('fgColor') ?? 'white'
+  const bgColor = searchParams.get('bgColor') ?? '#000000'
+  const fgColor = searchParams.get('fgColor') ?? '#ffffff'
   const logoWidth = Number(searchParams.get('logoWidth')) ?? undefined
   const logoHeight = Number(searchParams.get('logoHeight')) ?? undefined
   const logoOpacity = Number(searchParams.get('logoOpacity')) ?? undefined
@@ -122,7 +121,7 @@ export const useQrcode = () => {
   const setLogoImage = (value: string) => {
     addQueryParameter({ logoImage: value })
   }
-  const eyeColor1 = searchParams.get('eyeColor1') ?? ''
+  const eyeColor1 = searchParams.get('eyeColor1') ?? fgColor
   const eyeColor2 = searchParams.get('eyeColor2') ?? fgColor
   const eyeColor3 = searchParams.get('eyeColor3') ?? fgColor
   const setEyeColor1 = (value: string) =>
