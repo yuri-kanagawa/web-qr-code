@@ -46,19 +46,24 @@ export const Desktop = React.forwardRef<HTMLDivElement, Props>(
               <OptionalForm file={file} setFile={setFile} />
             </Stack>
             <Stack
-              direction={'row'}
-              spacing={2}
-              display={'flex'}
-              justifyContent={'center'}
               sx={{
                 position: 'sticky',
-                bottom: 10,
-                backgroundColor: 'white', // 背景色を指定してスクロール時の視認性を確保
-                zIndex: 1 // 必要に応じて他の要素より前面に表示
+                bottom: 0,
+                backgroundColor: 'white',
+                zIndex: 1
               }}
             >
-              <QrConfirmButton onClick={onConfirm} isValid={isValid} />
-              <QrDownloadButton onClick={onDownload} isValid={isValid} />
+              <Stack
+                direction={'row'}
+                spacing={2}
+                display={'flex'}
+                justifyContent={'center'}
+                pt={4}
+                pb={2}
+              >
+                <QrConfirmButton onClick={onConfirm} isValid={isValid} />
+                <QrDownloadButton onClick={onDownload} isValid={isValid} />
+              </Stack>
             </Stack>
           </Box>
           <Stack sx={{ pb: 4 }}>
