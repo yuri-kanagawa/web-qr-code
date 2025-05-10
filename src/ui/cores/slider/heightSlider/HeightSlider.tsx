@@ -14,6 +14,7 @@ type Props = {
   value: number
   onChange: (value: number) => void
   disabled?: boolean
+  max?: number
 } & Omit<StackProps, 'height' | 'width' | 'onChange'>
 
 export const HeightSlider: FC<Props> = ({
@@ -21,6 +22,7 @@ export const HeightSlider: FC<Props> = ({
   value,
   onChange,
   disabled,
+  max,
   ...rest
 }) => {
   const handleSliderChange = (event: Event, newValue: number | number[]) => {
@@ -31,33 +33,33 @@ export const HeightSlider: FC<Props> = ({
     onChange(event.target.value === '' ? 0 : Number(event.target.value))
   }
 
-  const handleBlur = () => {
-    if (value < 0) {
-      onChange(0)
-    } else if (value > 100) {
-      onChange(100)
-    }
-  }
+  // const handleBlur = () => {
+  //   if (value < 0) {
+  //     onChange(0)
+  //   } else if (value > 100) {
+  //     onChange(100)
+  //   }
+  // }
 
   return (
     <Stack {...rest} spacing={2}>
-      <Box px={1}>
-        <Input
-          sx={{ width: 50 }}
-          value={value ?? 0}
-          size="small"
-          onChange={handleInputChange}
-          onBlur={handleBlur}
-          disabled={disabled}
-          inputProps={{
-            step: 1,
-            min: 0,
-            max: 100,
-            type: 'number'
-            // 'aria-labelledby': 'input-slider'
-          }}
-        />
-      </Box>
+      {/*<Box px={1}>*/}
+      {/*  <Input*/}
+      {/*    sx={{ width: 50 }}*/}
+      {/*    value={value ?? 0}*/}
+      {/*    size="small"*/}
+      {/*    onChange={handleInputChange}*/}
+      {/*    // onBlur={handleBlur}*/}
+      {/*    disabled={disabled}*/}
+      {/*    inputProps={{*/}
+      {/*      step: 1,*/}
+      {/*      min: 0,*/}
+      {/*      max: max,*/}
+      {/*      type: 'number'*/}
+      {/*      // 'aria-labelledby': 'input-slider'*/}
+      {/*    }}*/}
+      {/*  />*/}
+      {/*</Box>*/}
       <Stack
         direction={'row'}
         // sx={{ height: 300 }}
@@ -72,6 +74,13 @@ export const HeightSlider: FC<Props> = ({
           onChange={handleSliderChange}
           disabled={disabled}
           orientation={'vertical'}
+          max={max}
+          min={1}
+          marks={[
+            { value: 1, label: 1 },
+            { value: max, label: max }
+          ]}
+          valueLabelDisplay="auto"
         />
 
         {children}

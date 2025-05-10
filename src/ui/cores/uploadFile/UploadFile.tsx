@@ -140,8 +140,7 @@ export const UploadFile: FC<Props> = ({
                 sx={{
                   position: 'absolute',
                   top: -25,
-                  right: -25,
-                  zIndex: 9999 // 高いzIndexで他の要素より上に表示
+                  right: -25
                 }}
                 onClick={onRemove}
               >

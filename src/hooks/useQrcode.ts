@@ -214,26 +214,20 @@ export const useQrcode = () => {
     }
   }
 
-  const onConfirm = useCallback(async () => {
+  const onConfirm = useCallback(async (): Promise<string | undefined> => {
     try {
       const canvas = getCanvasFromRef()
       if (!canvas) return
 
       const pngDataUrl = canvas.toDataURL('image/png')
-      if (!pngDataUrl) return
       const result = await isUsableQRCode(pngDataUrl)
-      if (result == null) return
-      const qrData = result.data
-      successNotify('QRコードの読み取りに成功')
-      if (isUrl(qrData)) {
-        return window.open(qrData)
-      } else if (qrData.startsWith('Sms:')) {
-        return (window.location.href = qrData)
-      }
-
-      successNotify('QRコードの読み取りに成功')
+      if (!result) return
+      return result.data
+      // const qrData = result.data
+      // successNotify('QRコードの読み取りに成功')
+      // return qrData
     } catch (e) {
-      // warningNotify('QRコードを読み取れませんでした')
+      warningNotify('QRコードを読み取れませんでした')
     }
   }, [ref])
 
@@ -256,6 +250,20 @@ export const useQrcode = () => {
       errorNotify('QRコードのダウンロードに失敗')
     }
   }, [ref])
+
+  const onSetFile = (value: File | null) => {
+    setFile(value)
+    if (!!value) {
+      setLogoHeight(50)
+      setLogoWidth(50)
+      setLogoOpacity(1)
+    } else {
+      setLogoHeight(0)
+      setLogoWidth(0)
+      setLogoOpacity(0)
+    }
+  }
+
   return {
     ecLevel,
     logoImage,
@@ -305,7 +313,7 @@ export const useQrcode = () => {
     text,
     setText,
     file,
-    setFile,
+    setFile: onSetFile,
     url,
     setUrl,
     socialMedia,

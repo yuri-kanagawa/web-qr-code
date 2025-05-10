@@ -6,9 +6,16 @@ type Props = {
   value: number
   onChange: (value: number) => void
   disabled?: boolean
+  max?: number
 } & Omit<StackProps, 'height' | 'width' | 'onChange'>
 
-export const WidthSlider: FC<Props> = ({ value, onChange, ...rest }) => {
+export const WidthSlider: FC<Props> = ({
+  value,
+  onChange,
+  max,
+  disabled,
+  ...rest
+}) => {
   const handleSliderChange = (event: Event, newValue: number | number[]) => {
     onChange(newValue as number)
   }
@@ -30,27 +37,34 @@ export const WidthSlider: FC<Props> = ({ value, onChange, ...rest }) => {
       <Grid container spacing={2} alignItems="center">
         <Grid item xs>
           <Slider
-            disabled
+            disabled={disabled}
             value={value}
+            max={max}
             onChange={handleSliderChange}
             aria-labelledby="input-slider"
+            valueLabelDisplay="auto"
+            min={1}
+            marks={[
+              { value: 1, label: 1 },
+              { value: max, label: max }
+            ]}
           />
         </Grid>
         <Grid item>
-          <Input
-            value={value}
-            size="small"
-            disabled
-            onChange={handleInputChange}
-            onBlur={handleBlur}
-            inputProps={{
-              step: 1,
-              min: 0,
-              max: 200,
-              type: 'number',
-              'aria-labelledby': 'input-slider'
-            }}
-          />
+          {/*<Input*/}
+          {/*  value={value}*/}
+          {/*  size="small"*/}
+          {/*  disabled={disabled}*/}
+          {/*  onChange={handleInputChange}*/}
+          {/*  onBlur={handleBlur}*/}
+          {/*  inputProps={{*/}
+          {/*    step: 1,*/}
+          {/*    min: 0,*/}
+          {/*    max: max,*/}
+          {/*    type: 'number',*/}
+          {/*    'aria-labelledby': 'input-slider'*/}
+          {/*  }}*/}
+          {/*/>*/}
         </Grid>
       </Grid>
     </Box>

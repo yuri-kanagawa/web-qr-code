@@ -2,7 +2,7 @@ import { UploadFile } from '@/ui/cores/uploadFile/UploadFile'
 import { convertBase64ToFile, convertImageToBase64 } from '@/utils/file'
 import React, { FC } from 'react'
 import { useQrcode } from '@/hooks'
-import { Stack } from '@mui/material'
+import { Box, Stack } from '@mui/material'
 import { HeightSlider, WidthSlider } from '@/ui/cores/slider'
 import { height } from '@mui/system'
 import { memo, useCallback } from 'react'
@@ -13,18 +13,29 @@ type Props = {
   logHeight: number
   setLogoWidth: (value: number) => void
   setLogoHeight: (value: number) => void
+  max?: number
 }
 
 export const ImageForm: FC<Props> = memo(
-  ({ file, setFile, setLogoHeight, setLogoWidth, logHeight, logWidth }) => {
+  ({
+    file,
+    setFile,
+    setLogoHeight,
+    setLogoWidth,
+    logHeight,
+    logWidth,
+    max
+  }) => {
     const isRelationFileDisabled = file == null
+
     return (
-      <Stack spacing={8}>
+      <Stack spacing={2}>
         <Stack direction={'row'}>
           <HeightSlider
             value={logHeight}
             onChange={setLogoHeight}
             disabled={isRelationFileDisabled}
+            max={max}
           >
             <UploadFile
               file={file}
@@ -36,11 +47,14 @@ export const ImageForm: FC<Props> = memo(
             />
           </HeightSlider>
         </Stack>
-        <WidthSlider
-          value={logWidth}
-          onChange={setLogoWidth}
-          disabled={isRelationFileDisabled}
-        />
+        <Box sx={{ pl: 2 }}>
+          <WidthSlider
+            value={logWidth}
+            onChange={setLogoWidth}
+            disabled={isRelationFileDisabled}
+            max={max}
+          />
+        </Box>
       </Stack>
     )
   }

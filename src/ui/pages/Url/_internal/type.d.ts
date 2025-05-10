@@ -3,5 +3,5 @@ export type Props = {
   file: File | null
   setFile: (value: File | null) => void
   onDownload: () => void
-  onConfirm: () => void
+  onConfirm: () => Promise<string | undefined>
 }

@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import React, { FC } from 'react'
 import {
   Button,
   Dialog,
@@ -16,7 +16,7 @@ type Props = {
 }
 
 export const QrSizeDialog: FC<Props> = ({ isOpen, onClose }) => {
-  const {} = useQrcode()
+  const { size, setSize } = useQrcode()
   return (
     <Dialog
       open={isOpen}
@@ -26,7 +26,17 @@ export const QrSizeDialog: FC<Props> = ({ isOpen, onClose }) => {
     >
       <DialogTitle id="alert-dialog-title">{'サイズ'}</DialogTitle>
       <DialogContent>
-        <TextField></TextField>
+        <TextField
+          value={size}
+          inputProps={{
+            style: { textAlign: 'right' } // これを追加すると確実に右寄せされる
+          }}
+          onChange={(event) => {
+            const value = Number(event.currentTarget.value)
+
+            setSize(value)
+          }}
+        />
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose}>Disagree</Button>

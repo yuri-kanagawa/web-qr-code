@@ -79,7 +79,7 @@ export const useUrlQRCodeForm = () => {
     setFile,
     file,
     ref,
-    onConfirm: handleSubmit(onConfirm, submitErrorHandler),
+    onConfirm,
     onDownload: handleSubmit(onDownload, submitErrorHandler),
     ...rest
   }
