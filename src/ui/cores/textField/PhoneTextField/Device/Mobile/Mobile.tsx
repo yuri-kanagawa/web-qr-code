@@ -10,12 +10,17 @@ import {
 type Props = PhoneProps
 
 export const Mobile: FC<Props> = ({ cellPhone, homePhone, workPhone, fax }) => {
+  const isMulti = !!cellPhone && !!homePhone && !!workPhone && !!fax
   return (
     <>
-      <CellPhoneTextField {...cellPhone} />
-      <HomePhoneTextField {...homePhone} />
-      <FaxTextField {...fax} />
-      <WorkPhoneTextField {...workPhone} />
+      {isMulti && (
+        <>
+          <CellPhoneTextField {...cellPhone} />
+          <HomePhoneTextField {...homePhone} />
+          <FaxTextField {...fax} />
+          <WorkPhoneTextField {...workPhone} />
+        </>
+      )}
     </>
   )
 }

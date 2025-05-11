@@ -4,7 +4,7 @@ import {
   NameTextField,
   OrganizationForm,
   PhoneTextField,
-  UrlForm
+  UrlTextField
 } from '../../../../cores/textField'
 import { useQrcode } from '@/hooks'
 
@@ -63,7 +63,7 @@ export const QrValue: FC<Props> = ({}) => {
       />
       <EmailTextField value={email} onChange={setEmail} />
       {/*<OrganizationForm />*/}
-      <UrlForm />
+      <UrlTextField />
     </>
   )
 }

@@ -20,13 +20,20 @@ export const useEmailQRCodeForm = () => {
     }
   }, [email])
 
-  const { handleSubmit, reset, control, watch, formState, setFocus, ...rest } =
-    useForm<RegisterQrCodeEmailSchema>({
-      resolver: zodResolver(registerQrCodeEmailSchema),
-      mode: 'onChange',
-      reValidateMode: 'onSubmit',
-      defaultValues
-    })
+  const {
+    handleSubmit,
+    reset,
+    control,
+    watch,
+    formState: { errors, isValid },
+    setFocus,
+    ...rest
+  } = useForm<RegisterQrCodeEmailSchema>({
+    resolver: zodResolver(registerQrCodeEmailSchema),
+    mode: 'onChange',
+    reValidateMode: 'onSubmit',
+    defaultValues
+  })
 
   useEffect(() => {
     reset(defaultValues)
@@ -41,19 +48,25 @@ export const useEmailQRCodeForm = () => {
     }
   }
   const currentEmail = watch('email')
-  const errors = formState.errors.email
+
   useEffect(() => {
-    if (errors) return
+    if (errors.email) return
     addQueryParameter({ email: currentEmail })
   }, [errors, currentEmail])
-
+  const handleConfirm = async (): Promise<string | undefined> => {
+    if (!isValid) {
+      submitErrorHandler(errors)
+      return
+    }
+    return await onConfirm()
+  }
   return {
     control,
     watch,
     setFile,
     file,
     ref,
-    onConfirm: handleSubmit(onConfirm, submitErrorHandler),
+    onConfirm: handleConfirm,
     onDownload: handleSubmit(onDownload, submitErrorHandler),
     ...rest
   }

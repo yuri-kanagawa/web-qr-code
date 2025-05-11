@@ -1,15 +1,16 @@
 'use client'
-import React, { FC } from 'react'
+import React, { FC, useState } from 'react'
 import { PageWrapper } from '@/ui/fragments/pageWrapper'
-import { TextField } from '@mui/material'
-import { EmailTextField } from '@/ui/cores/textField'
+
+import { PhoneForm } from './internal'
 
 type Props = {}
 
 export const PhonePage: FC<Props> = ({}) => {
+  const [value, setValue] = useState('')
   return (
     <PageWrapper>
-      <EmailTextField value={''} onChange={() => console.log()} />
+      <PhoneForm />
     </PageWrapper>
   )
 }

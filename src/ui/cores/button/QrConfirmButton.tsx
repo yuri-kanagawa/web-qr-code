@@ -1,29 +1,17 @@
-import React, {
-  FC,
-  MutableRefObject,
-  RefObject,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState
-} from 'react'
+import React, { FC, useCallback, useMemo, useState } from 'react'
 import {
   Button,
   Dialog,
   DialogActions,
   DialogContent,
-  DialogTitle,
   Stack,
   Typography
 } from '@mui/material'
-import QrScanner from 'qr-scanner'
-import { useNotify } from '@/hooks/useNotify'
-import { extractPngDataUrl, isUrl } from '@/utils/qr'
-import { useQrScanner } from '@/hooks/useQrScanner'
+import { isUrl } from '@/utils/qr'
 import { useDisclosure } from '@/hooks/useDisclosure'
 
 type Props = {
-  onClick: () => Promise<string | undefined>
+  onClick?: () => Promise<string | undefined>
   isValid?: boolean
 }
 
@@ -31,7 +19,13 @@ export const QrConfirmButton: FC<Props> = ({ onClick, isValid = true }) => {
   const { onOpen, onClose, isOpen } = useDisclosure()
   const [qrValue, setQrValue] = useState('')
   const onConfirm = async () => {
+    console.log('onConfirm', onConfirm)
+    if (!onClick) {
+      return
+    }
+    console.log('onConfirfasdfsm')
     const result = await onClick()
+    console.log('result', result)
     if (!result) {
       return
     }
@@ -47,7 +41,7 @@ export const QrConfirmButton: FC<Props> = ({ onClick, isValid = true }) => {
   }, [qrValue])
 
   const getText = (value: string) => {
-    if (isUrl(qrValue)) {
+    if (isUrl(value)) {
       return 'このqrcodeは url です\n別タブで開きますか？'
     }
     return ''
@@ -82,9 +76,11 @@ export const QrConfirmButton: FC<Props> = ({ onClick, isValid = true }) => {
 
   return (
     <>
-      <Button variant={'contained'} onClick={onConfirm} disabled={!isValid}>
-        Confirm
-      </Button>
+      {onClick && (
+        <Button variant={'contained'} onClick={onConfirm} disabled={!isValid}>
+          Confirm
+        </Button>
+      )}
       <Dialog onClose={onClose} open={isOpen}>
         {/*<DialogTitle id="alert-dialog-title">{display?.title}</DialogTitle>*/}
         <DialogContent>

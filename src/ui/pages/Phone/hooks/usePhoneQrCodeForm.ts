@@ -1,31 +1,24 @@
-import { zodResolver } from '@hookform/resolvers/zod'
+import { useNotify, useQrcode, useQrScanner } from '@/hooks'
+import { RegisterQrCodeUrlSchema } from '@/ui/pages/Url/hooks'
+import { useEffect, useMemo } from 'react'
+import {
+  registerQrCodePhoneSchema,
+  RegisterQrCodePhoneSchema
+} from '@/ui/pages/Phone/hooks/zod'
 import { SubmitErrorHandler, SubmitHandler, useForm } from 'react-hook-form'
-import {
-  RegisterQrCodeUrlSchema,
-  registerQrCodeUrlSchema
-} from '@/ui/pages/Url/_hooks/validation'
-
-import { MutableRefObject, useEffect, useMemo, useRef } from 'react'
-
-import { useNotify } from '@/hooks/useNotify'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { extractPngDataUrl } from '@/utils/qr'
-import { useQrScanner } from '@/hooks/useQrScanner'
-import {
-  addQueryParameter,
-  removeQueryParamFromCurrentURL
-} from '@/utils/queryParameter'
-import { isValidUrl } from '@/utils/regexp'
-import { useQrcode } from '@/hooks'
+import { addQueryParameter } from '@/utils/queryParameter'
 
-export const useUrlQRCodeForm = () => {
-  const { url, setUrl, ref, setFile, file, onConfirm, onDownload } = useQrcode()
+export const usePhoneQrCodeForm = () => {
+  const { cellPhone, setUrl, ref, setFile, file, onConfirm, onDownload } =
+    useQrcode()
 
-  const defaultValues: RegisterQrCodeUrlSchema = useMemo(() => {
+  const defaultValues: RegisterQrCodePhoneSchema = useMemo(() => {
     return {
-      url
+      phoneNumber: cellPhone
     }
-  }, [url])
-
+  }, [cellPhone])
   const {
     handleSubmit,
     reset,
@@ -35,13 +28,11 @@ export const useUrlQRCodeForm = () => {
     formState: { errors, isValid },
     setFocus,
     ...rest
-  } = useForm<RegisterQrCodeUrlSchema>({
-    resolver: zodResolver(registerQrCodeUrlSchema),
+  } = useForm<RegisterQrCodePhoneSchema>({
+    defaultValues,
     mode: 'onChange',
-    reValidateMode: 'onSubmit',
-    defaultValues
+    resolver: zodResolver(registerQrCodePhoneSchema)
   })
-
   useEffect(() => {
     reset(defaultValues)
   }, [defaultValues, reset])
@@ -50,10 +41,10 @@ export const useUrlQRCodeForm = () => {
 
   const { trigger } = useQrScanner()
 
-  const submitHandler: SubmitHandler<RegisterQrCodeUrlSchema> = async (
+  const submitHandler: SubmitHandler<RegisterQrCodePhoneSchema> = async (
     data
   ) => {
-    setUrl(data.url)
+    setUrl(data.phoneNumber)
 
     successNotify('作成しました')
     const qrData = extractPngDataUrl(ref)
@@ -70,15 +61,15 @@ export const useUrlQRCodeForm = () => {
   ) => {
     console.error(errors)
     if (errors.url) {
-      return setFocus('url')
+      return setFocus('phoneNumber')
     }
   }
-  const currentUrl = watch('url')
+  const currentUrl = watch('phoneNumber')
 
   useEffect(() => {
-    if (errors.url) return
+    if (errors.phoneNumber) return
     addQueryParameter({ url: currentUrl })
-  }, [errors.url, currentUrl])
+  }, [errors.phoneNumber, currentUrl])
   const handleConfirm = async (): Promise<string | undefined> => {
     if (!isValid) {
       submitErrorHandler(errors)

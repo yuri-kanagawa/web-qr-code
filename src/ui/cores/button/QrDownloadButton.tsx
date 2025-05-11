@@ -7,8 +7,12 @@ type Props = {
 
 export const QrDownloadButton: FC<Props> = ({ onClick, isValid = true }) => {
   return (
-    <Button variant="contained" onClick={onClick} disabled={!isValid}>
-      Download
-    </Button>
+    <>
+      {onClick && (
+        <Button variant="contained" onClick={onClick} disabled={!isValid}>
+          Download
+        </Button>
+      )}
+    </>
   )
 }

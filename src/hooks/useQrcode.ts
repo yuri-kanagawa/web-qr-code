@@ -220,6 +220,7 @@ export const useQrcode = () => {
 
       const pngDataUrl = canvas.toDataURL('image/png')
       const result = await isUsableQRCode(pngDataUrl)
+      console.log('fadsfa', result)
       if (!result) return
       return result.data
       // const qrData = result.data

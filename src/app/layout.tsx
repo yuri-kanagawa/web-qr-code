@@ -3,7 +3,7 @@ import { Inter } from 'next/font/google'
 import { UrlPage } from '@/ui/pages/Url/UrlPage'
 import Home from '@/app/page'
 import React from 'react'
-
+import { headers } from 'next/headers'
 const inter = Inter({ subsets: ['latin'] })
 
 import { colors } from '@/constants'
@@ -18,8 +18,11 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const headersList = headers()
+  const acceptLanguage = headersList.get('accept-language') || 'en'
+  const lang = acceptLanguage.split(',')[0]
   return (
-    <html lang="en">
+    <html lang={lang}>
       <head></head>
       <body
         style={{

@@ -78,7 +78,7 @@ export const HeightSlider: FC<Props> = ({
           min={1}
           marks={[
             { value: 1, label: 1 },
-            { value: max, label: max }
+            ...(max ? [{ value: max, label: max }] : [])
           ]}
           valueLabelDisplay="auto"
         />
