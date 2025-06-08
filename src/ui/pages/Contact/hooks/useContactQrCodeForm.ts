@@ -10,7 +10,6 @@ import { useQrCode } from '@/hooks'
 export function useContactQrCodeForm() {
   const { ref, onConfirm, onDownload } = useQrCode()
   const defaultValues: RegisterQrCodeContactSchema = {
-    fullName: '',
     firstName: '',
     lastName: '',
     middleName: '',
@@ -23,7 +22,7 @@ export function useContactQrCodeForm() {
     address: '',
     url: ''
   }
-  const { handleSubmit, setFocus, getFieldState,formState: {isValid} , ...rest } = useForm<RegisterQrCodeContactSchema>({
+  const { handleSubmit, setFocus, getFieldState, ...rest } = useForm<RegisterQrCodeContactSchema>({
     defaultValues,
     resolver: zodResolver(registerQrCodeContactSchema),
     mode: 'onChange'

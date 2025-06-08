@@ -1,4 +1,4 @@
-import { Button } from '@mui/material'
+import { Button } from '@/ui/cores'
 import React, { FC, MutableRefObject, RefObject, useCallback } from 'react'
 type Props = {
   onClick?: () => void

@@ -6,19 +6,27 @@ import {
   PhoneTextField,
   UrlTextField
 } from '../../../../fragments/textField'
-import { useQrCode } from '@/hooks'
+
 import { useContactQrCodeForm } from '../../hooks'
 import { Controller } from 'react-hook-form'
 import { FormButton } from '@/ui/fragments/form/FormButton'
+import { convertContact } from '../../hooks/utils'
 
 export const ContactForm: FC<Props> = ({}) => {
-  const { control, onConfirm, onDownload, ref } = useContactQrCodeForm()
+  const {
+    control,
+    onConfirm,
+    onDownload,
+    ref,
+    watch,
+    formState: { isValid }
+  } = useContactQrCodeForm()
   return (
     <FormButton
       onConfirm={onConfirm}
       onDownload={onDownload}
-      value={'Download QR Code'}
-      isValid={true}
+      value={convertContact(watch())}
+      isValid={isValid}
       ref={ref}
     >
       <Controller

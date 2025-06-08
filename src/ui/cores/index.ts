@@ -1,4 +1,5 @@
 export * from './button'
+export * from './dialog'
 export * from './FormControl'
 export * from './Grid'
 export * from './Box'

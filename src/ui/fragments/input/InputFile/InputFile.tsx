@@ -1,22 +1,12 @@
-import {
-  Box,
-  BoxProps,
-  Button,
-  IconButton,
-  Input,
-  Stack,
-  TextField,
-  Typography
-} from '@mui/material'
+import { IconButton, Input } from '@mui/material'
 
 import { FC, useEffect, useRef, useState } from 'react'
 import { IoCloudUploadOutline } from 'react-icons/io5'
 import { useSearchParams } from 'next/navigation'
 import { convertImageToBase64 } from '@/utils/file'
 import { CornerHighlightBox } from '@/ui/fragments/box'
-import { addQueryParameter } from '@/utils/queryParameter'
-import { CgRemoveR } from 'react-icons/cg'
 import { TiDelete } from 'react-icons/ti'
+import { Box, BoxProps, Button, Stack, TextField } from '@/ui/cores'
 
 type Props = {
   file: File | null
@@ -99,10 +89,10 @@ export const InputFile: FC<Props> = ({ file, onChange, message, ...props }) => {
           )}
           {image && (
             <>
-              <Box
-                component="img"
+              <img
                 src={image}
-                sx={{
+                alt="uploaded image"
+                style={{
                   width: '100%',
                   height: '100%',
                   objectFit: 'cover'

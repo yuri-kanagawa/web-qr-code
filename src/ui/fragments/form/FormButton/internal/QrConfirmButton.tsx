@@ -16,7 +16,7 @@ type Props = {
   isValid?: boolean
 }
 
-export const ConfirmButton: FC<Props> = ({ onClick, isValid = true }) => {
+export const QrConfirmButton: FC<Props> = ({ onClick, isValid = true }) => {
   const { onOpen, onClose, isOpen } = useDisclosure()
   const [qrValue, setQrValue] = useState('')
 

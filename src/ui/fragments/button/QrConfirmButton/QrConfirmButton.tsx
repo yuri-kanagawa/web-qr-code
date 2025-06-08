@@ -1,17 +1,20 @@
-import { FC } from 'react'
-import { ConfirmButton } from './internal/ConfirmButton'
+import { FC, useState } from 'react'
+import { QrFileCheckButton } from './internal'
 import { QrInformationDialog } from './internal/QrInformationDialog'
 
 type Props = {
-  onClick?: () => Promise<string | undefined>
+  file: File | null
   isValid?: boolean
-  value: string
 }
-export const QrConfirmButton: FC<Props> = ({ onClick, isValid, value }) => {
+export const QrConfirmButton: FC<Props> = ({ file, isValid }) => {
+  const [qrInformation, setQrInformation] = useState('')
   return (
     <>
-      <ConfirmButton onClick={onClick} isValid={isValid} />
-      {/* <QrInformationDialog qrInformation={value} setQrInformation={setQrInformation} /> */}
+      <QrFileCheckButton file={file} setQrInformation={setQrInformation} />
+      <QrInformationDialog
+        qrInformation={qrInformation}
+        setQrInformation={setQrInformation}
+      />
     </>
   )
 }

@@ -1,4 +1,6 @@
 import { FC, useMemo } from 'react'
+import { isSms } from '@/ui/pages/Sms/hooks/utils'
+import { isUrl } from '@/ui/pages/Url/hooks/utils'
 import {
   Button,
   Dialog,
@@ -6,9 +8,7 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle
-} from '@mui/material'
-import { isSms } from '@/ui/pages/Sms/hooks/utils'
-import { isUrl } from '@/ui/pages/Url/hooks/utils'
+} from '@/ui/cores'
 
 type Props = {
   qrInformation: string

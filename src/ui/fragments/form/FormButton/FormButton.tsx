@@ -4,9 +4,8 @@ import { OptionalForm } from '@/ui/fragments/form'
 
 import { useWindowSize } from '@/hooks'
 import { Box, Stack } from '@/ui/cores'
-// import { QrConfirmButton } from '../../button/QrConfirmButton'
-// import { QrDownloadButton } from '../../button'
-// import GeneratedQrCode from '@/ui/fragments/qrCode/GeneratedQrCode/GeneratedQrCode'
+import { QrDownloadButton, QrConfirmButton } from './internal'
+import GeneratedQrCode from '../../qrCode/GeneratedQrCode/GeneratedQrCode'
 
 type Props = {
   children: ReactNode
@@ -18,8 +17,9 @@ type Props = {
 
 export const FormButton = React.forwardRef<HTMLDivElement, Props>(
   ({ children, onConfirm, onDownload, value, isValid }, ref) => {
-    const { height, width } = useWindowSize()
+    const { height, width, isLessLaptop } = useWindowSize()
     const [file, setFile] = useState<File | null>(null)
+
     return (
       <Box
         sx={{
@@ -39,7 +39,6 @@ export const FormButton = React.forwardRef<HTMLDivElement, Props>(
                 boxSizing: 'border-box',
                 overflowY: 'auto',
                 width: {
-                  xs: width / 3 - 30, // スマホ～タブレット未満の幅
                   lg: 450 // ラップトップ以上の幅
                 }
               }}
@@ -55,6 +54,15 @@ export const FormButton = React.forwardRef<HTMLDivElement, Props>(
                 zIndex: 1
               }}
             >
+              {isLessLaptop && (
+                <GeneratedQrCode
+                  ref={ref}
+                  value={value}
+                  file={file}
+                  isValid={isValid}
+                  showHiddenIcon={true}
+                />
+              )}
               <Stack
                 direction={'row'}
                 spacing={2}
@@ -63,19 +71,21 @@ export const FormButton = React.forwardRef<HTMLDivElement, Props>(
                 pt={4}
                 pb={2}
               >
-                {/* <QrConfirmButton onClick={onConfirm} />
-                <QrDownloadButton onClick={onDownload} /> */}
+                <QrConfirmButton onClick={onConfirm} />
+                <QrDownloadButton onClick={onDownload} />
               </Stack>
             </Stack>
           </Box>
-          <Stack sx={{ pb: 4 }}>
-            {/* <GeneratedQrCode
-              ref={ref}
-              value={value}
-              file={file}
-              isValid={isValid}
-            /> */}
-          </Stack>
+          {!isLessLaptop && (
+            <Stack sx={{ pb: 4 }}>
+              <GeneratedQrCode
+                ref={ref}
+                value={value}
+                file={file}
+                isValid={isValid}
+              />
+            </Stack>
+          )}
         </Stack>
       </Box>
     )

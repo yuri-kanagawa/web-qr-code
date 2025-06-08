@@ -6,15 +6,18 @@ import { useQrCode, useWindowSize } from '@/hooks'
 
 import { CornerHighlightBox } from '@/ui/fragments/box'
 import { QRCode, Stack } from '@/ui/cores'
+import { IoEyeOffOutline, IoEyeOutline } from 'react-icons/io5'
+import { IconButton } from '@mui/material'
 
 type Props = {
   file: File | null
   value: string
   isValid?: boolean
+  showHiddenIcon?: boolean
 }
 
 const GeneratedQrCode = React.forwardRef<HTMLDivElement, Props>(
-  ({ value, file, isValid }, ref) => {
+  ({ value, file, isValid, showHiddenIcon = false }, ref) => {
     const {
       ecLevel,
       enableCORS,
@@ -61,32 +64,64 @@ const GeneratedQrCode = React.forwardRef<HTMLDivElement, Props>(
         setLogoImage(undefined)
       }
     }, [file])
-
+    const [hidden, setHidden] = useState(false)
+    useEffect(() => {
+      if (!showHiddenIcon) {
+        setHidden(false)
+      }
+    }, [showHiddenIcon])
     return (
-      <Stack p={4}>
-        <CornerHighlightBox height={maxSize + 50} width={maxSize + 50}>
-          <div ref={ref}>
-            {isValid && value && (
-              <QRCode
-                value={value}
-                size={size}
-                bgColor={bgColor}
-                fgColor={fgColor}
-                ecLevel={ecLevel}
-                logoImage={logoImage}
-                logoWidth={logoWidth}
-                logoHeight={logoHeight}
-                logoOpacity={logoOpacity}
-                eyeRadius={[eyeRadius1, eyeRadius2, eyeRadius3]}
-                eyeColor={[eyeColor1, eyeColor2, eyeColor3]}
-                logoPaddingStyle={logoPaddingStyle}
-                logoPadding={9}
-                enableCORS={enableCORS}
-              />
-            )}
-          </div>
-        </CornerHighlightBox>
-      </Stack>
+      <>
+        {!hidden && (
+          <Stack p={4}>
+            <CornerHighlightBox height={maxSize + 50} width={maxSize + 50}>
+              <div ref={ref} style={{ position: 'relative' }}>
+                {isValid && value && (
+                  <>
+                    <QRCode
+                      value={value}
+                      size={size}
+                      bgColor={bgColor}
+                      fgColor={fgColor}
+                      ecLevel={ecLevel}
+                      logoImage={logoImage}
+                      logoWidth={logoWidth}
+                      logoHeight={logoHeight}
+                      logoOpacity={logoOpacity}
+                      eyeRadius={[eyeRadius1, eyeRadius2, eyeRadius3]}
+                      eyeColor={[eyeColor1, eyeColor2, eyeColor3]}
+                      logoPaddingStyle={logoPaddingStyle}
+                      logoPadding={9}
+                      enableCORS={enableCORS}
+                    />
+                    {showHiddenIcon && (
+                      <IconButton
+                        onClick={() => setHidden(!hidden)}
+                        sx={{
+                          position: 'absolute',
+                          top: -12,
+                          right: -12,
+                          backgroundColor: 'white',
+                          '&:hover': {
+                            backgroundColor: 'white'
+                          }
+                        }}
+                      >
+                        <IoEyeOffOutline size={24} />
+                      </IconButton>
+                    )}
+                  </>
+                )}
+              </div>
+            </CornerHighlightBox>
+          </Stack>
+        )}
+        {hidden && (
+          <IconButton onClick={() => setHidden(!hidden)}>
+            <IoEyeOutline size={24} />
+          </IconButton>
+        )}
+      </>
     )
   }
 )

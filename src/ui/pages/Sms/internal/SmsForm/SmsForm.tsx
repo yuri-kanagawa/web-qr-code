@@ -28,6 +28,7 @@ export const SmsForm: FC<Props> = () => {
       isValid={isValid}
       ref={ref}
     >
+      <></>
       <Controller
         control={control}
         name="phoneNumber"
