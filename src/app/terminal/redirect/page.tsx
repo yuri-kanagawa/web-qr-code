@@ -1,12 +1,10 @@
 'use client'
-import { PageWrapper } from '../../../ui/fragments/pageWrapper'
+
 import { useEffect } from 'react'
-import { detectDevice } from '@/domain/device'
-import { useSearchParams } from 'next/navigation'
-import { useQrcode } from '@/hooks'
+import { useQrCode } from '@/hooks'
 
 export default function Page() {
-  const { deviceOsIndex, urls } = useQrcode()
+  const { deviceOsIndex, urls } = useQrCode()
   useEffect(() => {
     console.log(deviceOsIndex, urls)
     let url = urls[deviceOsIndex]

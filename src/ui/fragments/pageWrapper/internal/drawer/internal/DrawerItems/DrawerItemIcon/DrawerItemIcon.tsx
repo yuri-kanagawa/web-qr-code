@@ -1,17 +1,15 @@
 import { FC, ReactNode } from 'react'
-import Link from 'next/link'
-import { path } from '@/config/path'
+
+import { usePathname } from 'next/navigation'
+import { colors } from '@/constants'
+import { useSidebar } from '@/stores'
 import {
+  Link,
   ListItem,
   ListItemButton,
   ListItemIcon,
   ListItemText
-} from '@mui/material'
-import PhoneIcon from '@mui/icons-material/Phone'
-import { usePathname } from 'next/navigation'
-import { colors } from '@/constants'
-import { auto } from '@popperjs/core'
-import { useSidebar } from '@/stores'
+} from '@/ui/cores'
 
 type Props = {
   icon: ReactNode

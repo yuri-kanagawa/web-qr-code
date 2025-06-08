@@ -1,7 +1,6 @@
 import React, { FC } from 'react'
-import { Step01Slider } from '@/ui/cores/slider'
-import { useQrcode } from '@/hooks'
-import { TextField } from '@mui/material'
+import { Step01Slider } from '@/ui/fragments/slider'
+import { useQrCode } from '@/hooks'
 
 type Props = {
   file: File | null
@@ -9,7 +8,7 @@ type Props = {
 
 export const Opacity: FC<Props> = ({ file }) => {
   const isRelationFileDisabled = file == null
-  const { logoOpacity, setLogoOpacity } = useQrcode()
+  const { logoOpacity, setLogoOpacity } = useQrCode()
   return (
     <>
       {/*<TextField*/}

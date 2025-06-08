@@ -4,13 +4,12 @@ import React, { FC, useEffect } from 'react'
 import { RegisterQrCodeUrlSchema, useUrlQRCodeForm } from '../../hooks'
 
 import { FormButton } from '@/ui/fragments/form/FormButton'
-import { UrlTextField } from '@/ui/cores/textField'
+import { UrlTextField } from '@/ui/fragments/textField'
 
 type Props = {}
 
 export const UrlForm: FC<Props> = ({}) => {
-  const { file, setFile, control, onConfirm, onDownload, ref } =
-    useUrlQRCodeForm()
+  const { control, onConfirm, onDownload, ref } = useUrlQRCodeForm()
 
   return (
     <Controller
@@ -22,8 +21,6 @@ export const UrlForm: FC<Props> = ({}) => {
         fieldState
       }) => (
         <FormButton
-          setFile={setFile}
-          file={file}
           onConfirm={onConfirm}
           onDownload={onDownload}
           value={value}

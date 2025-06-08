@@ -1,12 +1,12 @@
 import React, { FC, useMemo } from 'react'
 import { Slider, Stack, TextField } from '@mui/material'
-import { useQrcode, useWindowSize } from '@/hooks'
+import { useQrCode, useWindowSize } from '@/hooks'
 
 type Props = {}
 
 export const Size: FC<Props> = ({}) => {
   const { height, width } = useWindowSize()
-  const { size, setSize } = useQrcode()
+  const { size, setSize } = useQrCode()
   const maxSize = useMemo(() => {
     if (height < width) {
       return height - 150

@@ -4,26 +4,23 @@ import { SubmitErrorHandler, SubmitHandler, useForm } from 'react-hook-form'
 import { useEffect, useMemo } from 'react'
 
 import { addQueryParameter } from '@/utils/queryParameter'
-import { useQrcode } from '@/hooks'
-import {
-  RegisterQrCodeEmailSchema,
-  registerQrCodeEmailSchema
-} from './validation'
+import { useQrCode } from '@/hooks'
+import { RegisterQrCodeEmailSchema, registerQrCodeEmailSchema } from './zod'
 
 export const useEmailQRCodeForm = () => {
-  const { email, setEmail, ref, setFile, file, onConfirm, onDownload } =
-    useQrcode()
+  const {ref, onConfirm, onDownload } = useQrCode()
 
   const defaultValues: RegisterQrCodeEmailSchema = useMemo(() => {
     return {
-      email
+      email: '',
+      subject: '',
+      body: ''
     }
-  }, [email])
+  }, [])
 
   const {
     handleSubmit,
     reset,
-    control,
     watch,
     formState: { errors, isValid },
     setFocus,
@@ -61,10 +58,6 @@ export const useEmailQRCodeForm = () => {
     return await onConfirm()
   }
   return {
-    control,
-    watch,
-    setFile,
-    file,
     ref,
     onConfirm: handleConfirm,
     onDownload: handleSubmit(onDownload, submitErrorHandler),

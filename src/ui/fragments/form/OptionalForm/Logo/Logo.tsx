@@ -1,6 +1,6 @@
 import React, { FC } from 'react'
 import { ImageForm } from '@/ui/fragments/form/OptionalForm/ImageForm/ImageForm'
-import { useQrcode } from '@/hooks'
+import { useQrCode } from '@/hooks'
 
 type Props = {
   file: File | null
@@ -9,7 +9,7 @@ type Props = {
 
 export const Logo: FC<Props> = ({ file, setFile }) => {
   const { size, logoHeight, setLogoWidth, logoWidth, setLogoHeight } =
-    useQrcode()
+    useQrCode()
   return (
     <ImageForm
       file={file}

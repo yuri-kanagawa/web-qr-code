@@ -7,7 +7,6 @@ import { PhoneForm } from './internal'
 type Props = {}
 
 export const PhonePage: FC<Props> = ({}) => {
-  const [value, setValue] = useState('')
   return (
     <PageWrapper>
       <PhoneForm />

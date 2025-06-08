@@ -2,19 +2,19 @@ import React, { FC } from 'react'
 import { useEmailQRCodeForm } from '@/ui/pages/Email/hooks'
 import { Controller, useFormState, useWatch } from 'react-hook-form'
 import { FormButton } from '@/ui/fragments/form/FormButton'
-import { formatEmail, formatPhoneNumberForTel } from '@/utils/qr'
+
 import {
   BodyTextField,
   EmailTextField,
   PhoneTextField,
   SubjectTextField
-} from '@/ui/cores/textField'
+} from '@/ui/fragments/textField'
+import { formatEmail } from '../../hooks/utils'
 
 type Props = {}
 
 export const EmailForm: FC<Props> = () => {
-  const { control, setFile, ref, file, onDownload, onConfirm } =
-    useEmailQRCodeForm()
+  const { control, ref, onDownload, onConfirm } = useEmailQRCodeForm()
   const { isValid: emailIsValid } = useFormState({ control, name: 'email' })
   const {} = useFormState({ control, name: 'subject' })
   const {} = useFormState({ control, name: 'body' })
@@ -24,8 +24,6 @@ export const EmailForm: FC<Props> = () => {
   return (
     <>
       <FormButton
-        setFile={setFile}
-        file={file}
         onConfirm={onConfirm}
         onDownload={onDownload}
         value={formatEmail({ email, subject, body })}

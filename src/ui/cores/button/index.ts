@@ -1,2 +1,2 @@
-export * from './QrDownloadButton'
-export * from './QrConfirmButton'
+export * from './Button'
+

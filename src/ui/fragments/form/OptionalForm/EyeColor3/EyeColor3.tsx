@@ -1,12 +1,12 @@
 import {
   LeftBottomQrFinderPattern,
   LeftTopQrFinderPattern
-} from '@/ui/cores/qrcode'
+} from '@/ui/fragments/qrCode'
 import React, { FC } from 'react'
-import { useQrcode } from '@/hooks'
+import { useQrCode } from '@/hooks'
 type Props = {}
 export const EyeColor3: FC<Props> = () => {
-  const { eyeColor3, setEyeColor3 } = useQrcode()
+  const { eyeColor3, setEyeColor3 } = useQrCode()
   return (
     <LeftBottomQrFinderPattern
       eyeColor3={eyeColor3}

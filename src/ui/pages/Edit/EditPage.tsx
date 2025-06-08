@@ -1,17 +1,17 @@
 'use client'
 import React, { FC } from 'react'
-import { useQrcode } from '@/hooks'
+import { useQrCode } from '@/hooks'
 import { PageWrapper } from '../../fragments/pageWrapper'
 import { TextField } from '@mui/material'
-import { UploadFile } from '@/ui/cores/uploadFile/UploadFile'
+import { UploadFile } from '@/ui/fragments/input/InputFile/InputFile'
 
 type Props = {}
 
 export const EditPage: FC<Props> = ({}) => {
-  const { file, setFile } = useQrcode()
+  const {} = useQrCode()
   return (
     <PageWrapper>
-      <UploadFile file={file} onChange={setFile} />
+      <></>
     </PageWrapper>
   )
 }

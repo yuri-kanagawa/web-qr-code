@@ -1,11 +1,11 @@
 import React, { FC } from 'react'
 import { MuiColorInput } from 'mui-color-input'
-import { useQrcode, useWindowSize } from '@/hooks'
+import { useQrCode, useWindowSize } from '@/hooks'
 
 type Props = {}
 
 export const FgColor: FC<Props> = () => {
-  const { fgColor, setFgColor } = useQrcode()
+  const { fgColor, setFgColor } = useQrCode()
   const { height, width } = useWindowSize()
   return (
     <MuiColorInput

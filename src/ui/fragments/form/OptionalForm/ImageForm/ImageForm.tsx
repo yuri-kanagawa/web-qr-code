@@ -1,9 +1,9 @@
-import { UploadFile } from '@/ui/cores/uploadFile/UploadFile'
+import { InputFile } from '@/ui/fragments/input/InputFile/InputFile'
 import { convertBase64ToFile, convertImageToBase64 } from '@/utils/file'
 import React, { FC } from 'react'
-import { useQrcode } from '@/hooks'
+
 import { Box, Stack } from '@mui/material'
-import { HeightSlider, WidthSlider } from '@/ui/cores/slider'
+import { HeightSlider, WidthSlider } from '@/ui/fragments/slider'
 import { height } from '@mui/system'
 import { memo, useCallback } from 'react'
 type Props = {
@@ -37,7 +37,7 @@ export const ImageForm: FC<Props> = memo(
             disabled={isRelationFileDisabled}
             max={max}
           >
-            <UploadFile
+            <InputFile
               file={file}
               onChange={async (value) => {
                 setFile(value)

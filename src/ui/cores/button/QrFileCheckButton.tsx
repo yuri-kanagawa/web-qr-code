@@ -1,7 +1,9 @@
 import { Button } from '@mui/material'
 import { FC, MutableRefObject, useCallback } from 'react'
-import { extractPngDataUrl, isSms, isUrl } from '@/utils/qr'
+
 import { useNotify, useQrScanner } from '@/hooks'
+import { isUrl } from '@/ui/pages/Url/hooks/utils'
+import { isSms } from '@/ui/pages/Sms/hooks'
 
 type Props = {
   file: File | null
@@ -20,11 +22,6 @@ export const QrFileCheckButton: FC<Props> = ({ file, setQrInformation }) => {
       const result = await trigger(objectUrl)
 
       setQrInformation(result.data)
-      // if (isUrl(qrData)) {
-      //   return window.open(qrData)
-      // } else if (isSms(qrData)) {
-      //   return (window.location.href = qrData)
-      // }
     } catch (error) {
       errorNotify('読み込めない')
     }

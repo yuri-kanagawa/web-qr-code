@@ -1,15 +1,15 @@
-import React, { FC, ReactNode } from 'react'
-import { Box, Stack } from '@mui/material'
+import React, { FC, ReactNode, useState } from 'react'
 
 import { OptionalForm } from '@/ui/fragments/form'
-import { QrConfirmButton, QrDownloadButton } from '@/ui/cores/button'
-import GeneratedQrcode from '@/ui/cores/qrcode/GeneratedQrcode/GeneratedQrcode'
+
 import { useWindowSize } from '@/hooks'
+import { Box, Stack } from '@/ui/cores'
+// import { QrConfirmButton } from '../../button/QrConfirmButton'
+// import { QrDownloadButton } from '../../button'
+// import GeneratedQrCode from '@/ui/fragments/qrCode/GeneratedQrCode/GeneratedQrCode'
 
 type Props = {
   children: ReactNode
-  file: File | null
-  setFile: (value: File | null) => void
   onConfirm?: () => Promise<string | undefined>
   onDownload?: () => void
   value: string
@@ -17,9 +17,9 @@ type Props = {
 }
 
 export const FormButton = React.forwardRef<HTMLDivElement, Props>(
-  ({ children, setFile, file, onConfirm, onDownload, value, isValid }, ref) => {
+  ({ children, onConfirm, onDownload, value, isValid }, ref) => {
     const { height, width } = useWindowSize()
-
+    const [file, setFile] = useState<File | null>(null)
     return (
       <Box
         sx={{
@@ -63,18 +63,18 @@ export const FormButton = React.forwardRef<HTMLDivElement, Props>(
                 pt={4}
                 pb={2}
               >
-                <QrConfirmButton onClick={onConfirm} />
-                <QrDownloadButton onClick={onDownload} />
+                {/* <QrConfirmButton onClick={onConfirm} />
+                <QrDownloadButton onClick={onDownload} /> */}
               </Stack>
             </Stack>
           </Box>
           <Stack sx={{ pb: 4 }}>
-            <GeneratedQrcode
+            {/* <GeneratedQrCode
               ref={ref}
               value={value}
               file={file}
               isValid={isValid}
-            />
+            /> */}
           </Stack>
         </Stack>
       </Box>

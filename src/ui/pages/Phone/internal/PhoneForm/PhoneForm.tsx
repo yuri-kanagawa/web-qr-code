@@ -2,14 +2,13 @@ import React, { FC } from 'react'
 import { usePhoneQrCodeForm } from '@/ui/pages/Phone/hooks/usePhoneQrCodeForm'
 import { Controller } from 'react-hook-form'
 import { FormButton } from '@/ui/fragments/form/FormButton'
-import { PhoneTextField, UrlTextField } from '@/ui/cores/textField'
-import { formatPhoneNumberForTel } from '@/utils/qr'
+import { PhoneTextField, UrlTextField } from '@/ui/fragments/textField'
+import { formatPhoneNumberForTel } from '../../hooks/utils'
 
 type Props = {}
 
 export const PhoneForm: FC<Props> = ({}) => {
-  const { control, ref, file, setFile, onConfirm, onDownload } =
-    usePhoneQrCodeForm()
+  const { control, ref, onConfirm, onDownload } = usePhoneQrCodeForm()
   return (
     <Controller
       control={control}
@@ -20,8 +19,6 @@ export const PhoneForm: FC<Props> = ({}) => {
         fieldState: { error }
       }) => (
         <FormButton
-          setFile={setFile}
-          file={file}
           onConfirm={onConfirm}
           onDownload={onDownload}
           value={formatPhoneNumberForTel(value)}
@@ -33,7 +30,8 @@ export const PhoneForm: FC<Props> = ({}) => {
               value,
               onChange,
               error: !!error,
-              message: error?.message
+              helperText: error?.message,
+              inputRef
             }}
           />
         </FormButton>

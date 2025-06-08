@@ -1,11 +1,11 @@
 'use client'
-import { useQrcode } from '@/hooks'
+import { useQrCode } from '@/hooks'
 import { PageWrapper } from '../../fragments/pageWrapper'
 import { TextField } from '@mui/material'
 import React, { FC } from 'react'
 type Props = {}
 export const WiFiPage: FC<Props> = ({}) => {
-  const { text, setText } = useQrcode()
+  const { text, setText } = useQrCode()
   return (
     <PageWrapper>
       <TextField

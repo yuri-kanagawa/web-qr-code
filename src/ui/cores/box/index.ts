@@ -1,1 +1,1 @@
-export * from './CornerHighlightBox'
+export * from './Box'

@@ -1,12 +1,12 @@
 import { FC, useMemo } from 'react'
 import { Stack, TextField } from '@mui/material'
-import { SocialMediaSelect } from '@/ui/cores/select'
-import { useQrcode } from '@/hooks'
+import { SocialMediaSelect } from '@/ui/fragments/select'
+import { useQrCode } from '@/hooks'
 
 type Props = {}
 
 export const SocialMediaUrl: FC<Props> = ({}) => {
-  const { socialMedia, setSocialMedia, urls, setUrls } = useQrcode()
+  const { socialMedia, setSocialMedia, urls, setUrls } = useQrCode()
   const array = useMemo(() => {
     if (socialMedia.length === 0) {
       return [0]

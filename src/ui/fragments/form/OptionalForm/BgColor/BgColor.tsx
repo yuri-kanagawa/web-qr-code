@@ -1,6 +1,6 @@
 import React, { FC } from 'react'
 import { MuiColorInput } from 'mui-color-input'
-import { useQrcode } from '@/hooks'
+import { useQrCode } from '@/hooks'
 
 type Props = {}
 
@@ -9,7 +9,7 @@ export const BgColor: FC<Props> = ({}) => {
     bgColor,
 
     setBgColor
-  } = useQrcode()
+  } = useQrCode()
   return (
     <MuiColorInput
       format="hex"

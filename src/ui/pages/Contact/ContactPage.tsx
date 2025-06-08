@@ -3,7 +3,7 @@
 import { PageWrapper } from '../../fragments/pageWrapper'
 
 import React, { FC } from 'react'
-import { ContactForm } from '@/ui/pages/Contact/internal'
+import { ContactForm } from './internal'
 
 type Props = {}
 

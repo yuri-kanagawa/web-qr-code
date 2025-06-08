@@ -1,4 +1,4 @@
-import { useNotify, useQrcode, useQrScanner } from '@/hooks'
+import { useNotify, useQrCode, useQrScanner } from '@/hooks'
 import { RegisterQrCodeUrlSchema } from '@/ui/pages/Url/hooks'
 import { useEffect, useMemo } from 'react'
 import {
@@ -7,25 +7,24 @@ import {
 } from '@/ui/pages/Phone/hooks/zod'
 import { SubmitErrorHandler, SubmitHandler, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { extractPngDataUrl } from '@/utils/qr'
-import { addQueryParameter } from '@/utils/queryParameter'
+
 
 export const usePhoneQrCodeForm = () => {
-  const { cellPhone, setUrl, ref, setFile, file, onConfirm, onDownload } =
-    useQrcode()
+  const { ref, onConfirm, onDownload } = useQrCode()
 
   const defaultValues: RegisterQrCodePhoneSchema = useMemo(() => {
     return {
-      phoneNumber: cellPhone
+      phoneNumber: ''
     }
-  }, [cellPhone])
+  }, [])
   const {
     handleSubmit,
     reset,
     control,
     watch,
-    trigger: validate,
+    trigger,
     formState: { errors, isValid },
+    getFieldState,
     setFocus,
     ...rest
   } = useForm<RegisterQrCodePhoneSchema>({
@@ -37,25 +36,6 @@ export const usePhoneQrCodeForm = () => {
     reset(defaultValues)
   }, [defaultValues, reset])
 
-  const { successNotify, warningNotify } = useNotify()
-
-  const { trigger } = useQrScanner()
-
-  const submitHandler: SubmitHandler<RegisterQrCodePhoneSchema> = async (
-    data
-  ) => {
-    setUrl(data.phoneNumber)
-
-    successNotify('作成しました')
-    const qrData = extractPngDataUrl(ref)
-    if (!qrData) return
-    try {
-      await trigger(qrData)
-    } catch (e) {
-      warningNotify('読み込み失敗')
-    }
-  }
-
   const submitErrorHandler: SubmitErrorHandler<RegisterQrCodeUrlSchema> = (
     errors
   ) => {
@@ -64,25 +44,19 @@ export const usePhoneQrCodeForm = () => {
       return setFocus('phoneNumber')
     }
   }
-  const currentUrl = watch('phoneNumber')
 
-  useEffect(() => {
-    if (errors.phoneNumber) return
-    addQueryParameter({ url: currentUrl })
-  }, [errors.phoneNumber, currentUrl])
   const handleConfirm = async (): Promise<string | undefined> => {
-    if (!isValid) {
-      submitErrorHandler(errors)
+    await trigger()
+    const { error } = getFieldState('phoneNumber')
+    if (error) {
+      setFocus('phoneNumber')
       return
     }
     return await onConfirm()
   }
   return {
-    onSubmit: handleSubmit(submitHandler, submitErrorHandler),
     control,
     watch,
-    setFile,
-    file,
     ref,
     onConfirm: handleConfirm,
     onDownload: handleSubmit(onDownload, submitErrorHandler),
