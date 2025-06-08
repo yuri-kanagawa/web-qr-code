@@ -94,23 +94,24 @@ const GeneratedQrCode = React.forwardRef<HTMLDivElement, Props>(
                       logoPadding={9}
                       enableCORS={enableCORS}
                     />
-                    {showHiddenIcon && (
-                      <IconButton
-                        onClick={() => setHidden(!hidden)}
-                        sx={{
-                          position: 'absolute',
-                          top: -12,
-                          right: -12,
-                          backgroundColor: 'white',
-                          '&:hover': {
-                            backgroundColor: 'white'
-                          }
-                        }}
-                      >
-                        <IoEyeOffOutline size={24} />
-                      </IconButton>
-                    )}
                   </>
+                )}
+                {showHiddenIcon && (
+                  <IconButton
+                    onClick={() => setHidden(!hidden)}
+                    sx={{
+                      zIndex: 2,
+                      position: 'absolute',
+                      top: isValid && value ? -12 : -60,
+                      right: isValid && value ? -12 : -60
+                      // backgroundColor: 'white',
+                      // '&:hover': {
+                      //   backgroundColor: 'white'
+                      // }
+                    }}
+                  >
+                    <IoEyeOffOutline size={24} />
+                  </IconButton>
                 )}
               </div>
             </CornerHighlightBox>
