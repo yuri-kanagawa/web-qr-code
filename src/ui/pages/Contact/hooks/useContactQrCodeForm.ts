@@ -1,7 +1,7 @@
 import {
   registerQrCodeContactSchema,
   RegisterQrCodeContactSchema
-} from '@/ui/pages/Contact/hooks/zod'
+} from '@/ui/pages/contact/hooks/zod'
 import { SubmitErrorHandler, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useQrCode } from '@/hooks'

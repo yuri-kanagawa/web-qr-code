@@ -27,14 +27,27 @@ export const DrawerItemIcon: FC<Props> = ({ icon, path, label }) => {
         disablePadding
         sx={{
           width: '100%',
-          borderLeft: isCurrentPath ? 6 : 0,
-          borderColor: isCurrentPath ? colors.primary.main : undefined,
           height: '100%',
           background: isCurrentPath ? '#E0E0E0' : undefined
         }}
       >
-        <ListItemButton>
-          <ListItemIcon sx={{ pl: isCurrentPath ? 0 : 1 }}>{icon}</ListItemIcon>
+        <ListItemButton
+          sx={{
+            position: 'relative',
+            '&::before': isCurrentPath
+              ? {
+                  content: '""',
+                  position: 'absolute',
+                  left: 0,
+                  top: 0,
+                  height: '100%',
+                  width: '6px',
+                  backgroundColor: colors.primary.main
+                }
+              : {}
+          }}
+        >
+          <ListItemIcon sx={{ pl: 1 }}>{icon}</ListItemIcon>
           <ListItemText
             primary={label}
             sx={{

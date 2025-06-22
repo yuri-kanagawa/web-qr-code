@@ -1,13 +1,17 @@
 import { isEn } from '@/constants/locale/utils'
+import { phoneNumber } from '../ui/pages/phone/hooks/zod';
 
 export const path = {
   url: {
-    index: ({ lang }: { lang: string }) => {
+    index: ({ lang, queryParameter }: { lang: string, queryParameter?: {
+      url : string
+    } }) => {
       const path = '/'
+      const queryString = queryParameter?.url ? `?url=${queryParameter.url}` : ''
       if (isEn(lang)) {
-        return path
+        return `${path}${queryString}`
       } else {
-        return `/${lang}${path}`
+        return `/${lang}${path}${queryString}`
       }
     }
   },
@@ -22,17 +26,25 @@ export const path = {
     }
   },
   multiple: (lang: string) => '/multiple',
-  wifi: (lang: string) => '/wi-fi',
-  terminal: {
+  wifi: {
     index: ({ lang }: { lang: string }) => {
-      const path = '/terminal'
+      const path = '/wi-fi'
+      if (isEn(lang)) {
+        return path
+      }
+      return `/${lang}${path}`
+    },
+  },
+  device: {
+    index: ({ lang }: { lang: string }) => {
+      const path = '/device'
       if (isEn(lang)) {
         return path
       }
       return `/${lang}${path}`
     },
     redirect: ({ lang }: { lang: string }) => {
-      const path = '/terminal/redirect'
+      const path = '/device/redirect'
       if (isEn(lang)) {
         return path
       }
@@ -65,12 +77,26 @@ export const path = {
     }
   },
   sms: {
-    index: ({ lang }: { lang: string }) => {
+    index: ({ lang , queryParameter}: { lang: string, queryParameter?: {
+      phoneNumber?: string
+      body? : string
+    } }) => {
       const path = '/sms'
-      if (isEn(lang)) {
-        return path
+      const queryParts = []
+      if (queryParameter?.phoneNumber) {
+        queryParts.push(`phoneNumber=${queryParameter.phoneNumber}`)
       }
-      return `/${lang}${path}`
+      if (queryParameter?.body) {
+        queryParts.push(`body=${queryParameter.body}`)
+      }
+      
+      const queryString = queryParts.length > 0 ? `?${queryParts.join('&')}` : ''
+      const finalPath = `${path}${queryString}`
+
+      if (isEn(lang)) {
+        return finalPath
+      }
+      return `/${lang}${finalPath}`
     }
   },
   email: {
@@ -101,12 +127,15 @@ export const path = {
     }
   },
   phone: {
-    index: ({ lang }: { lang: string }) => {
+    index: ({ lang, queryParameter }: { lang: string, queryParameter?: {
+      phoneNumber: string
+    } }) => {
       const path = '/phone'
+      const queryString = queryParameter?.phoneNumber ? `?phoneNumber=${queryParameter.phoneNumber}` : ''
       if (isEn(lang)) {
-        return path
+        return `${path}${queryString}`
       }
-      return `/${lang}${path}`
+      return `/${lang}${path}${queryString}`
     }
   }
 } as const

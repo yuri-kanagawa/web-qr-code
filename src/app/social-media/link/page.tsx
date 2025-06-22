@@ -1,5 +1,5 @@
-import { SocialMediaLink } from '@/ui/pages/Social-media/socialMediaLink/socialMediaLink'
+import { Page as SocialMediaLinkPage } from '@/ui/pages/Social-media/link'
 
 export default function Page() {
-  return <SocialMediaLink />
+  return <SocialMediaLinkPage />
 }

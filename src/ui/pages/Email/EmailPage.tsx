@@ -1,7 +1,7 @@
 'use client'
 import React, { FC } from 'react'
 import { PageWrapper } from '@/ui/fragments/pageWrapper'
-import { EmailForm } from '@/ui/pages/Email/internal'
+import { EmailForm } from '@/ui/pages/email/internal'
 
 type Props = {}
 

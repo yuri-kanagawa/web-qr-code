@@ -1,4 +1,3 @@
-'use client'
 import React, { FC, useState } from 'react'
 import { PageWrapper } from '@/ui/fragments/pageWrapper'
 

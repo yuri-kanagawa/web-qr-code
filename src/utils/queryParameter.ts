@@ -131,9 +131,9 @@ export function addQueryParameter(
   window.history.replaceState({}, '', newUrl)
 }
 
-export const removeQueryParamFromCurrentURL = (key: string) => {
+export const removeQueryParamFromCurrentURL = (keys: string[]) => {
   const url = new URL(window.location.href)
-  url.searchParams.delete(key) // 指定されたキーを削除
+  keys.forEach((key) => url.searchParams.delete(key))
   const newUrl = url.toString()
-  window.history.replaceState({}, '', newUrl.toString())
+  window.history.replaceState({}, '', newUrl)
 }

@@ -9,7 +9,9 @@ import {
 } from '@mui/material'
 
 import { useDisclosure } from '@/hooks/useDisclosure'
-import { isUrl } from '@/ui/pages/Url/hooks/utils'
+import { isUrl } from '@/ui/pages/url/hooks/utils'
+import { isSmsSchema } from '@/ui/pages/sms/hooks/utils'
+import { isTelScheme } from '@/ui/pages/phone/hooks/utils'
 
 type Props = {
   onClick?: () => Promise<string | undefined>
@@ -43,20 +45,21 @@ export const QrConfirmButton: FC<Props> = ({ onClick, isValid = true }) => {
     if (isUrl(value)) {
       return 'このqrcodeは url です\n別タブで開きますか？'
     }
+    if (isSmsSchema(value)) {
+      return 'このqrcodeはSMSです'
+    }
+    if (isTelScheme(value)) {
+      return 'このqrcodeは電話番号です'
+    }
     return ''
   }
 
   const getTitle = (value: string) => {
     if (isUrl(value)) {
+      return 'このQRコードはURLです'
     }
   }
 
-  const text = useMemo(() => {
-    if (isUrl(qrValue)) {
-      return 'このqrcode は url です\\n別タブで開きますか？'
-    }
-    return ''
-  }, [qrValue])
   const getContents = (value: string) => {
     if (isUrl(value)) {
       return value

@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { useEmailQRCodeForm } from '@/ui/pages/Email/hooks'
+import { useEmailQRCodeForm } from '@/ui/pages/email/hooks'
 import { Controller, useFormState, useWatch } from 'react-hook-form'
 import { FormButton } from '@/ui/fragments/form/FormButton'
 

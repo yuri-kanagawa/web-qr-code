@@ -3,10 +3,9 @@ import { FC } from 'react'
 import { useSmsQrCodeForm } from '../../hooks/useSmsQrCodeForm'
 import { Controller, useWatch } from 'react-hook-form'
 import { FormButton } from '@/ui/fragments/form/FormButton'
-import { formatSms } from '../../hooks'
+import { toSmsSchema } from '../../hooks'
 import { PhoneTextField } from '@/ui/fragments/textField/PhoneTextField'
 import { BodyTextField } from '@/ui/fragments/textField'
-import { watch } from 'fs'
 
 type Props = {}
 
@@ -24,7 +23,7 @@ export const SmsForm: FC<Props> = () => {
     <FormButton
       onConfirm={onConfirm}
       onDownload={onDownload}
-      value={formatSms(watch())}
+      value={toSmsSchema(watch())}
       isValid={isValid}
       ref={ref}
     >

@@ -1,6 +1,6 @@
 import { MutableRefObject, useCallback, useMemo, useRef, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
-import { addQueryParameter } from '@/utils/queryParameter'
+import { addQueryParameter, removeQueryParamFromCurrentURL } from '@/utils/queryParameter'
 import { detectDevice } from '@/domain/device'
 import { getDeviceOs } from '@/domain/deviceOs'
 import { detectOS } from '@/domain/os'
@@ -10,6 +10,8 @@ import { useNotify } from '@/hooks/useNotify'
 
 export function useQrCode() {
   const searchParams = useSearchParams()
+
+  
 
   const getSize = (value: string | null): number => {
     if (value == null) {
@@ -143,6 +145,7 @@ export function useQrCode() {
   const setUrls = (value: string[]) => {
     addQueryParameter({ urls: value })
   }
+  const labels = searchParams.get('labels')?.split(',') ?? []
 
   const socialMedia = searchParams.get('socialMedia')?.split(',').map(Number) ?? []
   const setSocialMedia = (value: number[]) => {
@@ -171,6 +174,10 @@ export function useQrCode() {
   const email = searchParams.get('email') ?? ''
   const setEmail = (value: string) => addQueryParameter({ email: value })
 
+  const phoneNumber = searchParams.get('phoneNumber') ?? ''
+  const resetPhoneNumber = () => removeQueryParamFromCurrentURL(['phoneNumber'])
+  const body = searchParams.get('body') ?? ''
+  const resetBody = () => removeQueryParamFromCurrentURL(['body'])
   const cellPhone = searchParams.get('cellPhone') ?? ''
   const setCellPhone = (value: string) => addQueryParameter({ cellPhone: value })
   const fax = searchParams.get('fax') ?? ''
@@ -235,13 +242,15 @@ export function useQrCode() {
       errorNotify('QRコードのダウンロードに失敗')
     }
   }, [ref])
+  
 
   return {
     ecLevel,
     logoImage,
     enableCORS,
     size,
-
+    phoneNumber,
+    resetPhoneNumber,
     bgColor,
     fgColor,
     logoWidth,
@@ -284,7 +293,7 @@ export function useQrCode() {
     deviceOsIndex,
     text,
     setText,
-
+    labels,
     socialMedia,
     setSocialMedia,
     firstName,
@@ -305,6 +314,8 @@ export function useQrCode() {
     setWorkPhone,
     ref,
     onConfirm,
-    onDownload
+    onDownload,
+    body,
+    resetBody
   }
 }

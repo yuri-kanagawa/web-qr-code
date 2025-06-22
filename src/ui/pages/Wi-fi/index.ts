@@ -1,1 +1,1 @@
-export * from './WiFiPage'
+export * from './page'

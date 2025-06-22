@@ -8,7 +8,7 @@ const organization = z.string()
 const post = z.string()
 const businessCellularTelephone = z.string()
 const privateCellularTelephone = z.string()
-const email = z.string().email()
+const email = z.string()
 const address = z.string()
 const url = z.string()
 
@@ -26,7 +26,6 @@ export const registerQrCodeContactSchema = z
     address,
     url
   })
-  .refine((data) => {})
 
 export type RegisterQrCodeContactSchema = z.infer<
   typeof registerQrCodeContactSchema

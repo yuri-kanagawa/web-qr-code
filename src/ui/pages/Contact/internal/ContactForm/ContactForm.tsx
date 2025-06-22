@@ -1,3 +1,4 @@
+'use client'
 import { FC } from 'react'
 import {
   EmailTextField,
@@ -21,6 +22,7 @@ export const ContactForm: FC<Props> = ({}) => {
     watch,
     formState: { isValid }
   } = useContactQrCodeForm()
+
   return (
     <FormButton
       onConfirm={onConfirm}
@@ -101,7 +103,7 @@ export const ContactForm: FC<Props> = ({}) => {
       />
       <Controller
         control={control}
-        name="email"
+        name="url"
         render={({
           field: { value, onChange, ref: inputRef },
           formState: { isValid },

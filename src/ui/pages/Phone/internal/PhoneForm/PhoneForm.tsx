@@ -1,14 +1,15 @@
+'use client'
 import React, { FC } from 'react'
-import { usePhoneQrCodeForm } from '@/ui/pages/Phone/hooks/usePhoneQrCodeForm'
+import { usePhoneQrCodeForm } from '@/ui/pages/phone/hooks/usePhoneQrCodeForm'
 import { Controller } from 'react-hook-form'
 import { FormButton } from '@/ui/fragments/form/FormButton'
-import { PhoneTextField, UrlTextField } from '@/ui/fragments/textField'
-import { formatPhoneNumberForTel } from '../../hooks/utils'
+import { toTelScheme } from '../../hooks/utils'
+import { PhoneTextField } from '@/ui/fragments/textField'
 
 type Props = {}
 
 export const PhoneForm: FC<Props> = ({}) => {
-  const { control, ref, onConfirm, onDownload } = usePhoneQrCodeForm()
+  const { control, ref, onConfirm, onDownload, watch } = usePhoneQrCodeForm()
   return (
     <Controller
       control={control}
@@ -21,7 +22,7 @@ export const PhoneForm: FC<Props> = ({}) => {
         <FormButton
           onConfirm={onConfirm}
           onDownload={onDownload}
-          value={formatPhoneNumberForTel(value)}
+          value={toTelScheme(watch())}
           isValid={isValid}
           ref={ref}
         >

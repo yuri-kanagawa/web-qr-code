@@ -2,13 +2,18 @@ import { FC, useMemo } from 'react'
 
 import { getOsName, osList } from '@/domain'
 import { Select, FormControl, MenuItem, InputLabel } from '@/ui/cores'
+
 type Props = {
-  id: number
+  value: number
   onChange: ({ id, name }: { id: number; name: string }) => void
   isOptional?: boolean
 }
 
-export const OsSelect: FC<Props> = ({ id, onChange, isOptional = false }) => {
+export const OsSelect: FC<Props> = ({
+  value,
+  onChange,
+  isOptional = false
+}) => {
   const array = useMemo(() => {
     if (isOptional) {
       return osList
@@ -17,12 +22,12 @@ export const OsSelect: FC<Props> = ({ id, onChange, isOptional = false }) => {
   }, [isOptional])
   return (
     <FormControl fullWidth>
-      <InputLabel id="demo-simple-select-label">Age</InputLabel>
+      <InputLabel id="demo-simple-select-label">OS</InputLabel>
       <Select
         labelId="demo-simple-select-label"
         id="demo-simple-select"
-        value={id}
-        label="Age"
+        value={value}
+        label="OS"
         onChange={(e) => {
           const value = Number(e.target.value)
           onChange({

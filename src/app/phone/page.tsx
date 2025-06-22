@@ -1,4 +1,4 @@
-import { PhonePage } from '@/ui/pages/Phone'
+import { PhonePage } from '@/ui/pages/phone'
 
 export default function Page() {
   return <PhonePage />

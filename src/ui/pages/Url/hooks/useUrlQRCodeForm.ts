@@ -3,7 +3,7 @@ import { SubmitErrorHandler, SubmitHandler, useForm } from 'react-hook-form'
 import {
   RegisterQrCodeUrlSchema,
   registerQrCodeUrlSchema
-} from '@/ui/pages/Url/hooks/zod'
+} from '@/ui/pages/url/hooks/zod'
 
 import { MutableRefObject, useEffect, useMemo, useRef } from 'react'
 

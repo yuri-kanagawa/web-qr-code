@@ -2,17 +2,28 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitErrorHandler, useForm, useWatch } from 'react-hook-form';
 import { registerQrCodeSmsSchema, RegisterQrCodeSmsSchema } from './zod';
 import { useQrCode } from '@/hooks';
+import { useEffect, useMemo } from 'react';
 export const useSmsQrCodeForm = () => {
-  const { ref, onConfirm, onDownload } = useQrCode()
-  const defaultValues: RegisterQrCodeSmsSchema = {
-    phoneNumber: '',
-    body: ''
-  } 
-  const {handleSubmit,trigger,setFocus, getFieldState ,control , ...rest} = useForm<RegisterQrCodeSmsSchema>({
+  const { ref, onConfirm, onDownload, phoneNumber, body , resetPhoneNumber, resetBody } = useQrCode()
+  const defaultValues: RegisterQrCodeSmsSchema = useMemo(() =>{
+    return {
+      phoneNumber,
+      body
+    } 
+  } ,[phoneNumber, body])
+  const {handleSubmit,trigger,setFocus, getFieldState ,control, reset , ...rest} = useForm<RegisterQrCodeSmsSchema>({
     defaultValues,
     mode: 'onChange',
     resolver: zodResolver(registerQrCodeSmsSchema)
   })
+  useEffect(() => {
+      if (phoneNumber || body){
+        reset(defaultValues)
+        resetPhoneNumber()
+        resetBody()
+      }
+
+  },[defaultValues, reset, resetPhoneNumber,resetBody ])
 
     const submitErrorHandler: SubmitErrorHandler<RegisterQrCodeSmsSchema> = (
       errors

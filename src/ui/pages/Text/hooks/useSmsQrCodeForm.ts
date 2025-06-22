@@ -2,10 +2,10 @@ import { SubmitErrorHandler, useForm } from 'react-hook-form'
 import {
   registerQrCodeTextSchema,
   RegisterQrCodeTextSchema
-} from '@/ui/pages/Text/hooks/zod'
+} from '@/ui/pages/text/hooks/zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useQrCode } from '@/hooks'
-import { RegisterQrCodeUrlSchema } from '@/ui/pages/Url/hooks'
+import { RegisterQrCodeUrlSchema } from '@/ui/pages/url/hooks'
 
 export const useSmsQrCodeForm = () => {
   const defaultValues: RegisterQrCodeTextSchema = {

@@ -1,1 +1,1 @@
-export * from './UrlPage'
+export * from './page'

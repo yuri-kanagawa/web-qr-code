@@ -16,7 +16,7 @@ import PhoneIcon from '@mui/icons-material/Phone'
 import { useSidebar } from '@/stores'
 import { MdPermContactCalendar } from 'react-icons/md'
 import { RiMailFill, RiText } from 'react-icons/ri'
-import { FaCommentSms } from 'react-icons/fa6'
+import { FaCommentSms, FaWifi } from 'react-icons/fa6'
 
 export const DrawerItems = forwardRef<HTMLDivElement, Props>(({}, ref) => {
   const { isSidebarOpen, toggleSidebar, setIsSidebarOpen } = useSidebar()
@@ -39,14 +39,19 @@ export const DrawerItems = forwardRef<HTMLDivElement, Props>(({}, ref) => {
             path={path.url.index({ lang: 'en' })}
           />
           <DrawerItemIcon
+            label={'Wi-Fi'}
+            icon={<FaWifi />}
+            path={path.wifi.index({ lang: 'en' })}
+          />
+          {/* <DrawerItemIcon
             label={'SOCIAL MEDIA'}
             icon={<SmsIcon />}
             path={path.socialMedia.index({ lang: 'en' })}
-          />
+          /> */}
           <DrawerItemIcon
             label={'DEVICE'}
             icon={<SmartphoneIcon />}
-            path={path.terminal.index({ lang: 'en' })}
+            path={path.device.index({ lang: 'en' })}
           />
 
           <DrawerItemIcon
@@ -81,11 +86,11 @@ export const DrawerItems = forwardRef<HTMLDivElement, Props>(({}, ref) => {
             icon={<QrCodeScannerIcon />}
             path={path.reader.index({ lang: 'en' })}
           />
-          <DrawerItemIcon
+          {/* <DrawerItemIcon
             label={'EDIT'}
             icon={<EditIcon />}
             path={path.edit.index({ lang: 'en' })}
-          />
+          /> */}
         </Stack>
         <Stack display={'flex'} justifyContent={'flex-end'}>
           <OpenButton />

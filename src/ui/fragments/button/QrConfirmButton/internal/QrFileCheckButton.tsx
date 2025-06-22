@@ -1,8 +1,7 @@
 import { FC, MutableRefObject, useCallback } from 'react'
 
 import { useNotify, useQrScanner } from '@/hooks'
-import { isUrl } from '@/ui/pages/Url/hooks/utils'
-import { isSms } from '@/ui/pages/Sms/hooks'
+
 import { Button } from '@/ui/cores'
 
 type Props = {

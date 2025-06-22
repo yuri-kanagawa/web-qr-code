@@ -4,7 +4,7 @@ import { TextField, TextFieldProps } from '@/ui/cores/TextField'
 type Props = {
   value: string
   onChange: (value: string) => void
-} & Omit<TextFieldProps, 'onChange' | 'value'>
+} & Omit<TextFieldProps, 'onChange' | 'value' | 'label'>
 
 export const EmailTextField: FC<Props> = ({
   value,
