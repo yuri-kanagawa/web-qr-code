@@ -1,5 +1,5 @@
 export const word = {
-  desktop: 'DESKTOP',
+  pc: 'PC',
   tablet: 'TABLET',
   mobile: 'MOBILE'
 }

@@ -29,7 +29,7 @@ export const DrawerItems = forwardRef<HTMLDivElement, Props>(({}, ref) => {
           display: 'flex',
           height: '100vh',
           justifyContent: 'space-between',
-          width: '100%'
+          width: isSidebarOpen ? 210 : 70
         }}
       >
         <Stack spacing={0} width={'100%'}>

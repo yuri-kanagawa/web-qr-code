@@ -1,35 +1,40 @@
 import {
   isLinux,
-  isMacintoshOrIos,
+  isMacintosh,
+  isIos,
   isOther,
   isWindows,
   isAndroid,
   OS
 } from '@/domain/os'
-import { DEVICES, isAll, isDesktop, isMobile, isTablet } from '@/domain/device'
+import { DEVICES, isAll, isPc, isMobile, isTablet } from '@/domain/device'
 
 export const DEVICES_OS = {
   notSet: 0,
   windowsAndAll: 1,
   windowsAndMobile: 2,
   windowsAndTablet: 3,
-  windowsAndDesktop: 4,
-  androidAndAll: 5,
-  androidAndMobile: 6,
-  androidAndTablet: 7,
-  androidAndDesktop: 8,
-  macintoshIosAndAll: 9,
-  macintoshIosAndMobile: 10,
-  macintoshIosAndTablet: 11,
-  macintoshIosAndDesktop: 12,
-  linuxAndAll: 13,
-  linuxAndMobile: 14,
-  linuxAndTable: 15,
-  linuxAndDesktop: 16,
-  otherAndAll: 17,
-  otherAndMobile: 18,
-  otherAndTablet: 19,
-  otherAndDesktop: 20
+  windowsAndPc: 4,
+  macintoshAndAll: 5,
+  macintoshAndMobile: 6,
+  macintoshAndTablet: 7,
+  macintoshAndPc: 8,
+  iosAndAll: 9,
+  iosAndMobile: 10,
+  iosAndTablet: 11,
+  iosAndPc: 12,
+  androidAndAll: 13,
+  androidAndMobile: 14,
+  androidAndTablet: 15,
+  androidAndPc: 16,
+  linuxAndAll: 17,
+  linuxAndMobile: 18,
+  linuxAndTable: 19,
+  linuxAndPc: 20,
+  otherAndAll: 21,
+  otherAndMobile: 22,
+  otherAndTablet: 23,
+  otherAndPc: 24
 } as const
 
 const isWindowsAndAll = (value: number) => value === DEVICES_OS.windowsAndAll
@@ -40,8 +45,27 @@ const isWindowsAndMobile = (value: number) =>
 const isWindowsAndTablet = (value: number) =>
   value === DEVICES_OS.windowsAndTablet
 
-const isWindowsAndDesktop = (value: number) =>
-  value === DEVICES_OS.windowsAndDesktop
+const isWindowsAndPc = (value: number) => value === DEVICES_OS.windowsAndPc
+
+const isMacintoshAndAll = (value: number) =>
+  value === DEVICES_OS.macintoshAndAll
+
+const isMacintoshAndMobile = (value: number) =>
+  value === DEVICES_OS.macintoshAndMobile
+
+const isMacintoshAndTablet = (value: number) =>
+  value === DEVICES_OS.macintoshAndTablet
+
+const isMacintoshAndPc = (value: number) =>
+  value === DEVICES_OS.macintoshAndPc
+
+const isIosAndAll = (value: number) => value === DEVICES_OS.iosAndAll
+
+const isIosAndMobile = (value: number) => value === DEVICES_OS.iosAndMobile
+
+const isIosAndTablet = (value: number) => value === DEVICES_OS.iosAndTablet
+
+const isIosAndPc = (value: number) => value === DEVICES_OS.iosAndPc
 
 const isAndroidAndAll = (value: number) => value === DEVICES_OS.androidAndAll
 
@@ -51,20 +75,7 @@ const isAndroidAndMobile = (value: number) =>
 const isAndroidAndTablet = (value: number) =>
   value === DEVICES_OS.androidAndTablet
 
-const isAndroidAndDesktop = (value: number) =>
-  value === DEVICES_OS.androidAndDesktop
-
-const isMacintoshIosAndAll = (value: number) =>
-  value === DEVICES_OS.macintoshIosAndAll
-
-const isMacintoshIosAndMobile = (value: number) =>
-  value === DEVICES_OS.macintoshIosAndMobile
-
-const isMacintoshIosAndTablet = (value: number) =>
-  value === DEVICES_OS.macintoshIosAndTablet
-
-const isMacintoshIosAndDesktop = (value: number) =>
-  value === DEVICES_OS.macintoshIosAndDesktop
+const isAndroidAndPc = (value: number) => value === DEVICES_OS.androidAndPc
 
 const isLinuxAndAll = (value: number) => value === DEVICES_OS.linuxAndAll
 
@@ -72,8 +83,7 @@ const isLinuxAndMobile = (value: number) => value === DEVICES_OS.linuxAndMobile
 
 const isLinuxAndTablet = (value: number) => value === DEVICES_OS.linuxAndTable
 
-const isLinuxAndDesktop = (value: number) =>
-  value === DEVICES_OS.linuxAndDesktop
+const isLinuxAndPc = (value: number) => value === DEVICES_OS.linuxAndPc
 
 const isOtherAndAll = (value: number) => value === DEVICES_OS.otherAndAll
 
@@ -81,8 +91,7 @@ const isOtherAndMobile = (value: number) => value === DEVICES_OS.otherAndMobile
 
 const isOtherAndTablet = (value: number) => value === DEVICES_OS.otherAndTablet
 
-const isOtherAndDesktop = (value: number) =>
-  value === DEVICES_OS.otherAndDesktop
+const isOtherAndPc = (value: number) => value === DEVICES_OS.otherAndPc
 
 type DeviceAndOsType = {
   os: (typeof OS)[keyof typeof OS]
@@ -100,14 +109,19 @@ export const getDeviceOs = ({ device, os }: DeviceAndOsType): DeviceOsType => {
         deviceOs: DEVICES_OS.windowsAndAll
       }
     }
+    if (isMacintosh(os)) {
+      return {
+        deviceOs: DEVICES_OS.macintoshAndAll
+      }
+    }
+    if (isIos(os)) {
+      return {
+        deviceOs: DEVICES_OS.iosAndAll
+      }
+    }
     if (isAndroid(os)) {
       return {
         deviceOs: DEVICES_OS.androidAndAll
-      }
-    }
-    if (isMacintoshOrIos(os)) {
-      return {
-        deviceOs: DEVICES_OS.macintoshIosAndAll
       }
     }
     if (isLinux(os)) {
@@ -128,14 +142,19 @@ export const getDeviceOs = ({ device, os }: DeviceAndOsType): DeviceOsType => {
         deviceOs: DEVICES_OS.windowsAndMobile
       }
     }
+    if (isMacintosh(os)) {
+      return {
+        deviceOs: DEVICES_OS.macintoshAndMobile
+      }
+    }
+    if (isIos(os)) {
+      return {
+        deviceOs: DEVICES_OS.iosAndMobile
+      }
+    }
     if (isAndroid(os)) {
       return {
         deviceOs: DEVICES_OS.androidAndMobile
-      }
-    }
-    if (isMacintoshOrIos(os)) {
-      return {
-        deviceOs: DEVICES_OS.macintoshIosAndMobile
       }
     }
     if (isLinux(os)) {
@@ -156,14 +175,19 @@ export const getDeviceOs = ({ device, os }: DeviceAndOsType): DeviceOsType => {
         deviceOs: DEVICES_OS.windowsAndTablet
       }
     }
+    if (isMacintosh(os)) {
+      return {
+        deviceOs: DEVICES_OS.macintoshAndTablet
+      }
+    }
+    if (isIos(os)) {
+      return {
+        deviceOs: DEVICES_OS.iosAndTablet
+      }
+    }
     if (isAndroid(os)) {
       return {
         deviceOs: DEVICES_OS.androidAndTablet
-      }
-    }
-    if (isMacintoshOrIos(os)) {
-      return {
-        deviceOs: DEVICES_OS.macintoshIosAndTablet
       }
     }
     if (isLinux(os)) {
@@ -178,30 +202,35 @@ export const getDeviceOs = ({ device, os }: DeviceAndOsType): DeviceOsType => {
     }
   }
 
-  if (isDesktop(device)) {
+  if (isPc(device)) {
     if (isWindows(os)) {
       return {
-        deviceOs: DEVICES_OS.windowsAndDesktop
+        deviceOs: DEVICES_OS.windowsAndPc
+      }
+    }
+    if (isMacintosh(os)) {
+      return {
+        deviceOs: DEVICES_OS.macintoshAndPc
+      }
+    }
+    if (isIos(os)) {
+      return {
+        deviceOs: DEVICES_OS.iosAndPc
       }
     }
     if (isAndroid(os)) {
       return {
-        deviceOs: DEVICES_OS.androidAndDesktop
-      }
-    }
-    if (isMacintoshOrIos(os)) {
-      return {
-        deviceOs: DEVICES_OS.macintoshIosAndDesktop
+        deviceOs: DEVICES_OS.androidAndPc
       }
     }
     if (isLinux(os)) {
       return {
-        deviceOs: DEVICES_OS.linuxAndDesktop
+        deviceOs: DEVICES_OS.linuxAndPc
       }
     }
     if (isOther(os)) {
       return {
-        deviceOs: DEVICES_OS.otherAndDesktop
+        deviceOs: DEVICES_OS.otherAndPc
       }
     }
   }
@@ -230,10 +259,60 @@ export const getDeviceAndOs = ({ deviceOs }: DeviceOsType): DeviceAndOsType => {
       device: DEVICES.tablet
     }
   }
-  if (isWindowsAndDesktop(deviceOs)) {
+  if (isWindowsAndPc(deviceOs)) {
     return {
       os: OS.windows,
-      device: DEVICES.desktop
+      device: DEVICES.pc
+    }
+  }
+
+  if (isMacintoshAndAll(deviceOs)) {
+    return {
+      os: OS.macintosh,
+      device: DEVICES.all
+    }
+  }
+  if (isMacintoshAndMobile(deviceOs)) {
+    return {
+      os: OS.macintosh,
+      device: DEVICES.mobile
+    }
+  }
+  if (isMacintoshAndTablet(deviceOs)) {
+    return {
+      os: OS.macintosh,
+      device: DEVICES.tablet
+    }
+  }
+  if (isMacintoshAndPc(deviceOs)) {
+    return {
+      os: OS.macintosh,
+      device: DEVICES.pc
+    }
+  }
+
+  if (isIosAndAll(deviceOs)) {
+    return {
+      os: OS.ios,
+      device: DEVICES.all
+    }
+  }
+  if (isIosAndMobile(deviceOs)) {
+    return {
+      os: OS.ios,
+      device: DEVICES.mobile
+    }
+  }
+  if (isIosAndTablet(deviceOs)) {
+    return {
+      os: OS.ios,
+      device: DEVICES.tablet
+    }
+  }
+  if (isIosAndPc(deviceOs)) {
+    return {
+      os: OS.ios,
+      device: DEVICES.pc
     }
   }
 
@@ -255,35 +334,10 @@ export const getDeviceAndOs = ({ deviceOs }: DeviceOsType): DeviceAndOsType => {
       device: DEVICES.tablet
     }
   }
-  if (isAndroidAndDesktop(deviceOs)) {
+  if (isAndroidAndPc(deviceOs)) {
     return {
       os: OS.android,
-      device: DEVICES.desktop
-    }
-  }
-
-  if (isMacintoshIosAndAll(deviceOs)) {
-    return {
-      os: OS['macintosh/ios'],
-      device: DEVICES.all
-    }
-  }
-  if (isMacintoshIosAndMobile(deviceOs)) {
-    return {
-      os: OS['macintosh/ios'],
-      device: DEVICES.mobile
-    }
-  }
-  if (isMacintoshIosAndTablet(deviceOs)) {
-    return {
-      os: OS['macintosh/ios'],
-      device: DEVICES.tablet
-    }
-  }
-  if (isMacintoshIosAndDesktop(deviceOs)) {
-    return {
-      os: OS['macintosh/ios'],
-      device: DEVICES.desktop
+      device: DEVICES.pc
     }
   }
 
@@ -305,10 +359,10 @@ export const getDeviceAndOs = ({ deviceOs }: DeviceOsType): DeviceAndOsType => {
       device: DEVICES.tablet
     }
   }
-  if (isLinuxAndDesktop(deviceOs)) {
+  if (isLinuxAndPc(deviceOs)) {
     return {
       os: OS.linux,
-      device: DEVICES.desktop
+      device: DEVICES.pc
     }
   }
 
@@ -330,10 +384,10 @@ export const getDeviceAndOs = ({ deviceOs }: DeviceOsType): DeviceAndOsType => {
       device: DEVICES.tablet
     }
   }
-  if (isOtherAndDesktop(deviceOs)) {
+  if (isOtherAndPc(deviceOs)) {
     return {
       os: OS.other,
-      device: DEVICES.desktop
+      device: DEVICES.pc
     }
   }
 

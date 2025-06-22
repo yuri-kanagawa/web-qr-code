@@ -8,17 +8,17 @@ import { FormButton } from '@/ui/fragments/form/FormButton'
 import { SSIDTextField, PasswordTextField } from '@/ui/fragments/textField'
 import { EncryptionSelect } from '@/ui/fragments/select'
 import { toWifiSchema } from '../../hooks/utils'
+import { isNonpass } from '@/domain/encryption'
 
 export const WiFiForm: FC = () => {
   const { control, ref, onConfirm, onDownload, watch } = useWiFiQrCodeForm({})
-  const formValues = watch()
 
   return (
     <FormButton
       onConfirm={onConfirm}
       onDownload={onDownload}
       ref={ref}
-      value={toWifiSchema(formValues)}
+      value={toWifiSchema(watch())}
     >
       <Stack spacing={3}>
         <Controller
@@ -36,20 +36,40 @@ export const WiFiForm: FC = () => {
         <Controller
           control={control}
           name="type"
-          render={({ field: { value, onChange }, fieldState: { error } }) => (
-            <EncryptionSelect value={value} onChange={onChange} />
-          )}
-        />
-        <Controller
-          control={control}
-          name="password"
-          render={({ field: { value, onChange }, fieldState: { error } }) => (
-            <PasswordTextField
-              value={value}
-              onChange={onChange}
-              error={!!error}
-              helperText={error?.message}
-            />
+          render={({
+            field: { value: type, onChange: typeOnChange },
+            fieldState: { error }
+          }) => (
+            <>
+              <Controller
+                control={control}
+                name="password"
+                render={({
+                  field: { value: password, onChange: passwordOnChange },
+                  fieldState: { error }
+                }) => (
+                  <>
+                    <EncryptionSelect
+                      value={type}
+                      onChange={(value) => {
+                        typeOnChange(value)
+                        if (isNonpass(value)) {
+                          passwordOnChange('')
+                        }
+                      }}
+                    />
+                    {!isNonpass(type) && (
+                      <PasswordTextField
+                        value={password}
+                        onChange={passwordOnChange}
+                        error={!!error}
+                        helperText={error?.message}
+                      />
+                    )}
+                  </>
+                )}
+              />
+            </>
           )}
         />
       </Stack>

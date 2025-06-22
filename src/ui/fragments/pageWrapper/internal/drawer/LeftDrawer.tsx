@@ -30,7 +30,7 @@ export const LeftDrawer = forwardRef<HTMLDivElement, Props>(({}, ref) => {
     <>
       <Box
         sx={(theme) => ({
-          // width: isSidebarOpen ? 210 : 70,
+          width: isSidebarOpen ? 210 : 70,
           zIndex: theme.zIndex.drawer,
           transition: theme.transitions.create('width', {
             duration: theme.transitions.duration.shortest,

@@ -1,8 +1,11 @@
-import { ButtonProps, Button as MuiButton } from '@mui/material'
+import {
+  ButtonProps as MuiButtonProps,
+  Button as MuiButton
+} from '@mui/material'
 import { FC, ReactNode } from 'react'
 
-type Props = ButtonProps
+export type ButtonProps = MuiButtonProps
 
-export const Button: FC<Props> = ({ children, ...rest }) => {
+export const Button: FC<ButtonProps> = ({ children, ...rest }) => {
   return <MuiButton {...rest}>{children}</MuiButton>
 }

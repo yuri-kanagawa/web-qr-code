@@ -1,6 +1,6 @@
 import { FC, useMemo } from 'react'
 
-import { getOsName, osList } from '@/domain'
+import { getOsName, os } from '@/domain'
 import { Select, FormControl, MenuItem, InputLabel } from '@/ui/cores'
 
 type Props = {
@@ -16,9 +16,9 @@ export const OsSelect: FC<Props> = ({
 }) => {
   const array = useMemo(() => {
     if (isOptional) {
-      return osList
+      return os
     }
-    return osList.filter((e) => e !== 0)
+    return os.filter((e) => e !== 0)
   }, [isOptional])
   return (
     <FormControl fullWidth>

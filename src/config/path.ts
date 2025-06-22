@@ -1,4 +1,4 @@
-import { isEn } from '@/constants/locale/utils'
+import { isEn } from '@/locales/utils'
 import { phoneNumber } from '../ui/pages/phone/hooks/zod';
 
 export const path = {
