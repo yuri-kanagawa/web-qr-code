@@ -5,18 +5,23 @@ import { useEffect, useMemo } from 'react'
 
 import { addQueryParameter } from '@/utils/queryParameter'
 import { useQrCode } from '@/hooks'
-import { RegisterQrCodeEmailSchema, registerQrCodeEmailSchema } from './zod'
+import { registerQrCodeEmailSchema, RegisterQrCodeEmailSchema } from './zod'
 
-export const useEmailQRCodeForm = () => {
+type Props = {
+  language?: string
+}
+
+export const useEmailQRCodeForm = ({ language = 'en' }: Props = {}) => {
   const {ref, onConfirm, onDownload } = useQrCode()
 
   const defaultValues: RegisterQrCodeEmailSchema = useMemo(() => {
     return {
       email: '',
       subject: '',
-      body: ''
+      body: '',
+      language
     }
-  }, [])
+  }, [language])
 
   const {
     handleSubmit,
@@ -61,6 +66,7 @@ export const useEmailQRCodeForm = () => {
     ref,
     onConfirm: handleConfirm,
     onDownload: handleSubmit(onDownload, submitErrorHandler),
-    ...rest
+    ...rest,
+    watch
   }
 }
