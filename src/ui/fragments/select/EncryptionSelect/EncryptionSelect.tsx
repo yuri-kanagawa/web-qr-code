@@ -1,4 +1,4 @@
-import { encryption } from '@/domain/encryption'
+import { encryption, isEncryptionNonpass } from '@/constants/encryption'
 import {
   Select,
   MenuItem,
@@ -7,7 +7,6 @@ import {
   SelectProps
 } from '@/ui/cores'
 import { FC } from 'react'
-import { isNonpass } from '../../../../domain/encryption'
 
 type Props = {
   value: string
@@ -16,7 +15,7 @@ type Props = {
 
 export const EncryptionSelect: FC<Props> = ({ value, onChange, ...rest }) => {
   const encryptionOptions = Object.entries(encryption).map(([key, label]) => {
-    const newLabel = isNonpass(key) ? '' : label
+    const newLabel = isEncryptionNonpass(key) ? '' : label
     return {
       value: key,
       label: newLabel

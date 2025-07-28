@@ -1,5 +1,5 @@
 import { FC, useMemo } from 'react'
-import { getSocialMediaName, socialMediaList } from '@/domain'
+import { getSocialMediaName, socialMediaList } from '@/constants'
 import {
   SelectProps,
   FormControl,

@@ -1,26 +1,33 @@
 import { FC, useMemo } from 'react'
 
-import { devices, getDeviceName } from '@/domain/device'
-import { getOsName } from '@/domain'
+import { devices, getDeviceName } from '@/constants/device'
+import { getOsName } from '@/constants'
 import { Select, InputLabel, FormControl, MenuItem } from '@/ui/cores'
 
 type Props = {
   value: number
   onChange: ({ id, name }: { id: number; name: string }) => void
   isOptional?: boolean
+  hiddenItems?: number[] // 非表示にする項目のID配列
 }
 
 export const DeviceSelect: FC<Props> = ({
   value,
   onChange,
-  isOptional = false
+  isOptional = false,
+  hiddenItems = []
 }) => {
   const array = useMemo(() => {
-    if (isOptional) {
-      return devices
+    let filtered = isOptional ? devices : devices.filter((e) => e !== 0)
+
+    // 非表示項目を除外
+    if (hiddenItems.length > 0) {
+      filtered = filtered.filter((e) => !hiddenItems.includes(e))
     }
-    return devices.filter((e) => e !== 0)
-  }, [isOptional])
+
+    return filtered
+  }, [isOptional, hiddenItems])
+
   return (
     <FormControl fullWidth>
       <InputLabel id="demo-simple-select-label">Device</InputLabel>
