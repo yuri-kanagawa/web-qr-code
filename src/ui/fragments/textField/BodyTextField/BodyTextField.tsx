@@ -4,13 +4,13 @@ import { TextField, TextFieldProps } from '@/ui/cores/TextField'
 type Props = {
   value: string
   onChange: (value: string) => void
-  isRequired: boolean
+  isRequired?: boolean
 } & Omit<TextFieldProps, 'value' | 'onChange' | 'isRequired'>
 
 export const BodyTextField: FC<Props> = ({
   value,
   onChange,
-  isRequired,
+  isRequired = false,
   ...rest
 }) => {
   return (
