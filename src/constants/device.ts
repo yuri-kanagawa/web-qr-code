@@ -1,5 +1,3 @@
-import { SocialMedia } from '@/domain/socialMedia'
-
 export const DEVICES = {
   notSet: 0,
   all: 1,
@@ -10,11 +8,12 @@ export const DEVICES = {
 
 export const devices = Object.values(DEVICES)
 
-export const isNotSet = (value: number) => value === DEVICES.notSet
-export const isAll = (value: number) => value === DEVICES.all
-export const isMobile = (value: number) => value === DEVICES.mobile
-export const isTablet = (value: number) => value === DEVICES.tablet
-export const isPc = (value: number) => value === DEVICES.pc
+export const isDeviceNotSet = (value: number) => value === DEVICES.notSet
+export const isDeviceAll = (value: number) => value === DEVICES.all
+export const isDeviceMobile = (value: number) => value === DEVICES.mobile
+export const isDeviceTablet = (value: number) => value === DEVICES.tablet
+export const isDevicePc = (value: number) => value === DEVICES.pc
+
 // 端末判定
 export function detectDevice() {
   const userAgent = navigator.userAgent.toLowerCase()
@@ -41,4 +40,4 @@ export function detectDevice() {
 export const getDeviceName = (value: number): string => {
   const entry = Object.entries(DEVICES).find(([key, val]) => val === value)
   return entry ? entry[0] : ''
-}
+} 

@@ -1,13 +1,13 @@
 import {
-  isLinux,
-  isMacintosh,
-  isIos,
-  isOther,
-  isWindows,
-  isAndroid,
+  isOSLinux,
+  isOSMacintosh,
+  isOSIos,
+  isOSOther,
+  isOSWindows,
+  isOSAndroid,
   OS
-} from '@/domain/os'
-import { DEVICES, isAll, isPc, isMobile, isTablet } from '@/domain/device'
+} from './os'
+import { DEVICES, isDeviceAll, isDevicePc, isDeviceMobile, isDeviceTablet } from './device'
 
 export const DEVICES_OS = {
   notSet: 0,
@@ -103,132 +103,132 @@ type DeviceOsType = {
 }
 
 export const getDeviceOs = ({ device, os }: DeviceAndOsType): DeviceOsType => {
-  if (isAll(device)) {
-    if (isWindows(os)) {
+  if (isDeviceAll(device)) {
+    if (isOSWindows(os)) {
       return {
         deviceOs: DEVICES_OS.windowsAndAll
       }
     }
-    if (isMacintosh(os)) {
+    if (isOSMacintosh(os)) {
       return {
         deviceOs: DEVICES_OS.macintoshAndAll
       }
     }
-    if (isIos(os)) {
+    if (isOSIos(os)) {
       return {
         deviceOs: DEVICES_OS.iosAndAll
       }
     }
-    if (isAndroid(os)) {
+    if (isOSAndroid(os)) {
       return {
         deviceOs: DEVICES_OS.androidAndAll
       }
     }
-    if (isLinux(os)) {
+    if (isOSLinux(os)) {
       return {
         deviceOs: DEVICES_OS.linuxAndAll
       }
     }
-    if (isOther(os)) {
+    if (isOSOther(os)) {
       return {
         deviceOs: DEVICES_OS.otherAndAll
       }
     }
   }
 
-  if (isMobile(device)) {
-    if (isWindows(os)) {
+  if (isDeviceMobile(device)) {
+    if (isOSWindows(os)) {
       return {
         deviceOs: DEVICES_OS.windowsAndMobile
       }
     }
-    if (isMacintosh(os)) {
+    if (isOSMacintosh(os)) {
       return {
         deviceOs: DEVICES_OS.macintoshAndMobile
       }
     }
-    if (isIos(os)) {
+    if (isOSIos(os)) {
       return {
         deviceOs: DEVICES_OS.iosAndMobile
       }
     }
-    if (isAndroid(os)) {
+    if (isOSAndroid(os)) {
       return {
         deviceOs: DEVICES_OS.androidAndMobile
       }
     }
-    if (isLinux(os)) {
+    if (isOSLinux(os)) {
       return {
         deviceOs: DEVICES_OS.linuxAndMobile
       }
     }
-    if (isOther(os)) {
+    if (isOSOther(os)) {
       return {
         deviceOs: DEVICES_OS.otherAndMobile
       }
     }
   }
 
-  if (isTablet(device)) {
-    if (isWindows(os)) {
+  if (isDeviceTablet(device)) {
+    if (isOSWindows(os)) {
       return {
         deviceOs: DEVICES_OS.windowsAndTablet
       }
     }
-    if (isMacintosh(os)) {
+    if (isOSMacintosh(os)) {
       return {
         deviceOs: DEVICES_OS.macintoshAndTablet
       }
     }
-    if (isIos(os)) {
+    if (isOSIos(os)) {
       return {
         deviceOs: DEVICES_OS.iosAndTablet
       }
     }
-    if (isAndroid(os)) {
+    if (isOSAndroid(os)) {
       return {
         deviceOs: DEVICES_OS.androidAndTablet
       }
     }
-    if (isLinux(os)) {
+    if (isOSLinux(os)) {
       return {
         deviceOs: DEVICES_OS.linuxAndTable
       }
     }
-    if (isOther(os)) {
+    if (isOSOther(os)) {
       return {
         deviceOs: DEVICES_OS.otherAndTablet
       }
     }
   }
 
-  if (isPc(device)) {
-    if (isWindows(os)) {
+  if (isDevicePc(device)) {
+    if (isOSWindows(os)) {
       return {
         deviceOs: DEVICES_OS.windowsAndPc
       }
     }
-    if (isMacintosh(os)) {
+    if (isOSMacintosh(os)) {
       return {
         deviceOs: DEVICES_OS.macintoshAndPc
       }
     }
-    if (isIos(os)) {
+    if (isOSIos(os)) {
       return {
         deviceOs: DEVICES_OS.iosAndPc
       }
     }
-    if (isAndroid(os)) {
+    if (isOSAndroid(os)) {
       return {
         deviceOs: DEVICES_OS.androidAndPc
       }
     }
-    if (isLinux(os)) {
+    if (isOSLinux(os)) {
       return {
         deviceOs: DEVICES_OS.linuxAndPc
       }
     }
-    if (isOther(os)) {
+    if (isOSOther(os)) {
       return {
         deviceOs: DEVICES_OS.otherAndPc
       }
@@ -395,4 +395,4 @@ export const getDeviceAndOs = ({ deviceOs }: DeviceOsType): DeviceAndOsType => {
     os: OS.notSet,
     device: DEVICES.notSet
   }
-}
+} 

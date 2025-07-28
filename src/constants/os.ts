@@ -1,4 +1,4 @@
-import { DEVICES } from '@/domain/device'
+import { DEVICES } from './device'
 
 export const OS = {
   notSet: 0,
@@ -12,14 +12,14 @@ export const OS = {
 
 export const os = Object.values(OS)
 
-export const isNotSet = (value: number) => value === OS.notSet
-export const isWindows = (value: number) => value === OS.windows
-export const isMacintosh = (value: number) => value === OS.macintosh
-export const isIos = (value: number) => value === OS.ios
-export const isMacintoshOrIos = (value: number) => isMacintosh(value) || isIos(value)
-export const isAndroid = (value: number) => value === OS.android
-export const isLinux = (value: number) => value === OS.linux
-export const isOther = (value: number) => value === OS.other
+export const isOSNotSet = (value: number) => value === OS.notSet
+export const isOSWindows = (value: number) => value === OS.windows
+export const isOSMacintosh = (value: number) => value === OS.macintosh
+export const isOSIos = (value: number) => value === OS.ios
+export const isOSMacintoshOrIos = (value: number) => isOSMacintosh(value) || isOSIos(value)
+export const isOSAndroid = (value: number) => value === OS.android
+export const isOSLinux = (value: number) => value === OS.linux
+export const isOSOther = (value: number) => value === OS.other
 
 export function detectOS() {
   const userAgent = navigator.userAgent
@@ -41,4 +41,4 @@ export function detectOS() {
 export const getOsName = (value: number) => {
   const entry = Object.entries(OS).find(([key, val]) => val === value)
   return entry ? entry[0] : ''
-}
+} 

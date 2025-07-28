@@ -1,4 +1,3 @@
-
 const WPA = 'WPA'
 const WEP = 'WEP'
 const nopass = 'nopass'
@@ -9,6 +8,6 @@ export const encryption = {
 }
 export const encryptionKeys = [WPA, WEP, nopass] as const
 
-export const isWPA = (value: string) => value === WPA
-export const isWEP = (value: string) => value === WEP
-export const isNonpass = (value: string) => value === nopass
+export const isEncryptionWPA = (value: string) => value === WPA
+export const isEncryptionWEP = (value: string) => value === WEP
+export const isEncryptionNonpass = (value: string) => value === nopass 

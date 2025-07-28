@@ -24,4 +24,4 @@ export const socialMediaList = Object.values(SocialMedia)
 export const getSocialMediaName = (value: number): string => {
   const entry = Object.entries(SocialMedia).find(([key, val]) => val === value)
   return entry ? entry[0] : ''
-}
+} 
