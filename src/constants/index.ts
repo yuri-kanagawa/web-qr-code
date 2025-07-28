@@ -1,2 +1,6 @@
 export * from './colors'
-export * from '../domain/os'
+export * from './device'
+export * from './os'
+export * from './deviceOs'
+export * from './encryption'
+export * from './socialMedia'

@@ -1,17 +1,15 @@
-import { isEn } from '@/locales/utils'
+
+import { isEn } from '@/locales/language';
 import { phoneNumber } from '../ui/pages/phone/hooks/zod';
 
 export const path = {
   url: {
-    index: ({ lang, queryParameter }: { lang: string, queryParameter?: {
-      url : string
-    } }) => {
+    index: ({ lang }: { lang: string, }) => {
       const path = '/'
-      const queryString = queryParameter?.url ? `?url=${queryParameter.url}` : ''
       if (isEn(lang)) {
-        return `${path}${queryString}`
+        return `${path}`
       } else {
-        return `/${lang}${path}${queryString}`
+        return `/${lang}${path}`
       }
     }
   },
@@ -136,6 +134,15 @@ export const path = {
         return `${path}${queryString}`
       }
       return `/${lang}${path}${queryString}`
+    }
+  },
+  map: {
+    index: ({ lang }: { lang: string }) => {
+      const path = '/map'
+      if (isEn(lang)) {
+        return path
+      }
+      return `/${lang}${path}`
     }
   }
 } as const
