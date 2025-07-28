@@ -9,14 +9,19 @@ import { MutableRefObject, useEffect, useMemo, useRef } from 'react'
 
 import { useQrCode } from '@/hooks'
 
-export const useUrlQRCodeForm = () => {
+type Props = {
+  language?: string
+}
+
+export const useUrlQRCodeForm = ({ language = 'en' }: Props = {}) => {
   const { ref, onConfirm, onDownload } = useQrCode()
 
   const defaultValues: RegisterQrCodeUrlSchema = useMemo(() => {
     return {
-      url: ''
+      url: '',
+      language
     }
-  }, [])
+  }, [language])
 
   const {
     handleSubmit,
