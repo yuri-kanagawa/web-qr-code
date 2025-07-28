@@ -1,9 +1,9 @@
 import { MutableRefObject, useCallback, useMemo, useRef, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { addQueryParameter, removeQueryParamFromCurrentURL } from '@/utils/queryParameter'
-import { detectDevice } from '@/domain/device'
-import { getDeviceOs } from '@/domain/deviceOs'
-import { detectOS } from '@/domain/os'
+import { detectDevice } from '@/constants/device'
+import { getDeviceOs } from '@/constants/deviceOs'
+import { detectOS } from '@/constants/os'
 
 import { useQrScanner } from '@/hooks/useQrScanner'
 import { useNotify } from '@/hooks/useNotify'
