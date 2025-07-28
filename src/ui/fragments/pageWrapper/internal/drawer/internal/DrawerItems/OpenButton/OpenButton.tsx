@@ -15,6 +15,7 @@ import NavigateNextIcon from '@mui/icons-material/NavigateNext'
 import { colors } from '@/constants'
 import { useSidebar } from '@/stores'
 import PhoneIcon from '@mui/icons-material/Phone'
+import { word } from '@/locales/en/word'
 
 export const OpenButton: FC<Props> = ({}) => {
   const { isSidebarOpen, toggleSidebar, setIsSidebarOpen } = useSidebar()
@@ -33,7 +34,7 @@ export const OpenButton: FC<Props> = ({}) => {
           />
         </ListItemIcon>
         <ListItemText
-          primary={isSidebarOpen ? '閉じる' : '開く'}
+          primary={isSidebarOpen ? word.sidebar.close : word.sidebar.open}
           sx={{
             whiteSpace: 'nowrap',
             overflow: 'hidden',
