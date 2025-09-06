@@ -5,7 +5,7 @@ import {
 } from '@/ui/pages/text/hooks/zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useQrCode } from '@/hooks'
-import { RegisterQrCodeUrlSchema } from '@/ui/pages/url/hooks'
+import { RegisterQrCodeUrlSchema } from '@/ui/pages/Url/hooks'
 
 export const useSmsQrCodeForm = () => {
   const defaultValues: RegisterQrCodeTextSchema = {
