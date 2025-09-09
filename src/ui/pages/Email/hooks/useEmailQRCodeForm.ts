@@ -12,7 +12,7 @@ type Props = {
 }
 
 export const useEmailQRCodeForm = ({ language = 'en' }: Props = {}) => {
-  const {ref, onConfirm, onDownload } = useQrCode()
+  const { ref, onConfirm, onDownload } = useQrCode()
 
   const defaultValues: RegisterQrCodeEmailSchema = useMemo(() => {
     return {
@@ -28,6 +28,7 @@ export const useEmailQRCodeForm = ({ language = 'en' }: Props = {}) => {
     reset,
     watch,
     formState: { errors, isValid },
+    getFieldState,
     setFocus,
     ...rest
   } = useForm<RegisterQrCodeEmailSchema>({
@@ -56,7 +57,8 @@ export const useEmailQRCodeForm = ({ language = 'en' }: Props = {}) => {
     addQueryParameter({ email: currentEmail })
   }, [errors, currentEmail])
   const handleConfirm = async (): Promise<string | undefined> => {
-    if (!isValid) {
+    const { error: emailError } = getFieldState('email')
+    if (emailError) {
       submitErrorHandler(errors)
       return
     }

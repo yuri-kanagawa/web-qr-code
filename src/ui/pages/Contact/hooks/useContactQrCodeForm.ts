@@ -1,11 +1,10 @@
 import {
   registerQrCodeContactSchema,
   RegisterQrCodeContactSchema
-} from '@/ui/pages/contact/hooks/zod'
+} from '@/ui/pages/Contact/hooks/zod'
 import { SubmitErrorHandler, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useQrCode } from '@/hooks'
-
 
 export function useContactQrCodeForm() {
   const { ref, onConfirm, onDownload } = useQrCode()
@@ -22,30 +21,47 @@ export function useContactQrCodeForm() {
     address: '',
     url: ''
   }
-  const { handleSubmit, setFocus, getFieldState, ...rest } = useForm<RegisterQrCodeContactSchema>({
-    defaultValues,
-    resolver: zodResolver(registerQrCodeContactSchema),
-    mode: 'onChange'
-  })
-    const submitErrorHandler: SubmitErrorHandler<RegisterQrCodeContactSchema> = (
-      errors
-    ) => {
-      console.error(errors)
-      if (errors.email) {
-        return setFocus('email')
+  const { handleSubmit, setFocus, getFieldState, ...rest } =
+    useForm<RegisterQrCodeContactSchema>({
+      defaultValues,
+      resolver: zodResolver(registerQrCodeContactSchema),
+      mode: 'onChange'
+    })
+
+  const fieldsToCheck: (keyof RegisterQrCodeContactSchema)[] = [
+    'email',
+    'firstName',
+    'lastName',
+    'phoneNumber',
+    'organization',
+    'address',
+    'url'
+  ]
+
+  const submitErrorHandler: SubmitErrorHandler<RegisterQrCodeContactSchema> = (
+    errors
+  ) => {
+    console.error(errors)
+    for (const field of fieldsToCheck) {
+      if (errors[field]) {
+        setFocus(field)
+        return
       }
     }
+  }
+
   const handleConfirm = async (): Promise<string | undefined> => {
-    const {error: emailError } = getFieldState('email')
-    if (emailError) {
-      submitErrorHandler(emailError)
-      return
+    for (const field of fieldsToCheck) {
+      const { error } = getFieldState(field)
+      if (error) {
+        submitErrorHandler({ [field]: error })
+        return
+      }
     }
     return await onConfirm()
   }
+
   return {
-
-
     ref,
     onConfirm: handleConfirm,
     onDownload: handleSubmit(onDownload, submitErrorHandler),

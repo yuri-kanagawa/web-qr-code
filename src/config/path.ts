@@ -1,6 +1,5 @@
 
 import { isEn } from '@/locales/language';
-import { phoneNumber } from '../ui/pages/phone/hooks/zod';
 
 export const path = {
   url: {
@@ -87,7 +86,7 @@ export const path = {
       if (queryParameter?.body) {
         queryParts.push(`body=${queryParameter.body}`)
       }
-      
+
       const queryString = queryParts.length > 0 ? `?${queryParts.join('&')}` : ''
       const finalPath = `${path}${queryString}`
 
