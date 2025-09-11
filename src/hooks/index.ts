@@ -1,5 +1,5 @@
 export * from './useWindowSize'
-export * from './useQrcode'
+export * from './useQrCode'
 export * from './useComponentSize'
 export * from './useNotify'
 export * from './useQrScanner'
