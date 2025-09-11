@@ -1,8 +1,9 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { SubmitErrorHandler, useForm } from 'react-hook-form'
 import { useQrCode } from '@/hooks'
-import { useEffect, useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { registerQrCodeMapSchema, RegisterQrCodeMapSchema } from './zod'
+import { getLocationFromIP } from '@/utils/geolocation'
 
 type Props = {
   language?: string
@@ -10,6 +11,7 @@ type Props = {
 
 export const useMapQrCodeForm = ({ language = 'en' }: Props = {}) => {
   const { ref, onConfirm, onDownload } = useQrCode()
+  const [isLoadingLocation, setIsLoadingLocation] = useState(true)
 
   const defaultValues: RegisterQrCodeMapSchema = useMemo(() => {
     return {
@@ -37,9 +39,29 @@ export const useMapQrCodeForm = ({ language = 'en' }: Props = {}) => {
     defaultValues
   })
 
+  // IPアドレスから位置情報を取得して初期値として設定
   useEffect(() => {
-    reset(defaultValues)
-  }, [defaultValues, reset])
+    const fetchInitialLocation = async () => {
+      try {
+        setIsLoadingLocation(true)
+        const location = await getLocationFromIP()
+        const initialValues: RegisterQrCodeMapSchema = {
+          latitude: location.latitude.toString(),
+          longitude: location.longitude.toString(),
+          language
+        }
+        reset(initialValues)
+        console.log('Initial location set from IP:', location)
+      } catch (error) {
+        console.error('Failed to fetch initial location:', error)
+        reset(defaultValues)
+      } finally {
+        setIsLoadingLocation(false)
+      }
+    }
+
+    fetchInitialLocation()
+  }, [defaultValues, reset, language])
 
   const submitErrorHandler: SubmitErrorHandler<RegisterQrCodeMapSchema> = (
     errors
@@ -82,6 +104,7 @@ export const useMapQrCodeForm = ({ language = 'en' }: Props = {}) => {
     onDownload: handleSubmit(onDownload, submitErrorHandler),
     onSetCurrentLocation: handleSetCurrentLocation,
     formState,
+    isLoadingLocation,
     ...rest
   }
 } 

@@ -1,7 +1,7 @@
 'use client'
 import { FC } from 'react'
 import { Controller, useFormState } from 'react-hook-form'
-import { Stack, Box } from '@mui/material'
+import { Stack, Box, CircularProgress } from '@mui/material'
 import { useMapQrCodeForm } from '../../hooks'
 import { FormButton } from '@/ui/fragments/form/FormButton'
 import { LocationButton } from '@/ui/fragments/button'
@@ -37,6 +37,7 @@ export const MapForm: FC<Props> = () => {
     onConfirm,
     watch,
     onSetCurrentLocation,
+    isLoadingLocation,
     formState: { errors, isValid }
   } = useMapQrCodeForm({ language: currentLanguage })
 
@@ -102,6 +103,7 @@ export const MapForm: FC<Props> = () => {
           )}
         />
         <GoogleMap
+          isLoading={isLoadingLocation}
           value={{
             latitude: values.latitude ? parseFloat(values.latitude) : undefined,
             longitude: values.longitude
