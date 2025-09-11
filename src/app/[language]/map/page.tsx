@@ -1,5 +1,5 @@
 import { Metadata } from 'next'
-import { Page as MapPage } from '@/ui/pages/Map/Page'
+import { Page as MapPage } from '@/ui/pages/map/Page'
 
 type Props = {
   params: { language: string }
