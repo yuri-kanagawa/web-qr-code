@@ -1,3 +1,5 @@
+import { Page as RootPage } from '@/ui/pages/root'
+
 export default function Page() {
-  return <></>
+  return <RootPage language="en" />
 }

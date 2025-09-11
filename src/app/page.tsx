@@ -1,5 +1,5 @@
-import { Page as UrlPage } from '@/ui/pages/Url'
+import { Page as RootPage } from '@/ui/pages/root'
 
 export default function Page() {
-  return <UrlPage language="en" />
+  return <RootPage />
 }

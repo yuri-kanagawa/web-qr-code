@@ -4,7 +4,7 @@ import { isEn } from '@/locales/language';
 export const path = {
   url: {
     index: ({ lang }: { lang: string, }) => {
-      const path = '/'
+      const path = '/url'
       if (isEn(lang)) {
         return `${path}`
       } else {
