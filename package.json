@@ -19,6 +19,7 @@
     "@mui/material-nextjs": "^5.15.11",
     "@typescript-eslint/eslint-plugin": "^8.18.2",
     "@typescript-eslint/parser": "^8.18.2",
+    "caniuse-lite": "^1.0.30001741",
     "grammy": "^1.25.2",
     "mui-color-input": "^3.0.0",
     "mui-phone-number": "^3.0.3",
