@@ -112,5 +112,55 @@ export const word = {
     en: 'English',
     ja: '日本語',
     fr: 'Français'
+  },
+
+  // Top page content
+  topPage: {
+    title: 'QR Code Generator',
+    subtitle: 'Choose a feature to generate your QR code'
+  },
+
+  // Feature descriptions for top page
+  features: {
+    url: {
+      title: 'URL QR Code',
+      description: 'Generate QR codes for websites and URLs'
+    },
+    wifi: {
+      title: 'Wi-Fi QR Code',
+      description: 'Create QR codes to share Wi-Fi network credentials'
+    },
+    device: {
+      title: 'Device QR Code',
+      description: 'Generate QR codes for device information and settings'
+    },
+    contact: {
+      title: 'Contact QR Code',
+      description: 'Create QR codes for contact information (vCard)'
+    },
+    phone: {
+      title: 'Phone QR Code',
+      description: 'Generate QR codes for phone numbers'
+    },
+    email: {
+      title: 'Email QR Code',
+      description: 'Create QR codes for email addresses and messages'
+    },
+    sms: {
+      title: 'SMS QR Code',
+      description: 'Generate QR codes for SMS messages'
+    },
+    text: {
+      title: 'Text QR Code',
+      description: 'Create QR codes for plain text content'
+    },
+    map: {
+      title: 'Map QR Code',
+      description: 'Generate QR codes for location coordinates'
+    },
+    reader: {
+      title: 'QR Code Reader',
+      description: 'Scan and read QR codes with your device'
+    }
   }
 }

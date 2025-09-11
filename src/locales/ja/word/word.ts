@@ -112,5 +112,55 @@ export const word = {
     en: 'English',
     ja: '日本語',
     fr: 'Français'
+  },
+
+  // Top page content
+  topPage: {
+    title: 'QRコードジェネレーター',
+    subtitle: 'QRコードを生成する機能を選択してください'
+  },
+
+  // Feature descriptions for top page
+  features: {
+    url: {
+      title: 'URL QRコード',
+      description: 'ウェブサイトやURLのQRコードを生成'
+    },
+    wifi: {
+      title: 'Wi-Fi QRコード',
+      description: 'Wi-Fiネットワークの認証情報を共有するQRコードを作成'
+    },
+    device: {
+      title: 'デバイス QRコード',
+      description: 'デバイス情報や設定のQRコードを生成'
+    },
+    contact: {
+      title: '連絡先 QRコード',
+      description: '連絡先情報（vCard）のQRコードを作成'
+    },
+    phone: {
+      title: '電話 QRコード',
+      description: '電話番号のQRコードを生成'
+    },
+    email: {
+      title: 'メール QRコード',
+      description: 'メールアドレスやメッセージのQRコードを作成'
+    },
+    sms: {
+      title: 'SMS QRコード',
+      description: 'SMSメッセージのQRコードを生成'
+    },
+    text: {
+      title: 'テキスト QRコード',
+      description: 'プレーンテキストのQRコードを作成'
+    },
+    map: {
+      title: '地図 QRコード',
+      description: '位置座標のQRコードを生成'
+    },
+    reader: {
+      title: 'QRコードリーダー',
+      description: 'デバイスでQRコードをスキャンして読み取り'
+    }
   }
 }
