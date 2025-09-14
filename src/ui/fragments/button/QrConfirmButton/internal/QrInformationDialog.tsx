@@ -1,6 +1,6 @@
 import { FC, useMemo } from 'react'
 import { fromSmsScheme, isSmsSchema } from '@/ui/pages/sms/hooks/utils'
-import { isUrl } from '@/ui/pages/url/hooks/utils'
+
 import {
   Button,
   Dialog,
@@ -12,6 +12,7 @@ import {
 import { fromTelScheme, isTelScheme } from '@/ui/pages/phone/hooks/utils'
 import { useRouter } from 'next/navigation'
 import { path } from '@/config/path'
+import { isUrl } from '@/constants/qr'
 
 type Props = {
   qrInformation: string

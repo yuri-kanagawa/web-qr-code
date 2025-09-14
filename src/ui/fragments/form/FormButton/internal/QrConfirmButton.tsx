@@ -9,9 +9,10 @@ import {
 } from '@mui/material'
 
 import { useDisclosure } from '@/hooks/useDisclosure'
-import { isUrl } from '@/ui/pages/url/hooks/utils'
+
 import { isSmsSchema } from '@/ui/pages/sms/hooks/utils'
 import { isTelScheme } from '@/ui/pages/phone/hooks/utils'
+import { isUrl } from '@/constants/qr'
 
 type Props = {
   onClick?: () => Promise<string | undefined>
