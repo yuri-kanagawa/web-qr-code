@@ -9,17 +9,18 @@ import { registerQrCodeUrlSchema, RegisterQrCodeUrlSchema } from './zod'
 
 type Props = {
   language?: string
+  initialUrl?: string
 }
 
-export const useUrlQRCodeForm = ({ language = 'en' }: Props = {}) => {
+export const useUrlQRCodeForm = ({ language = 'en', initialUrl = '' }: Props = {}) => {
   const { ref, onConfirm, onDownload } = useQrCode()
 
   const defaultValues: RegisterQrCodeUrlSchema = useMemo(() => {
     return {
-      url: '',
+      url: initialUrl,
       language
     }
-  }, [language])
+  }, [language, initialUrl])
 
   const {
     handleSubmit,

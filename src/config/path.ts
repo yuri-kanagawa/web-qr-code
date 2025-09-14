@@ -3,12 +3,14 @@ import { isEn } from '@/locales/language';
 
 export const path = {
   url: {
-    index: ({ lang }: { lang: string, }) => {
+    index: ({ lang, queryParameter }: { lang: string, queryParameter?: { url?: string } }) => {
       const path = '/url'
+      const queryString = queryParameter?.url ? `?url=${encodeURIComponent(queryParameter.url)}` : ''
+      const finalPath = `${path}${queryString}`
       if (isEn(lang)) {
-        return `${path}`
+        return finalPath
       } else {
-        return `/${lang}${path}`
+        return `/${lang}${finalPath}`
       }
     }
   },
