@@ -1,13 +1,11 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { SubmitErrorHandler, SubmitHandler, useForm } from 'react-hook-form'
-import {
-  RegisterQrCodeUrlSchema,
-  registerQrCodeUrlSchema
-} from '@/ui/pages/url/hooks/zod'
+
 
 import { MutableRefObject, useEffect, useMemo, useRef } from 'react'
 
 import { useQrCode } from '@/hooks'
+import { registerQrCodeUrlSchema, RegisterQrCodeUrlSchema } from './zod'
 
 type Props = {
   language?: string
@@ -30,7 +28,7 @@ export const useUrlQRCodeForm = ({ language = 'en' }: Props = {}) => {
     watch,
     trigger,
     getFieldState,
-    formState: { errors, isValid },
+
     setFocus,
     ...rest
   } = useForm<RegisterQrCodeUrlSchema>({

@@ -1,15 +1,14 @@
-'use client'
-
-import { PageWrapper } from '@/ui/fragments/pageWrapper'
 import { UrlForm } from './internal'
-import { FC } from 'react'
-type Props = {
-  language: string
+import { PageWrapper } from '@/ui/fragments/pageWrapper'
+
+interface Props {
+  language?: string
 }
-export const Page: FC<Props> = ({ language }) => {
+
+export const Page = ({ language = 'en' }: Props) => {
   return (
     <PageWrapper>
-      <UrlForm  />
+      <UrlForm language={language} />
     </PageWrapper>
   )
 }
