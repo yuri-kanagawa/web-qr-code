@@ -1,5 +1,5 @@
-import { SmsPage } from '../../ui/pages/Sms'
+import { SmsPage } from '@/ui/pages/sms'
 
 export default function Page() {
-  return <SmsPage />
+  return <SmsPage language="en" phoneNumber="" body="" />
 }

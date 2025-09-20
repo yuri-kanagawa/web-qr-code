@@ -1,5 +1,20 @@
-import { Page as ContactPage } from '@/ui/pages/Contact/Page'
+import { Page as ContactPage } from '@/ui/pages/contact'
 
 export default function Page() {
-  return <ContactPage />
+  return (
+    <ContactPage
+      language="en"
+      firstName=""
+      lastName=""
+      middleName=""
+      email=""
+      organization=""
+      url=""
+      phoneNumber=""
+      post=""
+      businessCellularTelephone=""
+      privateCellularTelephone=""
+      address=""
+    />
+  )
 }

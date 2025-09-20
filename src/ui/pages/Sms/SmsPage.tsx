@@ -1,17 +1,18 @@
 'use client'
 import React, { FC } from 'react'
-import { useQrCode } from '@/hooks'
-import { PageWrapper } from '../../fragments/pageWrapper'
-import { TextField } from '@mui/material'
-import { SmsForm } from './internal'
 
-type Props = {}
+import { PageWrapper, SmsForm } from '@/ui/fragments'
 
-export const SmsPage: FC<Props> = ({}) => {
+type Props = {
+  language: string
+  phoneNumber: string
+  body: string
+}
 
+export const SmsPage: FC<Props> = (props) => {
   return (
     <PageWrapper>
-      <SmsForm/>
+      <SmsForm {...props} />
     </PageWrapper>
   )
 }

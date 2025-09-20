@@ -10,7 +10,7 @@ import {
 
 import { useDisclosure } from '@/hooks/useDisclosure'
 
-import { isSmsSchema } from '@/ui/pages/sms/hooks/utils'
+import { isSmsSchema } from '@/ui/fragments/form/QrForm/SmsForm/hooks/utils'
 import { isTelScheme } from '@/ui/pages/phone/hooks/utils'
 import { isUrl } from '@/constants/qr'
 

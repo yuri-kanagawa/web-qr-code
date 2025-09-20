@@ -1,5 +1,5 @@
-import { Page as DevicePage } from '../../ui/pages/Device'
+import { Page as DevicePage } from '@/ui/pages/device'
 
 export default function Page() {
-  return <DevicePage />
+  return <DevicePage language="en" />
 }

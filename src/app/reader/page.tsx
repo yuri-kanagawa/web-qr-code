@@ -1,7 +1,7 @@
 import { useRouter } from 'next/navigation'
 import { path } from '@/config/path'
-import { Page as ReaderPage } from '@/ui/pages/Reader/page'
+import { Page as ReaderPage } from '@/ui/pages/reader/Page'
 
 export default function Page() {
-  return <ReaderPage />
+  return <ReaderPage language="en" />
 }

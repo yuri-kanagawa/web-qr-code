@@ -1,5 +1,5 @@
 import { Page as UrlPage } from '@/ui/pages/url'
 
 export default function Page() {
-  return <UrlPage language="en" />
+  return <UrlPage language="en" url="" />
 }

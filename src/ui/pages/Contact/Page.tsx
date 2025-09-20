@@ -1,14 +1,27 @@
-import { PageWrapper } from '../../fragments/pageWrapper'
+'use client'
+import { PageWrapper, ContactForm } from '@/ui/fragments'
 
 import React, { FC } from 'react'
-import { ContactForm } from './internal'
 
-type Props = {}
+interface Props {
+  language: string
+  firstName: string
+  lastName: string
+  middleName: string
+  email: string
+  organization: string
+  url: string
+  phoneNumber: string
+  post: string
+  businessCellularTelephone: string
+  privateCellularTelephone: string
+  address: string
+}
 
-export const Page: FC<Props> = ({}) => {
+export const Page: FC<Props> = (props) => {
   return (
     <PageWrapper>
-      <ContactForm />
+      <ContactForm {...props} />
     </PageWrapper>
   )
 }

@@ -1,5 +1,5 @@
-import { EmailPage } from '@/ui/pages/Email/EmailPage'
+import { Page as EmailPage } from '@/ui/pages/email'
 
 export default function Page() {
-  return <EmailPage />
+  return <EmailPage language={'en'} email={''} subject={''} body={''} />
 }

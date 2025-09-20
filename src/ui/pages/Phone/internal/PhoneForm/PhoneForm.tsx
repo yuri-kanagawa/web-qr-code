@@ -6,7 +6,9 @@ import { FormButton } from '@/ui/fragments/form/FormButton'
 import { toTelScheme } from '../../hooks/utils'
 import { PhoneTextField } from '@/ui/fragments/textField'
 
-type Props = {}
+interface Props {
+  language: string
+}
 
 export const PhoneForm: FC<Props> = ({}) => {
   const { control, ref, onConfirm, onDownload, watch } = usePhoneQrCodeForm()

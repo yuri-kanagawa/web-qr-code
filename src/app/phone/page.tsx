@@ -1,5 +1,5 @@
-import { PhonePage } from '@/ui/pages/phone'
+import { Page as PhonePage } from '@/ui/pages/phone'
 
 export default function Page() {
-  return <PhonePage />
+  return <PhonePage language="en" />
 }

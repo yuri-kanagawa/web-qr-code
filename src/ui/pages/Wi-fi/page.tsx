@@ -1,12 +1,16 @@
-import { useQrCode } from '@/hooks'
-import { PageWrapper } from '../../fragments/pageWrapper'
-import { WiFiForm } from './_internal'
+'use client'
+import { PageWrapper, WiFiForm } from '@/ui/fragments'
 import React, { FC } from 'react'
-type Props = {}
-export const Page: FC<Props> = ({}) => {
+interface Props {
+  language: string
+  ssid: string
+  password: string
+  type: string
+}
+export const Page: FC<Props> = (props) => {
   return (
     <PageWrapper>
-      <WiFiForm />
+      <WiFiForm {...props} />
     </PageWrapper>
   )
 }

@@ -1,5 +1,5 @@
 import { useNotify, useQrCode, useQrScanner } from '@/hooks'
-import { RegisterQrCodeUrlSchema } from '@/ui/pages/url/hooks'
+import { RegisterQrCodeUrlSchema } from '@/ui/fragments/form/QrForm/UrlForm/hooks'
 import { useEffect, useMemo } from 'react'
 import {
   registerQrCodePhoneSchema,

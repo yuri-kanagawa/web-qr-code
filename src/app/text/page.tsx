@@ -1,7 +1,7 @@
 import React from 'react'
 
-import { TextPage } from '../../ui/pages/Text'
+import { Page as TextPage } from '@/ui/pages/text'
 
 export default function Page() {
-  return <TextPage />
+  return <TextPage language={'en'} text={''} />
 }

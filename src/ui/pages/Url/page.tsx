@@ -1,18 +1,16 @@
-import { UrlForm } from './internal'
+'use client'
+import { UrlForm } from '@/ui/fragments'
 import { PageWrapper } from '@/ui/fragments/pageWrapper'
-import { useSearchParams } from 'next/navigation'
 
 interface Props {
-  language?: string
+  language: string
+  url: string
 }
 
-export const Page = ({ language = 'en' }: Props) => {
-  const searchParams = useSearchParams()
-  const initialUrl = searchParams.get('url') || ''
-
+export const Page = (props: Props) => {
   return (
     <PageWrapper>
-      <UrlForm language={language} initialUrl={initialUrl} />
+      <UrlForm {...props} />
     </PageWrapper>
   )
 }

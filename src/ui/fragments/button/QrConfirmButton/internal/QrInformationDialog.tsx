@@ -1,5 +1,8 @@
 import { FC, useMemo } from 'react'
-import { fromSmsScheme, isSmsSchema } from '@/ui/pages/sms/hooks/utils'
+import {
+  fromSmsScheme,
+  isSmsSchema
+} from '@/ui/fragments/form/QrForm/SmsForm/hooks/utils'
 
 import {
   Button,

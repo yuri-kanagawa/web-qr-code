@@ -1,1 +1,1 @@
-export * from './TextPage'
+export * from './Page'

@@ -1,6 +1,6 @@
+'use client'
 import { FC } from 'react'
-import { PageWrapper } from '@/ui/fragments/pageWrapper'
-import { MapForm } from './internal'
+import { PageWrapper, MapForm } from '@/ui/fragments/'
 
 export const Page: FC = () => {
   return (

@@ -1,10 +1,14 @@
-import { PageWrapper } from '@/ui/fragments/pageWrapper'
-import { DeviceEditForm } from './internal/DeviceEditForm/DeviceEditForm'
+'use client'
+import { PageWrapper, DeviceForm } from '@/ui/fragments'
 
-export const Page = () => {
+interface Props {
+  language: string
+}
+
+export const Page = (props: Props) => {
   return (
     <PageWrapper>
-      <DeviceEditForm />
+      <DeviceForm {...props} />
     </PageWrapper>
   )
 }

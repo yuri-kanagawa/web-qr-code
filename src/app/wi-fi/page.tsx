@@ -1,6 +1,6 @@
 import React from 'react'
-import { Page as WiFiPage } from '../../ui/pages/Wi-fi'
+import { Page as WiFiPage } from '@/ui/pages/wi-fi'
 
 export default function Page() {
-  return <WiFiPage />
+  return <WiFiPage language="en" ssid="" password="" type="" />
 }
