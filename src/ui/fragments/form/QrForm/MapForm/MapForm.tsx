@@ -10,25 +10,12 @@ import {
   LatitudeTextField,
   LongitudeTextField
 } from '@/ui/fragments/textField/NumberTextField'
-import { usePathname } from 'next/navigation'
 
-// パスから言語を抽出する関数
-const getCurrentLanguage = (pathname: string): string => {
-  const segments = pathname.split('/')
-  const firstSegment = segments[1]
-
-  if (firstSegment === 'ja' || firstSegment === 'fr') {
-    return firstSegment
-  }
-  return 'en'
+type Props = {
+  language: string
 }
 
-type Props = {}
-
-export const MapForm: FC<Props> = () => {
-  const pathname = usePathname()
-  const currentLanguage = getCurrentLanguage(pathname)
-
+export const MapForm: FC<Props> = ({ language }) => {
   const {
     control,
     ref,
@@ -38,7 +25,7 @@ export const MapForm: FC<Props> = () => {
     onSetCurrentLocation,
     isLoadingLocation,
     formState: { errors, isValid }
-  } = useMapQrCodeForm({ language: currentLanguage })
+  } = useMapQrCodeForm({ language })
 
   const values = watch()
   const latitudeIsValid = !errors.latitude
