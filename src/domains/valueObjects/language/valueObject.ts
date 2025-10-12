@@ -1,7 +1,6 @@
 import { LanguageResult } from './result'
 import { LanguageValueError } from './error'
-import { Locale, locales, languages } from '@/locales/language'
-import type { LanguageKey } from '@/locales/language'
+import { Locale, locales, languages, LanguageKey } from '@/locales'
 
 export type { LanguageKey }
 
