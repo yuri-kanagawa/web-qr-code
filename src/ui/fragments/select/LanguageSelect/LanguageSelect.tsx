@@ -1,24 +1,25 @@
-'use client'
 import { FC } from 'react'
 import { Select, MenuItem, FormControl, InputLabel } from '@mui/material'
-import { language, LanguageKey } from '@/locales/language'
+import { Language, LanguageKey } from '@/domains/valueObjects/language'
 import { useRouter, usePathname } from 'next/navigation'
 import { word } from '@/locales/en/word'
 
 type Props = {
-  currentLanguage: LanguageKey
-  onLanguageChange?: (language: LanguageKey) => void
+  language: Language
+  onLanguageChange?: (language: Language) => void
 }
 
-export const LanguageSelect: FC<Props> = ({
-  currentLanguage,
-  onLanguageChange
-}) => {
+export const LanguageSelect: FC<Props> = ({ language, onLanguageChange }) => {
   const router = useRouter()
   const pathname = usePathname()
 
   const handleLanguageChange = (event: any) => {
-    const newLanguage = event.target.value as LanguageKey
+    const newLanguageKey = event.target.value as LanguageKey
+    const result = Language.create(newLanguageKey)
+
+    if (result.isFailure) return
+
+    const newLanguage = result.language!
 
     if (onLanguageChange) {
       onLanguageChange(newLanguage)
@@ -28,13 +29,13 @@ export const LanguageSelect: FC<Props> = ({
       let newPath = currentPath
 
       // 現在のパスから言語プレフィックスを除去
-      if (currentLanguage !== 'en') {
-        newPath = currentPath.replace(`/${currentLanguage}`, '')
+      if (!language.isEnglish) {
+        newPath = currentPath.replace(`/${language.value}`, '')
       }
 
       // 新しい言語のパスを構築
-      if (newLanguage !== 'en') {
-        newPath = `/${newLanguage}${newPath}`
+      if (!newLanguage.isEnglish) {
+        newPath = `/${newLanguage.value}${newPath}`
       }
 
       router.push(newPath)
@@ -47,11 +48,11 @@ export const LanguageSelect: FC<Props> = ({
       <Select
         labelId="language-select-label"
         id="language-select"
-        value={currentLanguage}
+        value={language.value}
         label={word.select.language}
         onChange={handleLanguageChange}
       >
-        {Object.entries(language).map(([key, label]) => (
+        {Language.getAllLanguages().map(({ key, label }) => (
           <MenuItem key={key} value={key}>
             {label}
           </MenuItem>

@@ -9,12 +9,14 @@ import React, { useMemo } from 'react'
 import { LeftDrawer } from './internal/drawer'
 import { useSidebar } from '@/stores'
 import { useWindowSize } from '@/hooks'
+import { Language } from '@/domains/valueObjects/language'
 
 type Props = {
+  language: Language
   children: React.ReactNode
 }
 
-export const PageWrapper = ({ children }: Props) => {
+export const PageWrapper = ({ language, children }: Props) => {
   const { ref, width } = useComponentSize()
   const { isSidebarOpen, toggleSidebar, setIsSidebarOpen } = useSidebar()
   const { isLessTablet } = useWindowSize()
@@ -35,7 +37,7 @@ export const PageWrapper = ({ children }: Props) => {
         />
       )}
       <Box display={'flex'}>
-        <LeftDrawer />
+        <LeftDrawer language={language} />
 
         <Box
           flex={1}
