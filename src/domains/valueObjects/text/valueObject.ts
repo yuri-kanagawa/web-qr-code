@@ -30,6 +30,10 @@ export class Text {
     return new Text('', language)
   }
 
+  static default(): Text {
+    return new Text('', Language.default())
+  }
+
   get value(): string {
     return this._value
   }

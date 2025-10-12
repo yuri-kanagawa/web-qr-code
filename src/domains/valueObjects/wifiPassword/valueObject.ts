@@ -34,6 +34,10 @@ export class WiFiPassword {
     return new WiFiPassword('', language)
   }
 
+  static default(): WiFiPassword {
+    return new WiFiPassword('', Language.default())
+  }
+
   get value(): string {
     return this._value
   }

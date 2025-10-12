@@ -34,6 +34,10 @@ export class WiFiSsid {
     return new WiFiSsid('', language)
   }
 
+  static default(): WiFiSsid {
+    return new WiFiSsid('', Language.default())
+  }
+
   get value(): string {
     return this._value
   }

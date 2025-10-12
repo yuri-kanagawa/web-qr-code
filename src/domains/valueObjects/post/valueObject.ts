@@ -29,6 +29,10 @@ export class Post {
     return new Post('', language)
   }
 
+  static default(): Post {
+    return new Post('', Language.default())
+  }
+
   get value(): string {
     return this._value
   }

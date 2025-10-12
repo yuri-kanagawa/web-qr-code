@@ -29,6 +29,10 @@ export class Subject {
     return new Subject('', language)
   }
 
+  static default(): Subject {
+    return new Subject('', Language.default())
+  }
+
   get value(): string {
     return this._value
   }

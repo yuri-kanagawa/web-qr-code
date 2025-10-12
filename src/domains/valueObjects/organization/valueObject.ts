@@ -29,6 +29,10 @@ export class Organization {
     return new Organization('', language)
   }
 
+  static default(): Organization {
+    return new Organization('', Language.default())
+  }
+
   get value(): string {
     return this._value
   }

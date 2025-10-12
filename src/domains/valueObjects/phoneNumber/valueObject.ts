@@ -35,6 +35,10 @@ export class PhoneNumber {
     return new PhoneNumber('', language)
   }
 
+  static default(): PhoneNumber {
+    return new PhoneNumber('', Language.default())
+  }
+
   get value(): string {
     return this._value
   }

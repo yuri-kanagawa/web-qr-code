@@ -50,6 +50,10 @@ export class Email {
     return new Email('', language)
   }
 
+  static default(): Email {
+    return new Email('', Language.default())
+  }
+
   get value(): string {
     return this._value
   }

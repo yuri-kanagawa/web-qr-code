@@ -30,6 +30,10 @@ export class Body {
     return new Body('', language)
   }
 
+  static default(): Body {
+    return new Body('', Language.default())
+  }
+
   get value(): string {
     return this._value
   }

@@ -29,6 +29,10 @@ export class Address {
     return new Address('', language)
   }
 
+  static default(): Address {
+    return new Address('', Language.default())
+  }
+
   get value(): string {
     return this._value
   }

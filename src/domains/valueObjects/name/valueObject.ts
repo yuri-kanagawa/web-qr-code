@@ -29,6 +29,10 @@ export class Name {
     return new Name('', language)
   }
 
+  static default(): Name {
+    return new Name('', Language.default())
+  }
+
   get value(): string {
     return this._value
   }

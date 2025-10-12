@@ -32,6 +32,10 @@ export class WiFiType {
     return new WiFiType('', language)
   }
 
+  static default(): WiFiType {
+    return new WiFiType('', Language.default())
+  }
+
   static wpa(language: Language): WiFiType {
     return new WiFiType('WPA', language)
   }

@@ -36,6 +36,10 @@ export class Url {
     return new Url('', language)
   }
 
+  static default(): Url {
+    return new Url('', Language.default())
+  }
+
   get value(): string {
     return this._value
   }
