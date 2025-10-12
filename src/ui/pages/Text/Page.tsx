@@ -2,15 +2,16 @@
 import React, { FC } from 'react'
 import { PageWrapper } from '../../fragments/pageWrapper'
 import { TextForm } from '@/ui/fragments'
+import { Language } from '@/domains/valueObjects/language'
 
 interface Props {
-  language: string
+  language: Language
   text: string
 }
 
 export const Page: FC<Props> = (props) => {
   return (
-    <PageWrapper>
+    <PageWrapper language={props.language}>
       <TextForm {...props} />
     </PageWrapper>
   )

@@ -1,15 +1,15 @@
-'use client'
 import { UrlForm } from '@/ui/fragments'
 import { PageWrapper } from '@/ui/fragments/pageWrapper'
+import { Language } from '@/domains/valueObjects/language'
 
 interface Props {
-  language: string
+  language: Language
   url: string
 }
 
 export const Page = (props: Props) => {
   return (
-    <PageWrapper>
+    <PageWrapper language={props.language}>
       <UrlForm {...props} />
     </PageWrapper>
   )

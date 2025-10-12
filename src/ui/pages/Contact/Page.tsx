@@ -1,10 +1,11 @@
 'use client'
 import { PageWrapper, ContactForm } from '@/ui/fragments'
+import { Language } from '@/domains/valueObjects/language'
 
 import React, { FC } from 'react'
 
 interface Props {
-  language: string
+  language: Language
   firstName: string
   lastName: string
   middleName: string
@@ -20,7 +21,7 @@ interface Props {
 
 export const Page: FC<Props> = (props) => {
   return (
-    <PageWrapper>
+    <PageWrapper language={props.language}>
       <ContactForm {...props} />
     </PageWrapper>
   )

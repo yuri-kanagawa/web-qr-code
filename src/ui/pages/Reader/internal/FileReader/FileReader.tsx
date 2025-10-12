@@ -2,9 +2,10 @@ import { InputFile } from '@/ui/fragments/input/InputFile/InputFile'
 import React, { FC, useState } from 'react'
 import { Stack } from '@mui/material'
 import { QrConfirmButton } from '@/ui/fragments/button'
+import { Language } from '@/domains'
 
 interface Props {
-  language: string
+  language: Language
 }
 
 export const FileReader: FC<Props> = (props) => {

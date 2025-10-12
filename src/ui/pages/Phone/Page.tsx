@@ -1,16 +1,17 @@
 'use client'
 import React, { FC, useState } from 'react'
 import { PageWrapper } from '@/ui/fragments/pageWrapper'
+import { Language } from '@/domains/valueObjects/language'
 
 import { PhoneForm } from './internal'
 
 interface Props {
-  language: string
+  language: Language
 }
 
 export const Page: FC<Props> = (props) => {
   return (
-    <PageWrapper>
+    <PageWrapper language={props.language}>
       <PhoneForm {...props} />
     </PageWrapper>
   )

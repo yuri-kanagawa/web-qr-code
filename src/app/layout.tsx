@@ -5,7 +5,8 @@ import { en } from '@/locales/en'
 const inter = Inter({ subsets: ['latin'] })
 
 import { StateWrap } from '@/app/_state'
-export const metadata = en.meta.index
+import { Language } from '@/domains'
+export const metadata = Language.default().getLocale().meta.index
 
 export default function RootLayout({
   children

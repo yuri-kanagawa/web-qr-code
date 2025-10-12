@@ -1,12 +1,14 @@
 'use client'
 import { FC } from 'react'
 import { PageWrapper, MapForm } from '@/ui/fragments/'
+import { Language } from '@/domains/valueObjects/language'
+
 interface Props {
-  language: string
+  language: Language
 }
 export const Page: FC<Props> = (props) => {
   return (
-    <PageWrapper>
+    <PageWrapper language={props.language}>
       <MapForm {...props} />
     </PageWrapper>
   )

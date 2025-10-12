@@ -2,16 +2,17 @@
 import React, { FC } from 'react'
 
 import { PageWrapper, SmsForm } from '@/ui/fragments'
+import { Language } from '@/domains/valueObjects/language'
 
 type Props = {
-  language: string
+  language: Language
   phoneNumber: string
   body: string
 }
 
 export const SmsPage: FC<Props> = (props) => {
   return (
-    <PageWrapper>
+    <PageWrapper language={props.language}>
       <SmsForm {...props} />
     </PageWrapper>
   )
