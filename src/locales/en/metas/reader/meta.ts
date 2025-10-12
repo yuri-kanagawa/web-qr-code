@@ -1,5 +1,5 @@
 import { Metadata } from 'next'
-import { appName } from '@/locales/common'
+import { appName } from '@/locales/config/constants'
 
 const DESCRIPTION = 'Scan and read QR codes with your device camera.'
 const OGP_IMAGE_URL = '/opengraph-image.png'

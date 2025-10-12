@@ -68,6 +68,9 @@ export const message = {
       delete: 'Delete',
       add: 'Add',
       remove: 'Remove',
+      disagree: 'Disagree',
+      close: 'Close',
+      execute: 'Execute',
       getCurrentLocation: 'Get Current Location'
     },
 

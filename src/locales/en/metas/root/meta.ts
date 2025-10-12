@@ -1,5 +1,5 @@
 import { Metadata } from 'next'
-import {appName} from '@/locales/common'
+import { appName } from '@/locales/config/constants'
 const DESCRIPTION = 'Your site description here.'
 const OGP_IMAGE_URL = '/opengraph-image.png' // public配下に画像がある前提
 

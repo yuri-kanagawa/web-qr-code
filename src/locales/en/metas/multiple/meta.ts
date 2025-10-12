@@ -1,5 +1,5 @@
 import { Metadata } from 'next'
-import { appName } from '@/locales/common'
+import { appName } from '@/locales/config/constants'
 
 const DESCRIPTION = 'Generate multiple QR codes at once for different types of content.'
 const OGP_IMAGE_URL = '/opengraph-image.png'

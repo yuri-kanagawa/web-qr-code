@@ -6,7 +6,7 @@ export const ja = {
   word,
   message,
   meta
-}
+} as const
 
 export * from './word'
 export * from './message'

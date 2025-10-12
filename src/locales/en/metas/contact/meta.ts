@@ -1,5 +1,5 @@
 import { Metadata } from 'next'
-import { appName } from '@/locales/common'
+import { appName } from '@/locales/config/constants'
 
 const DESCRIPTION = 'Generate QR codes for contact information and business cards.'
 const OGP_IMAGE_URL = '/opengraph-image.png'

@@ -1,5 +1,5 @@
 import { Metadata } from 'next'
-import { appName } from '@/locales/common'
+import { appName } from '@/locales/config/constants'
 
 const DESCRIPTION = 'URLやウェブリンクのQRコードを簡単に生成できます。'
 const OGP_IMAGE_URL = '/opengraph-image.png'

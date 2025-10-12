@@ -1,5 +1,5 @@
 import { Metadata } from 'next'
-import { appName } from '@/locales/common'
+import { appName } from '@/locales/config/constants'
 
 const DESCRIPTION = '電話番号のQRコードを生成して、簡単に電話をかけられるようにします。'
 const OGP_IMAGE_URL = '/opengraph-image.png'

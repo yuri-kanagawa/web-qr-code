@@ -24,7 +24,7 @@ export const message = {
 
     // Phone validation
     phone: {
-      invalid: 'Invalid phone number',
+      invalid: '電話番号が無効です',
       required: '電話番号を入力してください'
     },
 
@@ -68,6 +68,9 @@ export const message = {
       delete: '削除',
       add: '追加',
       remove: '削除',
+      disagree: '同意しない',
+      close: '閉じる',
+      execute: '実行',
       getCurrentLocation: '現在地を取得'
     },
 

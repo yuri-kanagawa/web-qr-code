@@ -1,13 +1,10 @@
-
-import { isEn } from '@/locales/language';
-
 export const path = {
   url: {
     index: ({ lang, queryParameter }: { lang: string, queryParameter?: { url?: string } }) => {
       const path = '/url'
       const queryString = queryParameter?.url ? `?url=${encodeURIComponent(queryParameter.url)}` : ''
       const finalPath = `${path}${queryString}`
-      if (isEn(lang)) {
+      if (lang === 'en') {
         return finalPath
       } else {
         return `/${lang}${finalPath}`
@@ -17,7 +14,7 @@ export const path = {
   socialMedia: {
     index: ({ lang }: { lang: string }) => {
       const path = '/social-media'
-      if (isEn(lang)) {
+      if (lang === 'en') {
         return path
       } else {
         return `/${lang}${path}`
@@ -28,7 +25,7 @@ export const path = {
   wifi: {
     index: ({ lang }: { lang: string }) => {
       const path = '/wi-fi'
-      if (isEn(lang)) {
+      if (lang === 'en') {
         return path
       }
       return `/${lang}${path}`
@@ -37,14 +34,14 @@ export const path = {
   device: {
     index: ({ lang }: { lang: string }) => {
       const path = '/device'
-      if (isEn(lang)) {
+      if (lang === 'en') {
         return path
       }
       return `/${lang}${path}`
     },
     redirect: ({ lang }: { lang: string }) => {
       const path = '/device/redirect'
-      if (isEn(lang)) {
+      if (lang === 'en') {
         return path
       }
       return `/${lang}${path}`
@@ -53,7 +50,7 @@ export const path = {
   contact: {
     index: ({ lang }: { lang: string }) => {
       const path = '/contact'
-      if (isEn(lang)) {
+      if (lang === 'en') {
         return path
       }
       return `/${lang}${path}`
@@ -62,14 +59,14 @@ export const path = {
   text: {
     index: ({ lang }: { lang: string }) => {
       const path = '/text'
-      if (isEn(lang)) {
+      if (lang === 'en') {
         return path
       }
       return `/${lang}${path}`
     },
     read: ({ lang }: { lang: string }) => {
       const path = '/text/read'
-      if (isEn(lang)) {
+      if (lang === 'en') {
         return path
       }
       return `/${lang}${path}`
@@ -92,7 +89,7 @@ export const path = {
       const queryString = queryParts.length > 0 ? `?${queryParts.join('&')}` : ''
       const finalPath = `${path}${queryString}`
 
-      if (isEn(lang)) {
+      if (lang === 'en') {
         return finalPath
       }
       return `/${lang}${finalPath}`
@@ -101,7 +98,7 @@ export const path = {
   email: {
     index: ({ lang }: { lang: string }) => {
       const path = '/email'
-      if (isEn(lang)) {
+      if (lang === 'en') {
         return path
       }
       return `/${lang}${path}`
@@ -110,7 +107,7 @@ export const path = {
   reader: {
     index: ({ lang }: { lang: string }) => {
       const path = '/reader'
-      if (isEn(lang)) {
+      if (lang === 'en') {
         return path
       }
       return `/${lang}${path}`
@@ -119,7 +116,7 @@ export const path = {
   edit: {
     index: ({ lang }: { lang: string }) => {
       const path = '/edit'
-      if (isEn(lang)) {
+      if (lang === 'en') {
         return path
       }
       return `/${lang}${path}`
@@ -131,7 +128,7 @@ export const path = {
     } }) => {
       const path = '/phone'
       const queryString = queryParameter?.phoneNumber ? `?phoneNumber=${queryParameter.phoneNumber}` : ''
-      if (isEn(lang)) {
+      if (lang === 'en') {
         return `${path}${queryString}`
       }
       return `/${lang}${path}${queryString}`
@@ -140,7 +137,7 @@ export const path = {
   map: {
     index: ({ lang }: { lang: string }) => {
       const path = '/map'
-      if (isEn(lang)) {
+      if (lang === 'en') {
         return path
       }
       return `/${lang}${path}`

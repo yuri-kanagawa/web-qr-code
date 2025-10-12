@@ -14,13 +14,14 @@ import { UrlTextField } from '@/ui/fragments/textField'
 import { DEVICES, isDeviceAll } from '@/constants/device'
 import { OS } from '@/constants/os'
 import { usePathname } from 'next/navigation'
-import { getLocale } from '@/locales/language'
+import { getLocale } from '@/locales/config/languages'
+import { Language } from '@/domains'
 
 type Props = {
-  language: string
+  language: Language
 }
 export const DeviceForm: FC<Props> = ({ language }) => {
-  const locale = getLocale(language)
+  const locale = language.getLocale()
   const { word } = locale
 
   const {

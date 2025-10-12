@@ -1,5 +1,5 @@
 import { Metadata } from 'next'
-import { appName } from '@/locales/common'
+import { appName } from '@/locales/config/constants'
 
 const DESCRIPTION = '緯度・経度座標を使用して地図位置のQRコードを生成します。'
 const OGP_IMAGE_URL = '/opengraph-image.png'

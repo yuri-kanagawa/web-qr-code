@@ -1,5 +1,5 @@
 import { Metadata } from 'next'
-import { appName } from '@/locales/common'
+import { appName } from '@/locales/config/constants'
 import mapMeta from './map/meta'
 import urlMeta from './url/meta'
 import wifiMeta from './wifi/meta'
