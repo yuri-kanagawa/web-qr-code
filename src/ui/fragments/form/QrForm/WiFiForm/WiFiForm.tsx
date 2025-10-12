@@ -1,5 +1,3 @@
-'use client'
-
 import { FC } from 'react'
 import { Controller } from 'react-hook-form'
 import { Stack } from '@mui/material'
@@ -10,12 +8,13 @@ import { EncryptionSelect } from '@/ui/fragments/select'
 
 import { isEncryptionNonpass } from '@/constants/encryption'
 import { toWifiSchema, useWiFiQrCodeForm } from './hooks'
+import { Language } from '@/domains'
 
 interface Props {
   ssid: string
   password: string
   type: string
-  language: string
+  language: Language
 }
 
 export const WiFiForm: FC<Props> = ({ ssid, password, type, language }) => {

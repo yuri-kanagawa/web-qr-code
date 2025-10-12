@@ -7,9 +7,10 @@ import { SubjectTextField } from '@/ui/fragments/textField'
 import { BodyTextField } from '@/ui/fragments/textField'
 import { formatEmail } from './hooks/utils'
 import { FormButton, FormCard } from '@/ui/fragments'
+import { Language } from '@/domains/valueObjects/language'
 
 interface Props {
-  language: string
+  language: Language
   email?: string
   subject?: string
   body?: string

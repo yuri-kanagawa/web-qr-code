@@ -1,7 +1,7 @@
 import { useQrCode, useWindowSize } from '@/hooks'
 
 import React, { FC, useMemo } from 'react'
-
+import { Stack } from '@/ui/cores'
 import { maxWidth } from '@mui/system'
 import { BgColor } from './BgColor'
 import { FgColor } from '@/ui/fragments/form/OptionalForm/FgColor/FgColor'
@@ -20,7 +20,7 @@ type Props = {
 }
 export const OptionalForm: FC<Props> = ({ file, setFile }) => {
   return (
-    <>
+    <Stack spacing={4}>
       <Size />
       <BgColor />
       <FgColor />
@@ -32,6 +32,6 @@ export const OptionalForm: FC<Props> = ({ file, setFile }) => {
       <EyeColor1 />
       <EyeColor2 />
       <EyeColor3 />
-    </>
+    </Stack>
   )
 }

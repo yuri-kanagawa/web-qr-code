@@ -1,6 +1,6 @@
 import React, { FC, ReactNode, useState } from 'react'
 
-import { OptionalForm } from '@/ui/fragments/form'
+import { OptionalForm, FormCard } from '@/ui/fragments'
 
 import { useWindowSize } from '@/hooks'
 import { Box, Stack } from '@/ui/cores'
@@ -44,7 +44,9 @@ export const FormButton = React.forwardRef<HTMLDivElement, Props>(
               }}
             >
               {children}
-              <OptionalForm file={file} setFile={setFile} />
+              <FormCard cardProps={{ sx: { p: 2 } }}>
+                <OptionalForm file={file} setFile={setFile} />
+              </FormCard>
             </Stack>
             <Stack
               sx={{
@@ -77,13 +79,23 @@ export const FormButton = React.forwardRef<HTMLDivElement, Props>(
             </Stack>
           </Box>
           {!isLessLaptop && (
-            <Stack sx={{ pb: 4 }}>
-              <GeneratedQrCode
-                ref={ref}
-                value={value}
-                file={file}
-                isValid={isValid}
-              />
+            <Stack sx={{ height: '100vh', p: 2, boxSizing: 'border-box' }}>
+              <FormCard
+                cardProps={{
+                  sx: {
+                    height: '95%',
+                    pb: 3
+                  },
+                  elevation: 4
+                }}
+              >
+                <GeneratedQrCode
+                  ref={ref}
+                  value={value}
+                  file={file}
+                  isValid={isValid}
+                />
+              </FormCard>
             </Stack>
           )}
         </Stack>

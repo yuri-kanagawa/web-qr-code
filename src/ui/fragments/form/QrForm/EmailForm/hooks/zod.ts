@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { getLocale } from '@/locales/language'
+import { getLocale } from '@/locales/config/languages'
 
 const language = z.string()
 

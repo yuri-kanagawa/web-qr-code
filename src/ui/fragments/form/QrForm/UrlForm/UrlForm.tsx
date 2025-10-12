@@ -6,9 +6,10 @@ import { FormCard } from '@/ui/fragments/form/FormCard'
 import { UrlTextField } from '@/ui/fragments/textField'
 import { usePathname } from 'next/navigation'
 import { FormButton } from '@/ui/fragments/form/FormButton'
+import { Language } from '@/domains/valueObjects/language'
 
 type Props = {
-  language: string
+  language: Language
   url: string
 }
 
@@ -36,18 +37,15 @@ export const UrlForm: FC<Props> = ({ language, url }) => {
       <Controller
         control={control}
         name="url"
-        render={({
-          field: { value, onChange, ref: inputRef },
-          formState: { isValid },
-          fieldState
-        }) => (
-          <FormCard title="URL" variant="required">
+        render={({ field: { value, onChange, ref: inputRef }, fieldState }) => (
+          <FormCard cardProps={{ sx: { p: 2 } }}>
             <UrlTextField
               isRequired
               inputRef={inputRef}
               value={value}
               onChange={onChange}
               error={!!fieldState.error}
+              fullWidth
               helperText={fieldState.error?.message}
             />
           </FormCard>

@@ -71,52 +71,50 @@ export const ContactForm: FC<Props> = ({
       isValid={isValid}
       ref={ref}
     >
-      <Controller
-        control={control}
-        name="firstName"
-        render={({
-          field: firstNameField,
-          formState: { isValid },
-          fieldState: { error }
-        }) => (
-          <Controller
-            control={control}
-            name="lastName"
-            render={({
-              field: lastNameField,
-              formState: { isValid },
-              fieldState: { error }
-            }) => (
-              <Controller
-                control={control}
-                name="middleName"
-                render={({
-                  field: middleNameField,
-                  formState: { isValid },
-                  fieldState: { error }
-                }) => (
-                  <FormCard title="Name" variant="required">
+      <FormCard>
+        <Controller
+          control={control}
+          name="firstName"
+          render={({
+            field: firstNameField,
+            formState: { isValid },
+            fieldState: { error }
+          }) => (
+            <Controller
+              control={control}
+              name="lastName"
+              render={({
+                field: lastNameField,
+                formState: { isValid },
+                fieldState: { error }
+              }) => (
+                <Controller
+                  control={control}
+                  name="middleName"
+                  render={({
+                    field: middleNameField,
+                    formState: { isValid },
+                    fieldState: { error }
+                  }) => (
                     <NameTextField
                       firstName={{ ...firstNameField }}
                       lastName={{ ...lastNameField }}
                       middleName={{ ...middleNameField }}
                     />
-                  </FormCard>
-                )}
-              />
-            )}
-          />
-        )}
-      />
-      <Controller
-        control={control}
-        name="email"
-        render={({
-          field: { value, onChange, ref: inputRef },
-          formState: { isValid },
-          fieldState: { error }
-        }) => (
-          <FormCard title="Email Address" variant="required">
+                  )}
+                />
+              )}
+            />
+          )}
+        />
+        <Controller
+          control={control}
+          name="email"
+          render={({
+            field: { value, onChange, ref: inputRef },
+            formState: { isValid },
+            fieldState: { error }
+          }) => (
             <EmailTextField
               value={value}
               onChange={onChange}
@@ -124,18 +122,16 @@ export const ContactForm: FC<Props> = ({
               error={!!error}
               helperText={error?.message}
             />
-          </FormCard>
-        )}
-      />
-      <Controller
-        control={control}
-        name="organization"
-        render={({
-          field: { value, onChange, ref: inputRef },
-          formState: { isValid },
-          fieldState: { error }
-        }) => (
-          <FormCard title="Organization" variant="optional">
+          )}
+        />
+        <Controller
+          control={control}
+          name="organization"
+          render={({
+            field: { value, onChange, ref: inputRef },
+            formState: { isValid },
+            fieldState: { error }
+          }) => (
             <OrganizationForm
               value={value}
               onChange={onChange}
@@ -143,18 +139,16 @@ export const ContactForm: FC<Props> = ({
               error={!!error}
               helperText={error?.message}
             />
-          </FormCard>
-        )}
-      />
-      <Controller
-        control={control}
-        name="url"
-        render={({
-          field: { value, onChange, ref: inputRef },
-          formState: { isValid },
-          fieldState: { error }
-        }) => (
-          <FormCard title="Website URL" variant="optional">
+          )}
+        />
+        <Controller
+          control={control}
+          name="url"
+          render={({
+            field: { value, onChange, ref: inputRef },
+            formState: { isValid },
+            fieldState: { error }
+          }) => (
             <UrlTextField
               value={value}
               onChange={onChange}
@@ -162,9 +156,9 @@ export const ContactForm: FC<Props> = ({
               error={!!error}
               helperText={error?.message}
             />
-          </FormCard>
-        )}
-      />
+          )}
+        />
+      </FormCard>
     </FormButton>
   )
 }

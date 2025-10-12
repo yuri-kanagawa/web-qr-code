@@ -6,9 +6,10 @@ import { FormButton, FormCard } from '@/ui/fragments/form'
 import { toSmsSchema } from './hooks'
 import { PhoneTextField } from '@/ui/fragments/textField/PhoneTextField'
 import { BodyTextField } from '@/ui/fragments/textField'
+import { Language } from '@/domains/valueObjects/language'
 
 interface Props {
-  language: string
+  language: Language
   phoneNumber: string
   body: string
 }
