@@ -1,8 +1,11 @@
-import { EmailResult } from './result'
-import { EmailValueError } from './error'
 import { Language } from '@/domains/valueObjects/language'
+import { EmailValueError } from './error'
+import { EmailResult } from './result'
 
 export class Email {
+  private static readonly EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+  private static readonly MAX_LENGTH = 254
+
   private readonly _value: string
   private readonly _language: Language
 
@@ -11,35 +14,29 @@ export class Email {
     this._language = language
   }
 
-  static create(value: string, language: Language): EmailResult {
-    // 空文字チェック
-    if (!value || value.trim().length === 0) {
-      const errorMessage = language.isJapanese
-        ? 'メールアドレスを入力してください'
-        : language.isFrench
-        ? "Veuillez saisir l'adresse e-mail"
-        : 'Please enter an email address'
-      return new EmailResult(null, new EmailValueError(errorMessage))
-    }
+  static isValidFormat(value: string): boolean {
+    if (!value) return false
+    return Email.EMAIL_REGEX.test(value)
+  }
 
+  static create(value: string, language: Language): EmailResult {
     // 基本的なメールアドレスの形式チェック
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    if (!emailRegex.test(value)) {
+    if (!Email.isValidFormat(value)) {
       const errorMessage = language.isJapanese
         ? '有効なメールアドレスを入力してください'
         : language.isFrench
-        ? 'Veuillez saisir une adresse e-mail valide'
-        : 'Please enter a valid email address'
+          ? 'Veuillez saisir une adresse e-mail valide'
+          : 'Please enter a valid email address'
       return new EmailResult(null, new EmailValueError(errorMessage))
     }
 
-    // 長さチェック（一般的なメールアドレスの最大長は254文字）
-    if (value.length > 254) {
+    // 長さチェック
+    if (value.length > Email.MAX_LENGTH) {
       const errorMessage = language.isJapanese
         ? 'メールアドレスが長すぎます（最大254文字）'
         : language.isFrench
-        ? "L'adresse e-mail est trop longue (254 caractères maximum)"
-        : 'Email address is too long (maximum 254 characters)'
+          ? "L'adresse e-mail est trop longue (254 caractères maximum)"
+          : 'Email address is too long (maximum 254 characters)'
       return new EmailResult(null, new EmailValueError(errorMessage))
     }
 

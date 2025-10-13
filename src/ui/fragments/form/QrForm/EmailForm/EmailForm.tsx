@@ -1,13 +1,15 @@
-import { FC } from 'react'
-import { Controller, useFormState, useWatch } from 'react-hook-form'
-import { useEmailQRCodeForm } from './hooks'
-
-import { EmailTextField } from '@/ui/fragments/textField'
-import { SubjectTextField } from '@/ui/fragments/textField'
-import { BodyTextField } from '@/ui/fragments/textField'
-import { formatEmail } from './hooks/utils'
+import { Language } from '@/domains'
+import { Stack } from '@/ui/cores'
 import { FormButton, FormCard } from '@/ui/fragments'
-import { Language } from '@/domains/valueObjects/language'
+import {
+  BodyTextField,
+  EmailTextField,
+  SubjectTextField
+} from '@/ui/fragments/textField'
+import { FC } from 'react'
+import { Controller } from 'react-hook-form'
+import { useEmailQRCodeForm } from './hooks'
+import { formatEmail } from './hooks/utils'
 
 interface Props {
   language: Language
@@ -50,78 +52,76 @@ export const EmailForm: FC<Props> = ({
       isValid={isValid}
       ref={ref}
     >
-      <Controller
-        control={control}
-        name="email"
-        render={({
-          field: { value, onChange, ref: inputRef },
-          formState: { isValid },
-          fieldState: { error }
-        }) => (
-          <FormCard title="Email Address" variant="required">
-            <EmailTextField
-              value={value}
-              onChange={(value) => {
-                onChange(value)
-                if (onEmailChange) {
-                  onEmailChange(value)
-                }
-              }}
-              inputRef={inputRef}
-              error={!!error}
-              helperText={error?.message}
-            />
-          </FormCard>
-        )}
-      />
-      <Controller
-        control={control}
-        name="subject"
-        render={({
-          field: { value, onChange, ref: inputRef },
-          formState: { isValid },
-          fieldState: { error }
-        }) => (
-          <FormCard title="Subject" variant="optional">
-            <SubjectTextField
-              value={value}
-              onChange={(value) => {
-                onChange(value)
-                if (onSubjectChange) {
-                  onSubjectChange(value)
-                }
-              }}
-              inputRef={inputRef}
-              error={!!error}
-              helperText={error?.message}
-            />
-          </FormCard>
-        )}
-      />
-      <Controller
-        control={control}
-        name="body"
-        render={({
-          field: { value, onChange, ref: inputRef },
-          formState: { isValid },
-          fieldState: { error }
-        }) => (
-          <FormCard title="Message Body" variant="optional">
-            <BodyTextField
-              value={value}
-              onChange={(value) => {
-                onChange(value)
-                if (onBodyChange) {
-                  onBodyChange(value)
-                }
-              }}
-              inputRef={inputRef}
-              error={!!error}
-              helperText={error?.message}
-            />
-          </FormCard>
-        )}
-      />
+      <FormCard cardProps={{ sx: { p: 2 } }}>
+        <Stack spacing={2}>
+          <Controller
+            control={control}
+            name="email"
+            render={({
+              field: { value, onChange, ref: inputRef },
+              formState: { isValid },
+              fieldState: { error }
+            }) => (
+              <EmailTextField
+                value={value}
+                onChange={(value) => {
+                  onChange(value)
+                  if (onEmailChange) {
+                    onEmailChange(value)
+                  }
+                }}
+                inputRef={inputRef}
+                error={!!error}
+                helperText={error?.message}
+              />
+            )}
+          />
+          <Controller
+            control={control}
+            name="subject"
+            render={({
+              field: { value, onChange, ref: inputRef },
+              formState: { isValid },
+              fieldState: { error }
+            }) => (
+              <SubjectTextField
+                value={value}
+                onChange={(value) => {
+                  onChange(value)
+                  if (onSubjectChange) {
+                    onSubjectChange(value)
+                  }
+                }}
+                inputRef={inputRef}
+                error={!!error}
+                helperText={error?.message}
+              />
+            )}
+          />
+          <Controller
+            control={control}
+            name="body"
+            render={({
+              field: { value, onChange, ref: inputRef },
+              formState: { isValid },
+              fieldState: { error }
+            }) => (
+              <BodyTextField
+                value={value}
+                onChange={(value) => {
+                  onChange(value)
+                  if (onBodyChange) {
+                    onBodyChange(value)
+                  }
+                }}
+                inputRef={inputRef}
+                error={!!error}
+                helperText={error?.message}
+              />
+            )}
+          />
+        </Stack>
+      </FormCard>
     </FormButton>
   )
 }

@@ -1,6 +1,6 @@
-import { AddressResult } from './result'
-import { AddressValueError } from './error'
 import { Language } from '@/domains/valueObjects/language'
+import { AddressValueError } from './error'
+import { AddressResult } from './result'
 
 export class Address {
   private readonly _value: string
@@ -17,8 +17,8 @@ export class Address {
       const errorMessage = language.isJapanese
         ? '住所が長すぎます（最大500文字）'
         : language.isFrench
-        ? "L'adresse est trop longue (500 caractères maximum)"
-        : 'Address is too long (maximum 500 characters)'
+          ? "L'adresse est trop longue (500 caractères maximum)"
+          : 'Address is too long (maximum 500 characters)'
       return new AddressResult(null, new AddressValueError(errorMessage))
     }
 

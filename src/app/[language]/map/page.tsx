@@ -1,5 +1,6 @@
-import { Metadata } from 'next'
+import { Language } from '@/domains'
 import { Page as MapPage } from '@/ui/pages/map/Page'
+import { Metadata } from 'next'
 
 type Props = {
   params: { language: string }
@@ -18,6 +19,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 }
 
-export default function Page() {
-  return <MapPage />
+export default function Page({ params }: Props) {
+  const languageResult = Language.create(params.language)
+  const language =
+    languageResult.isSuccess && languageResult.language
+      ? languageResult.language
+      : Language.default()
+
+  return <MapPage language={language} />
 }

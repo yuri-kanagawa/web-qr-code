@@ -1,20 +1,24 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { SubmitErrorHandler, SubmitHandler, useForm } from 'react-hook-form'
+import { SubmitErrorHandler, useForm } from 'react-hook-form'
 
 import { useEffect, useMemo } from 'react'
 
-
+import { Language } from '@/domains'
 import { useQrCode } from '@/hooks'
 import { registerQrCodeEmailSchema, RegisterQrCodeEmailSchema } from './zod'
-
 type Props = {
-  language?: string
+  language: Language
   email?: string
   subject?: string
   body?: string
 }
 
-export const useEmailQRCodeForm = ({ language = 'en', email = '', subject = '', body = '' }: Props = {}) => {
+export const useEmailQRCodeForm = ({
+  language,
+  email = '',
+  subject = '',
+  body = ''
+}: Props) => {
   const { ref, onConfirm, onDownload } = useQrCode()
 
   const defaultValues: RegisterQrCodeEmailSchema = useMemo(() => {
@@ -22,23 +26,17 @@ export const useEmailQRCodeForm = ({ language = 'en', email = '', subject = '', 
       email,
       subject,
       body,
-      language
+      language: language.value
     }
   }, [language])
 
-  const {
-    handleSubmit,
-    reset,
-    watch,
-    getFieldState,
-    setFocus,
-    ...rest
-  } = useForm<RegisterQrCodeEmailSchema>({
-    resolver: zodResolver(registerQrCodeEmailSchema),
-    mode: 'onChange',
-    reValidateMode: 'onSubmit',
-    defaultValues
-  })
+  const { handleSubmit, reset, watch, getFieldState, setFocus, ...rest } =
+    useForm<RegisterQrCodeEmailSchema>({
+      resolver: zodResolver(registerQrCodeEmailSchema),
+      mode: 'onChange',
+      reValidateMode: 'onSubmit',
+      defaultValues
+    })
 
   useEffect(() => {
     reset(defaultValues)
@@ -52,7 +50,6 @@ export const useEmailQRCodeForm = ({ language = 'en', email = '', subject = '', 
       return setFocus('email')
     }
   }
-
 
   const handleConfirm = async (): Promise<string | undefined> => {
     const { error: emailError } = getFieldState('email')

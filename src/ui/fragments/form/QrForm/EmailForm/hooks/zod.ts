@@ -1,5 +1,7 @@
-import { z } from 'zod'
+import { Email } from '@/domains/valueObjects/email'
+import { Language } from '@/domains/valueObjects/language'
 import { getLocale } from '@/locales/config/languages'
+import { z } from 'zod'
 
 const language = z.string()
 
@@ -12,50 +14,52 @@ const subject = z.string()
 // 本文のバリデーション
 const body = z.string()
 
-export const registerQrCodeEmailSchema = z.object({
-  email,
-  subject,
-  body,
-  language
-}).refine((data) => {
-  const locale = getLocale(data.language)
-  const { message } = locale
-  
-  // メールアドレスのバリデーション
-  if (!data.email) {
-    return false
-  }
-  
-  // 簡単なメール形式チェック
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-  if (!emailRegex.test(data.email)) {
-    return false
-  }
-  
-  return true
-}, (data) => {
-  const locale = getLocale(data.language)
-  const { message } = locale
-  
-  if (!data.email) {
-    return {
-      message: message.validation.email.required,
-      path: ['email']
-    }
-  }
-  
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-  if (!emailRegex.test(data.email)) {
-    return {
-      message: message.validation.email.invalid,
-      path: ['email']
-    }
-  }
-  
-  return {
-    message: '',
-    path: []
-  }
-})
+export const registerQrCodeEmailSchema = z
+  .object({
+    email,
+    subject,
+    body,
+    language
+  })
+  .refine(
+    (data) => {
+      // メールアドレスが空の場合はスキップ
+      if (!data.email) {
+        return true
+      }
 
-export type RegisterQrCodeEmailSchema = z.infer<typeof registerQrCodeEmailSchema>
+      // Language valueObjectを使ってバリデーション
+      const languageResult = Language.create(data.language)
+      if (!languageResult.isSuccess || !languageResult.language) {
+        return false
+      }
+
+      const emailResult = Email.create(data.email, languageResult.language)
+      return emailResult.isSuccess
+    },
+    (data) => {
+      const locale = getLocale(data.language)
+      const { message } = locale
+
+      // Email.create()を使ってエラーメッセージを取得
+      const languageResult = Language.create(data.language)
+      if (languageResult.isSuccess && languageResult.language) {
+        const emailResult = Email.create(data.email, languageResult.language)
+        if (!emailResult.isSuccess && emailResult.error) {
+          return {
+            message: emailResult.error.message,
+            path: ['email']
+          }
+        }
+      }
+
+      return {
+        message: message.validation.email.invalid,
+        path: ['email']
+      }
+    }
+  )
+
+export type RegisterQrCodeEmailSchema = z.infer<
+  typeof registerQrCodeEmailSchema
+>

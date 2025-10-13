@@ -1,6 +1,6 @@
-import { BodyResult } from './result'
-import { BodyValueError } from './error'
 import { Language } from '@/domains/valueObjects/language'
+import { BodyValueError } from './error'
+import { BodyResult } from './result'
 
 export class Body {
   private readonly _value: string
@@ -18,8 +18,8 @@ export class Body {
       const errorMessage = language.isJapanese
         ? `本文が長すぎます（最大${maxLength}文字）`
         : language.isFrench
-        ? `Le corps du message est trop long (${maxLength} caractères maximum)`
-        : `Body is too long (maximum ${maxLength} characters)`
+          ? `Le corps du message est trop long (${maxLength} caractères maximum)`
+          : `Body is too long (maximum ${maxLength} characters)`
       return new BodyResult(null, new BodyValueError(errorMessage))
     }
 

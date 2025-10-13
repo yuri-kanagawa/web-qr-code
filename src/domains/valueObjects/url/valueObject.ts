@@ -1,6 +1,6 @@
-import { UrlResult } from './result'
-import { UrlValueError } from './error'
 import { Language } from '@/domains/valueObjects/language'
+import { UrlValueError } from './error'
+import { UrlResult } from './result'
 
 export class Url {
   private readonly _value: string
@@ -24,8 +24,8 @@ export class Url {
       const errorMessage = language.isJapanese
         ? '有効なURLを入力してください'
         : language.isFrench
-        ? 'Veuillez saisir une URL valide'
-        : 'Please enter a valid URL'
+          ? 'Veuillez saisir une URL valide'
+          : 'Please enter a valid URL'
       return new UrlResult(null, new UrlValueError(errorMessage))
     }
 

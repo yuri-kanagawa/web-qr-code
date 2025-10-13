@@ -17,22 +17,22 @@ export const word = {
 
   // Form labels
   form: {
-    label: 'label',
-    firstName: 'firstName',
-    lastName: 'lastName',
-    middleName: 'middleName',
-    email: 'email',
-    phone: '*phone',
+    label: 'Label',
+    firstName: 'First Name',
+    lastName: 'Last Name',
+    middleName: 'Middle Name',
+    email: 'Email',
+    phone: 'Phone',
     url: 'URL',
     ssid: 'SSID',
     password: 'Password',
-    subject: 'subject',
-    body: 'body',
-    address: 'address',
-    organization: 'organization',
-    post: 'post',
-    businessCellularTelephone: 'businessCellularTelephone',
-    privateCellularTelephone: 'privateCellularTelephone'
+    subject: 'Subject',
+    body: 'Body',
+    address: 'Address',
+    organization: 'Organization',
+    post: 'Post',
+    businessCellularTelephone: 'Business Cellular Telephone',
+    privateCellularTelephone: 'Private Cellular Telephone'
   },
 
   // Select labels
@@ -61,6 +61,12 @@ export const word = {
       M: 'M',
       Q: 'Q',
       H: 'H'
+    },
+    wifiEncryption: {
+      wpa: 'WPA/WPA2',
+      wep: 'WEP',
+      nopass: 'No Password',
+      empty: 'Not Selected'
     }
   },
 

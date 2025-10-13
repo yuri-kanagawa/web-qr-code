@@ -61,6 +61,12 @@ export const word = {
       M: 'M',
       Q: 'Q',
       H: 'H'
+    },
+    wifiEncryption: {
+      wpa: 'WPA/WPA2',
+      wep: 'WEP',
+      nopass: 'パスワードなし',
+      empty: '未選択'
     }
   },
 

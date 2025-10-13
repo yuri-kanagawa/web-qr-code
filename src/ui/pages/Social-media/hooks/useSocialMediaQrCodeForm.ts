@@ -1,36 +1,37 @@
-import { useNotify, useQrCode, useQrScanner } from '@/hooks'
-import { RegisterQrCodeUrlSchema } from '@/ui/fragments/form/QrForm/UrlForm/hooks'
-import { useEffect, useMemo } from 'react'
-import {
-  registerQrCodePhoneSchema,
-  RegisterQrCodePhoneSchema
-} from '@/ui/pages/phone/hooks/zod'
-import { SubmitErrorHandler, SubmitHandler, useForm } from 'react-hook-form'
+import { Language } from '@/domains'
+import { useQrCode } from '@/hooks'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { registerSocialMediaQrCodeSchema, RegisterSocialMediaQrCodeSchema } from './zod'
+import { SubmitErrorHandler, useForm } from 'react-hook-form'
+import {
+  registerSocialMediaQrCodeSchema,
+  RegisterSocialMediaQrCodeSchema
+} from './zod'
 
 type Props = {
-  language: string
+  language: Language
 }
-export const useSocialMediaQrCodeForm = ({language}: Props) => {
+export const useSocialMediaQrCodeForm = ({ language }: Props) => {
   const { ref, onConfirm, onDownload } = useQrCode()
   const defaultValues: RegisterSocialMediaQrCodeSchema = {
-    socialMedia: [{
-      socialMedia: 0,
-      label: '',
-      url: ''
-    }],
-    language
+    socialMedia: [
+      {
+        socialMedia: 0,
+        label: '',
+        url: ''
+      }
+    ],
+    language: language.value
   }
-  const { handleSubmit, control, ...rest } = useForm<RegisterSocialMediaQrCodeSchema>({
-    defaultValues,
-    resolver: zodResolver(registerSocialMediaQrCodeSchema),
-    mode: 'onChange'
-  })
+  const { handleSubmit, control, ...rest } =
+    useForm<RegisterSocialMediaQrCodeSchema>({
+      defaultValues,
+      resolver: zodResolver(registerSocialMediaQrCodeSchema),
+      mode: 'onChange'
+    })
 
-  const submitErrorHandler: SubmitErrorHandler<RegisterSocialMediaQrCodeSchema> = (
-    errors
-  ) => {
+  const submitErrorHandler: SubmitErrorHandler<
+    RegisterSocialMediaQrCodeSchema
+  > = (errors) => {
     console.error(errors)
   }
 

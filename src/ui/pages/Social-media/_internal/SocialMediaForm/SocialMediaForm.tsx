@@ -6,9 +6,9 @@ import { useFieldArray, Controller } from 'react-hook-form'
 import { FormButton } from '@/ui/fragments/form/FormButton'
 import type { RegisterSocialMediaQrCodeSchema } from '../../hooks/zod'
 import { LabelTextField, UrlTextField } from '@/ui/fragments/textField'
-
+import { Language } from '@/domains'
 type Props = {
-  language: string
+  language: Language
 }
 
 export const SocialMediaForm: FC<Props> = ({ language }) => {

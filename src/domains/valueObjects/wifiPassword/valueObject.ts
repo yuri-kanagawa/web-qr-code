@@ -1,6 +1,6 @@
-import { WiFiPasswordResult } from './result'
-import { WiFiPasswordValueError } from './error'
 import { Language } from '@/domains/valueObjects/language'
+import { WiFiPasswordValueError } from './error'
+import { WiFiPasswordResult } from './result'
 
 export class WiFiPassword {
   private readonly _value: string
@@ -22,9 +22,12 @@ export class WiFiPassword {
       const errorMessage = language.isJapanese
         ? 'パスワードは8～63文字で入力してください'
         : language.isFrench
-        ? 'Le mot de passe doit contenir entre 8 et 63 caractères'
-        : 'Password must be between 8 and 63 characters'
-      return new WiFiPasswordResult(null, new WiFiPasswordValueError(errorMessage))
+          ? 'Le mot de passe doit contenir entre 8 et 63 caractères'
+          : 'Password must be between 8 and 63 characters'
+      return new WiFiPasswordResult(
+        null,
+        new WiFiPasswordValueError(errorMessage)
+      )
     }
 
     return new WiFiPasswordResult(new WiFiPassword(value, language), null)

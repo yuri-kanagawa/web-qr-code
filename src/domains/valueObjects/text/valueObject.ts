@@ -1,6 +1,6 @@
-import { TextResult } from './result'
-import { TextValueError } from './error'
 import { Language } from '@/domains/valueObjects/language'
+import { TextValueError } from './error'
+import { TextResult } from './result'
 
 export class Text {
   private readonly _value: string
@@ -18,8 +18,8 @@ export class Text {
       const errorMessage = language.isJapanese
         ? `テキストが長すぎます（最大${maxLength}文字）`
         : language.isFrench
-        ? `Le texte est trop long (${maxLength} caractères maximum)`
-        : `Text is too long (maximum ${maxLength} characters)`
+          ? `Le texte est trop long (${maxLength} caractères maximum)`
+          : `Text is too long (maximum ${maxLength} characters)`
       return new TextResult(null, new TextValueError(errorMessage))
     }
 

@@ -1,6 +1,6 @@
-import { NameResult } from './result'
-import { NameValueError } from './error'
 import { Language } from '@/domains/valueObjects/language'
+import { NameValueError } from './error'
+import { NameResult } from './result'
 
 export class Name {
   private readonly _value: string
@@ -17,8 +17,8 @@ export class Name {
       const errorMessage = language.isJapanese
         ? '名前が長すぎます（最大100文字）'
         : language.isFrench
-        ? 'Le nom est trop long (100 caractères maximum)'
-        : 'Name is too long (maximum 100 characters)'
+          ? 'Le nom est trop long (100 caractères maximum)'
+          : 'Name is too long (maximum 100 characters)'
       return new NameResult(null, new NameValueError(errorMessage))
     }
 

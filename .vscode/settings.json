@@ -1,20 +1,4 @@
 {
-    "sqltools.connections": [
-        {
-            "mysqlOptions": {
-                "authProtocol": "default",
-                "enableSsl": "Disabled"
-            },
-            "previewLimit": 50,
-            "server": "localhost",
-            "port": 3306,
-            "driver": "MySQL",
-            "database": "march_db",
-            "name": "march@localhost",
-            "username": "root",
-            "password": "root"
-        }
-    ],
     "vscode.languageModel.experimental.modelProvider": {
         "default": "cline"
     },

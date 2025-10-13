@@ -1,6 +1,6 @@
-import { WiFiSsidResult } from './result'
-import { WiFiSsidValueError } from './error'
 import { Language } from '@/domains/valueObjects/language'
+import { WiFiSsidValueError } from './error'
+import { WiFiSsidResult } from './result'
 
 export class WiFiSsid {
   private readonly _value: string
@@ -22,8 +22,8 @@ export class WiFiSsid {
       const errorMessage = language.isJapanese
         ? 'SSIDが長すぎます（最大32文字）'
         : language.isFrench
-        ? 'Le SSID est trop long (32 caractères maximum)'
-        : 'SSID is too long (maximum 32 characters)'
+          ? 'Le SSID est trop long (32 caractères maximum)'
+          : 'SSID is too long (maximum 32 characters)'
       return new WiFiSsidResult(null, new WiFiSsidValueError(errorMessage))
     }
 

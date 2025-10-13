@@ -1,8 +1,7 @@
-'use client'
-import React, { FC } from 'react'
+import { FC } from 'react'
 
-import { PageWrapper } from '../../fragments/pageWrapper'
 import { Language } from '@/domains/valueObjects/language'
+import { PageWrapper } from '../../fragments/pageWrapper'
 
 import { SocialMediaForm } from './_internal'
 
