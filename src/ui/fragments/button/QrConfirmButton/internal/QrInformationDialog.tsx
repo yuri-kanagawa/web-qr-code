@@ -12,7 +12,7 @@ import {
   DialogContentText,
   DialogTitle
 } from '@/ui/cores'
-import { fromTelScheme, isTelScheme } from '@/ui/pages/phone/hooks/utils'
+import { fromTelScheme, isTelScheme } from '@/ui/pages/Phone/hooks/utils'
 import { useRouter } from 'next/navigation'
 import { path } from '@/config/path'
 import { isUrl } from '@/constants/qr'

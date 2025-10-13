@@ -1,7 +1,7 @@
 import React, { FC } from 'react'
 import { useTextQrCodeForm } from './hooks'
 import { Controller } from 'react-hook-form'
-import { toTelScheme } from '@/ui/pages/phone/hooks/utils'
+import { toTelScheme } from '@/ui/pages/Phone/hooks/utils'
 import { FormButton } from '@/ui/fragments/form/FormButton'
 import { TextTextField } from '@/ui/fragments/textField/TextTextField'
 import { fromTextScheme, toTextSchema } from './hooks'

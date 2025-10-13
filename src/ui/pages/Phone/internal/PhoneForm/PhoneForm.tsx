@@ -1,6 +1,6 @@
 'use client'
 import React, { FC } from 'react'
-import { usePhoneQrCodeForm } from '@/ui/pages/phone/hooks/usePhoneQrCodeForm'
+import { usePhoneQrCodeForm } from '@/ui/pages/Phone/hooks/usePhoneQrCodeForm'
 import { Controller } from 'react-hook-form'
 import { FormButton } from '@/ui/fragments/form/FormButton'
 import { toTelScheme } from '../../hooks/utils'

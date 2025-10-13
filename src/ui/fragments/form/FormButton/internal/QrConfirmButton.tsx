@@ -11,7 +11,7 @@ import {
 import { useDisclosure } from '@/hooks/useDisclosure'
 
 import { isSmsSchema } from '@/ui/fragments/form/QrForm/SmsForm/hooks/utils'
-import { isTelScheme } from '@/ui/pages/phone/hooks/utils'
+import { isTelScheme } from '@/ui/pages/Phone/hooks/utils'
 import { isUrl } from '@/constants/qr'
 
 type Props = {

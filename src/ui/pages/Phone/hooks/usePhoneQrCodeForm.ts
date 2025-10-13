@@ -4,7 +4,7 @@ import { useEffect, useMemo } from 'react'
 import {
   registerQrCodePhoneSchema,
   RegisterQrCodePhoneSchema
-} from '@/ui/pages/phone/hooks/zod'
+} from '@/ui/pages/Phone/hooks/zod'
 import { SubmitErrorHandler, SubmitHandler, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { phoneNumber } from './zod';
