@@ -1,4 +1,4 @@
-import { Qr } from './domain'
+import { Qr } from './valueObject'
 import { QrValueError } from './error'
 
 export class QrResult {
