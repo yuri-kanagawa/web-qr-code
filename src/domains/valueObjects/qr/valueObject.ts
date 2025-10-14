@@ -1,27 +1,42 @@
+import { Language } from '@/domains/valueObjects/language'
 import { QrValueError } from './error'
 import { QrResult } from './result'
 
-
 export class Qr {
   private readonly _value: string
+  private readonly _language: Language
 
-  private constructor(value: string) {
+  private constructor(value: string, language: Language) {
     this._value = value
+    this._language = language
   }
 
-  static create(value: string): QrResult {
+  static create(value: string, language: Language): QrResult {
     if (!value || value.trim() === '') {
-      return new QrResult(null, new QrValueError('QR value cannot be empty'))
+      const errorMessage = language.isJapanese
+        ? 'QR値を入力してください'
+        : language.isFrench
+          ? 'Veuillez saisir la valeur QR'
+          : 'QR value cannot be empty'
+      return new QrResult(null, new QrValueError(errorMessage))
     }
-    return new QrResult(new Qr(value), null)
+    return new QrResult(new Qr(value, language), null)
   }
 
-  static empty(): Qr {
-    return new Qr('')
+  static empty(language: Language): Qr {
+    return new Qr('', language)
+  }
+
+  static default(): Qr {
+    return new Qr('', Language.default())
   }
 
   get value(): string {
     return this._value
+  }
+
+  get language(): Language {
+    return this._language
   }
 
   get isEmpty(): boolean {
@@ -29,20 +44,23 @@ export class Qr {
   }
 
   get isMap(): boolean {
-    return this._value.includes('maps.google.com') || 
-           this._value.includes('google.com/maps') ||
-           this._value.includes('maps.app.goo.gl')
+    return (
+      this._value.includes('maps.google.com') ||
+      this._value.includes('google.com/maps') ||
+      this._value.includes('maps.app.goo.gl')
+    )
   }
 
   get isUrl(): boolean {
-    const isHttpUrl = this._value.startsWith('https') || this._value.startsWith('http')
+    const isHttpUrl =
+      this._value.startsWith('https') || this._value.startsWith('http')
     return isHttpUrl && !this.isMap
   }
 
   get isSms(): boolean {
     return this._value.startsWith('sms')
   }
-  
+
   get isTel(): boolean {
     return this._value.startsWith('tel')
   }
@@ -50,13 +68,18 @@ export class Qr {
   get isEmail(): boolean {
     return this._value.startsWith('mailto')
   }
-  
+
   get isVcard(): boolean {
     return this._value.startsWith('BEGIN:VCARD')
   }
 
   get isText(): boolean {
-    return !this.isSms && !this.isTel && !this.isEmail && !this.isVcard && !this.isMap
+    return (
+      !this.isSms &&
+      !this.isTel &&
+      !this.isEmail &&
+      !this.isVcard &&
+      !this.isMap
+    )
   }
-
 }
