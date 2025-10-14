@@ -66,11 +66,11 @@ export const DeviceForm: FC<Props> = ({ language }) => {
     })
 
     // all選択時の制約
-    if (currentDevice === Device.TYPES.ALL) {
+    if (Device.isAll(currentDevice)) {
       // allが選択されている場合、そのOSは他のフィールドで選択できない
       if (currentOs !== 0) {
         usedCombinations.forEach(({ device, os }) => {
-          if (os === currentOs && device !== Device.TYPES.ALL) {
+          if (os === currentOs && !Device.isAll(device)) {
             // 同じOSでall以外のデバイスが選択されている場合、そのOSを非表示にする
             hiddenOsItems.push(os)
           }
@@ -80,9 +80,9 @@ export const DeviceForm: FC<Props> = ({ language }) => {
 
     // 他のフィールドでallが選択されている場合の制約
     usedCombinations.forEach(({ device, os }) => {
-      if (device === Device.TYPES.ALL && os !== 0) {
+      if (Device.isAll(device) && os !== 0) {
         // allが選択されている場合、そのOSは他のフィールドで選択できない
-        if (currentDevice !== Device.TYPES.ALL) {
+        if (!Device.isAll(currentDevice)) {
           hiddenOsItems.push(os)
         }
       }
@@ -90,13 +90,13 @@ export const DeviceForm: FC<Props> = ({ language }) => {
 
     // all以外を選択した場合の制約
     if (
-      currentDevice !== Device.TYPES.ALL &&
-      currentDevice !== 0 &&
+      !Device.isAll(currentDevice) &&
+      !Device.isNotSet(currentDevice) &&
       currentOs !== 0
     ) {
       // 現在のフィールドでall以外のデバイスが選択されている場合
       usedCombinations.forEach(({ device, os }) => {
-        if (os === currentOs && device === Device.TYPES.ALL) {
+        if (os === currentOs && Device.isAll(device)) {
           // 同じOSでallが選択されている場合、そのOSのallは非表示にする
           hiddenDeviceItems.push(Device.TYPES.ALL)
         }
@@ -105,7 +105,7 @@ export const DeviceForm: FC<Props> = ({ language }) => {
 
     // 他のフィールドでall以外が選択されている場合の制約
     usedCombinations.forEach(({ device, os }) => {
-      if (device !== Device.TYPES.ALL && device !== 0 && os !== 0) {
+      if (!Device.isAll(device) && !Device.isNotSet(device) && os !== 0) {
         // 他のフィールドでall以外のデバイスが選択されている場合
         if (currentOs === os) {
           // 同じOSの場合、allは非表示にする

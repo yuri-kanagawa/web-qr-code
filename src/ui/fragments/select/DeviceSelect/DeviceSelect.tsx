@@ -19,20 +19,16 @@ export const DeviceSelect: FC<Props> = ({
   isOptional = false,
   hiddenItems = []
 }) => {
-  const devices = Object.values(Device.TYPES)
-
   const array = useMemo(() => {
-    let filtered = isOptional
-      ? devices
-      : devices.filter((e) => e !== Device.TYPES.NOT_SET)
+    const filtered = isOptional
+      ? [...Device.list]
+      : Device.list.filter((e) => !Device.isNotSet(e))
 
     // 非表示項目を除外
-    if (hiddenItems.length > 0) {
-      filtered = filtered.filter((e) => !hiddenItems.includes(e))
-    }
-
-    return filtered
-  }, [isOptional, hiddenItems, devices])
+    return hiddenItems.length > 0
+      ? filtered.filter((e) => !hiddenItems.includes(e))
+      : filtered
+  }, [isOptional, hiddenItems])
 
   return (
     <FormControl fullWidth>

@@ -11,6 +11,34 @@ export class Device {
     PC: 4
   } as const
 
+  static readonly list = [
+    Device.TYPES.NOT_SET,
+    Device.TYPES.ALL,
+    Device.TYPES.MOBILE,
+    Device.TYPES.TABLET,
+    Device.TYPES.PC
+  ] as const
+
+  static isNotSet(value: number): boolean {
+    return value === Device.TYPES.NOT_SET
+  }
+
+  static isAll(value: number): boolean {
+    return value === Device.TYPES.ALL
+  }
+
+  static isMobile(value: number): boolean {
+    return value === Device.TYPES.MOBILE
+  }
+
+  static isTablet(value: number): boolean {
+    return value === Device.TYPES.TABLET
+  }
+
+  static isPc(value: number): boolean {
+    return value === Device.TYPES.PC
+  }
+
   private readonly _value: number
   private readonly _language: Language
 
@@ -20,8 +48,7 @@ export class Device {
   }
 
   static create(value: number, language: Language): DeviceResult {
-    const validValues = Object.values(Device.TYPES)
-    if (!validValues.includes(value)) {
+    if (!Device.list.includes(value as any)) {
       const errorMessage = language.isJapanese
         ? '無効なデバイスタイプです'
         : language.isFrench

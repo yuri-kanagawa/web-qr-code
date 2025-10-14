@@ -1,3 +1,1 @@
-export { path } from './path'
-export { env, getAppUrl, isProduction, isDevelopment } from './env'
-
+export { env, getAppUrl, isDevelopment, isProduction } from './env'
