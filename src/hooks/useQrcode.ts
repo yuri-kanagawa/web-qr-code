@@ -1,17 +1,17 @@
-import { MutableRefObject, useCallback, useMemo, useRef, useState } from 'react'
-import { useSearchParams } from 'next/navigation'
-import { addQueryParameter, removeQueryParamFromCurrentURL } from '@/utils/queryParameter'
-import { detectDevice } from '@/constants/device'
 import { getDeviceOs } from '@/constants/deviceOs'
 import { detectOS } from '@/constants/os'
+import {
+  addQueryParameter,
+  removeQueryParamFromCurrentURL
+} from '@/utils/queryParameter'
+import { useSearchParams } from 'next/navigation'
+import { MutableRefObject, useCallback, useMemo, useRef } from 'react'
 
-import { useQrScanner } from '@/hooks/useQrScanner'
 import { useNotify } from '@/hooks/useNotify'
+import { useQrScanner } from '@/hooks/useQrScanner'
 
 export function useQrCode() {
   const searchParams = useSearchParams()
-
-  
 
   const getSize = (value: string | null): number => {
     if (value == null) {
@@ -65,7 +65,8 @@ export function useQrCode() {
   const logoWidth = Number(searchParams.get('logoWidth')) ?? undefined
   const logoHeight = Number(searchParams.get('logoHeight')) ?? undefined
   const logoOpacity = Number(searchParams.get('logoOpacity')) ?? undefined
-  const removeQrCodeBehindLogo = Boolean(searchParams.get('removeQrCodeBehindLogo')) ?? undefined
+  const removeQrCodeBehindLogo =
+    Boolean(searchParams.get('removeQrCodeBehindLogo')) ?? undefined
   const logoPadding = Number(searchParams.get('logoPadding')) ?? undefined
   const logoPaddingStyle = getLogoPaddingStyle(
     searchParams.get('logoPaddingStyle')
@@ -125,17 +126,23 @@ export function useQrCode() {
   const eyeColor1 = searchParams.get('eyeColor1') ?? fgColor
   const eyeColor2 = searchParams.get('eyeColor2') ?? fgColor
   const eyeColor3 = searchParams.get('eyeColor3') ?? fgColor
-  const setEyeColor1 = (value: string) => addQueryParameter({ eyeColor1: String(value) })
+  const setEyeColor1 = (value: string) =>
+    addQueryParameter({ eyeColor1: String(value) })
 
-  const setEyeColor2 = (value: string) => addQueryParameter({ eyeColor2: String(value) })
-  const setEyeColor3 = (value: string) => addQueryParameter({ eyeColor3: String(value) })
+  const setEyeColor2 = (value: string) =>
+    addQueryParameter({ eyeColor2: String(value) })
+  const setEyeColor3 = (value: string) =>
+    addQueryParameter({ eyeColor3: String(value) })
   const eyeRadius1 = Number(searchParams.get('eyeRadius1')) ?? 0
   const eyeRadius2 = Number(searchParams.get('eyeRadius2')) ?? 0
   const eyeRadius3 = Number(searchParams.get('eyeRadius3')) ?? 0
-  const setEyeRadius1 = (value: number) => addQueryParameter({ eyeColor1: value })
+  const setEyeRadius1 = (value: number) =>
+    addQueryParameter({ eyeColor1: value })
 
-  const setEyeRadius2 = (value: number) => addQueryParameter({ eyeColor2: value })
-  const setEyeRadius3 = (value: number) => addQueryParameter({ eyeColor3: value })
+  const setEyeRadius2 = (value: number) =>
+    addQueryParameter({ eyeColor2: value })
+  const setEyeRadius3 = (value: number) =>
+    addQueryParameter({ eyeColor3: value })
   const deviceOs = searchParams.get('deviceOs')?.split(',').map(Number) ?? []
   const setDeviceOs = (value: string[]) => {
     addQueryParameter({ deviceOs: value })
@@ -147,16 +154,17 @@ export function useQrCode() {
   }
   const labels = searchParams.get('labels')?.split(',') ?? []
 
-  const socialMedia = searchParams.get('socialMedia')?.split(',').map(Number) ?? []
+  const socialMedia =
+    searchParams.get('socialMedia')?.split(',').map(Number) ?? []
   const setSocialMedia = (value: number[]) => {
     addQueryParameter({ socialMedia: value })
   }
 
   const deviceOsIndex = useMemo(() => {
     const os = detectOS()
-    const device = detectDevice()
+    const device = Device.detect()
     const value = getDeviceOs({
-      device,
+      device: device.value,
       os
     })
     return deviceOs.indexOf(value.deviceOs)
@@ -166,11 +174,13 @@ export function useQrCode() {
   const setText = (value: string) => addQueryParameter({ text: value })
 
   const firstName = searchParams.get('firstName') ?? ''
-  const setFirstName = (value: string) => addQueryParameter({ firstName: value })
+  const setFirstName = (value: string) =>
+    addQueryParameter({ firstName: value })
   const lastName = searchParams.get('lastName') ?? ''
   const setLastName = (value: string) => addQueryParameter({ lastName: value })
   const middleName = searchParams.get('middleName') ?? ''
-  const setMiddleName = (value: string) => addQueryParameter({ middleName: value })
+  const setMiddleName = (value: string) =>
+    addQueryParameter({ middleName: value })
   const email = searchParams.get('email') ?? ''
   const setEmail = (value: string) => addQueryParameter({ email: value })
 
@@ -179,13 +189,16 @@ export function useQrCode() {
   const body = searchParams.get('body') ?? ''
   const resetBody = () => removeQueryParamFromCurrentURL(['body'])
   const cellPhone = searchParams.get('cellPhone') ?? ''
-  const setCellPhone = (value: string) => addQueryParameter({ cellPhone: value })
+  const setCellPhone = (value: string) =>
+    addQueryParameter({ cellPhone: value })
   const fax = searchParams.get('fax') ?? ''
   const setFax = (value: string) => addQueryParameter({ fax: value })
   const homePhone = searchParams.get('homePhone') ?? ''
-  const setHomePhone = (value: string) => addQueryParameter({ homePhone: value })
+  const setHomePhone = (value: string) =>
+    addQueryParameter({ homePhone: value })
   const workPhone = searchParams.get('workPhone') ?? ''
-  const setWorkPhone = (value: string) => addQueryParameter({ workPhone: value })
+  const setWorkPhone = (value: string) =>
+    addQueryParameter({ workPhone: value })
   const ref = useRef<HTMLDivElement | null>(null)
   const { trigger } = useQrScanner()
   const { successNotify, errorNotify, warningNotify } = useNotify()
@@ -242,7 +255,6 @@ export function useQrCode() {
       errorNotify('QRコードのダウンロードに失敗')
     }
   }, [ref])
-  
 
   return {
     ecLevel,
