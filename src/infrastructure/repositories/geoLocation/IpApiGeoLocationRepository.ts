@@ -87,4 +87,3 @@ export class IpApiGeoLocationRepository implements IGeoLocationRepository {
     return translations[countryName] || countryName
   }
 }
-

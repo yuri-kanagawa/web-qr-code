@@ -1,6 +1,6 @@
 import { Language } from '@/domains/valueObjects/language'
-import { IpApiGeoLocationRepository } from '@/infrastructure/repositories/geoLocation'
 import { useQrCode } from '@/hooks'
+import { IpApiGeoLocationRepository } from '@/infrastructure/repositories/geoLocation'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useEffect, useMemo, useState } from 'react'
 import { SubmitErrorHandler, useForm } from 'react-hook-form'
