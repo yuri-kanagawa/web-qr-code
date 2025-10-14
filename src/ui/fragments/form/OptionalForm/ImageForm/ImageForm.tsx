@@ -1,5 +1,4 @@
 import { InputFile } from '@/ui/fragments/input/InputFile/InputFile'
-import { convertBase64ToFile, convertImageToBase64 } from '@/utils/file'
 import React, { FC } from 'react'
 
 import { Box, Stack } from '@mui/material'

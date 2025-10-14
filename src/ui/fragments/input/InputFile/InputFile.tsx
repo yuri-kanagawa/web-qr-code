@@ -3,7 +3,8 @@ import { IconButton, Input } from '@mui/material'
 import { FC, useEffect, useRef, useState } from 'react'
 import { IoCloudUploadOutline } from 'react-icons/io5'
 import { useSearchParams } from 'next/navigation'
-import { convertImageToBase64 } from '@/utils/file'
+import { ImageFile } from '@/domains/valueObjects/imageFile'
+import { Language } from '@/domains/valueObjects/language'
 import { CornerHighlightBox } from '@/ui/fragments/box'
 import { TiDelete } from 'react-icons/ti'
 import { Box, BoxProps, Button, Stack, TextField } from '@/ui/cores'
@@ -41,8 +42,11 @@ export const InputFile: FC<Props> = ({ file, onChange, message, ...props }) => {
     const processFile = async () => {
       if (file) {
         try {
-          const base64 = await convertImageToBase64(file)
-          setImage(base64)
+          const imageFileResult = ImageFile.create(file, Language.default())
+          if (imageFileResult.isSuccess && imageFileResult.imageFile) {
+            const base64 = await imageFileResult.imageFile.toBase64()
+            setImage(base64.value)
+          }
         } catch (error) {
           console.error('Failed to convert file to base64:', error)
         }

@@ -172,7 +172,8 @@ export function useQrCode() {
   const setFirstName = (value: string) =>
     SearchParamsManager.add({ firstName: value })
   const lastName = searchParams.get('lastName') ?? ''
-  const setLastName = (value: string) => SearchParamsManager.add({ lastName: value })
+  const setLastName = (value: string) =>
+    SearchParamsManager.add({ lastName: value })
   const middleName = searchParams.get('middleName') ?? ''
   const setMiddleName = (value: string) =>
     SearchParamsManager.add({ middleName: value })
