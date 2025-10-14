@@ -83,6 +83,26 @@ export const word = {
       android: 'Android',
       linux: 'Linux',
       other: 'Other'
+    },
+    socialMedia: {
+      notSet: 'Not Set',
+      facebook: 'Facebook',
+      youtube: 'YouTube',
+      whatsapp: 'WhatsApp',
+      instagram: 'Instagram',
+      tiktok: 'TikTok',
+      x: 'X',
+      linkedin: 'LinkedIn',
+      snapchat: 'Snapchat',
+      pinterest: 'Pinterest',
+      reddit: 'Reddit',
+      wechat: 'WeChat',
+      telegram: 'Telegram',
+      discord: 'Discord',
+      tumblr: 'Tumblr',
+      threads: 'Threads',
+      mastodon: 'Mastodon',
+      bluesky: 'Bluesky'
     }
   },
 
