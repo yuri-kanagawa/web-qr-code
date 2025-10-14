@@ -11,9 +11,10 @@ import {
 import { useContactQrCodeForm, convertContact } from './hooks'
 import { Controller } from 'react-hook-form'
 import { FormButton, FormCard } from '@/ui/fragments/form'
+import { Language } from '@/domains/valueObjects/language'
 
 interface Props {
-  language: string
+  language: Language
   firstName: string
   lastName: string
   middleName: string

@@ -1,13 +1,11 @@
-import {
-  registerQrCodeContactSchema,
-  RegisterQrCodeContactSchema
-} from './zod'
-import { SubmitErrorHandler, useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
+import { Language } from '@/domains/valueObjects/language'
 import { useQrCode } from '@/hooks'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { SubmitErrorHandler, useForm } from 'react-hook-form'
+import { registerQrCodeContactSchema, RegisterQrCodeContactSchema } from './zod'
 
 interface Props {
-  language: string
+  language: Language
   firstName: string
   lastName: string
   middleName: string
@@ -21,7 +19,19 @@ interface Props {
   address: string
 }
 
-export function useContactQrCodeForm({ firstName, lastName, middleName, email, organization, url ,phoneNumber, post, businessCellularTelephone, privateCellularTelephone, address}: Props) {
+export function useContactQrCodeForm({
+  firstName,
+  lastName,
+  middleName,
+  email,
+  organization,
+  url,
+  phoneNumber,
+  post,
+  businessCellularTelephone,
+  privateCellularTelephone,
+  address
+}: Props) {
   const { ref, onConfirm, onDownload } = useQrCode()
   const defaultValues: RegisterQrCodeContactSchema = {
     firstName,

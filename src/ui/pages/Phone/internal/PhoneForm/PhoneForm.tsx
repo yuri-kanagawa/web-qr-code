@@ -1,13 +1,14 @@
 'use client'
-import React, { FC } from 'react'
-import { usePhoneQrCodeForm } from '@/ui/pages/Phone/hooks/usePhoneQrCodeForm'
-import { Controller } from 'react-hook-form'
+import { Language } from '@/domains/valueObjects/language'
 import { FormButton } from '@/ui/fragments/form/FormButton'
-import { toTelScheme } from '../../hooks/utils'
 import { PhoneTextField } from '@/ui/fragments/textField'
+import { usePhoneQrCodeForm } from '@/ui/pages/phone/hooks/usePhoneQrCodeForm'
+import { FC } from 'react'
+import { Controller } from 'react-hook-form'
+import { toTelScheme } from '../../hooks/utils'
 
 interface Props {
-  language: string
+  language: Language
 }
 
 export const PhoneForm: FC<Props> = ({}) => {

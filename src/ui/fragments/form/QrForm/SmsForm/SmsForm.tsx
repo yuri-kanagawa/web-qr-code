@@ -40,17 +40,15 @@ export const SmsForm: FC<Props> = (props) => {
           formState: { isValid },
           fieldState: { error }
         }) => (
-          <FormCard title="Phone Number" variant="required">
-            <PhoneTextField
-              cellPhone={{
-                value,
-                onChange,
-                error: !!error,
-                helperText: error?.message,
-                inputRef
-              }}
-            />
-          </FormCard>
+          <PhoneTextField
+            cellPhone={{
+              value,
+              onChange,
+              error: !!error,
+              helperText: error?.message,
+              inputRef
+            }}
+          />
         )}
       />
       <Controller
@@ -61,15 +59,13 @@ export const SmsForm: FC<Props> = (props) => {
           formState: { isValid },
           fieldState: { error }
         }) => (
-          <FormCard title="Message Body" variant="optional">
-            <BodyTextField
-              value={value}
-              onChange={onChange}
-              inputRef={inputRef}
-              helperText={error?.message}
-              error={!!error}
-            />
-          </FormCard>
+          <BodyTextField
+            value={value}
+            onChange={onChange}
+            inputRef={inputRef}
+            helperText={error?.message}
+            error={!!error}
+          />
         )}
       />
     </FormButton>

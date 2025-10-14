@@ -10,9 +10,10 @@ import {
   LatitudeTextField,
   LongitudeTextField
 } from '@/ui/fragments/textField/NumberTextField'
+import { Language } from '@/domains/valueObjects/language'
 
 type Props = {
-  language: string
+  language: Language
 }
 
 export const MapForm: FC<Props> = ({ language }) => {

@@ -1,15 +1,16 @@
-import { zodResolver } from '@hookform/resolvers/zod'
-import { SubmitErrorHandler, useForm } from 'react-hook-form'
+import { Language } from '@/domains/valueObjects/language'
 import { useQrCode } from '@/hooks'
-import { useEffect, useMemo, useState } from 'react'
-import { registerQrCodeMapSchema, RegisterQrCodeMapSchema } from './zod'
 import { getLocationFromIP } from '@/utils/geolocation'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useEffect, useMemo, useState } from 'react'
+import { SubmitErrorHandler, useForm } from 'react-hook-form'
+import { registerQrCodeMapSchema, RegisterQrCodeMapSchema } from './zod'
 
 type Props = {
-  language?: string
+  language: Language
 }
 
-export const useMapQrCodeForm = ({ language = 'en' }: Props = {}) => {
+export const useMapQrCodeForm = ({ language }: Props) => {
   const { ref, onConfirm, onDownload } = useQrCode()
   const [isLoadingLocation, setIsLoadingLocation] = useState(true)
 
@@ -17,7 +18,7 @@ export const useMapQrCodeForm = ({ language = 'en' }: Props = {}) => {
     return {
       latitude: '',
       longitude: '',
-      language
+      language: language.value
     }
   }, [language])
 
@@ -48,7 +49,7 @@ export const useMapQrCodeForm = ({ language = 'en' }: Props = {}) => {
         const initialValues: RegisterQrCodeMapSchema = {
           latitude: location.latitude.toString(),
           longitude: location.longitude.toString(),
-          language
+          language: language.value
         }
         reset(initialValues)
         console.log('Initial location set from IP:', location)
@@ -79,7 +80,7 @@ export const useMapQrCodeForm = ({ language = 'en' }: Props = {}) => {
     await trigger()
     const { error: latitudeError } = getFieldState('latitude')
     const { error: longitudeError } = getFieldState('longitude')
-    
+
     if (latitudeError) {
       setFocus('latitude')
       return
@@ -107,4 +108,4 @@ export const useMapQrCodeForm = ({ language = 'en' }: Props = {}) => {
     isLoadingLocation,
     ...rest
   }
-} 
+}

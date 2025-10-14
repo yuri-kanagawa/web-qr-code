@@ -1,16 +1,16 @@
-import React, { FC } from 'react'
-import { useTextQrCodeForm } from './hooks'
-import { Controller } from 'react-hook-form'
-import { toTelScheme } from '@/ui/pages/Phone/hooks/utils'
+import { Language } from '@/domains/valueObjects/language'
 import { FormButton } from '@/ui/fragments/form/FormButton'
 import { TextTextField } from '@/ui/fragments/textField/TextTextField'
-import { fromTextScheme, toTextSchema } from './hooks'
+import { FC } from 'react'
+import { Controller } from 'react-hook-form'
+import { toTextSchema, useTextQrCodeForm } from './hooks'
+
 interface Props {
-  language?: string
+  language: Language
   text?: string
 }
 
-export const TextForm: FC<Props> = ({ language = 'en', text = '' }) => {
+export const TextForm: FC<Props> = ({ language, text = '' }: Props) => {
   const { control, ref, onConfirm, onDownload, watch } = useTextQrCodeForm({
     text,
     language

@@ -1,16 +1,14 @@
-import { SubmitErrorHandler, useForm } from 'react-hook-form'
-import {
-  registerQrCodeTextSchema,
-  RegisterQrCodeTextSchema
-} from './zod'
-import { zodResolver } from '@hookform/resolvers/zod'
+import { Language } from '@/domains/valueObjects/language'
 import { useQrCode } from '@/hooks'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { SubmitErrorHandler, useForm } from 'react-hook-form'
+import { registerQrCodeTextSchema, RegisterQrCodeTextSchema } from './zod'
 
 interface Props {
   text: string
-  language: string
+  language: Language
 }
-export const useTextQrCodeForm = ({ text , language  }: Props) => {
+export const useTextQrCodeForm = ({ text, language }: Props) => {
   const defaultValues: RegisterQrCodeTextSchema = {
     text
   }

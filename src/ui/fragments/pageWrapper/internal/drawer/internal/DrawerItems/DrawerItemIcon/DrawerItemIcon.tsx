@@ -1,7 +1,6 @@
 import { FC, ReactNode } from 'react'
 
-import { usePathname } from 'next/navigation'
-import { colors } from '@/constants'
+import { themeColors } from '@/config/theme'
 import { useSidebar } from '@/stores'
 import {
   Link,
@@ -10,6 +9,7 @@ import {
   ListItemIcon,
   ListItemText
 } from '@/ui/cores'
+import { usePathname } from 'next/navigation'
 
 type Props = {
   icon: ReactNode
@@ -42,7 +42,7 @@ export const DrawerItemIcon: FC<Props> = ({ icon, path, label }) => {
                   top: 0,
                   height: '100%',
                   width: '6px',
-                  backgroundColor: colors.primary.main
+                  backgroundColor: themeColors.primary.main
                 }
               : {}
           }}

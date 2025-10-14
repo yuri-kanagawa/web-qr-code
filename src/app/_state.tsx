@@ -1,11 +1,11 @@
 'use client'
-import { createTheme, ThemeProvider } from '@mui/material/styles'
-import { colors } from '@/constants'
-import { FC } from 'react'
+import { themeColors } from '@/config/theme'
 import { NotifyProvider, SidebarProvider } from '@/stores'
+import { createTheme, ThemeProvider } from '@mui/material/styles'
+import { FC } from 'react'
 
 export const theme = createTheme({
-  palette: colors,
+  palette: themeColors,
   breakpoints: {
     values: {
       xs: 0,

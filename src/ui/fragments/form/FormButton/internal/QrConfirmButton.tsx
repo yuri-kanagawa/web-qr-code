@@ -1,4 +1,3 @@
-import React, { FC, useCallback, useMemo, useState } from 'react'
 import {
   Button,
   Dialog,
@@ -7,12 +6,11 @@ import {
   Stack,
   Typography
 } from '@mui/material'
+import { FC, useCallback, useMemo, useState } from 'react'
 
+import { Language } from '@/domains/valueObjects/language'
+import { Qr } from '@/domains/valueObjects/qr'
 import { useDisclosure } from '@/hooks/useDisclosure'
-
-import { isSmsSchema } from '@/ui/fragments/form/QrForm/SmsForm/hooks/utils'
-import { isTelScheme } from '@/ui/pages/Phone/hooks/utils'
-import { isUrl } from '@/constants/qr'
 
 type Props = {
   onClick?: () => Promise<string | undefined>
@@ -21,7 +19,7 @@ type Props = {
 
 export const QrConfirmButton: FC<Props> = ({ onClick, isValid = true }) => {
   const { onOpen, onClose, isOpen } = useDisclosure()
-  const [qrValue, setQrValue] = useState('')
+  const [qr, setQr] = useState<Qr>(Qr.default())
 
   const onConfirm = async () => {
     if (!onClick) {
@@ -31,51 +29,42 @@ export const QrConfirmButton: FC<Props> = ({ onClick, isValid = true }) => {
     if (!result) {
       return
     }
-    onOpen()
-    setQrValue(result)
+    const qrResult = Qr.create(result, Language.default())
+    if (qrResult.isSuccess && qrResult.qr) {
+      setQr(qrResult.qr)
+      onOpen()
+    }
   }
 
   const onExceed = useCallback(() => {
-    if (isUrl(qrValue)) {
-      window.open(qrValue)
+    if (qr.isUrl) {
+      window.open(qr.value)
     }
     onClose()
-  }, [qrValue])
+  }, [qr, onClose])
 
-  const getText = (value: string) => {
-    if (isUrl(value)) {
+  const getText = useMemo(() => {
+    if (qr.isUrl) {
       return 'このqrcodeは url です\n別タブで開きますか？'
     }
-    if (isSmsSchema(value)) {
+    if (qr.isSms) {
       return 'このqrcodeはSMSです'
     }
-    if (isTelScheme(value)) {
+    if (qr.isTel) {
       return 'このqrcodeは電話番号です'
     }
     return ''
-  }
-
-  const getTitle = (value: string) => {
-    if (isUrl(value)) {
-      return 'このQRコードはURLです'
-    }
-  }
-
-  const getContents = (value: string) => {
-    if (isUrl(value)) {
-      return value
-    }
-  }
+  }, [qr])
 
   const display = useMemo(() => {
-    if (isUrl(qrValue)) {
+    if (qr.isUrl) {
       return {
         title: 'このqrcodeは URL',
         message: '別タブで開きますか？'
       }
     }
     return undefined
-  }, [qrValue])
+  }, [qr])
 
   return (
     <>
@@ -88,8 +77,8 @@ export const QrConfirmButton: FC<Props> = ({ onClick, isValid = true }) => {
         {/*<DialogTitle id="alert-dialog-title">{display?.title}</DialogTitle>*/}
         <DialogContent>
           <Stack>
-            <Typography whiteSpace={'pre-wrap'}>{getText(qrValue)}</Typography>
-            <Typography>{qrValue}</Typography>
+            <Typography whiteSpace={'pre-wrap'}>{getText}</Typography>
+            <Typography>{qr.value}</Typography>
           </Stack>
         </DialogContent>
         <DialogActions>

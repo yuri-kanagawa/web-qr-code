@@ -1,4 +1,5 @@
 import { DeviceOsService } from '@/domains/services/deviceOs'
+import { Device } from '@/domains/valueObjects/device'
 import { Os } from '@/domains/valueObjects/os'
 import {
   addQueryParameter,
