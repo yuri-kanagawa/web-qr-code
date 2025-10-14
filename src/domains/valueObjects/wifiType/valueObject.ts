@@ -38,7 +38,10 @@ export class WiFiType {
     this._language = language
   }
 
-  private static validate(value: string, language: Language): WiFiTypeValueError | null {
+  private static validate(
+    value: string,
+    language: Language
+  ): WiFiTypeValueError | null {
     if (!WiFiType.validTypes.includes(value)) {
       const locale = language.getLocale()
       const errorMessage = locale.message.validation.common.invalid
