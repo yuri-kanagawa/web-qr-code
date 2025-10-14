@@ -1,10 +1,11 @@
+import { Language } from '@/domains/valueObjects/language'
+import { useQrCode } from '@/hooks/useQrCode'
+import { PathBuilder } from '@/lib/routing'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { SubmitErrorHandler, useForm } from 'react-hook-form'
-import { RegisterDeviceQrCodeSchema, registerDeviceQrCodeSchema } from "./zod"
-import { useQrCode } from "@/hooks/useQrCode"
 import { useParams } from 'next/navigation'
-import { path } from '@/config/path'
 import { useMemo } from 'react'
+import { SubmitErrorHandler, useForm } from 'react-hook-form'
+import { RegisterDeviceQrCodeSchema, registerDeviceQrCodeSchema } from './zod'
 
 export const useDeviceQrCodeForm = () => {
   const { ref, onConfirm, onDownload } = useQrCode()
@@ -15,10 +16,7 @@ export const useDeviceQrCodeForm = () => {
     devices: []
   }
 
-  const {
-    handleSubmit,
-    ...rest
-  } = useForm<RegisterDeviceQrCodeSchema>({
+  const { handleSubmit, ...rest } = useForm<RegisterDeviceQrCodeSchema>({
     defaultValues,
     resolver: zodResolver(registerDeviceQrCodeSchema)
   })
@@ -36,7 +34,14 @@ export const useDeviceQrCodeForm = () => {
     if (typeof window === 'undefined') {
       return ''
     }
-    const redirectPath = path.device.redirect({ lang: 'en' })
+    const languageResult = Language.create(lang || 'en')
+    const language =
+      languageResult.isSuccess && languageResult.language
+        ? languageResult.language
+        : Language.default()
+
+    const pathBuilder = new PathBuilder(language)
+    const redirectPath = pathBuilder.device.redirect()
     return `${window.location.origin}${redirectPath}`
   }, [lang])
   console.log('url', url)

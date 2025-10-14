@@ -1,90 +1,98 @@
 'use client'
-import { FC } from 'react'
-import {
-  Card,
-  CardContent,
-  CardActions,
-  Typography,
-  Button,
-  Grid,
-  Box,
-  Container
-} from '@/ui/cores'
-import Link from 'next/link'
-import { path } from '@/config/path'
+import { Language } from '@/domains/valueObjects/language'
+import { PathBuilder } from '@/lib/routing'
 import { word as enWord } from '@/locales/en/word'
 import { word as jaWord } from '@/locales/ja/word'
-import LinkIcon from '@mui/icons-material/Link'
-import { FaWifi } from 'react-icons/fa6'
-import SmartphoneIcon from '@mui/icons-material/Smartphone'
-import { MdPermContactCalendar } from 'react-icons/md'
-import PhoneIcon from '@mui/icons-material/Phone'
-import { RiMailFill } from 'react-icons/ri'
-import { FaCommentSms } from 'react-icons/fa6'
+import {
+  Box,
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  Container,
+  Grid,
+  Typography
+} from '@/ui/cores'
 import EditIcon from '@mui/icons-material/Edit'
-import { MdLocationOn } from 'react-icons/md'
+import LinkIcon from '@mui/icons-material/Link'
+import PhoneIcon from '@mui/icons-material/Phone'
 import QrCodeScannerIcon from '@mui/icons-material/QrCodeScanner'
+import SmartphoneIcon from '@mui/icons-material/Smartphone'
+import Link from 'next/link'
+import { FC, useMemo } from 'react'
+import { FaCommentSms, FaWifi } from 'react-icons/fa6'
+import { MdLocationOn, MdPermContactCalendar } from 'react-icons/md'
+import { RiMailFill } from 'react-icons/ri'
 
 interface Props {
   language?: string
 }
 
-const getFeatures = (lang: string) => [
+const getFeatures = (pathBuilder: PathBuilder) => [
   {
     key: 'url',
     icon: <LinkIcon />,
-    path: path.url.index({ lang })
+    path: pathBuilder.url.index()
   },
   {
     key: 'wifi',
     icon: <FaWifi />,
-    path: path.wifi.index({ lang })
+    path: pathBuilder.wifi.index()
   },
   {
     key: 'device',
     icon: <SmartphoneIcon />,
-    path: path.device.index({ lang })
+    path: pathBuilder.device.index()
   },
   {
     key: 'contact',
     icon: <MdPermContactCalendar size={24} />,
-    path: path.contact.index({ lang })
+    path: pathBuilder.contact.index()
   },
   {
     key: 'phone',
     icon: <PhoneIcon />,
-    path: path.phone.index({ lang })
+    path: pathBuilder.phone.index()
   },
   {
     key: 'email',
     icon: <RiMailFill size={24} />,
-    path: path.email.index({ lang })
+    path: pathBuilder.email.index()
   },
   {
     key: 'sms',
     icon: <FaCommentSms />,
-    path: path.sms.index({ lang })
+    path: pathBuilder.sms.index()
   },
   {
     key: 'text',
     icon: <EditIcon />,
-    path: path.text.index({ lang })
+    path: pathBuilder.text.index()
   },
   {
     key: 'map',
     icon: <MdLocationOn size={24} />,
-    path: path.map.index({ lang })
+    path: pathBuilder.map.index()
   },
   {
     key: 'reader',
     icon: <QrCodeScannerIcon />,
-    path: path.reader.index({ lang })
+    path: pathBuilder.reader.index()
   }
 ]
 
 export const Page: FC<Props> = ({ language = 'en' }) => {
   const word = language === 'ja' ? jaWord : enWord
-  const features = getFeatures(language)
+
+  const lang = useMemo(() => {
+    const languageResult = Language.create(language)
+    return languageResult.isSuccess && languageResult.language
+      ? languageResult.language
+      : Language.default()
+  }, [language])
+
+  const pathBuilder = useMemo(() => new PathBuilder(lang), [lang])
+  const features = useMemo(() => getFeatures(pathBuilder), [pathBuilder])
 
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>

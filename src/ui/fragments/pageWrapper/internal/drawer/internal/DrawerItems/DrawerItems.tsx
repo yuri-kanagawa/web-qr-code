@@ -1,27 +1,20 @@
-import List from '@mui/material/List'
-
-import { OpenButton } from '@/ui/fragments/pageWrapper/internal/drawer/internal/DrawerItems/OpenButton/OpenButton'
-import React, { FC, forwardRef } from 'react'
-import { Backdrop, Box, Collapse, ListItem, Stack } from '@mui/material'
-import { DrawerItemIcon } from '@/ui/fragments/pageWrapper/internal/drawer/internal/DrawerItems/DrawerItemIcon/DrawerItemIcon'
-import LinkIcon from '@mui/icons-material/Link'
-import { path } from '@/config/path'
-import SmsIcon from '@mui/icons-material/Sms'
-import SmartphoneIcon from '@mui/icons-material/Smartphone'
-import { SlEnvolopeLetter } from 'react-icons/sl'
-import { IoIosMail } from 'react-icons/io'
-import EditIcon from '@mui/icons-material/Edit'
-import QrCodeScannerIcon from '@mui/icons-material/QrCodeScanner'
-import PhoneIcon from '@mui/icons-material/Phone'
-import { useSidebar } from '@/stores'
-import { MdPermContactCalendar } from 'react-icons/md'
-import { RiMailFill, RiText } from 'react-icons/ri'
-import { FaCommentSms, FaWifi } from 'react-icons/fa6'
-import { MdLocationOn } from 'react-icons/md'
-import { LanguageSelect } from '@/ui/fragments/select'
-import { usePathname } from 'next/navigation'
 import { Language } from '@/domains/valueObjects/language'
+import { PathBuilder } from '@/lib/routing'
 import { word } from '@/locales/en/word'
+import { useSidebar } from '@/stores'
+import { DrawerItemIcon } from '@/ui/fragments/pageWrapper/internal/drawer/internal/DrawerItems/DrawerItemIcon/DrawerItemIcon'
+import { OpenButton } from '@/ui/fragments/pageWrapper/internal/drawer/internal/DrawerItems/OpenButton/OpenButton'
+import { LanguageSelect } from '@/ui/fragments/select'
+import LinkIcon from '@mui/icons-material/Link'
+import PhoneIcon from '@mui/icons-material/Phone'
+import QrCodeScannerIcon from '@mui/icons-material/QrCodeScanner'
+import SmartphoneIcon from '@mui/icons-material/Smartphone'
+import { Box, Collapse, Stack } from '@mui/material'
+import { usePathname } from 'next/navigation'
+import { forwardRef, useMemo } from 'react'
+import { FaCommentSms, FaWifi } from 'react-icons/fa6'
+import { MdLocationOn, MdPermContactCalendar } from 'react-icons/md'
+import { RiMailFill, RiText } from 'react-icons/ri'
 
 type Props = {
   language: Language
@@ -30,6 +23,7 @@ export const DrawerItems = forwardRef<HTMLDivElement, Props>(
   ({ language }, ref) => {
     const { isSidebarOpen, toggleSidebar, setIsSidebarOpen } = useSidebar()
     const pathname = usePathname()
+    const pathBuilder = useMemo(() => new PathBuilder(language), [language])
 
     return (
       <Collapse in={isSidebarOpen} orientation="horizontal" collapsedSize={70}>
@@ -47,61 +41,61 @@ export const DrawerItems = forwardRef<HTMLDivElement, Props>(
             <DrawerItemIcon
               label={word.navigation.url}
               icon={<LinkIcon />}
-              path={path.url.index({ lang: 'en' })}
+              path={pathBuilder.url.index()}
             />
             <DrawerItemIcon
               label={word.navigation.wifi}
               icon={<FaWifi />}
-              path={path.wifi.index({ lang: 'en' })}
+              path={pathBuilder.wifi.index()}
             />
             {/* <DrawerItemIcon
             label={word.navigation.socialMedia}
             icon={<SmsIcon />}
-            path={path.socialMedia.index({ lang: 'en' })}
+            path={pathBuilder.socialMedia.index()}
           /> */}
             <DrawerItemIcon
               label={word.navigation.device}
               icon={<SmartphoneIcon />}
-              path={path.device.index({ lang: 'en' })}
+              path={pathBuilder.device.index()}
             />
 
             <DrawerItemIcon
               label={word.navigation.contact}
               icon={<MdPermContactCalendar size={24} />}
-              path={path.contact.index({ lang: 'en' })}
+              path={pathBuilder.contact.index()}
             />
             <DrawerItemIcon
               label={word.navigation.phone}
               icon={<PhoneIcon />}
-              path={path.phone.index({ lang: 'en' })}
+              path={pathBuilder.phone.index()}
             />
             <DrawerItemIcon
               label={word.navigation.email}
               icon={<RiMailFill size={24} />}
-              path={path.email.index({ lang: 'en' })}
+              path={pathBuilder.email.index()}
             />
             <DrawerItemIcon
               label={word.navigation.sms}
               icon={<FaCommentSms />}
-              path={path.sms.index({ lang: 'en' })}
+              path={pathBuilder.sms.index()}
             />
 
             <DrawerItemIcon
               label={word.navigation.text}
               icon={<RiText size={24} />}
-              path={path.text.index({ lang: 'en' })}
+              path={pathBuilder.text.index()}
             />
 
             <DrawerItemIcon
               label={word.navigation.map}
               icon={<MdLocationOn size={24} />}
-              path={path.map.index({ lang: 'en' })}
+              path={pathBuilder.map.index()}
             />
 
             <DrawerItemIcon
               label={word.navigation.reader}
               icon={<QrCodeScannerIcon />}
-              path={path.reader.index({ lang: 'en' })}
+              path={pathBuilder.reader.index()}
             />
             {/* <DrawerItemIcon
             label={word.navigation.edit}
