@@ -1,5 +1,5 @@
-import { Language } from '@/domains/valueObjects/language'
 import { Country } from '@/domains/valueObjects/country'
+import { Language } from '@/domains/valueObjects/language'
 
 export class LocaleService {
   private static readonly LANGUAGE_TO_COUNTRY: Record<string, string> = {
@@ -24,7 +24,7 @@ export class LocaleService {
     const locale =
       Intl.DateTimeFormat().resolvedOptions().locale || navigator.language
     const countryCode = LocaleService.extractCountryCode(locale)
-    
+
     const result = Country.create(countryCode, Language.default())
     return result.isSuccess && result.country
       ? result.country
@@ -32,12 +32,12 @@ export class LocaleService {
   }
 
   static getCountryFromLanguage(language: Language): Country {
-    const countryCode = LocaleService.LANGUAGE_TO_COUNTRY[language.value] || 'us'
+    const countryCode =
+      LocaleService.LANGUAGE_TO_COUNTRY[language.value] || 'us'
     const result = Country.create(countryCode, language)
-    
+
     return result.isSuccess && result.country
       ? result.country
       : Country.default()
   }
 }
-

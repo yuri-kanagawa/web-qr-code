@@ -7,8 +7,7 @@ import {
 } from '@/ui/pages/phone/hooks/zod'
 import { SubmitErrorHandler, SubmitHandler, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { phoneNumber } from './zod';
-import { removeQueryParamFromCurrentURL } from '@/utils/queryParameter'
+import { phoneNumber } from './zod'
 
 
 export const usePhoneQrCodeForm = () => {

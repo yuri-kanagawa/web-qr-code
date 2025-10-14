@@ -1,10 +1,7 @@
 import { DeviceOsService } from '@/domains/services/deviceOs'
 import { Device } from '@/domains/valueObjects/device'
 import { Os } from '@/domains/valueObjects/os'
-import {
-  addQueryParameter,
-  removeQueryParamFromCurrentURL
-} from '@/utils/queryParameter'
+import { SearchParamsManager } from '@/lib/browser'
 import { useSearchParams } from 'next/navigation'
 import { MutableRefObject, useCallback, useMemo, useRef } from 'react'
 
@@ -77,88 +74,88 @@ export function useQrCode() {
   const setEcLevel = (value: string) => {
     const inputValue = getEcLevel(value)
     if (!inputValue) return
-    addQueryParameter({ ecLevel: inputValue })
+    SearchParamsManager.add({ ecLevel: inputValue })
   }
   const setEnableCORS = (value: boolean) => {
-    addQueryParameter({ enableCORS: String(value) })
+    SearchParamsManager.add({ enableCORS: value })
   }
 
   const setSize = (value: number) => {
-    addQueryParameter({ size: String(value) })
+    SearchParamsManager.add({ size: value })
   }
 
   const setQuietZone = (value: number) => {
-    addQueryParameter({ quietZone: String(value) })
+    SearchParamsManager.add({ quietZone: value })
   }
   const setBgColor = (value: string) => {
-    addQueryParameter({ bgColor: value })
+    SearchParamsManager.add({ bgColor: value })
   }
   const setFgColor = (value: string) => {
-    addQueryParameter({ fgColor: value })
+    SearchParamsManager.add({ fgColor: value })
   }
 
   const setLogoWidth = (value: number) => {
-    addQueryParameter({ logoWidth: String(value) })
+    SearchParamsManager.add({ logoWidth: value })
   }
   const setLogoHeight = (value: number) => {
-    addQueryParameter({ logoHeight: String(value) })
+    SearchParamsManager.add({ logoHeight: value })
   }
   const setLogoOpacity = (value: number) => {
-    addQueryParameter({ logoOpacity: String(value) })
+    SearchParamsManager.add({ logoOpacity: value })
   }
 
   const setRemoveQrCodeBehindLogo = (value: boolean) => {
-    addQueryParameter({ removeQrCodeBehindLogo: String(value) })
+    SearchParamsManager.add({ removeQrCodeBehindLogo: value })
   }
 
   const setLogoPadding = (value: number) => {
-    addQueryParameter({ logoPadding: String(value) })
+    SearchParamsManager.add({ logoPadding: value })
   }
 
   const setLogoPaddingStyle = (value: string) => {
-    addQueryParameter({ logoPaddingStyle: value })
+    SearchParamsManager.add({ logoPaddingStyle: value })
   }
   const setQrValue = (value: string) => {
-    addQueryParameter({ qrValue: value })
+    SearchParamsManager.add({ qrValue: value })
   }
   const setLogoImage = (value: string) => {
-    addQueryParameter({ logoImage: value })
+    SearchParamsManager.add({ logoImage: value })
   }
   const eyeColor1 = searchParams.get('eyeColor1') ?? fgColor
   const eyeColor2 = searchParams.get('eyeColor2') ?? fgColor
   const eyeColor3 = searchParams.get('eyeColor3') ?? fgColor
   const setEyeColor1 = (value: string) =>
-    addQueryParameter({ eyeColor1: String(value) })
+    SearchParamsManager.add({ eyeColor1: value })
 
   const setEyeColor2 = (value: string) =>
-    addQueryParameter({ eyeColor2: String(value) })
+    SearchParamsManager.add({ eyeColor2: value })
   const setEyeColor3 = (value: string) =>
-    addQueryParameter({ eyeColor3: String(value) })
+    SearchParamsManager.add({ eyeColor3: value })
   const eyeRadius1 = Number(searchParams.get('eyeRadius1')) ?? 0
   const eyeRadius2 = Number(searchParams.get('eyeRadius2')) ?? 0
   const eyeRadius3 = Number(searchParams.get('eyeRadius3')) ?? 0
   const setEyeRadius1 = (value: number) =>
-    addQueryParameter({ eyeColor1: value })
+    SearchParamsManager.add({ eyeColor1: value })
 
   const setEyeRadius2 = (value: number) =>
-    addQueryParameter({ eyeColor2: value })
+    SearchParamsManager.add({ eyeColor2: value })
   const setEyeRadius3 = (value: number) =>
-    addQueryParameter({ eyeColor3: value })
+    SearchParamsManager.add({ eyeColor3: value })
   const deviceOs = searchParams.get('deviceOs')?.split(',').map(Number) ?? []
   const setDeviceOs = (value: string[]) => {
-    addQueryParameter({ deviceOs: value })
+    SearchParamsManager.add({ deviceOs: value })
   }
 
   const urls = searchParams.get('urls')?.split(',') ?? []
   const setUrls = (value: string[]) => {
-    addQueryParameter({ urls: value })
+    SearchParamsManager.add({ urls: value })
   }
   const labels = searchParams.get('labels')?.split(',') ?? []
 
   const socialMedia =
     searchParams.get('socialMedia')?.split(',').map(Number) ?? []
   const setSocialMedia = (value: number[]) => {
-    addQueryParameter({ socialMedia: value })
+    SearchParamsManager.add({ socialMedia: value })
   }
 
   const deviceOsIndex = useMemo(() => {
@@ -169,34 +166,34 @@ export function useQrCode() {
   }, [])
 
   const text = searchParams.get('text') ?? ''
-  const setText = (value: string) => addQueryParameter({ text: value })
+  const setText = (value: string) => SearchParamsManager.add({ text: value })
 
   const firstName = searchParams.get('firstName') ?? ''
   const setFirstName = (value: string) =>
-    addQueryParameter({ firstName: value })
+    SearchParamsManager.add({ firstName: value })
   const lastName = searchParams.get('lastName') ?? ''
-  const setLastName = (value: string) => addQueryParameter({ lastName: value })
+  const setLastName = (value: string) => SearchParamsManager.add({ lastName: value })
   const middleName = searchParams.get('middleName') ?? ''
   const setMiddleName = (value: string) =>
-    addQueryParameter({ middleName: value })
+    SearchParamsManager.add({ middleName: value })
   const email = searchParams.get('email') ?? ''
-  const setEmail = (value: string) => addQueryParameter({ email: value })
+  const setEmail = (value: string) => SearchParamsManager.add({ email: value })
 
   const phoneNumber = searchParams.get('phoneNumber') ?? ''
-  const resetPhoneNumber = () => removeQueryParamFromCurrentURL(['phoneNumber'])
+  const resetPhoneNumber = () => SearchParamsManager.remove(['phoneNumber'])
   const body = searchParams.get('body') ?? ''
-  const resetBody = () => removeQueryParamFromCurrentURL(['body'])
+  const resetBody = () => SearchParamsManager.remove(['body'])
   const cellPhone = searchParams.get('cellPhone') ?? ''
   const setCellPhone = (value: string) =>
-    addQueryParameter({ cellPhone: value })
+    SearchParamsManager.add({ cellPhone: value })
   const fax = searchParams.get('fax') ?? ''
-  const setFax = (value: string) => addQueryParameter({ fax: value })
+  const setFax = (value: string) => SearchParamsManager.add({ fax: value })
   const homePhone = searchParams.get('homePhone') ?? ''
   const setHomePhone = (value: string) =>
-    addQueryParameter({ homePhone: value })
+    SearchParamsManager.add({ homePhone: value })
   const workPhone = searchParams.get('workPhone') ?? ''
   const setWorkPhone = (value: string) =>
-    addQueryParameter({ workPhone: value })
+    SearchParamsManager.add({ workPhone: value })
   const ref = useRef<HTMLDivElement | null>(null)
   const { trigger } = useQrScanner()
   const { successNotify, errorNotify, warningNotify } = useNotify()

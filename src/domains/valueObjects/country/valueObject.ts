@@ -74,4 +74,3 @@ export class Country {
     return this._code === other._code
   }
 }
-
