@@ -4,4 +4,3 @@ export class Base64Error extends Error {
     this.name = 'Base64Error'
   }
 }
-

@@ -1,0 +1,2 @@
+export { IpApiGeoLocationRepository } from './IpApiGeoLocationRepository'
+
