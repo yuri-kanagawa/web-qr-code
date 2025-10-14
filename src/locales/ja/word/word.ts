@@ -67,6 +67,13 @@ export const word = {
       wep: 'WEP',
       nopass: 'パスワードなし',
       empty: '未選択'
+    },
+    device: {
+      notSet: '未設定',
+      all: 'すべて',
+      mobile: 'モバイル',
+      tablet: 'タブレット',
+      pc: 'PC'
     }
   },
 

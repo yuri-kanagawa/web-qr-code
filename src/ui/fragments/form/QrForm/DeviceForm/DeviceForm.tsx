@@ -1,21 +1,13 @@
 'use client'
-import { FC, useMemo } from 'react'
-import { useDeviceQrCodeForm } from './hooks'
-import {
-  useFieldArray,
-  Controller,
-  useFormState,
-  useWatch
-} from 'react-hook-form'
-import { Stack, Button } from '@mui/material'
-import { OsSelect, DeviceSelect } from '@/ui/fragments/select'
-import { FormButton } from '@/ui/fragments/form/FormButton'
-import { UrlTextField } from '@/ui/fragments/textField'
-import { DEVICES, isDeviceAll } from '@/constants/device'
-import { OS } from '@/constants/os'
-import { usePathname } from 'next/navigation'
-import { getLocale } from '@/locales/config/languages'
 import { Language } from '@/domains'
+import { Device } from '@/domains/valueObjects/device'
+import { FormButton } from '@/ui/fragments/form/FormButton'
+import { DeviceSelect, OsSelect } from '@/ui/fragments/select'
+import { UrlTextField } from '@/ui/fragments/textField'
+import { Button, Stack } from '@mui/material'
+import { FC } from 'react'
+import { Controller, useFieldArray, useWatch } from 'react-hook-form'
+import { useDeviceQrCodeForm } from './hooks'
 
 type Props = {
   language: Language
@@ -74,11 +66,11 @@ export const DeviceForm: FC<Props> = ({ language }) => {
     })
 
     // all選択時の制約
-    if (currentDevice === DEVICES.all) {
+    if (currentDevice === Device.TYPES.ALL) {
       // allが選択されている場合、そのOSは他のフィールドで選択できない
       if (currentOs !== 0) {
         usedCombinations.forEach(({ device, os }) => {
-          if (os === currentOs && device !== DEVICES.all) {
+          if (os === currentOs && device !== Device.TYPES.ALL) {
             // 同じOSでall以外のデバイスが選択されている場合、そのOSを非表示にする
             hiddenOsItems.push(os)
           }
@@ -88,32 +80,36 @@ export const DeviceForm: FC<Props> = ({ language }) => {
 
     // 他のフィールドでallが選択されている場合の制約
     usedCombinations.forEach(({ device, os }) => {
-      if (device === DEVICES.all && os !== 0) {
+      if (device === Device.TYPES.ALL && os !== 0) {
         // allが選択されている場合、そのOSは他のフィールドで選択できない
-        if (currentDevice !== DEVICES.all) {
+        if (currentDevice !== Device.TYPES.ALL) {
           hiddenOsItems.push(os)
         }
       }
     })
 
     // all以外を選択した場合の制約
-    if (!isDeviceAll(currentDevice) && currentDevice !== 0 && currentOs !== 0) {
+    if (
+      currentDevice !== Device.TYPES.ALL &&
+      currentDevice !== 0 &&
+      currentOs !== 0
+    ) {
       // 現在のフィールドでall以外のデバイスが選択されている場合
       usedCombinations.forEach(({ device, os }) => {
-        if (os === currentOs && device === DEVICES.all) {
+        if (os === currentOs && device === Device.TYPES.ALL) {
           // 同じOSでallが選択されている場合、そのOSのallは非表示にする
-          hiddenDeviceItems.push(DEVICES.all)
+          hiddenDeviceItems.push(Device.TYPES.ALL)
         }
       })
     }
 
     // 他のフィールドでall以外が選択されている場合の制約
     usedCombinations.forEach(({ device, os }) => {
-      if (device !== DEVICES.all && device !== 0 && os !== 0) {
+      if (device !== Device.TYPES.ALL && device !== 0 && os !== 0) {
         // 他のフィールドでall以外のデバイスが選択されている場合
         if (currentOs === os) {
           // 同じOSの場合、allは非表示にする
-          hiddenDeviceItems.push(DEVICES.all)
+          hiddenDeviceItems.push(Device.TYPES.ALL)
         }
       }
     })
@@ -162,6 +158,7 @@ export const DeviceForm: FC<Props> = ({ language }) => {
                   <DeviceSelect
                     value={value}
                     onChange={({ id }) => onChange(id)}
+                    language={language}
                     hiddenItems={hiddenDeviceItems}
                   />
                 )}
