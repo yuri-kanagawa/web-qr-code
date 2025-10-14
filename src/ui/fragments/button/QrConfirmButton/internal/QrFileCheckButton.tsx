@@ -1,16 +1,23 @@
-import { FC, MutableRefObject, useCallback } from 'react'
+import { FC, useCallback } from 'react'
 
 import { useNotify, useQrScanner } from '@/hooks'
 
+import { Language } from '@/domains/valueObjects/language'
+import { Qr } from '@/domains/valueObjects/qr'
 import { Button } from '@/ui/cores'
 
 type Props = {
   file: File | null
-  setQrInformation: (value: string) => void
+  setQr: (qr: Qr) => void
+  language?: Language
 }
 
-export const QrFileCheckButton: FC<Props> = ({ file, setQrInformation }) => {
-  const { successNotify, errorNotify } = useNotify()
+export const QrFileCheckButton: FC<Props> = ({
+  file,
+  setQr,
+  language = Language.default()
+}) => {
+  const { errorNotify } = useNotify()
   const { trigger } = useQrScanner()
 
   const onClick = useCallback(async () => {
@@ -19,11 +26,17 @@ export const QrFileCheckButton: FC<Props> = ({ file, setQrInformation }) => {
 
     try {
       const result = await trigger(objectUrl)
+      const qrResult = Qr.create(result.data, language)
 
-      setQrInformation(result.data)
+      if (qrResult.isSuccess && qrResult.qr) {
+        setQr(qrResult.qr)
+      } else {
+        errorNotify(qrResult.error?.message || '無効なQRコード')
+      }
     } catch (error) {
       errorNotify('読み込めない')
     }
-  }, [errorNotify])
+  }, [errorNotify, file, language, setQr, trigger])
+
   return <Button onClick={onClick}>確認</Button>
 }

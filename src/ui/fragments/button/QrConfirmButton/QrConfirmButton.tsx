@@ -1,3 +1,4 @@
+import { Qr } from '@/domains/valueObjects/qr'
 import { FC, useState } from 'react'
 import { QrFileCheckButton } from './internal'
 import { QrInformationDialog } from './internal/QrInformationDialog'
@@ -7,14 +8,20 @@ type Props = {
   isValid?: boolean
 }
 export const QrConfirmButton: FC<Props> = ({ file, isValid }) => {
-  const [qrInformation, setQrInformation] = useState('')
+  const [qr, setQr] = useState<Qr>(Qr.default())
+  const [isDialogOpen, setIsDialogOpen] = useState(false)
+
+  const handleSetQr = (newQr: Qr) => {
+    setQr(newQr)
+    setIsDialogOpen(true)
+  }
+
   return (
     <>
-      <QrFileCheckButton file={file} setQrInformation={setQrInformation} />
-      <QrInformationDialog
-        qrInformation={qrInformation}
-        setQrInformation={setQrInformation}
-      />
+      <QrFileCheckButton file={file} setQr={handleSetQr} />
+      {isDialogOpen && (
+        <QrInformationDialog qr={qr} onClose={() => setIsDialogOpen(false)} />
+      )}
     </>
   )
 }

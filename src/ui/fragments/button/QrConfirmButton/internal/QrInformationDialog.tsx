@@ -1,9 +1,8 @@
 import { FC, useMemo } from 'react'
-import {
-  fromSmsScheme,
-  isSmsSchema
-} from '@/ui/fragments/form/QrForm/SmsForm/hooks/utils'
 
+import { Qr } from '@/domains/valueObjects/qr'
+import { PathBuilder } from '@/lib/routing'
+import { useQr } from '@/stores'
 import {
   Button,
   Dialog,
@@ -12,75 +11,45 @@ import {
   DialogContentText,
   DialogTitle
 } from '@/ui/cores'
-import { fromTelScheme, isTelScheme } from '@/ui/pages/Phone/hooks/utils'
 import { useRouter } from 'next/navigation'
-import { path } from '@/config/path'
-import { isUrl } from '@/constants/qr'
 
 type Props = {
-  qrInformation: string
-  setQrInformation: (qrInformation: string) => void
+  qr: Qr
+  onClose: () => void
 }
 
-export const QrInformationDialog: FC<Props> = ({
-  qrInformation,
-  setQrInformation
-}) => {
-  const onClose = () => setQrInformation('')
+export const QrInformationDialog: FC<Props> = ({ qr, onClose }) => {
+  const qrValue = qr.value
+
   const title = useMemo(() => {
-    if (isSmsSchema(qrInformation)) {
+    if (qr.isSms) {
       return 'SMS'
     }
-    if (isUrl(qrInformation)) {
+    if (qr.isUrl) {
       return 'URL'
     }
-    if (isTelScheme(qrInformation)) {
+    if (qr.isTel) {
       return 'Phone'
     }
     return ''
-  }, [qrInformation])
+  }, [qr])
 
   const { push } = useRouter()
+  const { setQr } = useQr()
 
   const onEdit = () => {
-    if (isSmsSchema(qrInformation)) {
-      const { phoneNumber, body } = fromSmsScheme(qrInformation)
-      return push(
-        path.sms.index({
-          lang: 'en',
-          queryParameter: {
-            phoneNumber,
-            body
-          }
-        })
-      )
-    }
-    if (isUrl(qrInformation)) {
-      return push(
-        path.url.index({
-          lang: 'en',
-          queryParameter: {
-            url: qrInformation
-          }
-        })
-      )
-    }
-    if (isTelScheme(qrInformation)) {
-      push(
-        path.phone.index({
-          lang: 'en',
-          queryParameter: {
-            phoneNumber: qrInformation
-          }
-        })
-      )
-    }
-    return ''
+    // グローバルステートに保存
+    setQr(qr)
+    onClose()
+
+    // 共通の編集画面に遷移
+    const pathBuilder = new PathBuilder(qr.language)
+    push(pathBuilder.edit.content())
   }
 
   return (
     <Dialog
-      open={qrInformation !== ''}
+      open={true}
       onClose={onClose}
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
@@ -88,7 +57,7 @@ export const QrInformationDialog: FC<Props> = ({
       <DialogTitle id="alert-dialog-title">{title}</DialogTitle>
       <DialogContent>
         <DialogContentText id="alert-dialog-description">
-          This QR code contains: {qrInformation}
+          This QR code contains: {qrValue}
         </DialogContentText>
       </DialogContent>
       <DialogActions>
