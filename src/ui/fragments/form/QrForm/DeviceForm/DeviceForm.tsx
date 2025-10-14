@@ -147,6 +147,7 @@ export const DeviceForm: FC<Props> = ({ language }) => {
                   <OsSelect
                     value={value}
                     onChange={({ id }) => onChange(id)}
+                    language={language}
                     hiddenItems={hiddenOsItems}
                   />
                 )}

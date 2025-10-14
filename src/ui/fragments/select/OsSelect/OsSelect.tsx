@@ -1,11 +1,13 @@
 import { FC, useMemo } from 'react'
 
-import { getOsName, os } from '@/constants'
-import { Select, FormControl, MenuItem, InputLabel } from '@/ui/cores'
+import { Language } from '@/domains/valueObjects/language'
+import { Os } from '@/domains/valueObjects/os'
+import { FormControl, InputLabel, MenuItem, Select } from '@/ui/cores'
 
 type Props = {
   value: number
   onChange: ({ id, name }: { id: number; name: string }) => void
+  language?: Language
   isOptional?: boolean
   hiddenItems?: number[] // 非表示にする項目のID配列
 }
@@ -13,18 +15,19 @@ type Props = {
 export const OsSelect: FC<Props> = ({
   value,
   onChange,
+  language = Language.default(),
   isOptional = false,
   hiddenItems = []
 }) => {
   const array = useMemo(() => {
-    let filtered = isOptional ? os : os.filter((e) => e !== 0)
+    const filtered = isOptional
+      ? [...Os.list]
+      : Os.list.filter((e) => !Os.isNotSet(e))
 
     // 非表示項目を除外
-    if (hiddenItems.length > 0) {
-      filtered = filtered.filter((e) => !hiddenItems.includes(e))
-    }
-
-    return filtered
+    return hiddenItems.length > 0
+      ? filtered.filter((e) => !hiddenItems.includes(e))
+      : filtered
   }, [isOptional, hiddenItems])
 
   return (
@@ -37,17 +40,23 @@ export const OsSelect: FC<Props> = ({
         label="OS"
         onChange={(e) => {
           const value = Number(e.target.value)
+          const osResult = Os.create(value, language)
+          const name = osResult.isSuccess && osResult.os ? osResult.os.name : ''
           onChange({
             id: value,
-            name: getOsName(value)
+            name
           })
         }}
       >
-        {array.map((e) => (
-          <MenuItem key={e} value={Number(e)}>
-            {getOsName(e)}
-          </MenuItem>
-        ))}
+        {array.map((osValue) => {
+          const osResult = Os.create(osValue, language)
+          const name = osResult.isSuccess && osResult.os ? osResult.os.name : ''
+          return (
+            <MenuItem key={osValue} value={Number(osValue)}>
+              {name}
+            </MenuItem>
+          )
+        })}
       </Select>
     </FormControl>
   )

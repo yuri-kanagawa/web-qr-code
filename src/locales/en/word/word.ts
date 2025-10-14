@@ -74,6 +74,15 @@ export const word = {
       mobile: 'Mobile',
       tablet: 'Tablet',
       pc: 'PC'
+    },
+    os: {
+      notSet: 'Not Set',
+      windows: 'Windows',
+      macintosh: 'Macintosh',
+      ios: 'iOS',
+      android: 'Android',
+      linux: 'Linux',
+      other: 'Other'
     }
   },
 
