@@ -1,5 +1,6 @@
 export * from './address'
 export * from './body'
+export * from './country'
 export * from './device'
 export * from './email'
 export * from './language'

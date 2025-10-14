@@ -1,9 +1,10 @@
-import { PhoneNumberResult } from './result'
-import { PhoneNumberValueError } from './error'
 import { Language } from '@/domains/valueObjects/language'
+import { PhoneNumberValueError } from './error'
+import { PhoneNumberResult } from './result'
 
 export class PhoneNumber {
-  private static readonly INTERNATIONAL_PHONE_REGEX = /^\+(\d{1,3})\s\d{1,4}\s\d{3,4}\s\d{4}$/
+  private static readonly INTERNATIONAL_PHONE_REGEX =
+    /^\+(\d{1,3})\s\d{1,4}\s\d{3,4}\s\d{4}$/
 
   static isValidInternationalFormat(phoneNumber: string): boolean {
     return PhoneNumber.INTERNATIONAL_PHONE_REGEX.test(phoneNumber)
@@ -29,9 +30,12 @@ export class PhoneNumber {
       const errorMessage = language.isJapanese
         ? '有効な電話番号を入力してください'
         : language.isFrench
-        ? 'Veuillez saisir un numéro de téléphone valide'
-        : 'Please enter a valid phone number'
-      return new PhoneNumberResult(null, new PhoneNumberValueError(errorMessage))
+          ? 'Veuillez saisir un numéro de téléphone valide'
+          : 'Please enter a valid phone number'
+      return new PhoneNumberResult(
+        null,
+        new PhoneNumberValueError(errorMessage)
+      )
     }
 
     return new PhoneNumberResult(new PhoneNumber(value.trim(), language), null)

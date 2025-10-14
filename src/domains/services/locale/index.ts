@@ -1,0 +1,2 @@
+export { LocaleService } from './service'
+

@@ -1,9 +1,9 @@
-import { FC, useMemo } from 'react'
 import { PhoneProps } from '@/ui/fragments/textField/PhoneTextField/Device'
+import { FC, useMemo } from 'react'
 
-import { getCountryCode } from '@/utils/detect'
-import { Stack } from '@/ui/cores/Stack'
+import { LocaleService } from '@/domains/services/locale'
 import { PhoneNumber } from '@/ui/cores/PhoneNumber/PhoneNumber'
+import { Stack } from '@/ui/cores/Stack'
 
 export const PhoneTextField: FC<PhoneProps> = ({
   cellPhone,
@@ -91,7 +91,7 @@ export const PhoneTextField: FC<PhoneProps> = ({
     <Stack>
       <PhoneNumber
         label={'*phone'}
-        defaultCountry={getCountryCode()}
+        defaultCountry={LocaleService.detectCountry().code}
         value={value}
         onChange={(e) => onChange(typeof e === 'string' ? e : e.target.value)}
         variant="outlined"
