@@ -1,16 +1,16 @@
 'use client'
-import { FC } from 'react'
-import { Controller, useFormState } from 'react-hook-form'
-import { Stack, Box, CircularProgress } from '@mui/material'
-import { useMapQrCodeForm, formatMapUrl } from './hooks'
-import { FormButton } from '@/ui/fragments/form/FormButton'
+import { Language } from '@/domains/valueObjects/language'
 import { LocationButton } from '@/ui/fragments/button'
+import { FormButton } from '@/ui/fragments/form/FormButton'
 import { GoogleMap } from '@/ui/fragments/map'
 import {
   LatitudeTextField,
   LongitudeTextField
 } from '@/ui/fragments/textField/NumberTextField'
-import { Language } from '@/domains/valueObjects/language'
+import { Stack } from '@mui/material'
+import { FC } from 'react'
+import { Controller } from 'react-hook-form'
+import { formatMapUrl, useMapQrCodeForm } from './hooks'
 
 type Props = {
   language: Language
