@@ -1,0 +1,2 @@
+export { DeviceOsService } from './service'
+
