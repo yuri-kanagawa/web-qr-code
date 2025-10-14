@@ -1,4 +1,5 @@
-import { encryption, isEncryptionNonpass } from '@/constants/encryption'
+import { WiFiType } from '@/domains/valueObjects/wifiType'
+import { Language } from '@/domains/valueObjects/language'
 import {
   Select,
   MenuItem,
@@ -6,21 +7,30 @@ import {
   InputLabel,
   SelectProps
 } from '@/ui/cores'
-import { FC } from 'react'
+import { FC, useMemo } from 'react'
 
 type Props = {
   value: string
   onChange: (value: string) => void
+  language?: Language
 } & Omit<SelectProps, 'onChange' | 'value'>
 
-export const EncryptionSelect: FC<Props> = ({ value, onChange, ...rest }) => {
-  const encryptionOptions = Object.entries(encryption).map(([key, label]) => {
-    const newLabel = isEncryptionNonpass(key) ? '' : label
-    return {
-      value: key,
-      label: newLabel
-    }
-  })
+export const EncryptionSelect: FC<Props> = ({ value, onChange, language = Language.default(), ...rest }) => {
+  const encryptionOptions = useMemo(() => {
+    const types = [
+      { key: WiFiType.ENCRYPTION_TYPES.WPA, factory: WiFiType.wpa },
+      { key: WiFiType.ENCRYPTION_TYPES.WEP, factory: WiFiType.wep },
+      { key: WiFiType.ENCRYPTION_TYPES.NOPASS, factory: WiFiType.nopass }
+    ]
+    
+    return types.map(({ key, factory }) => {
+      const wifiType = factory(language)
+      return {
+        value: key,
+        label: wifiType.label
+      }
+    })
+  }, [language])
 
   return (
     <FormControl fullWidth>

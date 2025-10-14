@@ -14,6 +14,22 @@ export class WiFiType {
     return Object.values(WiFiType.ENCRYPTION_TYPES)
   }
 
+  static isWPA(value: string): boolean {
+    return value === WiFiType.ENCRYPTION_TYPES.WPA
+  }
+
+  static isWEP(value: string): boolean {
+    return value === WiFiType.ENCRYPTION_TYPES.WEP
+  }
+
+  static isNoPassword(value: string): boolean {
+    return value === WiFiType.ENCRYPTION_TYPES.NOPASS
+  }
+
+  static isEmpty(value: string): boolean {
+    return value === WiFiType.ENCRYPTION_TYPES.EMPTY
+  }
+
   private readonly _value: string
   private readonly _language: Language
 

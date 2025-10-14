@@ -6,7 +6,7 @@ import { FormButton } from '@/ui/fragments/form/FormButton'
 import { SSIDTextField, PasswordTextField } from '@/ui/fragments/textField'
 import { EncryptionSelect } from '@/ui/fragments/select'
 
-import { isEncryptionNonpass } from '@/constants/encryption'
+import { WiFiType } from '@/domains/valueObjects/wifiType'
 import { toWifiSchema, useWiFiQrCodeForm } from './hooks'
 import { Language } from '@/domains'
 
@@ -65,12 +65,13 @@ export const WiFiForm: FC<Props> = ({ ssid, password, type, language }) => {
                       value={type}
                       onChange={(value) => {
                         typeOnChange(value)
-                        if (isEncryptionNonpass(value)) {
+                        if (WiFiType.isNoPassword(value)) {
                           passwordOnChange('')
                         }
                       }}
+                      language={language}
                     />
-                    {!isEncryptionNonpass(type) && (
+                    {!WiFiType.isNoPassword(type) && (
                       <PasswordTextField
                         value={password}
                         onChange={passwordOnChange}

@@ -1,6 +1,3 @@
 export * from './colors'
-export * from './device'
-export * from './os'
-export * from './deviceOs'
-export * from './encryption'
 export * from './socialMedia'
+export * from './qr'
