@@ -3,6 +3,12 @@ import { PhoneNumberValueError } from './error'
 import { Language } from '@/domains/valueObjects/language'
 
 export class PhoneNumber {
+  private static readonly INTERNATIONAL_PHONE_REGEX = /^\+(\d{1,3})\s\d{1,4}\s\d{3,4}\s\d{4}$/
+
+  static isValidInternationalFormat(phoneNumber: string): boolean {
+    return PhoneNumber.INTERNATIONAL_PHONE_REGEX.test(phoneNumber)
+  }
+
   private readonly _value: string
   private readonly _language: Language
 

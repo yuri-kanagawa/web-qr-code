@@ -1,9 +1,9 @@
 import { z } from 'zod'
-import { validateInternationalPhoneNumber } from '@/utils/regexp'
+import { PhoneNumber } from '@/domains/valueObjects/phoneNumber'
 
 export const phoneNumber = z
   .string()
-  .refine((data) => validateInternationalPhoneNumber(data), {
+  .refine((data) => PhoneNumber.isValidInternationalFormat(data), {
     message: 'Invalid phone number'
   })
 
