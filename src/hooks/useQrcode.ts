@@ -1,5 +1,5 @@
-import { getDeviceOs } from '@/constants/deviceOs'
-import { detectOS } from '@/constants/os'
+import { DeviceOsService } from '@/domains/services/deviceOs'
+import { Os } from '@/domains/valueObjects/os'
 import {
   addQueryParameter,
   removeQueryParamFromCurrentURL
@@ -161,13 +161,10 @@ export function useQrCode() {
   }
 
   const deviceOsIndex = useMemo(() => {
-    const os = detectOS()
+    const os = Os.detect()
     const device = Device.detect()
-    const value = getDeviceOs({
-      device: device.value,
-      os
-    })
-    return deviceOs.indexOf(value.deviceOs)
+    const deviceOsValue = DeviceOsService.getDeviceOs(device, os)
+    return deviceOs.indexOf(deviceOsValue)
   }, [])
 
   const text = searchParams.get('text') ?? ''
