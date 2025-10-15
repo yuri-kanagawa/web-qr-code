@@ -21,14 +21,29 @@ export const OpenButton: FC<Props> = ({ language }) => {
 
   return (
     <ListItem disablePadding>
-      <ListItemButton onClick={toggleSidebar}>
-        <ListItemIcon color={'primary'} sx={{ pl: isSidebarOpen ? 1 : 0 }}>
+      <ListItemButton
+        onClick={toggleSidebar}
+        sx={{
+          minHeight: 40,
+          height: 40,
+          py: 0,
+          px: 2,
+          justifyContent: 'flex-start',
+          '& .MuiListItemIcon-root': {
+            minWidth: 36,
+            marginRight: isSidebarOpen ? 2 : 0
+          }
+        }}
+      >
+        <ListItemIcon
+          sx={{
+            justifyContent: 'center',
+            color: 'primary.main'
+          }}
+        >
           <NavigateNextIcon
-            color="primary"
-            style={{
-              transition: isSidebarOpen
-                ? 'transform 0.2s ease-in-out'
-                : 'transform 0.2s ease',
+            sx={{
+              transition: 'transform 200ms cubic-bezier(0.4, 0, 0.2, 1)',
               transform: isSidebarOpen ? 'rotate(0deg)' : 'rotate(-180deg)'
             }}
           />
@@ -36,10 +51,15 @@ export const OpenButton: FC<Props> = ({ language }) => {
         <ListItemText
           primary={isSidebarOpen ? word.sidebar.close : word.sidebar.open}
           sx={{
-            whiteSpace: 'nowrap',
-            overflow: 'hidden',
+            m: 0,
             opacity: isSidebarOpen ? 1 : 0,
-            transition: 'opacity 0.2s ease'
+            transform: isSidebarOpen ? 'translateX(0)' : 'translateX(-8px)',
+            transition:
+              'opacity 200ms cubic-bezier(0.4, 0, 0.2, 1), transform 200ms cubic-bezier(0.4, 0, 0.2, 1)',
+            '& .MuiTypography-root': {
+              fontSize: '0.875rem',
+              whiteSpace: 'nowrap'
+            }
           }}
         />
       </ListItemButton>

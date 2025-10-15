@@ -8,7 +8,7 @@ import LinkIcon from '@mui/icons-material/Link'
 import PhoneIcon from '@mui/icons-material/Phone'
 import QrCodeScannerIcon from '@mui/icons-material/QrCodeScanner'
 import SmartphoneIcon from '@mui/icons-material/Smartphone'
-import { Box, Collapse, Stack } from '@mui/material'
+import { Box, Stack } from '@mui/material'
 import { usePathname } from 'next/navigation'
 import { forwardRef, useMemo } from 'react'
 import { FaCommentSms, FaWifi } from 'react-icons/fa6'
@@ -27,98 +27,107 @@ export const DrawerItems = forwardRef<HTMLDivElement, Props>(
     const word = locale.word
 
     return (
-      <Collapse in={isSidebarOpen} orientation="horizontal" collapsedSize={70}>
+      <Stack
+        ref={ref}
+        sx={{
+          display: 'flex',
+          height: '100vh',
+          justifyContent: 'space-between',
+          width: '100%',
+          position: 'relative',
+          transition: 'width 200ms cubic-bezier(0.4, 0, 0.2, 1)'
+        }}
+      >
         <Stack
-          ref={ref}
+          spacing={0}
           sx={{
-            overflow: 'auto',
-            display: 'flex',
-            height: '100vh',
-            justifyContent: 'space-between',
-            width: isSidebarOpen ? 210 : 70
+            width: '100%',
+            overflowY: 'auto',
+            overflowX: 'hidden',
+            flexGrow: 1,
+            '&::-webkit-scrollbar': {
+              width: '4px'
+            },
+            '&::-webkit-scrollbar-thumb': {
+              backgroundColor: 'grey.300',
+              borderRadius: '2px'
+            }
           }}
         >
-          <Stack spacing={0} width={'100%'}>
-            <DrawerItemIcon
-              label={word.navigation.url}
-              icon={<LinkIcon />}
-              path={pathBuilder.url.index}
-            />
-            <DrawerItemIcon
-              label={word.navigation.wifi}
-              icon={<FaWifi />}
-              path={pathBuilder.wifi.index}
-            />
-            {/* <DrawerItemIcon
+          <DrawerItemIcon
+            label={word.navigation.url}
+            icon={<LinkIcon sx={{ fontSize: 24 }} />}
+            path={pathBuilder.url.index}
+          />
+          <DrawerItemIcon
+            label={word.navigation.wifi}
+            icon={<FaWifi size={24} />}
+            path={pathBuilder.wifi.index}
+          />
+          {/* <DrawerItemIcon
             label={word.navigation.socialMedia}
             icon={<SmsIcon />}
             path={pathBuilder.socialMedia.index}
           /> */}
-            <DrawerItemIcon
-              label={word.navigation.device}
-              icon={<SmartphoneIcon />}
-              path={pathBuilder.device.index}
-            />
+          <DrawerItemIcon
+            label={word.navigation.device}
+            icon={<SmartphoneIcon sx={{ fontSize: 24 }} />}
+            path={pathBuilder.device.index}
+          />
 
-            <DrawerItemIcon
-              label={word.navigation.contact}
-              icon={<MdPermContactCalendar size={24} />}
-              path={pathBuilder.contact.index}
-            />
-            <DrawerItemIcon
-              label={word.navigation.phone}
-              icon={<PhoneIcon />}
-              path={pathBuilder.phone.index()}
-            />
-            <DrawerItemIcon
-              label={word.navigation.email}
-              icon={<RiMailFill size={24} />}
-              path={pathBuilder.email.index}
-            />
-            <DrawerItemIcon
-              label={word.navigation.sms}
-              icon={<FaCommentSms />}
-              path={pathBuilder.sms.index()}
-            />
+          <DrawerItemIcon
+            label={word.navigation.contact}
+            icon={<MdPermContactCalendar size={24} />}
+            path={pathBuilder.contact.index}
+          />
+          <DrawerItemIcon
+            label={word.navigation.phone}
+            icon={<PhoneIcon sx={{ fontSize: 24 }} />}
+            path={pathBuilder.phone.index()}
+          />
+          <DrawerItemIcon
+            label={word.navigation.email}
+            icon={<RiMailFill size={24} />}
+            path={pathBuilder.email.index}
+          />
+          <DrawerItemIcon
+            label={word.navigation.sms}
+            icon={<FaCommentSms size={24} />}
+            path={pathBuilder.sms.index()}
+          />
 
-            <DrawerItemIcon
-              label={word.navigation.text}
-              icon={<RiText size={24} />}
-              path={pathBuilder.text.index}
-            />
+          <DrawerItemIcon
+            label={word.navigation.text}
+            icon={<RiText size={24} />}
+            path={pathBuilder.text.index}
+          />
 
-            <DrawerItemIcon
-              label={word.navigation.map}
-              icon={<MdLocationOn size={24} />}
-              path={pathBuilder.map.index}
-            />
+          <DrawerItemIcon
+            label={word.navigation.map}
+            icon={<MdLocationOn size={24} />}
+            path={pathBuilder.map.index}
+          />
 
-            <DrawerItemIcon
-              label={word.navigation.reader}
-              icon={<QrCodeScannerIcon />}
-              path={pathBuilder.reader.index}
-            />
-            {/* <DrawerItemIcon
+          <DrawerItemIcon
+            label={word.navigation.reader}
+            icon={<QrCodeScannerIcon sx={{ fontSize: 24 }} />}
+            path={pathBuilder.reader.index}
+          />
+          {/* <DrawerItemIcon
             label={word.navigation.edit}
             icon={<EditIcon />}
             path={path.edit.index({ lang: 'en' })}
           /> */}
-          </Stack>
-          <Stack
-            display={'flex'}
-            justifyContent={'flex-end'}
-            spacing={2}
-            pb={2}
-          >
-            {isSidebarOpen && (
-              <Box sx={{ px: 2 }}>
-                <LanguageSelect language={language} />
-              </Box>
-            )}
-            <OpenButton language={language} />
-          </Stack>
         </Stack>
-      </Collapse>
+        <Stack display={'flex'} justifyContent={'flex-end'} spacing={2} pb={2}>
+          {isSidebarOpen && (
+            <Box sx={{ px: 2 }}>
+              <LanguageSelect language={language} />
+            </Box>
+          )}
+          <OpenButton language={language} />
+        </Stack>
+      </Stack>
     )
   }
 )

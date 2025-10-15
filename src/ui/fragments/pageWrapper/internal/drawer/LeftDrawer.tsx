@@ -33,17 +33,24 @@ export const LeftDrawer = forwardRef<HTMLDivElement, Props>(
     return (
       <>
         <Box
-          sx={(theme) => ({
+          sx={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
             width: isSidebarOpen ? 210 : 70,
-            zIndex: theme.zIndex.drawer,
-            transition: theme.transitions.create('width', {
-              duration: theme.transitions.duration.shortest,
-              easing: theme.transitions.easing.easeInOut
-            }),
-            display: 'flex', // ← これ大事
+            zIndex: (theme) => theme.zIndex.drawer,
+            transition: 'all 200ms cubic-bezier(0.4, 0, 0.2, 1)',
+            transform: 'none', // transformを削除してインジケーターが確実に見えるように
+            display: 'flex',
             backgroundColor: 'grey.100',
-            height: '100vh'
-          })}
+            height: '100vh',
+            willChange: 'width',
+            borderRight: '1px solid',
+            borderColor: 'grey.200',
+            '& > *': {
+              width: '100%'
+            }
+          }}
         >
           <DrawerItems ref={ref} language={language} />
         </Box>

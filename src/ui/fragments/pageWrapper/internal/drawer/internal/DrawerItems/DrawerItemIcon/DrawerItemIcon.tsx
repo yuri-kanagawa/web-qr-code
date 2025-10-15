@@ -27,34 +27,58 @@ export const DrawerItemIcon: FC<Props> = ({ icon, path, label }) => {
         disablePadding
         sx={{
           width: '100%',
-          height: '100%',
-          background: isCurrentPath ? '#E0E0E0' : undefined
+          position: 'relative',
+          '&::before': isCurrentPath
+            ? {
+                content: '""',
+                position: 'absolute',
+                left: 0,
+                top: 0,
+                height: '100%',
+                width: '4px',
+                backgroundColor: 'primary.main',
+                zIndex: 1
+              }
+            : undefined,
+          bgcolor: isCurrentPath ? 'action.selected' : undefined,
+          '&:hover': {
+            bgcolor: 'action.hover'
+          }
         }}
       >
         <ListItemButton
           sx={{
-            position: 'relative',
-            '&::before': isCurrentPath
-              ? {
-                  content: '""',
-                  position: 'absolute',
-                  left: 0,
-                  top: 0,
-                  height: '100%',
-                  width: '6px',
-                  backgroundColor: themeColors.primary.main
-                }
-              : {}
+            minHeight: 40,
+            height: 40,
+            py: 0,
+            px: 2, // パディングを常に一定に
+            justifyContent: 'flex-start', // 常に左寄せに
+            '& .MuiListItemIcon-root': {
+              minWidth: 36, // アイコンの最小幅を常に一定に
+              marginRight: isSidebarOpen ? 2 : 0 // テキストとの間隔のみ可変
+            }
           }}
         >
-          <ListItemIcon sx={{ pl: 1 }}>{icon}</ListItemIcon>
+          <ListItemIcon
+            sx={{
+              justifyContent: 'center',
+              color: isCurrentPath ? 'primary.main' : 'inherit'
+            }}
+          >
+            {icon}
+          </ListItemIcon>
           <ListItemText
             primary={label}
             sx={{
-              whiteSpace: 'nowrap',
-              overflow: 'hidden',
+              m: 0,
               opacity: isSidebarOpen ? 1 : 0,
-              transition: 'opacity 0.2s ease'
+              transform: isSidebarOpen ? 'translateX(0)' : 'translateX(-8px)',
+              transition:
+                'opacity 200ms cubic-bezier(0.4, 0, 0.2, 1), transform 200ms cubic-bezier(0.4, 0, 0.2, 1)',
+              '& .MuiTypography-root': {
+                fontSize: '0.875rem',
+                whiteSpace: 'nowrap'
+              }
             }}
           />
         </ListItemButton>
