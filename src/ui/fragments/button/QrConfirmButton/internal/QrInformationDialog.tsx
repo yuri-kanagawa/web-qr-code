@@ -20,19 +20,20 @@ type Props = {
 
 export const QrInformationDialog: FC<Props> = ({ qr, onClose }) => {
   const qrValue = qr.value
+  const locale = qr.language.getLocale()
 
   const title = useMemo(() => {
     if (qr.isSms) {
       return 'SMS'
     }
-    if (qr.isUrl) {
+    if (qr.isUrl || qr.isMap) {
       return 'URL'
     }
     if (qr.isTel) {
-      return 'Phone'
+      return locale.word.navigation.phone
     }
     return ''
-  }, [qr])
+  }, [qr, locale])
 
   const { push } = useRouter()
   const { setQr } = useQr()
@@ -47,6 +48,10 @@ export const QrInformationDialog: FC<Props> = ({ qr, onClose }) => {
     push(pathBuilder.edit.content)
   }
 
+  const contentMessage = qr.language.isEnglish
+    ? `This QR code contains: ${qrValue}`
+    : `このQRコードには次の内容が含まれています: ${qrValue}`
+
   return (
     <Dialog
       open={true}
@@ -57,12 +62,16 @@ export const QrInformationDialog: FC<Props> = ({ qr, onClose }) => {
       <DialogTitle id="alert-dialog-title">{title}</DialogTitle>
       <DialogContent>
         <DialogContentText id="alert-dialog-description">
-          This QR code contains: {qrValue}
+          {contentMessage}
         </DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose}>Close</Button>
-        <Button onClick={onEdit}>Edit</Button>
+        <Button onClick={onClose} variant="outlined">
+          {locale.word.buttons.close}
+        </Button>
+        <Button onClick={onEdit} variant="contained">
+          {locale.word.buttons.edit}
+        </Button>
       </DialogActions>
     </Dialog>
   )

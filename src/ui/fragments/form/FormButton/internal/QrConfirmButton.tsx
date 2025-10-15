@@ -43,7 +43,7 @@ export const QrConfirmButton: FC<Props> = ({
   }
 
   const onExceed = useCallback(() => {
-    if (qr.isUrl) {
+    if (qr.isUrl || qr.isMap) {
       window.open(qr.value)
     }
     onClose()
@@ -51,6 +51,9 @@ export const QrConfirmButton: FC<Props> = ({
 
   const getText = useMemo(() => {
     if (qr.isUrl) {
+      return `${locale.word.dialog.qrCodeUrl}\n${locale.word.dialog.qrCodeUrlMessage}`
+    }
+    if (qr.isMap) {
       return `${locale.word.dialog.qrCodeUrl}\n${locale.word.dialog.qrCodeUrlMessage}`
     }
     if (qr.isSms) {
@@ -63,7 +66,7 @@ export const QrConfirmButton: FC<Props> = ({
   }, [qr, locale])
 
   const display = useMemo(() => {
-    if (qr.isUrl) {
+    if (qr.isUrl || qr.isMap) {
       return {
         title: locale.word.dialog.qrCodeUrl,
         message: locale.word.dialog.qrCodeUrlMessage
@@ -88,8 +91,10 @@ export const QrConfirmButton: FC<Props> = ({
           </Stack>
         </DialogContent>
         <DialogActions>
-          <Button onClick={onClose}>{locale.word.buttons.close}</Button>
-          <Button onClick={onExceed} autoFocus>
+          <Button onClick={onClose} variant="outlined">
+            {locale.word.buttons.close}
+          </Button>
+          <Button onClick={onExceed} variant="contained" autoFocus>
             {locale.word.buttons.execute}
           </Button>
         </DialogActions>

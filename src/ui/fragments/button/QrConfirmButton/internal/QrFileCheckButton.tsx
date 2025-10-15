@@ -40,5 +40,9 @@ export const QrFileCheckButton: FC<Props> = ({
     }
   }, [errorNotify, file, locale, readQrFromFileUseCase, setQr])
 
-  return <Button onClick={onClick}>{locale.word.buttons.confirm}</Button>
+  return (
+    <Button onClick={onClick} variant="contained">
+      {locale.word.buttons.confirm}
+    </Button>
+  )
 }
