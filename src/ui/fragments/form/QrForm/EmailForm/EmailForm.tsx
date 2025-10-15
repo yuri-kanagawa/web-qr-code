@@ -74,6 +74,7 @@ export const EmailForm: FC<Props> = ({
                 inputRef={inputRef}
                 error={!!error}
                 helperText={error?.message}
+                language={language}
               />
             )}
           />
@@ -96,6 +97,7 @@ export const EmailForm: FC<Props> = ({
                 inputRef={inputRef}
                 error={!!error}
                 helperText={error?.message}
+                language={language}
               />
             )}
           />
@@ -118,6 +120,7 @@ export const EmailForm: FC<Props> = ({
                 inputRef={inputRef}
                 error={!!error}
                 helperText={error?.message}
+                language={language}
               />
             )}
           />

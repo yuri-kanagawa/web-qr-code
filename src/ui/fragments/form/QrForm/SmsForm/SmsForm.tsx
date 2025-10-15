@@ -66,6 +66,7 @@ export const SmsForm: FC<Props> = (props) => {
               inputRef={inputRef}
               helperText={error?.message}
               error={!!error}
+              language={props.language}
             />
           )}
         />
