@@ -1,46 +1,43 @@
+import { Result } from '@/domains/common'
 import { Qr } from '@/domains/valueObjects/qr'
 
 /**
  * ReadQrFromFileUseCaseの実行結果
+ *
+ * @example
+ * ```typescript
+ * const result = await useCase.execute(file, language)
+ * if (result.isSuccess) {
+ *   console.log(result.qr?.value) // QRコードの内容
+ * } else {
+ *   console.error(result.errorMessage)
+ * }
+ * ```
  */
-export class ReadQrFromFileUseCaseResult {
-  constructor(
-    private readonly _qr: Qr | null,
-    private readonly _error: Error | null
-  ) {}
-
-  /**
-   * 成功した場合
-   */
-  get isSuccess(): boolean {
-    return this._qr !== null && this._error === null
-  }
-
-  /**
-   * 失敗した場合
-   */
-  get isFailure(): boolean {
-    return !this.isSuccess
+export class ReadQrFromFileUseCaseResult extends Result<Qr, Error> {
+  private constructor(value: Qr | null, error: Error | null) {
+    super(value, error)
   }
 
   /**
    * QRコードデータ（成功時のみ）
+   * valueのエイリアス
    */
   get qr(): Qr | null {
-    return this._qr
+    return this.value
   }
 
   /**
-   * エラー情報（失敗時のみ）
+   * 成功を表すResultを作成
    */
-  get error(): Error | null {
-    return this._error
+  static ok(qr: Qr): ReadQrFromFileUseCaseResult {
+    return new ReadQrFromFileUseCaseResult(qr, null)
   }
 
   /**
-   * エラーメッセージ
+   * 失敗を表すResultを作成
    */
-  get errorMessage(): string {
-    return this._error?.message || ''
+  static fail(error: Error): ReadQrFromFileUseCaseResult {
+    return new ReadQrFromFileUseCaseResult(null, error)
   }
 }

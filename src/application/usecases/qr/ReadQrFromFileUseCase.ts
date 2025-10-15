@@ -30,18 +30,17 @@ export class ReadQrFromFileUseCase {
       const qrResult = Qr.create(result.data, language)
 
       if (qrResult.isFailure || !qrResult.qr) {
-        return new ReadQrFromFileUseCaseResult(
-          null,
+        return ReadQrFromFileUseCaseResult.fail(
           new Error(qrResult.error?.message || 'Invalid QR code')
         )
       }
 
-      return new ReadQrFromFileUseCaseResult(qrResult.qr, null)
+      return ReadQrFromFileUseCaseResult.ok(qrResult.qr)
     } catch (error) {
       // スキャンエラーをキャッチして結果オブジェクトに変換
       const errorMessage =
         error instanceof Error ? error.message : 'Failed to scan QR code'
-      return new ReadQrFromFileUseCaseResult(null, new Error(errorMessage))
+      return ReadQrFromFileUseCaseResult.fail(new Error(errorMessage))
     } finally {
       // ObjectURLを解放
       URL.revokeObjectURL(objectUrl)

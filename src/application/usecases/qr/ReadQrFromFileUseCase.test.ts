@@ -1,4 +1,4 @@
-import { IQrScannerRepository } from '@/domains'
+import { IQrScannerRepository } from '@/domains/repositories'
 import { Language } from '@/domains/valueObjects/language'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { ReadQrFromFileUseCase } from './ReadQrFromFileUseCase'
