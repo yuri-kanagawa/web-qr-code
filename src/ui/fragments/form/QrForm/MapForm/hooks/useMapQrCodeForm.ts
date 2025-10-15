@@ -1,6 +1,6 @@
 import { Language } from '@/domains/valueObjects/language'
 import { useQrCode } from '@/hooks'
-import { IpApiGeoLocationRepository } from '@/infrastructure/repositories/geoLocation'
+import { IpApiGeoLocationRepository } from '@/infrastructure/repositories'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useEffect, useMemo, useState } from 'react'
 import { SubmitErrorHandler, useForm } from 'react-hook-form'
@@ -46,7 +46,7 @@ export const useMapQrCodeForm = ({ language }: Props) => {
       try {
         setIsLoadingLocation(true)
         const repository = new IpApiGeoLocationRepository(language)
-        const location = await repository.getCurrentLocation()
+        const location = await repository.getLocationFromIpAddress()
         const initialValues: RegisterQrCodeMapSchema = {
           latitude: location.latitude.toString(),
           longitude: location.longitude.toString(),

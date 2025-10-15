@@ -1,2 +1,1 @@
-export * from './geoLocation'
-
+export * from './external'

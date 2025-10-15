@@ -5,9 +5,8 @@ import { GeoLocation } from '@/domains/valueObjects/geoLocation'
  */
 export interface IGeoLocationRepository {
   /**
-   * 現在の位置情報を取得
+   * IPアドレスから位置情報を取得（外部API使用）
    * @returns GeoLocation - 取得した位置情報、失敗時はデフォルト位置
    */
-  getCurrentLocation(): Promise<GeoLocation>
+  getLocationFromIpAddress(): Promise<GeoLocation>
 }
-

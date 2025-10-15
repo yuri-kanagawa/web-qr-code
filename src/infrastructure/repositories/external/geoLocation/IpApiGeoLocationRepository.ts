@@ -1,4 +1,4 @@
-import { IGeoLocationRepository } from '@/domains/repositories/geoLocation'
+import { IGeoLocationRepository } from '@/domains/repositories'
 import { GeoLocation } from '@/domains/valueObjects/geoLocation'
 import { Language } from '@/domains/valueObjects/language'
 
@@ -13,7 +13,7 @@ export class IpApiGeoLocationRepository implements IGeoLocationRepository {
     this.language = language
   }
 
-  async getCurrentLocation(): Promise<GeoLocation> {
+  async getLocationFromIpAddress(): Promise<GeoLocation> {
     try {
       console.log('Fetching location from IP API...')
       const response = await fetch(this.apiUrl)

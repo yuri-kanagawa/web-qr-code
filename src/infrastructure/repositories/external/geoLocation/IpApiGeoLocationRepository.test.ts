@@ -1,7 +1,7 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { IpApiGeoLocationRepository } from './IpApiGeoLocationRepository'
-import { Language } from '@/domains/valueObjects/language'
 import { GeoLocation } from '@/domains/valueObjects/geoLocation'
+import { Language } from '@/domains/valueObjects/language'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { IpApiGeoLocationRepository } from './IpApiGeoLocationRepository'
 
 // fetchをモック
 global.fetch = vi.fn()
@@ -11,7 +11,7 @@ describe('IpApiGeoLocationRepository', () => {
     vi.clearAllMocks()
   })
 
-  describe('getCurrentLocation', () => {
+  describe('getLocationFromIpAddress', () => {
     it('APIから位置情報を正しく取得できる', async () => {
       // fetchのモック
       ;(global.fetch as any).mockResolvedValueOnce({
@@ -24,7 +24,7 @@ describe('IpApiGeoLocationRepository', () => {
       })
 
       const repository = new IpApiGeoLocationRepository(Language.default())
-      const location = await repository.getCurrentLocation()
+      const location = await repository.getLocationFromIpAddress()
 
       expect(location.latitude).toBe(35.68)
       expect(location.longitude).toBe(139.76)
@@ -42,7 +42,7 @@ describe('IpApiGeoLocationRepository', () => {
       })
 
       const repository = new IpApiGeoLocationRepository(Language.default())
-      const location = await repository.getCurrentLocation()
+      const location = await repository.getLocationFromIpAddress()
 
       expect(location.latitude).toBe(40.71)
       expect(location.longitude).toBe(-74.00)
@@ -61,7 +61,7 @@ describe('IpApiGeoLocationRepository', () => {
 
       const japaneseLanguage = Language.create('ja').language!
       const repository = new IpApiGeoLocationRepository(japaneseLanguage)
-      const location = await repository.getCurrentLocation()
+      const location = await repository.getLocationFromIpAddress()
 
       expect(location.country).toBe('日本')
     })
@@ -71,7 +71,7 @@ describe('IpApiGeoLocationRepository', () => {
       ;(global.fetch as any).mockRejectedValueOnce(new Error('Network error'))
 
       const repository = new IpApiGeoLocationRepository(Language.default())
-      const location = await repository.getCurrentLocation()
+      const location = await repository.getLocationFromIpAddress()
 
       // デフォルト位置（東京）が返る
       const defaultLocation = GeoLocation.default()
@@ -86,7 +86,7 @@ describe('IpApiGeoLocationRepository', () => {
       })
 
       const repository = new IpApiGeoLocationRepository(Language.default())
-      const location = await repository.getCurrentLocation()
+      const location = await repository.getLocationFromIpAddress()
 
       const defaultLocation = GeoLocation.default()
       expect(location.latitude).toBe(defaultLocation.latitude)
@@ -102,7 +102,7 @@ describe('IpApiGeoLocationRepository', () => {
       })
 
       const repository = new IpApiGeoLocationRepository(Language.default())
-      const location = await repository.getCurrentLocation()
+      const location = await repository.getLocationFromIpAddress()
 
       const defaultLocation = GeoLocation.default()
       expect(location.latitude).toBe(defaultLocation.latitude)
@@ -118,7 +118,7 @@ describe('IpApiGeoLocationRepository', () => {
       })
 
       const repository = new IpApiGeoLocationRepository(Language.default())
-      const location = await repository.getCurrentLocation()
+      const location = await repository.getLocationFromIpAddress()
 
       const defaultLocation = GeoLocation.default()
       expect(location.latitude).toBe(defaultLocation.latitude)
@@ -135,7 +135,7 @@ describe('IpApiGeoLocationRepository', () => {
       })
 
       const repository = new IpApiGeoLocationRepository(Language.default())
-      const location = await repository.getCurrentLocation()
+      const location = await repository.getLocationFromIpAddress()
 
       const defaultLocation = GeoLocation.default()
       expect(location.latitude).toBe(defaultLocation.latitude)
@@ -152,7 +152,7 @@ describe('IpApiGeoLocationRepository', () => {
       })
 
       const repository = new IpApiGeoLocationRepository(Language.default())
-      await repository.getCurrentLocation()
+      await repository.getLocationFromIpAddress()
 
       expect(global.fetch).toHaveBeenCalledWith('https://ipapi.co/json/')
       expect(global.fetch).toHaveBeenCalledTimes(1)
@@ -183,7 +183,7 @@ describe('IpApiGeoLocationRepository', () => {
           })
         })
 
-        const location = await repository.getCurrentLocation()
+        const location = await repository.getLocationFromIpAddress()
         expect(location.country).toBe(country.ja)
       }
     })
@@ -201,7 +201,7 @@ describe('IpApiGeoLocationRepository', () => {
 
       const japaneseLanguage = Language.create('ja').language!
       const repository = new IpApiGeoLocationRepository(japaneseLanguage)
-      const location = await repository.getCurrentLocation()
+      const location = await repository.getLocationFromIpAddress()
 
       expect(location.country).toBe('Unknown Country')
     })
