@@ -28,14 +28,15 @@ export const FormButton = React.forwardRef<HTMLDivElement, Props>(
         }}
       >
         <Stack direction={'row'} spacing={10}>
-          <Box>
+          <Box sx={{ position: 'relative' }}>
+            {/* スクロール可能なコンテンツエリア */}
             <Stack
               spacing={4}
               pt={3}
-              pb={15}
+              pb={2}
               px={4}
               sx={{
-                height,
+                height: `calc(${height}px - 100px)`, // ボタンエリアの高さ分を引く
                 boxSizing: 'border-box',
                 overflowY: 'auto',
                 width: {
@@ -48,6 +49,8 @@ export const FormButton = React.forwardRef<HTMLDivElement, Props>(
                 <OptionalForm file={file} setFile={setFile} />
               </FormCard>
             </Stack>
+            
+            {/* 固定ボタンエリア */}
             <Stack
               sx={{
                 position: 'sticky',
