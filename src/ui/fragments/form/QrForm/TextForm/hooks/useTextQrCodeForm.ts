@@ -3,7 +3,10 @@ import { useQrCode } from '@/hooks'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMemo } from 'react'
 import { SubmitErrorHandler, useForm } from 'react-hook-form'
-import { createRegisterQrCodeTextSchema, type RegisterQrCodeTextSchema } from './zod'
+import {
+  createRegisterQrCodeTextSchema,
+  type RegisterQrCodeTextSchema
+} from './zod'
 
 interface Props {
   text: string
@@ -15,7 +18,10 @@ export const useTextQrCodeForm = ({ text, language }: Props) => {
   }
   const { ref, onConfirm, onDownload } = useQrCode(language)
 
-  const schema = useMemo(() => createRegisterQrCodeTextSchema(language), [language])
+  const schema = useMemo(
+    () => createRegisterQrCodeTextSchema(language),
+    [language]
+  )
 
   const { handleSubmit, trigger, setFocus, getFieldState, ...rest } =
     useForm<RegisterQrCodeTextSchema>({

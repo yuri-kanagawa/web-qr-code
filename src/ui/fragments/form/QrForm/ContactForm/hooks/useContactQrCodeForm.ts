@@ -3,7 +3,10 @@ import { useQrCode } from '@/hooks'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMemo } from 'react'
 import { SubmitErrorHandler, useForm } from 'react-hook-form'
-import { createRegisterQrCodeContactSchema, type RegisterQrCodeContactSchema } from './zod'
+import {
+  createRegisterQrCodeContactSchema,
+  type RegisterQrCodeContactSchema
+} from './zod'
 
 interface Props {
   language: Language
@@ -49,7 +52,10 @@ export function useContactQrCodeForm({
     url
   }
 
-  const schema = useMemo(() => createRegisterQrCodeContactSchema(language), [language])
+  const schema = useMemo(
+    () => createRegisterQrCodeContactSchema(language),
+    [language]
+  )
 
   const { handleSubmit, setFocus, getFieldState, ...rest } =
     useForm<RegisterQrCodeContactSchema>({

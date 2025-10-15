@@ -4,7 +4,10 @@ import { SearchParamsManager } from '@/lib/browser'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useCallback, useEffect, useMemo } from 'react'
 import { SubmitErrorHandler, useForm } from 'react-hook-form'
-import { createRegisterQrCodeSmsSchema, type RegisterQrCodeSmsSchema } from './zod'
+import {
+  createRegisterQrCodeSmsSchema,
+  type RegisterQrCodeSmsSchema
+} from './zod'
 
 interface Props {
   language: Language
@@ -30,7 +33,10 @@ export const useSmsQrCodeForm = ({ language, phoneNumber, body }: Props) => {
     }
   }, [phoneNumber, body])
 
-  const schema = useMemo(() => createRegisterQrCodeSmsSchema(language), [language])
+  const schema = useMemo(
+    () => createRegisterQrCodeSmsSchema(language),
+    [language]
+  )
 
   const {
     handleSubmit,
