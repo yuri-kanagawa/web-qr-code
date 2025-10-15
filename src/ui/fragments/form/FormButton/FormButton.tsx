@@ -1,11 +1,11 @@
-import React, { FC, ReactNode, useState } from 'react'
+import React, { ReactNode, useState } from 'react'
 
-import { OptionalForm, FormCard } from '@/ui/fragments'
+import { FormCard, OptionalForm } from '@/ui/fragments'
 
 import { useWindowSize } from '@/hooks'
 import { Box, Stack } from '@/ui/cores'
-import { QrDownloadButton, QrConfirmButton } from './internal'
 import GeneratedQrCode from '../../qrCode/GeneratedQrCode/GeneratedQrCode'
+import { QrConfirmButton, QrDownloadButton } from './internal'
 
 type Props = {
   children: ReactNode
@@ -49,7 +49,7 @@ export const FormButton = React.forwardRef<HTMLDivElement, Props>(
                 <OptionalForm file={file} setFile={setFile} />
               </FormCard>
             </Stack>
-            
+
             {/* 固定ボタンエリア */}
             <Stack
               sx={{

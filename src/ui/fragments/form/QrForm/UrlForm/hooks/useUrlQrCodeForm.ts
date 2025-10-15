@@ -1,11 +1,11 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { SubmitErrorHandler, SubmitHandler, useForm } from 'react-hook-form'
+import { SubmitErrorHandler, useForm } from 'react-hook-form'
 
-import { MutableRefObject, useEffect, useMemo, useRef } from 'react'
+import { useEffect, useMemo } from 'react'
 
+import { Language } from '@/domains/valueObjects/language'
 import { useQrCode } from '@/hooks'
 import { registerQrCodeUrlSchema, RegisterQrCodeUrlSchema } from './zod'
-import { Language } from '@/domains/valueObjects/language'
 
 type Props = {
   language?: Language
@@ -13,9 +13,8 @@ type Props = {
 }
 
 export const useUrlQRCodeForm = ({ language, url = '' }: Props = {}) => {
-  const { ref, onConfirm, onDownload } = useQrCode()
-
   const defaultLanguage = language || Language.default()
+  const { ref, onConfirm, onDownload } = useQrCode(defaultLanguage)
 
   const defaultValues: RegisterQrCodeUrlSchema = useMemo(() => {
     return {
