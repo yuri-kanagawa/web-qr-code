@@ -1,6 +1,7 @@
 import { IQrScannerRepository } from '@/domains/repositories'
 import { Language } from '@/domains/valueObjects/language'
 import { Qr } from '@/domains/valueObjects/qr'
+import { ReadQrFromFileUseCaseResult } from './ReadQrFromFileUseCaseResult'
 
 /**
  * ファイルからQRコードを読み取るユースケース
@@ -12,10 +13,12 @@ export class ReadQrFromFileUseCase {
    * ファイルからQRコードを読み取る
    * @param file - 読み取り対象のファイル
    * @param language - 言語設定
-   * @returns 成功時はQrオブジェクト、失敗時はnull
-   * @throws QrScannerのエラー、バリデーションエラー
+   * @returns ReadQrFromFileUseCaseResult - 成功/失敗の結果
    */
-  async execute(file: File, language: Language): Promise<Qr> {
+  async execute(
+    file: File,
+    language: Language
+  ): Promise<ReadQrFromFileUseCaseResult> {
     // ファイルからObjectURLを生成
     const objectUrl = URL.createObjectURL(file)
 
@@ -27,10 +30,18 @@ export class ReadQrFromFileUseCase {
       const qrResult = Qr.create(result.data, language)
 
       if (qrResult.isFailure || !qrResult.qr) {
-        throw new Error(qrResult.error?.message || 'Invalid QR code')
+        return new ReadQrFromFileUseCaseResult(
+          null,
+          new Error(qrResult.error?.message || 'Invalid QR code')
+        )
       }
 
-      return qrResult.qr
+      return new ReadQrFromFileUseCaseResult(qrResult.qr, null)
+    } catch (error) {
+      // スキャンエラーをキャッチして結果オブジェクトに変換
+      const errorMessage =
+        error instanceof Error ? error.message : 'Failed to scan QR code'
+      return new ReadQrFromFileUseCaseResult(null, new Error(errorMessage))
     } finally {
       // ObjectURLを解放
       URL.revokeObjectURL(objectUrl)

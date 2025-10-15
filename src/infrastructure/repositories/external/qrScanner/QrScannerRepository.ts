@@ -1,8 +1,8 @@
-import QrScanner from 'qr-scanner'
 import {
   IQrScannerRepository,
   QrScanResult
 } from '@/domains/repositories/external/qrScanner'
+import QrScanner from 'qr-scanner'
 
 /**
  * qr-scannerライブラリを使用したQRコードスキャナーの実装
@@ -18,4 +18,3 @@ export class QrScannerRepository implements IQrScannerRepository {
     }
   }
 }
-

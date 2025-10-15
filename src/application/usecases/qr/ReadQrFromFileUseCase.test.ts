@@ -1,6 +1,5 @@
-import { IQrScannerRepository } from '@/domains/repositories'
+import { IQrScannerRepository } from '@/domains'
 import { Language } from '@/domains/valueObjects/language'
-import { Qr } from '@/domains/valueObjects/qr'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { ReadQrFromFileUseCase } from './ReadQrFromFileUseCase'
 
@@ -34,8 +33,8 @@ describe('ReadQrFromFileUseCase', () => {
 
       const result = await useCase.execute(file, defaultLanguage)
 
-      expect(result).toBeInstanceOf(Qr)
-      expect(result.value).toBe('https://example.com')
+      expect(result.isSuccess).toBe(true)
+      expect(result.qr?.value).toBe('https://example.com')
       expect(global.URL.createObjectURL).toHaveBeenCalledWith(file)
       expect(global.URL.revokeObjectURL).toHaveBeenCalledWith('blob:mock-url')
       expect(mockQrScannerRepository.scanFromImageUrl).toHaveBeenCalledWith(
@@ -50,36 +49,39 @@ describe('ReadQrFromFileUseCase', () => {
         data: 'https://example.com'
       })
 
-      await useCase.execute(file, defaultLanguage)
+      const result = await useCase.execute(file, defaultLanguage)
 
+      expect(result.isSuccess).toBe(true)
       expect(global.URL.revokeObjectURL).toHaveBeenCalledTimes(1)
       expect(global.URL.revokeObjectURL).toHaveBeenCalledWith('blob:mock-url')
     })
 
-    it('スキャンエラー時もObjectURLを解放する', async () => {
+    it('スキャンエラー時もObjectURLを解放し、失敗結果を返す', async () => {
       const file = new File(['test'], 'test.png', { type: 'image/png' })
 
       ;(mockQrScannerRepository.scanFromImageUrl as any).mockRejectedValueOnce(
         new Error('Scan failed')
       )
 
-      await expect(useCase.execute(file, defaultLanguage)).rejects.toThrow(
-        'Scan failed'
-      )
+      const result = await useCase.execute(file, defaultLanguage)
 
+      expect(result.isFailure).toBe(true)
+      expect(result.errorMessage).toBe('Scan failed')
       expect(global.URL.revokeObjectURL).toHaveBeenCalledTimes(1)
       expect(global.URL.revokeObjectURL).toHaveBeenCalledWith('blob:mock-url')
     })
 
-    it('無効なQRコードデータの場合はエラーをスローする', async () => {
+    it('無効なQRコードデータの場合は失敗結果を返す', async () => {
       const file = new File(['test'], 'test.png', { type: 'image/png' })
 
       ;(mockQrScannerRepository.scanFromImageUrl as any).mockResolvedValueOnce({
         data: '' // 空文字列は無効
       })
 
-      await expect(useCase.execute(file, defaultLanguage)).rejects.toThrow()
+      const result = await useCase.execute(file, defaultLanguage)
 
+      expect(result.isFailure).toBe(true)
+      expect(result.errorMessage).toBeTruthy()
       // エラーが発生してもObjectURLは解放される
       expect(global.URL.revokeObjectURL).toHaveBeenCalledTimes(1)
     })
@@ -92,7 +94,10 @@ describe('ReadQrFromFileUseCase', () => {
         data: ''
       })
 
-      await expect(useCase.execute(file, japaneseLanguage)).rejects.toThrow()
+      const result = await useCase.execute(file, japaneseLanguage)
+
+      expect(result.isFailure).toBe(true)
+      expect(result.errorMessage).toBeTruthy()
     })
 
     it('複数の異なるファイルを連続で処理できる', async () => {
@@ -110,8 +115,10 @@ describe('ReadQrFromFileUseCase', () => {
       const result1 = await useCase.execute(file1, defaultLanguage)
       const result2 = await useCase.execute(file2, defaultLanguage)
 
-      expect(result1.value).toBe('https://example1.com')
-      expect(result2.value).toBe('https://example2.com')
+      expect(result1.isSuccess).toBe(true)
+      expect(result1.qr?.value).toBe('https://example1.com')
+      expect(result2.isSuccess).toBe(true)
+      expect(result2.qr?.value).toBe('https://example2.com')
       expect(global.URL.revokeObjectURL).toHaveBeenCalledTimes(2)
     })
 
@@ -124,8 +131,8 @@ describe('ReadQrFromFileUseCase', () => {
 
       const result = await useCase.execute(file, defaultLanguage)
 
-      expect(result.value).toBe('こんにちは、世界！')
+      expect(result.isSuccess).toBe(true)
+      expect(result.qr?.value).toBe('こんにちは、世界！')
     })
   })
 })
-

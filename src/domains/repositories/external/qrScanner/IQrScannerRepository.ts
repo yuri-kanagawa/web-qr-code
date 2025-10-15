@@ -17,4 +17,3 @@ export interface IQrScannerRepository {
    */
   scanFromImageUrl(imageUrl: string): Promise<QrScanResult>
 }
-

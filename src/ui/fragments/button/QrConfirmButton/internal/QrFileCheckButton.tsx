@@ -28,15 +28,12 @@ export const QrFileCheckButton: FC<Props> = ({
   const onClick = useCallback(async () => {
     if (!file) return
 
-    try {
-      const qr = await readQrFromFileUseCase.execute(file, language)
-      setQr(qr)
-    } catch (error) {
-      const message =
-        error instanceof Error
-          ? error.message
-          : 'QRコードの読み込みに失敗しました'
-      errorNotify(message)
+    const result = await readQrFromFileUseCase.execute(file, language)
+
+    if (result.isSuccess && result.qr) {
+      setQr(result.qr)
+    } else {
+      errorNotify(result.errorMessage || 'QRコードの読み込みに失敗しました')
     }
   }, [errorNotify, file, language, readQrFromFileUseCase, setQr])
 
