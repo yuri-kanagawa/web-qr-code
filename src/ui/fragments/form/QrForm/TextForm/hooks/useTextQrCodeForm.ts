@@ -12,7 +12,7 @@ export const useTextQrCodeForm = ({ text, language }: Props) => {
   const defaultValues: RegisterQrCodeTextSchema = {
     text
   }
-  const { ref, onConfirm, onDownload } = useQrCode()
+  const { ref, onConfirm, onDownload } = useQrCode(language)
 
   const { handleSubmit, trigger, setFocus, getFieldState, ...rest } =
     useForm<RegisterQrCodeTextSchema>({

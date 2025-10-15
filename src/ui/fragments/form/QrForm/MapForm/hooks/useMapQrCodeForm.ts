@@ -11,7 +11,7 @@ type Props = {
 }
 
 export const useMapQrCodeForm = ({ language }: Props) => {
-  const { ref, onConfirm, onDownload } = useQrCode()
+  const { ref, onConfirm, onDownload } = useQrCode(language)
   const [isLoadingLocation, setIsLoadingLocation] = useState(true)
 
   const defaultValues: RegisterQrCodeMapSchema = useMemo(() => {

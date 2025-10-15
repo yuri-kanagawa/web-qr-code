@@ -8,9 +8,14 @@ import { SubmitErrorHandler, useForm } from 'react-hook-form'
 import { RegisterDeviceQrCodeSchema, registerDeviceQrCodeSchema } from './zod'
 
 export const useDeviceQrCodeForm = () => {
-  const { ref, onConfirm, onDownload } = useQrCode()
   const params = useParams()
   const lang = Array.isArray(params.lang) ? params.lang[0] : params.lang
+  const languageResult = Language.create(lang || 'en')
+  const language = languageResult.isSuccess
+    ? languageResult.language!
+    : Language.default()
+  
+  const { ref, onConfirm, onDownload } = useQrCode(language)
 
   const defaultValues: RegisterDeviceQrCodeSchema = {
     devices: []

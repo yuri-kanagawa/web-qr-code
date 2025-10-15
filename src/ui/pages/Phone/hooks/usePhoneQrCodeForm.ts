@@ -1,4 +1,5 @@
 import { useQrCode } from '@/hooks'
+import { Language } from '@/domains/valueObjects/language'
 import { SearchParamsManager } from '@/lib/browser'
 import { RegisterQrCodeUrlSchema } from '@/ui/fragments/form/QrForm/UrlForm/hooks'
 import {
@@ -17,7 +18,7 @@ export const usePhoneQrCodeForm = () => {
     SearchParamsManager.remove(['phoneNumber'])
   }, [])
 
-  const { ref, onConfirm, onDownload } = useQrCode()
+  const { ref, onConfirm, onDownload } = useQrCode(Language.default())
 
   const defaultValues: RegisterQrCodePhoneSchema = useMemo(() => {
     return {

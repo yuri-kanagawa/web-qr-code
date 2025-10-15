@@ -20,6 +20,7 @@ interface Props {
 }
 
 export function useContactQrCodeForm({
+  language,
   firstName,
   lastName,
   middleName,
@@ -32,7 +33,7 @@ export function useContactQrCodeForm({
   privateCellularTelephone,
   address
 }: Props) {
-  const { ref, onConfirm, onDownload } = useQrCode()
+  const { ref, onConfirm, onDownload } = useQrCode(language)
   const defaultValues: RegisterQrCodeContactSchema = {
     firstName,
     lastName,

@@ -19,7 +19,7 @@ export const useEmailQRCodeForm = ({
   subject = '',
   body = ''
 }: Props) => {
-  const { ref, onConfirm, onDownload } = useQrCode()
+  const { ref, onConfirm, onDownload } = useQrCode(language)
 
   const defaultValues: RegisterQrCodeEmailSchema = useMemo(() => {
     return {

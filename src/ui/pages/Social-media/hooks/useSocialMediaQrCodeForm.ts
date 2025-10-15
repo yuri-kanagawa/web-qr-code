@@ -11,7 +11,7 @@ type Props = {
   language: Language
 }
 export const useSocialMediaQrCodeForm = ({ language }: Props) => {
-  const { ref, onConfirm, onDownload } = useQrCode()
+  const { ref, onConfirm, onDownload } = useQrCode(language)
   const defaultValues: RegisterSocialMediaQrCodeSchema = {
     socialMedia: [
       {
