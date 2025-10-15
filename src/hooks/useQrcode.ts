@@ -6,7 +6,7 @@ import { useSearchParams } from 'next/navigation'
 import { MutableRefObject, useCallback, useMemo, useRef } from 'react'
 
 import { useNotify } from '@/hooks/useNotify'
-import { useQrScanner } from '@/hooks/useQrScanner'
+import { QrScannerRepository } from '@/infrastructure/repositories'
 
 export function useQrCode() {
   const searchParams = useSearchParams()
@@ -196,7 +196,7 @@ export function useQrCode() {
   const setWorkPhone = (value: string) =>
     SearchParamsManager.add({ workPhone: value })
   const ref = useRef<HTMLDivElement | null>(null)
-  const { trigger } = useQrScanner()
+  const qrScannerRepository = useMemo(() => new QrScannerRepository(), [])
   const { successNotify, errorNotify, warningNotify } = useNotify()
   const getCanvasFromRef = (): HTMLCanvasElement | null => {
     const mutableRef = ref as MutableRefObject<HTMLDivElement | null>
@@ -208,7 +208,7 @@ export function useQrCode() {
   }
   const isUsableQRCode = async (url: string) => {
     try {
-      return await trigger(url)
+      return await qrScannerRepository.scanFromImageUrl(url)
     } catch (e) {
       warningNotify('QRコードを読み取れませんでした')
     }

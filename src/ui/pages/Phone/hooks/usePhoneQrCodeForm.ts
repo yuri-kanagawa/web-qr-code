@@ -1,17 +1,16 @@
-import { useNotify, useQrCode, useQrScanner } from '@/hooks'
+import { useQrCode } from '@/hooks'
 import { RegisterQrCodeUrlSchema } from '@/ui/fragments/form/QrForm/UrlForm/hooks'
-import { useEffect, useMemo } from 'react'
 import {
   registerQrCodePhoneSchema,
   RegisterQrCodePhoneSchema
 } from '@/ui/pages/phone/hooks/zod'
-import { SubmitErrorHandler, SubmitHandler, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { phoneNumber } from './zod'
-
+import { useEffect, useMemo } from 'react'
+import { SubmitErrorHandler, useForm } from 'react-hook-form'
 
 export const usePhoneQrCodeForm = () => {
-  const { ref, onConfirm, onDownload, phoneNumber, resetPhoneNumber } = useQrCode()
+  const { ref, onConfirm, onDownload, phoneNumber, resetPhoneNumber } =
+    useQrCode()
 
   const defaultValues: RegisterQrCodePhoneSchema = useMemo(() => {
     return {

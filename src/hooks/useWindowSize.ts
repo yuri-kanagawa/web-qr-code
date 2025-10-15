@@ -1,11 +1,6 @@
-import { useEffect, useLayoutEffect, useState } from 'react'
 import { useMediaQuery } from '@mui/system'
+import { useEffect, useState } from 'react'
 import { theme } from '../app/_state'
-import { createTheme } from '@mui/material/styles'
-type WindowSize = {
-  width: number
-  height: number
-}
 
 export const useWindowSize = () => {
   const [windowSize, setWindowSize] = useState({
