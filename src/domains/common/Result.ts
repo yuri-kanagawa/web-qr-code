@@ -79,22 +79,20 @@ export abstract class Result<T, E extends Error = Error> {
   }
 
   /**
-   * 成功を表すResultを作成
-   *
-   * @param value - 成功時の値
-   * @returns 成功を表すResult
+   * 成功を表すResultを作成（protected - 派生クラスでok()を実装する際に使用）
    */
-  static ok<T, E extends Error = Error>(value: T): Result<T, E> {
+  protected static createOk<T, E extends Error = Error>(
+    value: T
+  ): Result<T, E> {
     return new OkResult(value)
   }
 
   /**
-   * 失敗を表すResultを作成
-   *
-   * @param error - 失敗時のエラー
-   * @returns 失敗を表すResult
+   * 失敗を表すResultを作成（protected - 派生クラスでfail()を実装する際に使用）
    */
-  static fail<T, E extends Error = Error>(error: E): Result<T, E> {
+  protected static createFail<T, E extends Error = Error>(
+    error: E
+  ): Result<T, E> {
     return new FailResult(error)
   }
 }

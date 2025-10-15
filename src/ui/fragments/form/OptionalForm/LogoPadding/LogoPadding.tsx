@@ -5,11 +5,11 @@ import { useQrCode } from '@/hooks'
 type Props = {}
 
 export const LogoPadding: FC<Props> = ({}) => {
-  const { logoPaddingStyle, setLogoPaddingStyle } = useQrCode()
+  const { settings, updateLogoPaddingStyle } = useQrCode()
   return (
     <LogoPaddingStyleSelect
-      value={logoPaddingStyle}
-      onChange={setLogoPaddingStyle}
+      value={settings.logo.paddingStyle}
+      onChange={updateLogoPaddingStyle}
     />
   )
 }

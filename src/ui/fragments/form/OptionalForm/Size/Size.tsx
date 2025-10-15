@@ -6,7 +6,7 @@ type Props = {}
 
 export const Size: FC<Props> = ({}) => {
   const { height, width } = useWindowSize()
-  const { size, setSize } = useQrCode()
+  const { settings, updateSize } = useQrCode()
   const maxSize = useMemo(() => {
     if (height < width) {
       return height - 150
@@ -16,25 +16,12 @@ export const Size: FC<Props> = ({}) => {
 
   return (
     <>
-      {/*<TextField*/}
-      {/*  value={size}*/}
-      {/*  inputProps={{*/}
-      {/*    style: { textAlign: 'right' } // これを追加すると確実に右寄せされる*/}
-      {/*  }}*/}
-      {/*  onChange={(event) => {*/}
-      {/*    const value = Number(event.currentTarget.value)*/}
-      {/*    if (value > maxSize) return*/}
-
-      {/*    setSize(value)*/}
-      {/*  }}*/}
-      {/*/>*/}
       <Stack>
         <Slider
           max={maxSize}
-          value={size}
+          value={settings.size.value}
           min={1}
-          onChange={(event, value) => setSize(Number(value))}
-          // valueLabelFormat={String(size)}
+          onChange={(event, value) => updateSize(Number(value))}
           marks={[
             { value: 1, label: 1 },
             { value: maxSize, label: maxSize }

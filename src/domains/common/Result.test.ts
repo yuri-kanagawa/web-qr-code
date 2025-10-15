@@ -78,17 +78,17 @@ describe('Result', () => {
     })
   })
 
-  describe('基底クラスのstaticメソッド', () => {
-    it('Result.okで成功Resultを作成できる', () => {
-      const result = Result.ok('success')
+  describe('派生クラスのstaticメソッド', () => {
+    it('TestResult.okで成功Resultを作成できる', () => {
+      const result = TestResult.ok('success')
 
       expect(result.isSuccess).toBe(true)
       expect(result.value).toBe('success')
     })
 
-    it('Result.failで失敗Resultを作成できる', () => {
+    it('TestResult.failで失敗Resultを作成できる', () => {
       const error = new Error('failure')
-      const result = Result.fail(error)
+      const result = TestResult.fail(error)
 
       expect(result.isFailure).toBe(true)
       expect(result.error).toBe(error)
@@ -178,4 +178,3 @@ describe('Result', () => {
     })
   })
 })
-

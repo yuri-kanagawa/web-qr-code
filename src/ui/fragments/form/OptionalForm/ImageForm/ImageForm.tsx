@@ -1,15 +1,14 @@
 import { InputFile } from '@/ui/fragments/input/InputFile/InputFile'
-import React, { FC } from 'react'
+import { FC } from 'react'
 
-import { Box, Stack } from '@mui/material'
 import { HeightSlider, WidthSlider } from '@/ui/fragments/slider'
-import { height } from '@mui/system'
-import { memo, useCallback } from 'react'
+import { Box, Stack } from '@mui/material'
+import { memo } from 'react'
 type Props = {
   file: File | null
   setFile: (value: File | null) => void
-  logWidth: number
-  logHeight: number
+  logWidth: number | undefined
+  logHeight: number | undefined
   setLogoWidth: (value: number) => void
   setLogoHeight: (value: number) => void
   max?: number
@@ -31,7 +30,7 @@ export const ImageForm: FC<Props> = memo(
       <Stack spacing={2}>
         <Stack direction={'row'}>
           <HeightSlider
-            value={logHeight}
+            value={logHeight ?? 100}
             onChange={setLogoHeight}
             disabled={isRelationFileDisabled}
             max={max}
@@ -48,7 +47,7 @@ export const ImageForm: FC<Props> = memo(
         </Stack>
         <Box sx={{ pl: 2 }}>
           <WidthSlider
-            value={logWidth}
+            value={logWidth ?? 100}
             onChange={setLogoWidth}
             disabled={isRelationFileDisabled}
             max={max}

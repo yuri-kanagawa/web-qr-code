@@ -1,21 +1,18 @@
-import React, { FC } from 'react'
-import { MuiColorInput } from 'mui-color-input'
 import { useQrCode } from '@/hooks'
+import { MuiColorInput } from 'mui-color-input'
+import { FC } from 'react'
 
 type Props = {}
 
 export const BgColor: FC<Props> = ({}) => {
-  const {
-    bgColor,
+  const { settings, updateBgColor } = useQrCode()
 
-    setBgColor
-  } = useQrCode()
   return (
     <MuiColorInput
       format="hex"
-      value={bgColor}
+      value={settings.colors.bgColor.value}
       label={'Module Color'}
-      onChange={setBgColor}
+      onChange={updateBgColor}
       isAlphaHidden={true}
     />
   )

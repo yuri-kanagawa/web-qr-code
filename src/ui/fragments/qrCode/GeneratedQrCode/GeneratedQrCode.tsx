@@ -18,23 +18,7 @@ type Props = {
 
 const GeneratedQrCode = React.forwardRef<HTMLDivElement, Props>(
   ({ value, file, isValid, showHiddenIcon = false }, ref) => {
-    const {
-      ecLevel,
-      enableCORS,
-      size,
-      bgColor,
-      fgColor,
-      logoWidth,
-      logoHeight,
-      logoOpacity,
-      logoPaddingStyle,
-      eyeColor1,
-      eyeColor2,
-      eyeColor3,
-      eyeRadius1,
-      eyeRadius2,
-      eyeRadius3
-    } = useQrCode()
+    const { settings } = useQrCode()
     const { height, width } = useWindowSize()
     const maxSize = useMemo(() => {
       if (height < width) {
@@ -80,19 +64,27 @@ const GeneratedQrCode = React.forwardRef<HTMLDivElement, Props>(
                   <>
                     <QRCode
                       value={value}
-                      size={size}
-                      bgColor={bgColor}
-                      fgColor={fgColor}
-                      ecLevel={ecLevel}
+                      size={settings.size.value}
+                      bgColor={settings.colors.bgColor.value}
+                      fgColor={settings.colors.fgColor.value}
+                      ecLevel={settings.ecLevel.value}
                       logoImage={logoImage}
-                      logoWidth={logoWidth}
-                      logoHeight={logoHeight}
-                      logoOpacity={logoOpacity}
-                      eyeRadius={[eyeRadius1, eyeRadius2, eyeRadius3]}
-                      eyeColor={[eyeColor1, eyeColor2, eyeColor3]}
-                      logoPaddingStyle={logoPaddingStyle}
+                      logoWidth={settings.logo.width}
+                      logoHeight={settings.logo.height}
+                      logoOpacity={settings.logo.opacity}
+                      eyeRadius={[
+                        settings.eye.radius1,
+                        settings.eye.radius2,
+                        settings.eye.radius3
+                      ]}
+                      eyeColor={[
+                        settings.colors.eyeColor1.value,
+                        settings.colors.eyeColor2.value,
+                        settings.colors.eyeColor3.value
+                      ]}
+                      logoPaddingStyle={settings.logo.paddingStyle}
                       logoPadding={9}
-                      enableCORS={enableCORS}
+                      enableCORS={settings.enableCORS}
                     />
                   </>
                 )}

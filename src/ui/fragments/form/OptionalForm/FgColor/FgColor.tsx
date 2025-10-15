@@ -1,18 +1,18 @@
 import React, { FC } from 'react'
 import { MuiColorInput } from 'mui-color-input'
-import { useQrCode, useWindowSize } from '@/hooks'
+import { useQrCode } from '@/hooks'
 
 type Props = {}
 
 export const FgColor: FC<Props> = () => {
-  const { fgColor, setFgColor } = useQrCode()
-  const { height, width } = useWindowSize()
+  const { settings, updateFgColor } = useQrCode()
+  
   return (
     <MuiColorInput
       format="hex"
-      value={fgColor}
+      value={settings.colors.fgColor.value}
       label={'Space Color'}
-      onChange={setFgColor}
+      onChange={updateFgColor}
       isAlphaHidden={true}
     />
   )

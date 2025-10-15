@@ -1,0 +1,2 @@
+export { QrCodeSettings } from './entity'
+

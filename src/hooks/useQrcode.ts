@@ -1,177 +1,58 @@
 import { DeviceOsService } from '@/domains/services/deviceOs'
 import { Device } from '@/domains/valueObjects/device'
+import { Language } from '@/domains/valueObjects/language'
 import { Os } from '@/domains/valueObjects/os'
 import { SearchParamsManager } from '@/lib/browser'
 import { useSearchParams } from 'next/navigation'
-import { MutableRefObject, useCallback, useMemo, useRef } from 'react'
+import { useMemo } from 'react'
+import { useQrCanvas, useQrCodeSettings, useQrOperations } from './qr'
 
-import {
-  DownloadQrImageUseCase,
-  ReadQrFromCanvasUseCase
-} from '@/application/usecases'
-import { useNotify } from '@/hooks/useNotify'
-import { QrScannerRepository } from '@/infrastructure/repositories'
-
-export function useQrCode() {
+/**
+ * QRコード全体を管理する統合フック（リファクタリング版）
+ */
+export function useQrCode(language: Language = Language.default()) {
   const searchParams = useSearchParams()
 
-  const getSize = (value: string | null): number => {
-    if (value == null) {
-      return 150
-    }
-    return Number(value)
-  }
+  // QR設定（Entity）
+  const qrSettings = useQrCodeSettings(language)
 
-  const getEcLevel = (value: string | null): 'L' | 'M' | 'Q' | 'H' => {
-    if (!value) return 'M'
-    switch (value) {
-      case 'L':
-      case 'M':
-      case 'Q':
-      case 'H':
-        return value
-      default:
-        return 'M'
-    }
-  }
-  const getLogoPaddingStyle = (value: string | null) => {
-    if (!value) return 'square'
-    switch (value) {
-      case 'square':
-      case 'circle':
-        return value
-      default:
-        return 'square'
-    }
-  }
+  // Canvas管理
+  const { canvasRef, getCanvas } = useQrCanvas()
 
-  const getQrStyle = (value: string | null) => {
-    if (!value) return undefined
-    switch (value) {
-      case 'squares':
-      case 'dots':
-      case 'fluid':
-        return value
-      default:
-        return undefined
-    }
-  }
-  const ecLevel = getEcLevel(searchParams.get('ecLevel'))
-  const enableCORS = searchParams.get('enableCORS')
-    ? Boolean(searchParams.get('enableCORS'))
-    : undefined
-  const size = getSize(searchParams.get('size'))
-  const logoImage = searchParams.get('logoImage') ?? undefined
-  const bgColor = searchParams.get('bgColor') ?? '#000000'
-  const fgColor = searchParams.get('fgColor') ?? '#ffffff'
-  const logoWidth = Number(searchParams.get('logoWidth')) ?? undefined
-  const logoHeight = Number(searchParams.get('logoHeight')) ?? undefined
-  const logoOpacity = Number(searchParams.get('logoOpacity')) ?? undefined
-  const removeQrCodeBehindLogo =
-    Boolean(searchParams.get('removeQrCodeBehindLogo')) ?? undefined
-  const logoPadding = Number(searchParams.get('logoPadding')) ?? undefined
-  const logoPaddingStyle = getLogoPaddingStyle(
-    searchParams.get('logoPaddingStyle')
-  )
-  const QrStyle = getQrStyle(searchParams.get('qrStyle'))
+  // QR操作（読み取り・ダウンロード）
+  const { onConfirm, onDownload } = useQrOperations(getCanvas)
 
-  const setEcLevel = (value: string) => {
-    const inputValue = getEcLevel(value)
-    if (!inputValue) return
-    SearchParamsManager.add({ ecLevel: inputValue })
-  }
-  const setEnableCORS = (value: boolean) => {
-    SearchParamsManager.add({ enableCORS: value })
-  }
-
-  const setSize = (value: number) => {
-    SearchParamsManager.add({ size: value })
-  }
-
-  const setQuietZone = (value: number) => {
-    SearchParamsManager.add({ quietZone: value })
-  }
-  const setBgColor = (value: string) => {
-    SearchParamsManager.add({ bgColor: value })
-  }
-  const setFgColor = (value: string) => {
-    SearchParamsManager.add({ fgColor: value })
-  }
-
-  const setLogoWidth = (value: number) => {
-    SearchParamsManager.add({ logoWidth: value })
-  }
-  const setLogoHeight = (value: number) => {
-    SearchParamsManager.add({ logoHeight: value })
-  }
-  const setLogoOpacity = (value: number) => {
-    SearchParamsManager.add({ logoOpacity: value })
-  }
-
-  const setRemoveQrCodeBehindLogo = (value: boolean) => {
-    SearchParamsManager.add({ removeQrCodeBehindLogo: value })
-  }
-
-  const setLogoPadding = (value: number) => {
-    SearchParamsManager.add({ logoPadding: value })
-  }
-
-  const setLogoPaddingStyle = (value: string) => {
-    SearchParamsManager.add({ logoPaddingStyle: value })
-  }
-  const setQrValue = (value: string) => {
-    SearchParamsManager.add({ qrValue: value })
-  }
-  const setLogoImage = (value: string) => {
-    SearchParamsManager.add({ logoImage: value })
-  }
-  const eyeColor1 = searchParams.get('eyeColor1') ?? fgColor
-  const eyeColor2 = searchParams.get('eyeColor2') ?? fgColor
-  const eyeColor3 = searchParams.get('eyeColor3') ?? fgColor
-  const setEyeColor1 = (value: string) =>
-    SearchParamsManager.add({ eyeColor1: value })
-
-  const setEyeColor2 = (value: string) =>
-    SearchParamsManager.add({ eyeColor2: value })
-  const setEyeColor3 = (value: string) =>
-    SearchParamsManager.add({ eyeColor3: value })
-  const eyeRadius1 = Number(searchParams.get('eyeRadius1')) ?? 0
-  const eyeRadius2 = Number(searchParams.get('eyeRadius2')) ?? 0
-  const eyeRadius3 = Number(searchParams.get('eyeRadius3')) ?? 0
-  const setEyeRadius1 = (value: number) =>
-    SearchParamsManager.add({ eyeColor1: value })
-
-  const setEyeRadius2 = (value: number) =>
-    SearchParamsManager.add({ eyeColor2: value })
-  const setEyeRadius3 = (value: number) =>
-    SearchParamsManager.add({ eyeColor3: value })
+  // デバイスOS検出
   const deviceOs = searchParams.get('deviceOs')?.split(',').map(Number) ?? []
   const setDeviceOs = (value: string[]) => {
     SearchParamsManager.add({ deviceOs: value })
   }
+  const deviceOsIndex = useMemo(() => {
+    const os = Os.detect()
+    const device = Device.detect()
+    const deviceOsValue = DeviceOsService.getDeviceOs(device, os)
+    return deviceOs.indexOf(deviceOsValue)
+  }, [deviceOs])
 
+  // URL管理
   const urls = searchParams.get('urls')?.split(',') ?? []
   const setUrls = (value: string[]) => {
     SearchParamsManager.add({ urls: value })
   }
   const labels = searchParams.get('labels')?.split(',') ?? []
 
+  // ソーシャルメディア
   const socialMedia =
     searchParams.get('socialMedia')?.split(',').map(Number) ?? []
   const setSocialMedia = (value: number[]) => {
     SearchParamsManager.add({ socialMedia: value })
   }
 
-  const deviceOsIndex = useMemo(() => {
-    const os = Os.detect()
-    const device = Device.detect()
-    const deviceOsValue = DeviceOsService.getDeviceOs(device, os)
-    return deviceOs.indexOf(deviceOsValue)
-  }, [])
-
+  // テキストコンテンツ
   const text = searchParams.get('text') ?? ''
   const setText = (value: string) => SearchParamsManager.add({ text: value })
 
+  // 連絡先情報
   const firstName = searchParams.get('firstName') ?? ''
   const setFirstName = (value: string) =>
     SearchParamsManager.add({ firstName: value })
@@ -184,10 +65,9 @@ export function useQrCode() {
   const email = searchParams.get('email') ?? ''
   const setEmail = (value: string) => SearchParamsManager.add({ email: value })
 
+  // 電話番号
   const phoneNumber = searchParams.get('phoneNumber') ?? ''
   const resetPhoneNumber = () => SearchParamsManager.remove(['phoneNumber'])
-  const body = searchParams.get('body') ?? ''
-  const resetBody = () => SearchParamsManager.remove(['body'])
   const cellPhone = searchParams.get('cellPhone') ?? ''
   const setCellPhone = (value: string) =>
     SearchParamsManager.add({ cellPhone: value })
@@ -199,108 +79,36 @@ export function useQrCode() {
   const workPhone = searchParams.get('workPhone') ?? ''
   const setWorkPhone = (value: string) =>
     SearchParamsManager.add({ workPhone: value })
-  const ref = useRef<HTMLDivElement | null>(null)
-  const qrScannerRepository = useMemo(() => new QrScannerRepository(), [])
-  const readQrFromCanvasUseCase = useMemo(
-    () => new ReadQrFromCanvasUseCase(qrScannerRepository),
-    [qrScannerRepository]
-  )
-  const downloadQrImageUseCase = useMemo(
-    () => new DownloadQrImageUseCase(qrScannerRepository),
-    [qrScannerRepository]
-  )
-  const { successNotify, errorNotify, warningNotify } = useNotify()
 
-  const getCanvasFromRef = (): HTMLCanvasElement | null => {
-    const mutableRef = ref as MutableRefObject<HTMLDivElement | null>
-    const children = mutableRef.current?.children
-    if (!children || children.length === 0) return null
-
-    const canvas = children[0] as HTMLCanvasElement | null
-    return canvas instanceof HTMLCanvasElement ? canvas : null
+  // メッセージ本文
+  const body = searchParams.get('body') ?? ''
+  const resetBody = () => SearchParamsManager.remove(['body'])
+  const setQrValue = (value: string) => {
+    SearchParamsManager.add({ qrValue: value })
   }
 
-  const onConfirm = useCallback(async (): Promise<string | undefined> => {
-    const canvas = getCanvasFromRef()
-    const result = await readQrFromCanvasUseCase.execute(canvas)
-
-    if (result.isSuccess && result.qrData) {
-      return result.qrData
-    } else {
-      warningNotify(result.errorMessage || 'QRコードを読み取れませんでした')
-      return undefined
-    }
-  }, [readQrFromCanvasUseCase, warningNotify])
-
-  const onDownload = useCallback(async () => {
-    const canvas = getCanvasFromRef()
-    const result = await downloadQrImageUseCase.execute(canvas, 'qr.png')
-
-    if (result.isSuccess && result.dataUrl && result.fileName) {
-      // DOM操作はUI層で実行
-      const downloadLink = document.createElement('a')
-      downloadLink.href = result.dataUrl
-      downloadLink.download = result.fileName
-      downloadLink.click()
-
-      successNotify('Qrコードのダウンロード成功')
-    } else {
-      errorNotify(result.errorMessage || 'QRコードのダウンロードに失敗')
-    }
-  }, [downloadQrImageUseCase, successNotify, errorNotify])
-
   return {
-    ecLevel,
-    logoImage,
-    enableCORS,
-    size,
-    phoneNumber,
-    resetPhoneNumber,
-    bgColor,
-    fgColor,
-    logoWidth,
-    logoHeight,
-    logoOpacity,
-    removeQrCodeBehindLogo,
-    logoPadding,
-    logoPaddingStyle,
-    QrStyle,
-    setEcLevel,
-    setEnableCORS,
-    setSize,
-    setQuietZone,
-    setBgColor,
-    setFgColor,
-    setLogoWidth,
-    setLogoHeight,
-    setLogoOpacity,
-    setRemoveQrCodeBehindLogo,
-    setLogoPadding,
-    setLogoPaddingStyle,
-    setQrValue,
-    setLogoImage,
-    eyeColor1,
-    setEyeColor1,
-    eyeColor2,
-    setEyeColor2,
-    eyeColor3,
-    setEyeColor3,
-    eyeRadius1,
-    eyeRadius2,
-    eyeRadius3,
-    setEyeRadius1,
-    setEyeRadius2,
-    setEyeRadius3,
+    // QR設定（Entity経由）
+    ...qrSettings,
+    // Canvas
+    ref: canvasRef,
+    // 操作
+    onConfirm,
+    onDownload,
+    // デバイス・OS
     deviceOs,
     setDeviceOs,
+    deviceOsIndex,
+    // URL
     urls,
     setUrls,
-    deviceOsIndex,
-    text,
-    setText,
     labels,
+    // ソーシャルメディア
     socialMedia,
     setSocialMedia,
+    // コンテンツ
+    text,
+    setText,
     firstName,
     setFirstName,
     lastName,
@@ -309,6 +117,8 @@ export function useQrCode() {
     setMiddleName,
     email,
     setEmail,
+    phoneNumber,
+    resetPhoneNumber,
     cellPhone,
     setCellPhone,
     fax,
@@ -317,10 +127,8 @@ export function useQrCode() {
     setHomePhone,
     workPhone,
     setWorkPhone,
-    ref,
-    onConfirm,
-    onDownload,
     body,
-    resetBody
+    resetBody,
+    setQrValue
   }
 }

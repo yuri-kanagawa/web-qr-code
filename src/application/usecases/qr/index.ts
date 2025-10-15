@@ -1,3 +1,3 @@
+export * from './downloadQrImage'
 export * from './readFromCanvas'
 export * from './readFromFile'
-export * from './downloadQrImage'

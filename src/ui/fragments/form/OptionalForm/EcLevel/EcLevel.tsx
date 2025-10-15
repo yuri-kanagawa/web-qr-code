@@ -6,6 +6,11 @@ import { EcLevelSelect } from '@/ui/fragments/select'
 type Props = {}
 
 export const EcLevel: FC<Props> = ({}) => {
-  const { ecLevel, setEcLevel } = useQrCode()
-  return <EcLevelSelect value={ecLevel} onChange={setEcLevel} />
+  const { settings, updateEcLevel } = useQrCode()
+  return (
+    <EcLevelSelect
+      value={settings.ecLevel.value}
+      onChange={updateEcLevel}
+    />
+  )
 }

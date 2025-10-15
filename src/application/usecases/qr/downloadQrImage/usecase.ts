@@ -9,12 +9,12 @@ export class DownloadQrImageUseCase {
 
   /**
    * CanvasからQRコード画像をダウンロード用のData URLを取得
-   * 
+   *
    * @param canvas - HTMLCanvasElement
    * @param fileName - ダウンロードファイル名（拡張子含む）
    * @param imageType - 画像形式（デフォルト: 'image/png'）
    * @returns DownloadQrImageUseCaseResult - 成功/失敗の結果
-   * 
+   *
    * @example
    * ```typescript
    * const result = await useCase.execute(canvasElement, 'qr.png')
@@ -56,4 +56,3 @@ export class DownloadQrImageUseCase {
     }
   }
 }
-

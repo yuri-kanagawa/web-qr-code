@@ -8,17 +8,16 @@ type Props = {
 }
 
 export const Logo: FC<Props> = ({ file, setFile }) => {
-  const { size, logoHeight, setLogoWidth, logoWidth, setLogoHeight } =
-    useQrCode()
+  const { settings, updateLogoWidth, updateLogoHeight } = useQrCode()
   return (
     <ImageForm
       file={file}
       setFile={setFile}
-      logHeight={logoHeight}
-      logWidth={logoWidth}
-      setLogoHeight={setLogoHeight}
-      setLogoWidth={setLogoWidth}
-      max={size}
+      logHeight={settings.logo.height}
+      logWidth={settings.logo.width}
+      setLogoHeight={updateLogoHeight}
+      setLogoWidth={updateLogoWidth}
+      max={settings.size.value}
     />
   )
 }
