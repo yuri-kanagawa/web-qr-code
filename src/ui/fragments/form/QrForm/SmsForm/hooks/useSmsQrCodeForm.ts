@@ -14,22 +14,22 @@ interface Props {
 
 export const useSmsQrCodeForm = ({ language, phoneNumber, body }: Props) => {
   const { ref, onConfirm, onDownload } = useQrCode(language)
-  
+
   const resetPhoneNumber = useCallback(() => {
     SearchParamsManager.remove(['phoneNumber'])
   }, [])
-  
+
   const resetBody = useCallback(() => {
     SearchParamsManager.remove(['body'])
   }, [])
-  
+
   const defaultValues: RegisterQrCodeSmsSchema = useMemo(() => {
     return {
       phoneNumber,
       body
     }
   }, [phoneNumber, body])
-  
+
   const {
     handleSubmit,
     trigger,
@@ -43,7 +43,7 @@ export const useSmsQrCodeForm = ({ language, phoneNumber, body }: Props) => {
     mode: 'onChange',
     resolver: zodResolver(registerQrCodeSmsSchema)
   })
-  
+
   useEffect(() => {
     if (phoneNumber || body) {
       reset(defaultValues)
