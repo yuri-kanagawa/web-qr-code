@@ -48,45 +48,6 @@ export function useQrCode(language: Language = Language.default()) {
     SearchParamsManager.add({ socialMedia: value })
   }
 
-  // テキストコンテンツ
-  const text = searchParams.get('text') ?? ''
-  const setText = (value: string) => SearchParamsManager.add({ text: value })
-
-  // 連絡先情報
-  const firstName = searchParams.get('firstName') ?? ''
-  const setFirstName = (value: string) =>
-    SearchParamsManager.add({ firstName: value })
-  const lastName = searchParams.get('lastName') ?? ''
-  const setLastName = (value: string) =>
-    SearchParamsManager.add({ lastName: value })
-  const middleName = searchParams.get('middleName') ?? ''
-  const setMiddleName = (value: string) =>
-    SearchParamsManager.add({ middleName: value })
-  const email = searchParams.get('email') ?? ''
-  const setEmail = (value: string) => SearchParamsManager.add({ email: value })
-
-  // 電話番号
-  const phoneNumber = searchParams.get('phoneNumber') ?? ''
-  const resetPhoneNumber = () => SearchParamsManager.remove(['phoneNumber'])
-  const cellPhone = searchParams.get('cellPhone') ?? ''
-  const setCellPhone = (value: string) =>
-    SearchParamsManager.add({ cellPhone: value })
-  const fax = searchParams.get('fax') ?? ''
-  const setFax = (value: string) => SearchParamsManager.add({ fax: value })
-  const homePhone = searchParams.get('homePhone') ?? ''
-  const setHomePhone = (value: string) =>
-    SearchParamsManager.add({ homePhone: value })
-  const workPhone = searchParams.get('workPhone') ?? ''
-  const setWorkPhone = (value: string) =>
-    SearchParamsManager.add({ workPhone: value })
-
-  // メッセージ本文
-  const body = searchParams.get('body') ?? ''
-  const resetBody = () => SearchParamsManager.remove(['body'])
-  const setQrValue = (value: string) => {
-    SearchParamsManager.add({ qrValue: value })
-  }
-
   return {
     // QR設定（Entity経由）
     ...qrSettings,
@@ -105,30 +66,6 @@ export function useQrCode(language: Language = Language.default()) {
     labels,
     // ソーシャルメディア
     socialMedia,
-    setSocialMedia,
-    // コンテンツ
-    text,
-    setText,
-    firstName,
-    setFirstName,
-    lastName,
-    setLastName,
-    middleName,
-    setMiddleName,
-    email,
-    setEmail,
-    phoneNumber,
-    resetPhoneNumber,
-    cellPhone,
-    setCellPhone,
-    fax,
-    setFax,
-    homePhone,
-    setHomePhone,
-    workPhone,
-    setWorkPhone,
-    body,
-    resetBody,
-    setQrValue
+    setSocialMedia
   }
 }
