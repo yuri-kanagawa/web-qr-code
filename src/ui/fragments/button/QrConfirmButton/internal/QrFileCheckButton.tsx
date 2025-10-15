@@ -1,7 +1,8 @@
-import { FC, useCallback } from 'react'
+import { FC, useCallback, useMemo } from 'react'
 
-import { useNotify, useQrScanner } from '@/hooks'
+import { useNotify } from '@/hooks'
 
+import { ReadQrFromFileUseCase } from '@/application/usecases'
 import { Language } from '@/domains/valueObjects/language'
 import { Qr } from '@/domains/valueObjects/qr'
 import { Button } from '@/ui/cores'
@@ -18,25 +19,22 @@ export const QrFileCheckButton: FC<Props> = ({
   language = Language.default()
 }) => {
   const { errorNotify } = useNotify()
-  const { trigger } = useQrScanner()
+  const readQrFromFileUseCase = useMemo(() => new ReadQrFromFileUseCase(), [])
 
   const onClick = useCallback(async () => {
     if (!file) return
-    const objectUrl = URL.createObjectURL(file)
 
     try {
-      const result = await trigger(objectUrl)
-      const qrResult = Qr.create(result.data, language)
-
-      if (qrResult.isSuccess && qrResult.qr) {
-        setQr(qrResult.qr)
-      } else {
-        errorNotify(qrResult.error?.message || '無効なQRコード')
-      }
+      const qr = await readQrFromFileUseCase.execute(file, language)
+      setQr(qr)
     } catch (error) {
-      errorNotify('読み込めない')
+      const message =
+        error instanceof Error
+          ? error.message
+          : 'QRコードの読み込みに失敗しました'
+      errorNotify(message)
     }
-  }, [errorNotify, file, language, setQr, trigger])
+  }, [errorNotify, file, language, readQrFromFileUseCase, setQr])
 
   return <Button onClick={onClick}>確認</Button>
 }

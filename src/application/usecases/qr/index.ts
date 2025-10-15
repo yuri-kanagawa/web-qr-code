@@ -1,0 +1,2 @@
+export { ReadQrFromFileUseCase } from './ReadQrFromFileUseCase'
+
