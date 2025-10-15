@@ -1,6 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { SubmitErrorHandler, useForm, useWatch } from 'react-hook-form'
-import { registerQrCodeWiFiSchema, RegisterQrCodeWiFiSchema } from './zod'
+import { createRegisterQrCodeWiFiSchema, type RegisterQrCodeWiFiSchema } from './zod'
 import { useQrCode } from '@/hooks'
 import { useEffect, useMemo } from 'react'
 import { Language } from '@/domains'
@@ -28,6 +28,8 @@ export const useWiFiQrCodeForm = ({
     }
   }, [ssid, password, type])
 
+  const schema = useMemo(() => createRegisterQrCodeWiFiSchema(language), [language])
+
   const {
     handleSubmit,
     trigger,
@@ -39,7 +41,7 @@ export const useWiFiQrCodeForm = ({
   } = useForm<RegisterQrCodeWiFiSchema>({
     defaultValues,
     mode: 'onChange',
-    resolver: zodResolver(registerQrCodeWiFiSchema)
+    resolver: zodResolver(schema)
   })
 
   const submitErrorHandler: SubmitErrorHandler<RegisterQrCodeWiFiSchema> = (

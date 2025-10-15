@@ -1,5 +1,5 @@
+import { Language } from '@/domains/valueObjects/language'
 import { z } from 'zod'
-import { getLocale } from '@/locales/config/languages'
 
 const language = z.string()
 
@@ -43,9 +43,6 @@ export const registerQrCodeMapSchema = z
   })
   .refine(
     (data) => {
-      const locale = getLocale(data.language)
-      const { message } = locale
-
       // 緯度のバリデーション
       if (!data.latitude) {
         return false
@@ -67,7 +64,11 @@ export const registerQrCodeMapSchema = z
       return true
     },
     (data) => {
-      const locale = getLocale(data.language)
+      const languageResult = Language.create(data.language)
+      const locale =
+        languageResult.isSuccess && languageResult.language
+          ? languageResult.language.getLocale()
+          : Language.default().getLocale()
       const { message } = locale
 
       if (!data.latitude) {

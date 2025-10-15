@@ -5,7 +5,7 @@ import { useEffect, useMemo } from 'react'
 
 import { Language } from '@/domains/valueObjects/language'
 import { useQrCode } from '@/hooks'
-import { registerQrCodeUrlSchema, RegisterQrCodeUrlSchema } from './zod'
+import { createRegisterQrCodeUrlSchema, type RegisterQrCodeUrlSchema } from './zod'
 
 type Props = {
   language?: Language
@@ -14,6 +14,11 @@ type Props = {
 
 export const useUrlQRCodeForm = ({ language, url = '' }: Props = {}) => {
   const defaultLanguage = language || Language.default()
+
+  const schema = useMemo(
+    () => createRegisterQrCodeUrlSchema(defaultLanguage),
+    [defaultLanguage]
+  )
   const { ref, onConfirm, onDownload } = useQrCode(defaultLanguage)
 
   const defaultValues: RegisterQrCodeUrlSchema = useMemo(() => {
@@ -34,7 +39,7 @@ export const useUrlQRCodeForm = ({ language, url = '' }: Props = {}) => {
     setFocus,
     ...rest
   } = useForm<RegisterQrCodeUrlSchema>({
-    resolver: zodResolver(registerQrCodeUrlSchema),
+    resolver: zodResolver(schema),
     mode: 'onChange',
     reValidateMode: 'onSubmit',
     defaultValues

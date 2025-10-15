@@ -1,15 +1,18 @@
+import { Language } from '@/domains'
 import { z } from 'zod'
 
-const phoneNumber = z.string()
-const body = z.string()
-export const registerQrCodeSmsSchema = z
-  .object({
-    phoneNumber,
-    body
-  })
-  .refine((data) => !(data.phoneNumber === '' && data.body === ''), {
-    message: '電話番号と本文の両方を空にはできません',
-    path: ['phoneNumber', 'body'] // または ['body'] など、どちらかにエラーを表示
-  })
+export const createRegisterQrCodeSmsSchema = (language: Language) =>
+  z
+    .object({
+      phoneNumber: z.string(),
+      body: z.string()
+    })
+    .refine((data) => !(data.phoneNumber === '' && data.body === ''), {
+      message: language.getLocale().message.validation.sms.bothEmpty,
+      path: ['phoneNumber', 'body']
+    })
 
-export type RegisterQrCodeSmsSchema = z.infer<typeof registerQrCodeSmsSchema>
+export type RegisterQrCodeSmsSchema = {
+  phoneNumber: string
+  body: string
+}

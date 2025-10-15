@@ -1,15 +1,20 @@
+import { 
+  Language, 
+  createWiFiSsidZodSchema, 
+  createWiFiPasswordZodSchema,
+  createWiFiTypeZodSchema
+} from '@/domains'
 import { z } from 'zod'
 
-const ssid = z.string()
-const password = z.string()
-const type = z.string()
+export const createRegisterQrCodeWiFiSchema = (language: Language) =>
+  z.object({
+    ssid: createWiFiSsidZodSchema(language),
+    password: createWiFiPasswordZodSchema(language),
+    type: createWiFiTypeZodSchema(language)
+  })
 
-// スキーマ
-export const registerQrCodeWiFiSchema = z.object({
-  ssid,
-  password,
-  type
-})
-
-// 型推論
-export type RegisterQrCodeWiFiSchema = z.infer<typeof registerQrCodeWiFiSchema>
+export type RegisterQrCodeWiFiSchema = {
+  ssid: string
+  password: string
+  type: string
+}

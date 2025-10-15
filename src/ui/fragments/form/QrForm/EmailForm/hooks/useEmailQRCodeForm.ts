@@ -5,7 +5,7 @@ import { useEffect, useMemo } from 'react'
 
 import { Language } from '@/domains'
 import { useQrCode } from '@/hooks'
-import { registerQrCodeEmailSchema, RegisterQrCodeEmailSchema } from './zod'
+import { createRegisterQrCodeEmailSchema, type RegisterQrCodeEmailSchema } from './zod'
 type Props = {
   language: Language
   email?: string
@@ -30,9 +30,11 @@ export const useEmailQRCodeForm = ({
     }
   }, [language])
 
+  const schema = useMemo(() => createRegisterQrCodeEmailSchema(language), [language])
+
   const { handleSubmit, reset, watch, getFieldState, setFocus, ...rest } =
     useForm<RegisterQrCodeEmailSchema>({
-      resolver: zodResolver(registerQrCodeEmailSchema),
+      resolver: zodResolver(schema),
       mode: 'onChange',
       reValidateMode: 'onSubmit',
       defaultValues

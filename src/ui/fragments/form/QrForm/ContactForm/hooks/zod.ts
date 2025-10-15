@@ -1,31 +1,40 @@
-import z from 'zod'
+import {
+  Language,
+  createNameZodSchema,
+  createEmailZodSchema,
+  createPhoneNumberZodSchema,
+  createOrganizationZodSchema,
+  createPostZodSchema,
+  createAddressZodSchema,
+  createUrlZodSchema
+} from '@/domains'
+import { z } from 'zod'
 
-const firstName = z.string()
-const lastName = z.string()
-const middleName = z.string()
-const phoneNumber = z.string()
-const organization = z.string()
-const post = z.string()
-const businessCellularTelephone = z.string()
-const privateCellularTelephone = z.string()
-const email = z.string()
-const address = z.string()
-const url = z.string()
+export const createRegisterQrCodeContactSchema = (language: Language) =>
+  z.object({
+    firstName: createNameZodSchema(language),
+    lastName: createNameZodSchema(language),
+    middleName: createNameZodSchema(language),
+    phoneNumber: createPhoneNumberZodSchema(language),
+    organization: createOrganizationZodSchema(language),
+    post: createPostZodSchema(language),
+    businessCellularTelephone: createPhoneNumberZodSchema(language),
+    privateCellularTelephone: createPhoneNumberZodSchema(language),
+    email: createEmailZodSchema(language),
+    address: createAddressZodSchema(language),
+    url: createUrlZodSchema(language)
+  })
 
-export const registerQrCodeContactSchema = z.object({
-  firstName,
-  lastName,
-  middleName,
-  phoneNumber,
-  organization,
-  post,
-  businessCellularTelephone,
-  privateCellularTelephone,
-  email,
-  address,
-  url
-})
-
-export type RegisterQrCodeContactSchema = z.infer<
-  typeof registerQrCodeContactSchema
->
+export type RegisterQrCodeContactSchema = {
+  firstName: string
+  lastName: string
+  middleName: string
+  phoneNumber: string
+  organization: string
+  post: string
+  businessCellularTelephone: string
+  privateCellularTelephone: string
+  email: string
+  address: string
+  url: string
+}
