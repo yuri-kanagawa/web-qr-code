@@ -9,7 +9,7 @@ import PhoneIcon from '@mui/icons-material/Phone'
 import QrCodeScannerIcon from '@mui/icons-material/QrCodeScanner'
 import SmartphoneIcon from '@mui/icons-material/Smartphone'
 import { Box, Stack } from '@mui/material'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { forwardRef, useMemo } from 'react'
 import { FaCommentSms, FaWifi } from 'react-icons/fa6'
 import { MdLocationOn, MdPermContactCalendar } from 'react-icons/md'
@@ -21,10 +21,28 @@ type Props = {
 export const DrawerItems = forwardRef<HTMLDivElement, Props>(
   ({ language }, ref) => {
     const { isSidebarOpen, toggleSidebar, setIsSidebarOpen } = useSidebar()
+    const router = useRouter()
     const pathname = usePathname()
     const pathBuilder = useMemo(() => new PathBuilder(language), [language])
     const locale = language.getLocale()
     const word = locale.word
+
+    const handleLanguageChange = (newLanguage: Language) => {
+      const currentPath = pathname
+      let newPath = currentPath
+
+      // 現在のパスから言語プレフィックスを除去
+      if (!language.isEnglish) {
+        newPath = currentPath.replace(`/${language.value}`, '')
+      }
+
+      // 新しい言語のパスを構築
+      if (!newLanguage.isEnglish) {
+        newPath = `/${newLanguage.value}${newPath}`
+      }
+
+      router.push(newPath)
+    }
 
     return (
       <Stack
@@ -121,8 +139,11 @@ export const DrawerItems = forwardRef<HTMLDivElement, Props>(
         </Stack>
         <Stack display={'flex'} justifyContent={'flex-end'} spacing={2} pb={2}>
           {isSidebarOpen && (
-            <Box sx={{ px: 2 }}>
-              <LanguageSelect language={language} />
+            <Box sx={{ px: 1 }}>
+              <LanguageSelect
+                language={language}
+                onChange={handleLanguageChange}
+              />
             </Box>
           )}
           <OpenButton language={language} />
