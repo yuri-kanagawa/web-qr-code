@@ -1,14 +1,8 @@
+import { IQrScannerRepository } from '@/domains/repositories'
 import { Language } from '@/domains/valueObjects/language'
 import { Qr } from '@/domains/valueObjects/qr'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { ReadQrFromFileUseCase } from './ReadQrFromFileUseCase'
-
-// QrScannerのモック
-vi.mock('qr-scanner', () => ({
-  default: {
-    scanImage: vi.fn()
-  }
-}))
 
 // グローバルURLのモック
 global.URL.createObjectURL = vi.fn(() => 'blob:mock-url')
@@ -16,10 +10,15 @@ global.URL.revokeObjectURL = vi.fn()
 
 describe('ReadQrFromFileUseCase', () => {
   let useCase: ReadQrFromFileUseCase
+  let mockQrScannerRepository: IQrScannerRepository
   const defaultLanguage = Language.default()
 
   beforeEach(() => {
-    useCase = new ReadQrFromFileUseCase()
+    // リポジトリのモック
+    mockQrScannerRepository = {
+      scanFromImageUrl: vi.fn()
+    }
+    useCase = new ReadQrFromFileUseCase(mockQrScannerRepository)
     vi.clearAllMocks()
   })
 
@@ -28,11 +27,9 @@ describe('ReadQrFromFileUseCase', () => {
       // モックファイル
       const file = new File(['test'], 'test.png', { type: 'image/png' })
 
-      // QrScannerのモック
-      const QrScanner = await import('qr-scanner')
-      ;(QrScanner.default.scanImage as any).mockResolvedValueOnce({
-        data: 'https://example.com',
-        cornerPoints: []
+      // リポジトリのモック
+      ;(mockQrScannerRepository.scanFromImageUrl as any).mockResolvedValueOnce({
+        data: 'https://example.com'
       })
 
       const result = await useCase.execute(file, defaultLanguage)
@@ -41,15 +38,16 @@ describe('ReadQrFromFileUseCase', () => {
       expect(result.value).toBe('https://example.com')
       expect(global.URL.createObjectURL).toHaveBeenCalledWith(file)
       expect(global.URL.revokeObjectURL).toHaveBeenCalledWith('blob:mock-url')
+      expect(mockQrScannerRepository.scanFromImageUrl).toHaveBeenCalledWith(
+        'blob:mock-url'
+      )
     })
 
     it('QRコードスキャンが成功した後、ObjectURLを解放する', async () => {
       const file = new File(['test'], 'test.png', { type: 'image/png' })
 
-      const QrScanner = await import('qr-scanner')
-      ;(QrScanner.default.scanImage as any).mockResolvedValueOnce({
-        data: 'https://example.com',
-        cornerPoints: []
+      ;(mockQrScannerRepository.scanFromImageUrl as any).mockResolvedValueOnce({
+        data: 'https://example.com'
       })
 
       await useCase.execute(file, defaultLanguage)
@@ -61,8 +59,7 @@ describe('ReadQrFromFileUseCase', () => {
     it('スキャンエラー時もObjectURLを解放する', async () => {
       const file = new File(['test'], 'test.png', { type: 'image/png' })
 
-      const QrScanner = await import('qr-scanner')
-      ;(QrScanner.default.scanImage as any).mockRejectedValueOnce(
+      ;(mockQrScannerRepository.scanFromImageUrl as any).mockRejectedValueOnce(
         new Error('Scan failed')
       )
 
@@ -77,10 +74,8 @@ describe('ReadQrFromFileUseCase', () => {
     it('無効なQRコードデータの場合はエラーをスローする', async () => {
       const file = new File(['test'], 'test.png', { type: 'image/png' })
 
-      const QrScanner = await import('qr-scanner')
-      ;(QrScanner.default.scanImage as any).mockResolvedValueOnce({
-        data: '', // 空文字列は無効
-        cornerPoints: []
+      ;(mockQrScannerRepository.scanFromImageUrl as any).mockResolvedValueOnce({
+        data: '' // 空文字列は無効
       })
 
       await expect(useCase.execute(file, defaultLanguage)).rejects.toThrow()
@@ -93,10 +88,8 @@ describe('ReadQrFromFileUseCase', () => {
       const japaneseLanguage = Language.create('ja').language!
       const file = new File(['test'], 'test.png', { type: 'image/png' })
 
-      const QrScanner = await import('qr-scanner')
-      ;(QrScanner.default.scanImage as any).mockResolvedValueOnce({
-        data: '',
-        cornerPoints: []
+      ;(mockQrScannerRepository.scanFromImageUrl as any).mockResolvedValueOnce({
+        data: ''
       })
 
       await expect(useCase.execute(file, japaneseLanguage)).rejects.toThrow()
@@ -106,15 +99,12 @@ describe('ReadQrFromFileUseCase', () => {
       const file1 = new File(['test1'], 'test1.png', { type: 'image/png' })
       const file2 = new File(['test2'], 'test2.png', { type: 'image/png' })
 
-      const QrScanner = await import('qr-scanner')
-      ;(QrScanner.default.scanImage as any)
+      ;(mockQrScannerRepository.scanFromImageUrl as any)
         .mockResolvedValueOnce({
-          data: 'https://example1.com',
-          cornerPoints: []
+          data: 'https://example1.com'
         })
         .mockResolvedValueOnce({
-          data: 'https://example2.com',
-          cornerPoints: []
+          data: 'https://example2.com'
         })
 
       const result1 = await useCase.execute(file1, defaultLanguage)
@@ -128,10 +118,8 @@ describe('ReadQrFromFileUseCase', () => {
     it('QRコードに日本語が含まれている場合も正しく読み取れる', async () => {
       const file = new File(['test'], 'test.png', { type: 'image/png' })
 
-      const QrScanner = await import('qr-scanner')
-      ;(QrScanner.default.scanImage as any).mockResolvedValueOnce({
-        data: 'こんにちは、世界！',
-        cornerPoints: []
+      ;(mockQrScannerRepository.scanFromImageUrl as any).mockResolvedValueOnce({
+        data: 'こんにちは、世界！'
       })
 
       const result = await useCase.execute(file, defaultLanguage)

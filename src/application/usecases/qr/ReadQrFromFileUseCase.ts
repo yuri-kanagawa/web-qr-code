@@ -1,4 +1,4 @@
-import QrScanner from 'qr-scanner'
+import { IQrScannerRepository } from '@/domains/repositories'
 import { Language } from '@/domains/valueObjects/language'
 import { Qr } from '@/domains/valueObjects/qr'
 
@@ -6,6 +6,8 @@ import { Qr } from '@/domains/valueObjects/qr'
  * ファイルからQRコードを読み取るユースケース
  */
 export class ReadQrFromFileUseCase {
+  constructor(private readonly qrScannerRepository: IQrScannerRepository) {}
+
   /**
    * ファイルからQRコードを読み取る
    * @param file - 読み取り対象のファイル
@@ -18,10 +20,8 @@ export class ReadQrFromFileUseCase {
     const objectUrl = URL.createObjectURL(file)
 
     try {
-      // QRコードをスキャン
-      const result = await QrScanner.scanImage(objectUrl, {
-        returnDetailedScanResult: true
-      })
+      // QRコードをスキャン（外部リポジトリ使用）
+      const result = await this.qrScannerRepository.scanFromImageUrl(objectUrl)
 
       // QRコードのバリューオブジェクトを作成
       const qrResult = Qr.create(result.data, language)
@@ -37,4 +37,3 @@ export class ReadQrFromFileUseCase {
     }
   }
 }
-

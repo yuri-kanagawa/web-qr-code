@@ -5,6 +5,7 @@ import { useNotify } from '@/hooks'
 import { ReadQrFromFileUseCase } from '@/application/usecases'
 import { Language } from '@/domains/valueObjects/language'
 import { Qr } from '@/domains/valueObjects/qr'
+import { QrScannerRepository } from '@/infrastructure/repositories'
 import { Button } from '@/ui/cores'
 
 type Props = {
@@ -19,7 +20,10 @@ export const QrFileCheckButton: FC<Props> = ({
   language = Language.default()
 }) => {
   const { errorNotify } = useNotify()
-  const readQrFromFileUseCase = useMemo(() => new ReadQrFromFileUseCase(), [])
+  const readQrFromFileUseCase = useMemo(
+    () => new ReadQrFromFileUseCase(new QrScannerRepository()),
+    []
+  )
 
   const onClick = useCallback(async () => {
     if (!file) return
