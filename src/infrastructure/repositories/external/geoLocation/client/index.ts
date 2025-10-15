@@ -1,0 +1,1 @@
+export { BrowserGeoLocationRepository } from './repository'

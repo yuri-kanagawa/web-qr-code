@@ -45,15 +45,15 @@ src/domains/valueObjects/
 
 ```typescript
 import { describe, it, expect } from 'vitest'
-import { GeoLocation } from './valueObject'
+import { GeoLocation } from '@/domains/entities/geoLocation'
 import { Language } from '@/domains/valueObjects/language'
 
 describe('GeoLocation', () => {
   it('正しい緯度・経度で作成できる', () => {
-    const result = GeoLocation.create(35.68, 139.76, 'Tokyo', Language.default())
+    const geoLocation = GeoLocation.create(35.68, 139.76, 'Tokyo', Language.default())
     
-    expect(result.isSuccess).toBe(true)
-    expect(result.geoLocation?.latitude).toBe(35.68)
+    expect(geoLocation).not.toBeNull()
+    expect(geoLocation?.latitude).toBe(35.68)
   })
 })
 ```

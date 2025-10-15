@@ -1,0 +1,1 @@
+export { IpApiGeoLocationRepository } from './repository'

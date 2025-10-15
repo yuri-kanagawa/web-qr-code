@@ -1,13 +1,12 @@
 'use client'
 import { Language } from '@/domains/valueObjects/language'
-import { LocationButton } from '@/ui/fragments/button'
 import { FormButton } from '@/ui/fragments/form/FormButton'
 import { GoogleMap } from '@/ui/fragments/map'
 import {
   LatitudeTextField,
   LongitudeTextField
 } from '@/ui/fragments/textField/NumberTextField'
-import { Stack } from '@mui/material'
+import { Button, Stack } from '@mui/material'
 import { FC } from 'react'
 import { Controller } from 'react-hook-form'
 import { formatMapUrl, useMapQrCodeForm } from './hooks'
@@ -41,6 +40,7 @@ export const MapForm: FC<Props> = ({ language }) => {
     longitudeIsValid
   )
   console.log('isValid:', isValid)
+  console.log('isLoadingLocation:', isLoadingLocation)
   return (
     <FormButton
       onConfirm={onConfirm}
@@ -51,13 +51,14 @@ export const MapForm: FC<Props> = ({ language }) => {
       ref={ref}
     >
       <Stack spacing={3}>
-        <LocationButton
+        <Button
           onClick={onSetCurrentLocation}
           variant="outlined"
           fullWidth
+          disabled={isLoadingLocation}
         >
-          現在地を取得
-        </LocationButton>
+          {language.getLocale().message.common.buttons.getCurrentLocation}
+        </Button>
         <Controller
           control={control}
           name="latitude"
@@ -71,6 +72,7 @@ export const MapForm: FC<Props> = ({ language }) => {
               inputRef={inputRef}
               error={!!error}
               helperText={error?.message}
+              isLoading={isLoadingLocation}
             />
           )}
         />
@@ -87,6 +89,7 @@ export const MapForm: FC<Props> = ({ language }) => {
               inputRef={inputRef}
               error={!!error}
               helperText={error?.message}
+              isLoading={isLoadingLocation}
             />
           )}
         />

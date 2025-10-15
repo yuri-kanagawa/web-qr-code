@@ -1,1 +1,1 @@
-export { QrScannerRepository } from './QrScannerRepository'
+export * from './client'

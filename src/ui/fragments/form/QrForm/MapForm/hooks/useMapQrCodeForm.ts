@@ -1,6 +1,7 @@
 import { Language } from '@/domains/valueObjects/language'
 import { useQrCode } from '@/hooks'
-import { IpApiGeoLocationRepository } from '@/infrastructure/repositories'
+import { BrowserGeoLocationRepository } from '@/infrastructure/repositories/external/geoLocation/client'
+import { IpApiGeoLocationRepository } from '@/infrastructure/repositories/external/geoLocation/server'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useEffect, useMemo, useState } from 'react'
 import { SubmitErrorHandler, useForm } from 'react-hook-form'
@@ -13,6 +14,8 @@ type Props = {
 export const useMapQrCodeForm = ({ language }: Props) => {
   const { ref, onConfirm, onDownload } = useQrCode(language)
   const [isLoadingLocation, setIsLoadingLocation] = useState(true)
+  const [isLoadingCurrentPosition, setIsLoadingCurrentPosition] =
+    useState(false)
 
   const defaultValues: RegisterQrCodeMapSchema = useMemo(() => {
     return {
@@ -93,9 +96,22 @@ export const useMapQrCodeForm = ({ language }: Props) => {
     return await onConfirm()
   }
 
-  const handleSetCurrentLocation = (location: { lat: number; lng: number }) => {
-    setValue('latitude', location.lat.toString())
-    setValue('longitude', location.lng.toString())
+  const handleSetCurrentLocation = async () => {
+    try {
+      console.log('Getting current position...')
+      setIsLoadingCurrentPosition(true)
+      const repository = new BrowserGeoLocationRepository(language)
+      const location = await repository.getCurrentPosition()
+      console.log('Current position acquired:', location)
+      setValue('latitude', location.latitude.toString())
+      setValue('longitude', location.longitude.toString())
+    } catch (error) {
+      console.error('Failed to get current position:', error)
+      // エラー通知などを追加する場合はここで
+    } finally {
+      setIsLoadingCurrentPosition(false)
+      console.log('Current position loading finished')
+    }
   }
 
   return {
@@ -106,7 +122,7 @@ export const useMapQrCodeForm = ({ language }: Props) => {
     onDownload: handleSubmit(onDownload, submitErrorHandler),
     onSetCurrentLocation: handleSetCurrentLocation,
     formState,
-    isLoadingLocation,
+    isLoadingLocation: isLoadingLocation || isLoadingCurrentPosition,
     ...rest
   }
 }

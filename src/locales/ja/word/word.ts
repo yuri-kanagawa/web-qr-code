@@ -11,7 +11,7 @@ export const word = {
     sms: 'SMS',
     text: 'テキスト',
     map: '地図',
-    reader: 'リーダー',
+    reader: '読み取り',
     edit: '編集'
   },
 
@@ -209,7 +209,7 @@ export const word = {
       description: '位置座標のQRコードを生成'
     },
     reader: {
-      title: 'QRコードリーダー',
+      title: 'QRコード読み取り',
       description: 'デバイスでQRコードをスキャンして読み取り'
     }
   }

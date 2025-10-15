@@ -1,1 +1,2 @@
-export { IpApiGeoLocationRepository } from './IpApiGeoLocationRepository'
+export * from './client'
+export * from './server'

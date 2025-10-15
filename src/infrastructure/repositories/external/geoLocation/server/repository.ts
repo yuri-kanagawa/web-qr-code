@@ -1,9 +1,9 @@
-import { IGeoLocationRepository } from '@/domains/repositories'
-import { GeoLocation } from '@/domains/valueObjects/geoLocation'
+import { GeoLocation } from '@/domains/entities/geoLocation'
+import { IGeoLocationRepository } from '@/domains/repositories/external/geoLocation'
 import { Language } from '@/domains/valueObjects/language'
 
 /**
- * ipapi.coを使用した位置情報取得の実装
+ * ipapi.coを使用した位置情報取得の実装（サーバーサイド/クライアントサイド両方で使用可能）
  */
 export class IpApiGeoLocationRepository implements IGeoLocationRepository {
   private readonly apiUrl = 'https://ipapi.co/json/'
@@ -38,23 +38,30 @@ export class IpApiGeoLocationRepository implements IGeoLocationRepository {
       }
 
       const country = this.translateCountryName(data.country_name || 'Unknown')
-      const result = GeoLocation.create(
+      const geoLocation = GeoLocation.create(
         data.latitude,
         data.longitude,
         country,
         this.language
       )
 
-      if (result.isSuccess && result.geoLocation) {
-        return result.geoLocation
+      if (geoLocation) {
+        return geoLocation
       }
 
-      console.warn('Failed to create GeoLocation:', result.error?.message)
+      console.warn('Failed to create GeoLocation')
       return GeoLocation.default()
     } catch (error) {
       console.error('Error fetching location from IP:', error)
       return GeoLocation.default()
     }
+  }
+
+  /**
+   * ブラウザのGeolocation APIはサーバーサイドでは使用できないため、エラーを返す
+   */
+  async getCurrentPosition(): Promise<GeoLocation> {
+    throw new Error('getCurrentPosition is not supported on server-side.')
   }
 
   /**

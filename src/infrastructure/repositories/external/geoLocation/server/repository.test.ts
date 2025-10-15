@@ -1,7 +1,7 @@
-import { GeoLocation } from '@/domains/valueObjects/geoLocation'
+import { GeoLocation } from '@/domains/entities/geoLocation'
 import { Language } from '@/domains/valueObjects/language'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { IpApiGeoLocationRepository } from './IpApiGeoLocationRepository'
+import { IpApiGeoLocationRepository } from './repository'
 
 // fetchをモック
 global.fetch = vi.fn()
