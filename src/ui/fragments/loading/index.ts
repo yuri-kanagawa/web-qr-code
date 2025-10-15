@@ -1,1 +1,1 @@
-export * from './CenterLoading' 
+export * from './CenterLoading'

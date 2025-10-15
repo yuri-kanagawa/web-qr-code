@@ -7,13 +7,13 @@ type Props = {
   language?: Language
 }
 
-export const QrDownloadButton: FC<Props> = ({ 
-  onClick, 
+export const QrDownloadButton: FC<Props> = ({
+  onClick,
   isValid = true,
   language = Language.default()
 }) => {
   const locale = language.getLocale()
-  
+
   return (
     <>
       {onClick && (

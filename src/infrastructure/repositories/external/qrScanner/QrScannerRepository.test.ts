@@ -27,9 +27,12 @@ describe('QrScannerRepository', () => {
       const result = await repository.scanFromImageUrl('blob:test-url')
 
       expect(result.data).toBe('https://example.com')
-      expect(QrScanner.default.scanImage).toHaveBeenCalledWith('blob:test-url', {
-        returnDetailedScanResult: true
-      })
+      expect(QrScanner.default.scanImage).toHaveBeenCalledWith(
+        'blob:test-url',
+        {
+          returnDetailedScanResult: true
+        }
+      )
     })
 
     it('HTTP URLからQRコードをスキャンできる', async () => {
@@ -103,4 +106,3 @@ describe('QrScannerRepository', () => {
     })
   })
 })
-

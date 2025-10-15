@@ -2,7 +2,7 @@ import { Result } from '@/domains/common'
 
 /**
  * DownloadQrImageUseCaseの実行結果
- * 
+ *
  * @example
  * ```typescript
  * const result = await useCase.execute(canvas, 'qr.png')
@@ -53,4 +53,3 @@ export class DownloadQrImageUseCaseResult extends Result<
     return new DownloadQrImageUseCaseResult(null, error)
   }
 }
-

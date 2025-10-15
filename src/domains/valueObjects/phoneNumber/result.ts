@@ -5,7 +5,10 @@ export class PhoneNumberResult {
   private readonly _phoneNumber: PhoneNumber | null
   private readonly _error: PhoneNumberValueError | null
 
-  constructor(phoneNumber: PhoneNumber | null, error: PhoneNumberValueError | null) {
+  constructor(
+    phoneNumber: PhoneNumber | null,
+    error: PhoneNumberValueError | null
+  ) {
     this._phoneNumber = phoneNumber
     this._error = error
   }

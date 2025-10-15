@@ -1,2 +1,1 @@
 export { EyeSettings } from './valueObject'
-

@@ -4,4 +4,3 @@ export class ImageFileError extends Error {
     this.name = 'ImageFileError'
   }
 }
-

@@ -1,4 +1,4 @@
-import {RegisterQrCodeEmailSchema} from './zod'
+import { RegisterQrCodeEmailSchema } from './zod'
 export const formatEmail = ({
   email,
   subject,

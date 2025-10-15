@@ -18,4 +18,3 @@ export class CountryResult {
     return !this.isSuccess
   }
 }
-

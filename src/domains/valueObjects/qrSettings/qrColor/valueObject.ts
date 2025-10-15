@@ -50,4 +50,3 @@ export class QrColor {
     return this._value.toLowerCase() === other._value.toLowerCase()
   }
 }
-

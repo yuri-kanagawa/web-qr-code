@@ -1,4 +1,4 @@
-import { RegisterQrCodeSmsSchema } from "./zod"
+import { RegisterQrCodeSmsSchema } from './zod'
 
 export const isSmsSchema = (value: string) => value.startsWith('sms')
 export function toSmsSchema(value: RegisterQrCodeSmsSchema) {

@@ -127,4 +127,3 @@ export class ImageFile {
     return ImageFile.ALLOWED_MIME_TYPES
   }
 }
-

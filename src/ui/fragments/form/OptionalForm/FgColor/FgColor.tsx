@@ -6,7 +6,7 @@ type Props = {}
 
 export const FgColor: FC<Props> = () => {
   const { settings, updateFgColor } = useQrCode()
-  
+
   return (
     <MuiColorInput
       format="hex"

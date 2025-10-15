@@ -4,4 +4,3 @@ export class EcLevelValueError extends Error {
     this.name = 'EcLevelValueError'
   }
 }
-

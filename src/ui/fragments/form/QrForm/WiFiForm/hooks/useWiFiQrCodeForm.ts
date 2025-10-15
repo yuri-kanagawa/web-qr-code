@@ -19,7 +19,7 @@ export const useWiFiQrCodeForm = ({
   language
 }: Props) => {
   const { ref, onConfirm, onDownload } = useQrCode(language)
-  
+
   const defaultValues: RegisterQrCodeWiFiSchema = useMemo(() => {
     return {
       ssid,
@@ -27,7 +27,7 @@ export const useWiFiQrCodeForm = ({
       type
     }
   }, [ssid, password, type])
-  
+
   const {
     handleSubmit,
     trigger,

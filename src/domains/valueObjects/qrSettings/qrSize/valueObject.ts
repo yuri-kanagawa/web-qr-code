@@ -53,4 +53,3 @@ export class QrSize {
     return this._value === other._value
   }
 }
-

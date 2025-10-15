@@ -16,7 +16,13 @@ type Props = {
   language?: Language
 } & Omit<BoxProps, 'onChange'>
 
-export const InputFile: FC<Props> = ({ file, onChange, message, language = Language.default(), ...props }) => {
+export const InputFile: FC<Props> = ({
+  file,
+  onChange,
+  message,
+  language = Language.default(),
+  ...props
+}) => {
   const locale = language.getLocale()
   const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault()
@@ -88,7 +94,9 @@ export const InputFile: FC<Props> = ({ file, onChange, message, language = Langu
                     inputProps={{ accept: '.jpg, .jpeg, .png' }}
                     onChange={handleFileChange}
                   ></Input>
-                  <Button onClick={onClickFileSelect}>{locale.word.buttons.selectFile}</Button>
+                  <Button onClick={onClickFileSelect}>
+                    {locale.word.buttons.selectFile}
+                  </Button>
                 </Stack>
               </Box>
             </div>

@@ -7,19 +7,8 @@ type Props = {
 }
 
 export default function Page({ params }: Props) {
-  const languageResult = Language.create(params.language)
-  const language =
-    languageResult.isSuccess && languageResult.language
-      ? languageResult.language
-      : Language.default()
+  const { getLanguageFromParams } = require('../utils')
+  const language = getLanguageFromParams(params.language)
 
-  return (
-    <EmailPage
-      language={language}
-      email={''}
-      subject={''}
-      body={''}
-    />
-  )
+  return <EmailPage language={language} email={''} subject={''} body={''} />
 }
-

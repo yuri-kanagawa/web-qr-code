@@ -14,7 +14,7 @@ export const useDeviceQrCodeForm = () => {
   const language = languageResult.isSuccess
     ? languageResult.language!
     : Language.default()
-  
+
   const { ref, onConfirm, onDownload } = useQrCode(language)
 
   const defaultValues: RegisterDeviceQrCodeSchema = {

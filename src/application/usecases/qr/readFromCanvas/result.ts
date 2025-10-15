@@ -2,7 +2,7 @@ import { Result } from '@/domains/common'
 
 /**
  * ReadQrFromCanvasUseCaseの実行結果
- * 
+ *
  * @example
  * ```typescript
  * const result = await useCase.execute(canvas)
@@ -56,4 +56,3 @@ export class ReadQrFromCanvasUseCaseResult extends Result<
     return new ReadQrFromCanvasUseCaseResult(null, error)
   }
 }
-

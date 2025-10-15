@@ -4,4 +4,3 @@ export class QrSizeValueError extends Error {
     this.name = 'QrSizeValueError'
   }
 }
-

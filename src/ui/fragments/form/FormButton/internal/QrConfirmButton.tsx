@@ -18,8 +18,8 @@ type Props = {
   language?: Language
 }
 
-export const QrConfirmButton: FC<Props> = ({ 
-  onClick, 
+export const QrConfirmButton: FC<Props> = ({
+  onClick,
   isValid = true,
   language = Language.default()
 }) => {

@@ -4,4 +4,3 @@ export class SocialMediaValueError extends Error {
     this.name = 'SocialMediaValueError'
   }
 }
-

@@ -5,7 +5,10 @@ export class OrganizationResult {
   private readonly _organization: Organization | null
   private readonly _error: OrganizationValueError | null
 
-  constructor(organization: Organization | null, error: OrganizationValueError | null) {
+  constructor(
+    organization: Organization | null,
+    error: OrganizationValueError | null
+  ) {
     this._organization = organization
     this._error = error
   }

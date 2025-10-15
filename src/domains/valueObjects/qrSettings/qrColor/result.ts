@@ -19,4 +19,3 @@ export class QrColorResult extends Result<QrColor, QrColorValueError> {
     return new QrColorResult(null, error)
   }
 }
-

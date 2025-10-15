@@ -18,4 +18,3 @@ export class GeoLocationResult {
     return !this.isSuccess
   }
 }
-

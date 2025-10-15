@@ -1,2 +1,1 @@
 export { QrColors } from './valueObject'
-

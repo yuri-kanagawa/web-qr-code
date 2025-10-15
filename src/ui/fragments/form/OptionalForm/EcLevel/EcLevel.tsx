@@ -8,9 +8,6 @@ type Props = {}
 export const EcLevel: FC<Props> = ({}) => {
   const { settings, updateEcLevel } = useQrCode()
   return (
-    <EcLevelSelect
-      value={settings.ecLevel.value}
-      onChange={updateEcLevel}
-    />
+    <EcLevelSelect value={settings.ecLevel.value} onChange={updateEcLevel} />
   )
 }

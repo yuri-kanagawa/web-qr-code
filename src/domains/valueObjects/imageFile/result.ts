@@ -18,4 +18,3 @@ export class ImageFileResult {
     return !this.isSuccess
   }
 }
-

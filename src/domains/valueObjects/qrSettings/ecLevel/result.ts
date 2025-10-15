@@ -19,4 +19,3 @@ export class EcLevelResult extends Result<EcLevel, EcLevelValueError> {
     return new EcLevelResult(null, error)
   }
 }
-

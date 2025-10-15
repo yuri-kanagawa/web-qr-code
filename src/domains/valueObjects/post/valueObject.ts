@@ -17,8 +17,8 @@ export class Post {
       const errorMessage = language.isJapanese
         ? '役職名が長すぎます（最大100文字）'
         : language.isFrench
-        ? 'Le titre du poste est trop long (100 caractères maximum)'
-        : 'Job title is too long (maximum 100 characters)'
+          ? 'Le titre du poste est trop long (100 caractères maximum)'
+          : 'Job title is too long (maximum 100 characters)'
       return new PostResult(null, new PostValueError(errorMessage))
     }
 

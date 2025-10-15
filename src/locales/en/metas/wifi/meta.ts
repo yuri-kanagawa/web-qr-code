@@ -1,7 +1,8 @@
 import { Metadata } from 'next'
 import { appName } from '@/locales/config/constants'
 
-const DESCRIPTION = 'Generate QR codes for WiFi network connections with SSID and password.'
+const DESCRIPTION =
+  'Generate QR codes for WiFi network connections with SSID and password.'
 const OGP_IMAGE_URL = '/opengraph-image.png'
 
 const meta: Metadata = {
@@ -31,4 +32,4 @@ const meta: Metadata = {
   }
 }
 
-export default meta 
+export default meta

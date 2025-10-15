@@ -133,4 +133,3 @@ export class Base64 {
     return arr[1] || ''
   }
 }
-

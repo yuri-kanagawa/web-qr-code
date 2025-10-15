@@ -4,4 +4,3 @@ export class GeoLocationError extends Error {
     this.name = 'GeoLocationError'
   }
 }
-

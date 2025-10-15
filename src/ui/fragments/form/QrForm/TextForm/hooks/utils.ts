@@ -1,6 +1,9 @@
-import { RegisterQrCodeTextSchema } from "./zod"
+import { RegisterQrCodeTextSchema } from './zod'
 
-export const isTextSchema = (value: string) => !value.startsWith('tel:') && !value.startsWith('sms:') && !value.startsWith('http')
+export const isTextSchema = (value: string) =>
+  !value.startsWith('tel:') &&
+  !value.startsWith('sms:') &&
+  !value.startsWith('http')
 export function toTextSchema(value: RegisterQrCodeTextSchema) {
   return value.text
 }

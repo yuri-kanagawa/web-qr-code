@@ -31,4 +31,4 @@ const meta: Metadata = {
   }
 }
 
-export default meta 
+export default meta

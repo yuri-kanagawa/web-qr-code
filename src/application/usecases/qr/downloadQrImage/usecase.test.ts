@@ -53,7 +53,6 @@ describe('DownloadQrImageUseCase', () => {
 
     it('JPEG形式で画像を生成できる', async () => {
       mockCanvas.toDataURL = vi.fn(() => 'data:image/jpeg;base64,mockJpegData')
-
       ;(mockQrScannerRepository.scanFromImageUrl as any).mockResolvedValueOnce({
         data: 'test'
       })
@@ -109,4 +108,3 @@ describe('DownloadQrImageUseCase', () => {
     })
   })
 })
-

@@ -97,4 +97,3 @@ export class EcLevel {
     return this._value === other._value
   }
 }
-

@@ -44,4 +44,3 @@ export class EyeSettings {
     return new EyeSettings(this._radius1, this._radius2, newRadius)
   }
 }
-

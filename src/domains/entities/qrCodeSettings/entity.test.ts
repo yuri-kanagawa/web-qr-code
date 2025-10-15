@@ -1,9 +1,5 @@
 import { Language } from '@/domains/valueObjects/language'
-import {
-  EcLevel,
-  QrColor,
-  QrSize
-} from '@/domains/valueObjects/qrSettings'
+import { EcLevel, QrColor, QrSize } from '@/domains/valueObjects/qrSettings'
 import { describe, expect, it } from 'vitest'
 import { QrCodeSettings } from './entity'
 
@@ -180,4 +176,3 @@ describe('QrCodeSettings', () => {
     })
   })
 })
-

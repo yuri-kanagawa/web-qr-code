@@ -4,4 +4,3 @@ export class LanguageValueError extends Error {
     this.name = 'LanguageValueError'
   }
 }
-

@@ -7,7 +7,7 @@ const meta: Metadata = {
   title: appName,
   description: DESCRIPTION,
   openGraph: {
-    title:appName,
+    title: appName,
     description: DESCRIPTION,
     images: [
       {

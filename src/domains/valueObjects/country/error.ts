@@ -4,4 +4,3 @@ export class CountryValueError extends Error {
     this.name = 'CountryValueError'
   }
 }
-

@@ -36,7 +36,7 @@ describe('IpApiGeoLocationRepository', () => {
         ok: true,
         json: async () => ({
           latitude: 40.71,
-          longitude: -74.00,
+          longitude: -74.0,
           country_name: 'United States'
         })
       })
@@ -45,7 +45,7 @@ describe('IpApiGeoLocationRepository', () => {
       const location = await repository.getLocationFromIpAddress()
 
       expect(location.latitude).toBe(40.71)
-      expect(location.longitude).toBe(-74.00)
+      expect(location.longitude).toBe(-74.0)
       expect(location.country).toBe('United States')
     })
 
@@ -207,4 +207,3 @@ describe('IpApiGeoLocationRepository', () => {
     })
   })
 })
-

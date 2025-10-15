@@ -17,8 +17,8 @@ export class Subject {
       const errorMessage = language.isJapanese
         ? '件名が長すぎます（最大200文字）'
         : language.isFrench
-        ? "L'objet est trop long (200 caractères maximum)"
-        : 'Subject is too long (maximum 200 characters)'
+          ? "L'objet est trop long (200 caractères maximum)"
+          : 'Subject is too long (maximum 200 characters)'
       return new SubjectResult(null, new SubjectValueError(errorMessage))
     }
 

@@ -4,4 +4,3 @@ export class QrColorValueError extends Error {
     this.name = 'QrColorValueError'
   }
 }
-

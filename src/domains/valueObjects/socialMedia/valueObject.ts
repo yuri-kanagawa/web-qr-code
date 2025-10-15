@@ -64,7 +64,10 @@ export class SocialMedia {
         : language.isFrench
           ? 'Type de média social invalide'
           : 'Invalid social media type'
-      return new SocialMediaResult(null, new SocialMediaValueError(errorMessage))
+      return new SocialMediaResult(
+        null,
+        new SocialMediaValueError(errorMessage)
+      )
     }
     return new SocialMediaResult(new SocialMedia(value, language), null)
   }
@@ -207,4 +210,3 @@ export class SocialMedia {
     return this._value === other._value
   }
 }
-

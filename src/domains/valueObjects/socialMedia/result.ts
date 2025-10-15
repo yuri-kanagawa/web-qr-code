@@ -21,4 +21,3 @@ export class SocialMediaResult {
     return !this.isSuccess
   }
 }
-

@@ -96,4 +96,3 @@ export const Multiline: Story = {
     placeholder: 'Enter your message...'
   }
 }
-

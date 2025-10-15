@@ -7,16 +7,8 @@ type Props = {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { language } = params
-
-  try {
-    const { meta } = await import(`@/locales/${language}/metas/meta`)
-    return meta.root
-  } catch (error) {
-    // フォールバック: 英語のメタデータを使用
-    const { meta } = await import('@/locales/en/metas/meta')
-    return meta.root
-  }
+  const { getMeta } = await import('./utils')
+  return (await getMeta(params.language)).root
 }
 
 export default function Layout({ children }: Props) {

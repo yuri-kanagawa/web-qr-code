@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from 'zod'
 
 const ssid = z.string()
 const password = z.string()
@@ -12,6 +12,4 @@ export const registerQrCodeWiFiSchema = z.object({
 })
 
 // 型推論
-export type RegisterQrCodeWiFiSchema = z.infer<
-  typeof registerQrCodeWiFiSchema
->
+export type RegisterQrCodeWiFiSchema = z.infer<typeof registerQrCodeWiFiSchema>

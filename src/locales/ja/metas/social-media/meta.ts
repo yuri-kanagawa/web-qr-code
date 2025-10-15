@@ -1,13 +1,15 @@
 import { Metadata } from 'next'
 import { appName } from '@/locales/config/constants'
 
-const DESCRIPTION = 'ソーシャルメディアのプロフィールや投稿のQRコードを生成します。'
+const DESCRIPTION =
+  'ソーシャルメディアのプロフィールや投稿のQRコードを生成します。'
 const OGP_IMAGE_URL = '/opengraph-image.png'
 
 const meta: Metadata = {
   title: `${appName} - ソーシャルメディア QRコード生成`,
   description: DESCRIPTION,
-  keywords: 'ソーシャルメディア, QRコード, Instagram, Twitter, Facebook, LinkedIn',
+  keywords:
+    'ソーシャルメディア, QRコード, Instagram, Twitter, Facebook, LinkedIn',
   openGraph: {
     title: `${appName} - ソーシャルメディア QRコード生成`,
     description: DESCRIPTION,
@@ -31,4 +33,4 @@ const meta: Metadata = {
   }
 }
 
-export default meta 
+export default meta

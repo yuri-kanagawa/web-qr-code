@@ -20,4 +20,3 @@ export const useQrCanvas = () => {
     getCanvas: getCanvasFromRef
   }
 }
-

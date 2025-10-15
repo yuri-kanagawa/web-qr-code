@@ -20,7 +20,11 @@ type Props = {
   setFile: (value: File | null) => void
   language?: Language
 }
-export const OptionalForm: FC<Props> = ({ file, setFile, language = Language.default() }) => {
+export const OptionalForm: FC<Props> = ({
+  file,
+  setFile,
+  language = Language.default()
+}) => {
   return (
     <Stack spacing={4}>
       <Size />

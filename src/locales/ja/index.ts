@@ -10,4 +10,4 @@ export const ja = {
 
 export * from './word'
 export * from './message'
-export * from './metas' 
+export * from './metas'

@@ -18,4 +18,3 @@ export class Base64Result {
     return !this.isSuccess
   }
 }
-

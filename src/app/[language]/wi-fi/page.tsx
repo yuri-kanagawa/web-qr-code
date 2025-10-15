@@ -1,5 +1,4 @@
 'use client'
-import { Language } from '@/domains'
 import { Page as WiFiPage } from '@/ui/pages/wi-fi'
 
 type Props = {
@@ -7,12 +6,8 @@ type Props = {
 }
 
 export default function Page({ params }: Props) {
-  const languageResult = Language.create(params.language)
-  const language =
-    languageResult.isSuccess && languageResult.language
-      ? languageResult.language
-      : Language.default()
+  const { getLanguageFromParams } = require('../utils')
+  const language = getLanguageFromParams(params.language)
 
   return <WiFiPage language={language} ssid="" password="" type="" />
 }
-

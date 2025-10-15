@@ -22,7 +22,7 @@ describe('ReadQrFromCanvasUseCase', () => {
     mockCanvas = {
       toDataURL: vi.fn(() => 'data:image/png;base64,mockBase64Data')
     } as any
-    
+
     vi.clearAllMocks()
   })
 
@@ -44,8 +44,9 @@ describe('ReadQrFromCanvasUseCase', () => {
     })
 
     it('JPEG形式で画像を生成できる', async () => {
-      mockCanvas.toDataURL = vi.fn(() => 'data:image/jpeg;base64,mockBase64Data')
-      
+      mockCanvas.toDataURL = vi.fn(
+        () => 'data:image/jpeg;base64,mockBase64Data'
+      )
       ;(mockQrScannerRepository.scanFromImageUrl as any).mockResolvedValueOnce({
         data: 'test data'
       })
@@ -133,4 +134,3 @@ describe('ReadQrFromCanvasUseCase', () => {
     })
   })
 })
-

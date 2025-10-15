@@ -19,4 +19,3 @@ export class QrSizeResult extends Result<QrSize, QrSizeValueError> {
     return new QrSizeResult(null, error)
   }
 }
-

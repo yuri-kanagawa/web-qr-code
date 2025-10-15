@@ -7,7 +7,8 @@ export const message = {
       invalid: '無効です',
       minLength: (min: number) => `${min}文字以上で入力してください`,
       maxLength: (max: number) => `${max}文字以下で入力してください`,
-      range: (min: number, max: number) => `${min}から${max}の範囲で入力してください`
+      range: (min: number, max: number) =>
+        `${min}から${max}の範囲で入力してください`
     },
 
     // Email validation

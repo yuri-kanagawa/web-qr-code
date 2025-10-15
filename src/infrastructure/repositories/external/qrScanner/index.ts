@@ -1,2 +1,1 @@
 export { QrScannerRepository } from './QrScannerRepository'
-

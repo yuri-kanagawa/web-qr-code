@@ -1,15 +1,17 @@
-import { RegisterSocialMediaQrCodeSchema } from "./zod"
+import { RegisterSocialMediaQrCodeSchema } from './zod'
 
-export const isSocialMediaSchema = ({value}: {
+export const isSocialMediaSchema = ({
+  value
+}: {
   value: string
   language: string
 }) => {
   value.startsWith('sms')
 }
 export function toSocialMediaSchema(value: RegisterSocialMediaQrCodeSchema) {
-  const socialMedia = value.socialMedia.map(e => e.socialMedia).join(',')
-  const urls = value.socialMedia.map(e => e.url).join(',')
-  const labels = value.socialMedia.map(e => e.label).join(',')
+  const socialMedia = value.socialMedia.map((e) => e.socialMedia).join(',')
+  const urls = value.socialMedia.map((e) => e.url).join(',')
+  const labels = value.socialMedia.map((e) => e.label).join(',')
   return `${value.socialMedia}?socialMedia=${socialMedia}&urls=${urls}&labels=${labels}`
 }
 // export const fromSocialMediaScheme = (value: string): RegisterSocialMediaQrCodeSchema => {

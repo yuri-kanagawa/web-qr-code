@@ -1,4 +1,4 @@
-import { RegisterQrCodeWiFiSchema } from "./zod"
+import { RegisterQrCodeWiFiSchema } from './zod'
 
 export const isWiFiSchema = (value: string) => value.startsWith('WIFI:')
 
@@ -17,7 +17,7 @@ export const fromWifiSchema = (value: string): RegisterQrCodeWiFiSchema => {
 
   const wifiData = value.slice(5) // 'WIFI:' を削除
   const parts = wifiData.split(';')
-  
+
   let type = 'WPA'
   let ssid = ''
   let password = ''
