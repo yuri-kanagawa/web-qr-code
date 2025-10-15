@@ -1,6 +1,7 @@
 'use client'
 import { Language } from '@/domains/valueObjects/language'
 import { FormButton } from '@/ui/fragments/form/FormButton'
+import { FormCard } from '@/ui/fragments/form/FormCard'
 import { PhoneTextField } from '@/ui/fragments/textField'
 import { usePhoneQrCodeForm } from '@/ui/pages/phone/hooks/usePhoneQrCodeForm'
 import { FC } from 'react'
@@ -30,15 +31,17 @@ export const PhoneForm: FC<Props> = ({ language }) => {
           isValid={isValid}
           ref={ref}
         >
-          <PhoneTextField
-            cellPhone={{
-              value,
-              onChange,
-              error: !!error,
-              helperText: error?.message,
-              inputRef
-            }}
-          />
+          <FormCard cardProps={{ sx: { p: 2 } }}>
+            <PhoneTextField
+              cellPhone={{
+                value,
+                onChange,
+                error: !!error,
+                helperText: error?.message,
+                inputRef
+              }}
+            />
+          </FormCard>
         </FormButton>
       )}
     />
