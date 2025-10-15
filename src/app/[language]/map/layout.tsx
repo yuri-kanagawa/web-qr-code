@@ -11,11 +11,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   try {
     const { meta } = await import(`@/locales/${language}/metas/meta`)
-    return meta.root
+    return meta.map
   } catch (error) {
     // フォールバック: 英語のメタデータを使用
     const { meta } = await import('@/locales/en/metas/meta')
-    return meta.root
+    return meta.map
   }
 }
 

@@ -41,28 +41,28 @@ export const DrawerItems = forwardRef<HTMLDivElement, Props>(
             <DrawerItemIcon
               label={word.navigation.url}
               icon={<LinkIcon />}
-              path={pathBuilder.url.index()}
+              path={pathBuilder.url.index}
             />
             <DrawerItemIcon
               label={word.navigation.wifi}
               icon={<FaWifi />}
-              path={pathBuilder.wifi.index()}
+              path={pathBuilder.wifi.index}
             />
             {/* <DrawerItemIcon
             label={word.navigation.socialMedia}
             icon={<SmsIcon />}
-            path={pathBuilder.socialMedia.index()}
+            path={pathBuilder.socialMedia.index}
           /> */}
             <DrawerItemIcon
               label={word.navigation.device}
               icon={<SmartphoneIcon />}
-              path={pathBuilder.device.index()}
+              path={pathBuilder.device.index}
             />
 
             <DrawerItemIcon
               label={word.navigation.contact}
               icon={<MdPermContactCalendar size={24} />}
-              path={pathBuilder.contact.index()}
+              path={pathBuilder.contact.index}
             />
             <DrawerItemIcon
               label={word.navigation.phone}
@@ -72,7 +72,7 @@ export const DrawerItems = forwardRef<HTMLDivElement, Props>(
             <DrawerItemIcon
               label={word.navigation.email}
               icon={<RiMailFill size={24} />}
-              path={pathBuilder.email.index()}
+              path={pathBuilder.email.index}
             />
             <DrawerItemIcon
               label={word.navigation.sms}
@@ -83,19 +83,19 @@ export const DrawerItems = forwardRef<HTMLDivElement, Props>(
             <DrawerItemIcon
               label={word.navigation.text}
               icon={<RiText size={24} />}
-              path={pathBuilder.text.index()}
+              path={pathBuilder.text.index}
             />
 
             <DrawerItemIcon
               label={word.navigation.map}
               icon={<MdLocationOn size={24} />}
-              path={pathBuilder.map.index()}
+              path={pathBuilder.map.index}
             />
 
             <DrawerItemIcon
               label={word.navigation.reader}
               icon={<QrCodeScannerIcon />}
-              path={pathBuilder.reader.index()}
+              path={pathBuilder.reader.index}
             />
             {/* <DrawerItemIcon
             label={word.navigation.edit}

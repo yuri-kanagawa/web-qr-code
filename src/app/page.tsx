@@ -1,5 +1,7 @@
+'use client'
+import { Language } from '@/domains'
 import { Page as RootPage } from '@/ui/pages/root'
 
 export default function Page() {
-  return <RootPage />
+  return <RootPage language={Language.default()} />
 }

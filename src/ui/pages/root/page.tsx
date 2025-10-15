@@ -1,8 +1,6 @@
 'use client'
 import { Language } from '@/domains/valueObjects/language'
 import { PathBuilder } from '@/lib/routing'
-import { word as enWord } from '@/locales/en/word'
-import { word as jaWord } from '@/locales/ja/word'
 import {
   Box,
   Button,
@@ -25,29 +23,29 @@ import { MdLocationOn, MdPermContactCalendar } from 'react-icons/md'
 import { RiMailFill } from 'react-icons/ri'
 
 interface Props {
-  language?: string
+  language: Language
 }
 
 const getFeatures = (pathBuilder: PathBuilder) => [
   {
     key: 'url',
     icon: <LinkIcon />,
-    path: pathBuilder.url.index()
+    path: pathBuilder.url.index
   },
   {
     key: 'wifi',
     icon: <FaWifi />,
-    path: pathBuilder.wifi.index()
+    path: pathBuilder.wifi.index
   },
   {
     key: 'device',
     icon: <SmartphoneIcon />,
-    path: pathBuilder.device.index()
+    path: pathBuilder.device.index
   },
   {
     key: 'contact',
     icon: <MdPermContactCalendar size={24} />,
-    path: pathBuilder.contact.index()
+    path: pathBuilder.contact.index
   },
   {
     key: 'phone',
@@ -57,7 +55,7 @@ const getFeatures = (pathBuilder: PathBuilder) => [
   {
     key: 'email',
     icon: <RiMailFill size={24} />,
-    path: pathBuilder.email.index()
+    path: pathBuilder.email.index
   },
   {
     key: 'sms',
@@ -67,31 +65,25 @@ const getFeatures = (pathBuilder: PathBuilder) => [
   {
     key: 'text',
     icon: <EditIcon />,
-    path: pathBuilder.text.index()
+    path: pathBuilder.text.index
   },
   {
     key: 'map',
     icon: <MdLocationOn size={24} />,
-    path: pathBuilder.map.index()
+    path: pathBuilder.map.index
   },
   {
     key: 'reader',
     icon: <QrCodeScannerIcon />,
-    path: pathBuilder.reader.index()
+    path: pathBuilder.reader.index
   }
 ]
 
-export const Page: FC<Props> = ({ language = 'en' }) => {
-  const word = language === 'ja' ? jaWord : enWord
+export const Page: FC<Props> = ({ language }) => {
+  const locale = language.getLocale()
+  const word = locale.word
 
-  const lang = useMemo(() => {
-    const languageResult = Language.create(language)
-    return languageResult.isSuccess && languageResult.language
-      ? languageResult.language
-      : Language.default()
-  }, [language])
-
-  const pathBuilder = useMemo(() => new PathBuilder(lang), [lang])
+  const pathBuilder = useMemo(() => new PathBuilder(language), [language])
   const features = useMemo(() => getFeatures(pathBuilder), [pathBuilder])
 
   return (

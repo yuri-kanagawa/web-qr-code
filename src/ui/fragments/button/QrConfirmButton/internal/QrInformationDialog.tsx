@@ -44,7 +44,7 @@ export const QrInformationDialog: FC<Props> = ({ qr, onClose }) => {
 
     // 共通の編集画面に遷移
     const pathBuilder = new PathBuilder(qr.language)
-    push(pathBuilder.edit.content())
+    push(pathBuilder.edit.content)
   }
 
   return (

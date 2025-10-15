@@ -35,44 +35,39 @@ export class PathBuilder {
 
   get url() {
     return {
-      index: (queryParameter?: { url?: string }) => {
-        const queryString = queryParameter?.url
-          ? `?url=${encodeURIComponent(queryParameter.url)}`
-          : ''
-        return this.buildPath(`${PathBuilder.PATHS.URL}${queryString}`)
-      }
+      index: this.buildPath(PathBuilder.PATHS.URL)
     }
   }
 
   get socialMedia() {
     return {
-      index: () => this.buildPath(PathBuilder.PATHS.SOCIAL_MEDIA)
+      index: this.buildPath(PathBuilder.PATHS.SOCIAL_MEDIA)
     }
   }
 
   get wifi() {
     return {
-      index: () => this.buildPath(PathBuilder.PATHS.WIFI)
+      index: this.buildPath(PathBuilder.PATHS.WIFI)
     }
   }
 
   get device() {
     return {
-      index: () => this.buildPath(PathBuilder.PATHS.DEVICE),
-      redirect: () => this.buildPath(PathBuilder.PATHS.DEVICE_REDIRECT)
+      index: this.buildPath(PathBuilder.PATHS.DEVICE),
+      redirect: this.buildPath(PathBuilder.PATHS.DEVICE_REDIRECT)
     }
   }
 
   get contact() {
     return {
-      index: () => this.buildPath(PathBuilder.PATHS.CONTACT)
+      index: this.buildPath(PathBuilder.PATHS.CONTACT)
     }
   }
 
   get text() {
     return {
-      index: () => this.buildPath(PathBuilder.PATHS.TEXT),
-      read: () => this.buildPath(PathBuilder.PATHS.TEXT_READ)
+      index: this.buildPath(PathBuilder.PATHS.TEXT),
+      read: this.buildPath(PathBuilder.PATHS.TEXT_READ)
     }
   }
 
@@ -96,20 +91,20 @@ export class PathBuilder {
 
   get email() {
     return {
-      index: () => this.buildPath(PathBuilder.PATHS.EMAIL)
+      index: this.buildPath(PathBuilder.PATHS.EMAIL)
     }
   }
 
   get reader() {
     return {
-      index: () => this.buildPath(PathBuilder.PATHS.READER)
+      index: this.buildPath(PathBuilder.PATHS.READER)
     }
   }
 
   get edit() {
     return {
-      index: () => this.buildPath(PathBuilder.PATHS.EDIT),
-      content: () => this.buildPath(PathBuilder.PATHS.EDIT_CONTENT)
+      index: this.buildPath(PathBuilder.PATHS.EDIT),
+      content: this.buildPath(PathBuilder.PATHS.EDIT_CONTENT)
     }
   }
 
@@ -126,7 +121,7 @@ export class PathBuilder {
 
   get map() {
     return {
-      index: () => this.buildPath(PathBuilder.PATHS.MAP)
+      index: this.buildPath(PathBuilder.PATHS.MAP)
     }
   }
 

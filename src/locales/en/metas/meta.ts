@@ -1,4 +1,4 @@
-import indexMeta from './root/meta'
+import rootMeta from './root/meta'
 import mapMeta from './map/meta'
 import urlMeta from './url/meta'
 import wifiMeta from './wifi/meta'
@@ -13,7 +13,8 @@ import socialMediaMeta from './social-media/meta'
 import multipleMeta from './multiple/meta'
 
 export const meta = {
-  index: indexMeta,
+  root: rootMeta,
+  index: rootMeta,
   map: mapMeta,
   url: urlMeta,
   wifi: wifiMeta,

@@ -1,6 +1,6 @@
 'use client'
 import { Language } from '@/domains'
-import { Page as MapPage } from '@/ui/pages/map/Page'
+import { Page as EmailPage } from '@/ui/pages/email'
 
 type Props = {
   params: { language: string }
@@ -13,5 +13,13 @@ export default function Page({ params }: Props) {
       ? languageResult.language
       : Language.default()
 
-  return <MapPage language={language} />
+  return (
+    <EmailPage
+      language={language}
+      email={''}
+      subject={''}
+      body={''}
+    />
+  )
 }
+

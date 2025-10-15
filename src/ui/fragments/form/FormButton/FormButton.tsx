@@ -18,7 +18,17 @@ type Props = {
 }
 
 export const FormButton = React.forwardRef<HTMLDivElement, Props>(
-  ({ children, onConfirm, onDownload, value, isValid, language = Language.default() }, ref) => {
+  (
+    {
+      children,
+      onConfirm,
+      onDownload,
+      value,
+      isValid,
+      language = Language.default()
+    },
+    ref
+  ) => {
     const { height, width, isLessLaptop } = useWindowSize()
     const [file, setFile] = useState<File | null>(null)
 
@@ -48,7 +58,11 @@ export const FormButton = React.forwardRef<HTMLDivElement, Props>(
             >
               {children}
               <FormCard cardProps={{ sx: { p: 2 } }}>
-                <OptionalForm file={file} setFile={setFile} language={language} />
+                <OptionalForm
+                  file={file}
+                  setFile={setFile}
+                  language={language}
+                />
               </FormCard>
             </Stack>
 

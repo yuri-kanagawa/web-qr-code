@@ -1,6 +1,6 @@
 'use client'
 import { Language } from '@/domains'
-import { Page as MapPage } from '@/ui/pages/map/Page'
+import { Page as SocialMediaPage } from '@/ui/pages/Social-media/page'
 
 type Props = {
   params: { language: string }
@@ -13,5 +13,6 @@ export default function Page({ params }: Props) {
       ? languageResult.language
       : Language.default()
 
-  return <MapPage language={language} />
+  return <SocialMediaPage language={language} />
 }
+

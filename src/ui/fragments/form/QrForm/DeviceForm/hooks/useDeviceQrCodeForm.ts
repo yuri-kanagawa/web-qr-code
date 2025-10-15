@@ -52,7 +52,7 @@ export const useDeviceQrCodeForm = () => {
         : Language.default()
 
     const pathBuilder = new PathBuilder(language)
-    const redirectPath = pathBuilder.device.redirect()
+    const redirectPath = pathBuilder.device.redirect
     return `${window.location.origin}${redirectPath}`
   }, [lang])
   console.log('url', url)

@@ -34,7 +34,9 @@ export const QrFileCheckButton: FC<Props> = ({
     if (result.isSuccess && result.qr) {
       setQr(result.qr)
     } else {
-      errorNotify(result.errorMessage || locale.message.common.error.qrCodeReadFailed)
+      errorNotify(
+        result.errorMessage || locale.message.common.error.qrCodeReadFailed
+      )
     }
   }, [errorNotify, file, locale, readQrFromFileUseCase, setQr])
 
