@@ -11,7 +11,7 @@ interface Props {
   language: Language
 }
 
-export const PhoneForm: FC<Props> = ({}) => {
+export const PhoneForm: FC<Props> = ({ language }) => {
   const { control, ref, onConfirm, onDownload, watch } = usePhoneQrCodeForm()
   return (
     <Controller
@@ -26,6 +26,7 @@ export const PhoneForm: FC<Props> = ({}) => {
           onConfirm={onConfirm}
           onDownload={onDownload}
           value={toTelScheme(watch())}
+          language={language}
           isValid={isValid}
           ref={ref}
         >

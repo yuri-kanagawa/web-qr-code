@@ -21,7 +21,7 @@ export const FileReader: FC<Props> = ({ language }) => {
       }}
     >
       <Stack spacing={3} alignItems="center">
-        <InputFile file={file} onChange={setFile} />
+        <InputFile file={file} onChange={setFile} language={language} />
         <QrConfirmButton file={file} language={language} />
       </Stack>
     </Box>

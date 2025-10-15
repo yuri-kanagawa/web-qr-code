@@ -47,6 +47,7 @@ export const MapForm: FC<Props> = ({ language }) => {
       onDownload={onDownload}
       value={formatMapUrl(watch())}
       isValid={latitudeIsValid && longitudeIsValid}
+      language={language}
       ref={ref}
     >
       <Stack spacing={3}>

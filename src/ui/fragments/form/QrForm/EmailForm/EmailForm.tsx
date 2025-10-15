@@ -50,6 +50,7 @@ export const EmailForm: FC<Props> = ({
       onDownload={onDownload}
       value={formatEmail(watch())}
       isValid={isValid}
+      language={language}
       ref={ref}
     >
       <FormCard cardProps={{ sx: { p: 2 } }}>

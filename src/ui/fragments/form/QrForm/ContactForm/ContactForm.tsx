@@ -69,6 +69,7 @@ export const ContactForm: FC<Props> = ({
       onConfirm={onConfirm}
       onDownload={onDownload}
       value={convertContact(watch())}
+      language={language}
       isValid={isValid}
       ref={ref}
     >

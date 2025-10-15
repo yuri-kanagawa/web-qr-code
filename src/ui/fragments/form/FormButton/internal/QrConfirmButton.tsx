@@ -15,11 +15,17 @@ import { useDisclosure } from '@/hooks/useDisclosure'
 type Props = {
   onClick?: () => Promise<string | undefined>
   isValid?: boolean
+  language?: Language
 }
 
-export const QrConfirmButton: FC<Props> = ({ onClick, isValid = true }) => {
+export const QrConfirmButton: FC<Props> = ({ 
+  onClick, 
+  isValid = true,
+  language = Language.default()
+}) => {
   const { onOpen, onClose, isOpen } = useDisclosure()
   const [qr, setQr] = useState<Qr>(Qr.default())
+  const locale = language.getLocale()
 
   const onConfirm = async () => {
     if (!onClick) {
@@ -29,7 +35,7 @@ export const QrConfirmButton: FC<Props> = ({ onClick, isValid = true }) => {
     if (!result) {
       return
     }
-    const qrResult = Qr.create(result, Language.default())
+    const qrResult = Qr.create(result, language)
     if (qrResult.isSuccess && qrResult.qr) {
       setQr(qrResult.qr)
       onOpen()
@@ -45,32 +51,32 @@ export const QrConfirmButton: FC<Props> = ({ onClick, isValid = true }) => {
 
   const getText = useMemo(() => {
     if (qr.isUrl) {
-      return 'このqrcodeは url です\n別タブで開きますか？'
+      return `${locale.word.dialog.qrCodeUrl}\n${locale.word.dialog.qrCodeUrlMessage}`
     }
     if (qr.isSms) {
-      return 'このqrcodeはSMSです'
+      return locale.word.dialog.qrCodeSms
     }
     if (qr.isTel) {
-      return 'このqrcodeは電話番号です'
+      return locale.word.dialog.qrCodePhone
     }
     return ''
-  }, [qr])
+  }, [qr, locale])
 
   const display = useMemo(() => {
     if (qr.isUrl) {
       return {
-        title: 'このqrcodeは URL',
-        message: '別タブで開きますか？'
+        title: locale.word.dialog.qrCodeUrl,
+        message: locale.word.dialog.qrCodeUrlMessage
       }
     }
     return undefined
-  }, [qr])
+  }, [qr, locale])
 
   return (
     <>
       {onClick && (
         <Button variant={'contained'} onClick={onConfirm} disabled={!isValid}>
-          Confirm
+          {locale.word.buttons.confirm}
         </Button>
       )}
       <Dialog onClose={onClose} open={isOpen}>
@@ -82,9 +88,9 @@ export const QrConfirmButton: FC<Props> = ({ onClick, isValid = true }) => {
           </Stack>
         </DialogContent>
         <DialogActions>
-          <Button onClick={onClose}>閉じる</Button>
+          <Button onClick={onClose}>{locale.word.buttons.close}</Button>
           <Button onClick={onExceed} autoFocus>
-            実行
+            {locale.word.buttons.execute}
           </Button>
         </DialogActions>
       </Dialog>

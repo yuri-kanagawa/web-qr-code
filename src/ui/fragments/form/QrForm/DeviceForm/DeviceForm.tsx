@@ -124,6 +124,7 @@ export const DeviceForm: FC<Props> = ({ language }) => {
     <FormButton
       onConfirm={onConfirm}
       onDownload={onDownload}
+      language={language}
       ref={ref}
       value={url}
       isValid={isValid}

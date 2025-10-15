@@ -132,7 +132,8 @@ export const word = {
     disagree: 'Disagree',
     close: 'Close',
     execute: 'Execute',
-    getCurrentLocation: 'Get Current Location'
+    getCurrentLocation: 'Get Current Location',
+    selectFile: 'Select File'
   },
 
   // Sidebar

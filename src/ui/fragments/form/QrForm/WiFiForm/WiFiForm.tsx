@@ -29,6 +29,7 @@ export const WiFiForm: FC<Props> = ({ ssid, password, type, language }) => {
     <FormButton
       onConfirm={onConfirm}
       onDownload={onDownload}
+      language={language}
       ref={ref}
       value={toWifiSchema(watch())}
     >

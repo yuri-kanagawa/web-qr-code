@@ -25,6 +25,7 @@ export const SocialMediaForm: FC<Props> = ({ language }) => {
       onConfirm={onConfirm}
       onDownload={onDownload}
       value=""
+      language={language}
       ref={ref}
     >
       <Stack spacing={2}>

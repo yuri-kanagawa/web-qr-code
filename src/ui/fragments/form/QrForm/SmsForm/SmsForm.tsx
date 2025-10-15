@@ -30,6 +30,7 @@ export const SmsForm: FC<Props> = (props) => {
       onDownload={onDownload}
       value={toSmsSchema(watch())}
       isValid={isValid}
+      language={props.language}
       ref={ref}
     >
       <Controller

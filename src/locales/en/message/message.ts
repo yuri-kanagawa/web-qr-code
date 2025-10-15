@@ -96,7 +96,8 @@ export const message = {
       network: 'Network error occurred',
       validation: 'Please check your input',
       fileTooLarge: 'File size is too large',
-      unsupportedFormat: 'Unsupported format'
+      unsupportedFormat: 'Unsupported format',
+      qrCodeReadFailed: 'Failed to read QR code'
     },
 
     // Form labels

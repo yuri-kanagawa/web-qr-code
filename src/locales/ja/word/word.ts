@@ -132,7 +132,8 @@ export const word = {
     disagree: '同意しない',
     close: '閉じる',
     execute: '実行',
-    getCurrentLocation: '現在地を取得'
+    getCurrentLocation: '現在地を取得',
+    selectFile: 'ファイルを選択'
   },
 
   // Sidebar

@@ -3,6 +3,7 @@ import { useQrCode, useWindowSize } from '@/hooks'
 import React, { FC, useMemo } from 'react'
 import { Stack } from '@/ui/cores'
 import { maxWidth } from '@mui/system'
+import { Language } from '@/domains/valueObjects/language'
 import { BgColor } from './BgColor'
 import { FgColor } from '@/ui/fragments/form/OptionalForm/FgColor/FgColor'
 import { EcLevel } from '@/ui/fragments/form/OptionalForm/EcLevel'
@@ -17,15 +18,16 @@ import { Size } from './Size'
 type Props = {
   file: File | null
   setFile: (value: File | null) => void
+  language?: Language
 }
-export const OptionalForm: FC<Props> = ({ file, setFile }) => {
+export const OptionalForm: FC<Props> = ({ file, setFile, language = Language.default() }) => {
   return (
     <Stack spacing={4}>
       <Size />
       <BgColor />
       <FgColor />
       <EcLevel />
-      <Logo file={file} setFile={setFile} />
+      <Logo file={file} setFile={setFile} language={language} />
       <Opacity file={file} />
       <LogoPadding />
       {/*<QRFinderPattern size={100} borderRadius={80} />*/}

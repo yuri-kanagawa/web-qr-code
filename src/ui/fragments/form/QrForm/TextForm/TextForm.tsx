@@ -29,6 +29,7 @@ export const TextForm: FC<Props> = ({ language, text = '' }: Props) => {
           onDownload={onDownload}
           value={toTextSchema(watch())}
           isValid={isValid}
+          language={language}
           ref={ref}
         >
           <TextTextField value={value} onChange={onChange} />

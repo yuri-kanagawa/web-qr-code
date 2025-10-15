@@ -13,9 +13,11 @@ type Props = {
   file: File | null
   onChange: (file: File | null) => void
   message?: string
+  language?: Language
 } & Omit<BoxProps, 'onChange'>
 
-export const InputFile: FC<Props> = ({ file, onChange, message, ...props }) => {
+export const InputFile: FC<Props> = ({ file, onChange, message, language = Language.default(), ...props }) => {
+  const locale = language.getLocale()
   const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault()
     const droppedFiles = Array.from(event.dataTransfer.files)
@@ -86,7 +88,7 @@ export const InputFile: FC<Props> = ({ file, onChange, message, ...props }) => {
                     inputProps={{ accept: '.jpg, .jpeg, .png' }}
                     onChange={handleFileChange}
                   ></Input>
-                  <Button onClick={onClickFileSelect}>ファイルを選択</Button>
+                  <Button onClick={onClickFileSelect}>{locale.word.buttons.selectFile}</Button>
                 </Stack>
               </Box>
             </div>

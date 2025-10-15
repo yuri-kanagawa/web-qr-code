@@ -20,6 +20,7 @@ export const QrFileCheckButton: FC<Props> = ({
   language = Language.default()
 }) => {
   const { errorNotify } = useNotify()
+  const locale = language.getLocale()
   const readQrFromFileUseCase = useMemo(
     () => new ReadQrFromFileUseCase(new QrScannerRepository(), language),
     [language]
@@ -33,9 +34,9 @@ export const QrFileCheckButton: FC<Props> = ({
     if (result.isSuccess && result.qr) {
       setQr(result.qr)
     } else {
-      errorNotify(result.errorMessage || 'QRコードの読み込みに失敗しました')
+      errorNotify(result.errorMessage || locale.message.common.error.qrCodeReadFailed)
     }
-  }, [errorNotify, file, language, readQrFromFileUseCase, setQr])
+  }, [errorNotify, file, locale, readQrFromFileUseCase, setQr])
 
-  return <Button onClick={onClick}>確認</Button>
+  return <Button onClick={onClick}>{locale.word.buttons.confirm}</Button>
 }

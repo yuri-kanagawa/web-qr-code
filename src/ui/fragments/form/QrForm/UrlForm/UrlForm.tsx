@@ -32,6 +32,7 @@ export const UrlForm: FC<Props> = ({ language, url }) => {
       onDownload={onDownload}
       value={watch('url')}
       isValid={isValid}
+      language={language}
       ref={ref}
     >
       <Controller

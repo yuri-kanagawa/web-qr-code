@@ -96,7 +96,8 @@ export const message = {
       network: 'ネットワークエラーが発生しました',
       validation: '入力内容を確認してください',
       fileTooLarge: 'ファイルサイズが大きすぎます',
-      unsupportedFormat: 'サポートされていない形式です'
+      unsupportedFormat: 'サポートされていない形式です',
+      qrCodeReadFailed: 'QRコードの読み込みに失敗しました'
     },
 
     // Form labels

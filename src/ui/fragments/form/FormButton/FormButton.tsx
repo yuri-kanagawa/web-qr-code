@@ -2,6 +2,7 @@ import React, { ReactNode, useState } from 'react'
 
 import { FormCard, OptionalForm } from '@/ui/fragments'
 
+import { Language } from '@/domains/valueObjects/language'
 import { useWindowSize } from '@/hooks'
 import { Box, Stack } from '@/ui/cores'
 import GeneratedQrCode from '../../qrCode/GeneratedQrCode/GeneratedQrCode'
@@ -13,10 +14,11 @@ type Props = {
   onDownload?: () => void
   value: string
   isValid?: boolean
+  language?: Language
 }
 
 export const FormButton = React.forwardRef<HTMLDivElement, Props>(
-  ({ children, onConfirm, onDownload, value, isValid }, ref) => {
+  ({ children, onConfirm, onDownload, value, isValid, language = Language.default() }, ref) => {
     const { height, width, isLessLaptop } = useWindowSize()
     const [file, setFile] = useState<File | null>(null)
 
@@ -46,7 +48,7 @@ export const FormButton = React.forwardRef<HTMLDivElement, Props>(
             >
               {children}
               <FormCard cardProps={{ sx: { p: 2 } }}>
-                <OptionalForm file={file} setFile={setFile} />
+                <OptionalForm file={file} setFile={setFile} language={language} />
               </FormCard>
             </Stack>
 
@@ -76,8 +78,8 @@ export const FormButton = React.forwardRef<HTMLDivElement, Props>(
                 pt={4}
                 pb={2}
               >
-                <QrConfirmButton onClick={onConfirm} />
-                <QrDownloadButton onClick={onDownload} />
+                <QrConfirmButton onClick={onConfirm} language={language} />
+                <QrDownloadButton onClick={onDownload} language={language} />
               </Stack>
             </Stack>
           </Box>

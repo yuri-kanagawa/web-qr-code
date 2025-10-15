@@ -1,6 +1,7 @@
 import { InputFile } from '@/ui/fragments/input/InputFile/InputFile'
 import { FC } from 'react'
 
+import { Language } from '@/domains/valueObjects/language'
 import { HeightSlider, WidthSlider } from '@/ui/fragments/slider'
 import { Box, Stack } from '@mui/material'
 import { memo } from 'react'
@@ -12,6 +13,7 @@ type Props = {
   setLogoWidth: (value: number) => void
   setLogoHeight: (value: number) => void
   max?: number
+  language?: Language
 }
 
 export const ImageForm: FC<Props> = memo(
@@ -22,7 +24,8 @@ export const ImageForm: FC<Props> = memo(
     setLogoWidth,
     logHeight,
     logWidth,
-    max
+    max,
+    language = Language.default()
   }) => {
     const isRelationFileDisabled = file == null
 
@@ -42,6 +45,7 @@ export const ImageForm: FC<Props> = memo(
               }}
               width={100}
               height={100}
+              language={language}
             />
           </HeightSlider>
         </Stack>
