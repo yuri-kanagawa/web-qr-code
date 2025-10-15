@@ -116,11 +116,31 @@ export const useQrCodeSettings = (language: Language = Language.default()) => {
     }
   }, [])
 
+  // maxSize管理
+  const maxSize = useMemo(() => {
+    try {
+      const param = searchParams.get('maxSize')
+      return param ? Number(param) : null
+    } catch {
+      return null
+    }
+  }, [searchParams])
+
+  const updateMaxSize = useCallback((value: number) => {
+    try {
+      SearchParamsManager.add({ maxSize: value })
+    } catch (error) {
+      console.error('Failed to update maxSize:', error)
+    }
+  }, [])
+
   return {
     settings,
+    maxSize,
     // Setters
     updateEcLevel,
     updateSize,
+    updateMaxSize,
     updateFgColor,
     updateBgColor,
     updateEyeColor1,

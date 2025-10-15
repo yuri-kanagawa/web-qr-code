@@ -1,6 +1,6 @@
 'use client'
 import { themeColors } from '@/config/theme'
-import { NotifyProvider, SidebarProvider } from '@/stores'
+import { NotifyProvider, QrProvider, SidebarProvider } from '@/stores'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 import { FC } from 'react'
 
@@ -31,7 +31,9 @@ export const StateWrap: FC<Props> = ({ children }) => {
   return (
     <ThemeProvider theme={theme}>
       <SidebarProvider>
-        <NotifyProvider>{children}</NotifyProvider>
+        <NotifyProvider>
+          <QrProvider>{children}</QrProvider>
+        </NotifyProvider>
       </SidebarProvider>
     </ThemeProvider>
   )
