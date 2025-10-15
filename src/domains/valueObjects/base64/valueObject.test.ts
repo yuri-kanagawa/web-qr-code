@@ -1,6 +1,6 @@
-import { describe, it, expect, vi } from 'vitest'
-import { Base64 } from './valueObject'
 import { Language } from '@/domains/valueObjects/language'
+import { describe, expect, it, vi } from 'vitest'
+import { Base64 } from './valueObject'
 
 describe('Base64', () => {
   const defaultLanguage = Language.default()
@@ -47,7 +47,10 @@ describe('Base64', () => {
     })
 
     it('data:プレフィックスがない場合はエラーを返す', () => {
-      const result = Base64.create('iVBORw0KGgoAAAANSUhEUgAAAAUA', defaultLanguage)
+      const result = Base64.create(
+        'iVBORw0KGgoAAAANSUhEUgAAAAUA',
+        defaultLanguage
+      )
 
       expect(result.isFailure).toBe(true)
       expect(result.error).toBeDefined()
@@ -66,7 +69,7 @@ describe('Base64', () => {
     it('Fileオブジェクトから非同期でBase64を作成できる', async () => {
       // モックFileオブジェクトを作成
       const file = new File(['test content'], 'test.png', { type: 'image/png' })
-      
+
       // FileReaderのモック
       const mockFileReader = {
         readAsDataURL: vi.fn(),
@@ -75,11 +78,13 @@ describe('Base64', () => {
         onerror: null as any
       }
 
-      vi.spyOn(global, 'FileReader').mockImplementation(() => mockFileReader as any)
+      vi.spyOn(global, 'FileReader').mockImplementation(
+        () => mockFileReader as any
+      )
 
       // fromFileを実行
       const promise = Base64.fromFile(file, defaultLanguage)
-      
+
       // onloadを呼び出す
       if (mockFileReader.onload) {
         mockFileReader.onload({ target: mockFileReader } as any)
@@ -89,7 +94,7 @@ describe('Base64', () => {
 
       expect(result.isSuccess).toBe(true)
       expect(result.base64?.mimeType).toBe('image/png')
-      
+
       vi.restoreAllMocks()
     })
   })
@@ -97,11 +102,12 @@ describe('Base64', () => {
   describe('toFile', () => {
     it('Base64文字列をFileオブジェクトに変換できる', () => {
       // 実際のBase64文字列（小さなPNG画像）
-      const base64String = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=='
+      const base64String =
+        'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=='
       const result = Base64.create(base64String, defaultLanguage)
 
       expect(result.isSuccess).toBe(true)
-      
+
       const file = result.base64!.toFile('test.png')
 
       expect(file).toBeInstanceOf(File)
@@ -161,4 +167,3 @@ describe('Base64', () => {
     })
   })
 })
-
