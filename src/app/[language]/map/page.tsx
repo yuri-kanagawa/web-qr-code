@@ -1,5 +1,4 @@
 'use client'
-import { Language } from '@/domains'
 import { Page as MapPage } from '@/ui/pages/map/Page'
 
 type Props = {

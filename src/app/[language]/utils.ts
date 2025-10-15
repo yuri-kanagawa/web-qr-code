@@ -1,6 +1,5 @@
 import { Language } from '@/domains/valueObjects/language'
 import { LanguageKey } from '@/locales'
-import { Metadata } from 'next'
 
 /**
  * paramsからLanguage ValueObjectを生成

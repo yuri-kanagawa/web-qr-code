@@ -1,5 +1,4 @@
 'use client'
-import { Language } from '@/domains'
 import { Page as RootPage } from '@/ui/pages/root'
 
 type Props = {
