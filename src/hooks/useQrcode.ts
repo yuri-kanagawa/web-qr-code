@@ -5,6 +5,7 @@ import { SearchParamsManager } from '@/lib/browser'
 import { useSearchParams } from 'next/navigation'
 import { MutableRefObject, useCallback, useMemo, useRef } from 'react'
 
+import { ReadQrFromCanvasUseCase } from '@/application/usecases'
 import { useNotify } from '@/hooks/useNotify'
 import { QrScannerRepository } from '@/infrastructure/repositories'
 
@@ -196,8 +197,12 @@ export function useQrCode() {
   const setWorkPhone = (value: string) =>
     SearchParamsManager.add({ workPhone: value })
   const ref = useRef<HTMLDivElement | null>(null)
-  const qrScannerRepository = useMemo(() => new QrScannerRepository(), [])
+  const readQrFromCanvasUseCase = useMemo(
+    () => new ReadQrFromCanvasUseCase(new QrScannerRepository()),
+    []
+  )
   const { successNotify, errorNotify, warningNotify } = useNotify()
+
   const getCanvasFromRef = (): HTMLCanvasElement | null => {
     const mutableRef = ref as MutableRefObject<HTMLDivElement | null>
     const children = mutableRef.current?.children
@@ -206,51 +211,34 @@ export function useQrCode() {
     const canvas = children[0] as HTMLCanvasElement | null
     return canvas instanceof HTMLCanvasElement ? canvas : null
   }
-  const isUsableQRCode = async (url: string) => {
-    try {
-      return await qrScannerRepository.scanFromImageUrl(url)
-    } catch (e) {
-      warningNotify('QRコードを読み取れませんでした')
-    }
-  }
 
   const onConfirm = useCallback(async (): Promise<string | undefined> => {
-    try {
-      const canvas = getCanvasFromRef()
-      if (!canvas) return
+    const canvas = getCanvasFromRef()
+    const result = await readQrFromCanvasUseCase.execute(canvas)
 
-      const pngDataUrl = canvas.toDataURL('image/png')
-      const result = await isUsableQRCode(pngDataUrl)
-      console.log('fadsfa', result)
-      if (!result) return
-      return result.data
-      // const qrData = result.data
-      // successNotify('QRコードの読み取りに成功')
-      // return qrData
-    } catch (e) {
-      warningNotify('QRコードを読み取れませんでした')
+    if (result.isSuccess && result.qrData) {
+      return result.qrData
+    } else {
+      warningNotify(result.errorMessage || 'QRコードを読み取れませんでした')
+      return undefined
     }
-  }, [ref])
+  }, [readQrFromCanvasUseCase, warningNotify])
 
   const onDownload = useCallback(async () => {
-    try {
-      const canvas = getCanvasFromRef()
-      if (!canvas) {
-        return
-      }
-      const pngDataUrl = canvas.toDataURL('image/png')
-      const result = await isUsableQRCode(pngDataUrl)
-      if (result == null) return
+    const canvas = getCanvasFromRef()
+    const result = await readQrFromCanvasUseCase.execute(canvas)
+
+    if (result.isSuccess && result.imageDataUrl) {
       const downloadLink = document.createElement('a')
-      downloadLink.href = pngDataUrl
+      downloadLink.href = result.imageDataUrl
       downloadLink.download = 'qr.png'
       downloadLink.click()
 
       successNotify('Qrコードのダウンロード成功')
-    } catch (e) {
-      errorNotify('QRコードのダウンロードに失敗')
+    } else {
+      errorNotify(result.errorMessage || 'QRコードのダウンロードに失敗')
     }
-  }, [ref])
+  }, [readQrFromCanvasUseCase, successNotify, errorNotify])
 
   return {
     ecLevel,

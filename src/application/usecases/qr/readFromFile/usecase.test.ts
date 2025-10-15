@@ -1,7 +1,7 @@
 import { IQrScannerRepository } from '@/domains/repositories'
 import { Language } from '@/domains/valueObjects/language'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { ReadQrFromFileUseCase } from './ReadQrFromFileUseCase'
+import { ReadQrFromFileUseCase } from './usecase'
 
 // グローバルURLのモック
 global.URL.createObjectURL = vi.fn(() => 'blob:mock-url')

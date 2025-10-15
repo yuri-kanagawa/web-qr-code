@@ -1,3 +1,2 @@
-export { ReadQrFromFileUseCase } from './ReadQrFromFileUseCase'
-export { ReadQrFromFileUseCaseResult } from './ReadQrFromFileUseCaseResult'
-
+export * from './readFromCanvas'
+export * from './readFromFile'

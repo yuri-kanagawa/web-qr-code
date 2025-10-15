@@ -1,7 +1,7 @@
 import { IQrScannerRepository } from '@/domains/repositories'
 import { Language } from '@/domains/valueObjects/language'
 import { Qr } from '@/domains/valueObjects/qr'
-import { ReadQrFromFileUseCaseResult } from './ReadQrFromFileUseCaseResult'
+import { ReadQrFromFileUseCaseResult } from './result'
 
 /**
  * ファイルからQRコードを読み取るユースケース
