@@ -4,11 +4,10 @@ import { QrSizeResult } from './result'
 
 /**
  * QRコードのサイズ（ピクセル）
- * 最小: 50px、最大: 1000px
+ * 最小: 1px、最大: なし
  */
 export class QrSize {
-  static readonly MIN = 50
-  static readonly MAX = 1000
+  static readonly MIN = 1
   static readonly DEFAULT = 150
 
   private readonly _value: number
@@ -27,10 +26,10 @@ export class QrSize {
       return QrSizeResult.fail(new QrSizeValueError(errorMessage))
     }
 
-    if (value < QrSize.MIN || value > QrSize.MAX) {
+    if (value < QrSize.MIN) {
       const errorMessage = language.isJapanese
-        ? `サイズは${QrSize.MIN}から${QrSize.MAX}の範囲で指定してください`
-        : `Size must be between ${QrSize.MIN} and ${QrSize.MAX}`
+        ? `サイズは${QrSize.MIN}以上で指定してください`
+        : `Size must be at least ${QrSize.MIN}`
       return QrSizeResult.fail(new QrSizeValueError(errorMessage))
     }
 

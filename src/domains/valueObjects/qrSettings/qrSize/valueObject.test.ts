@@ -17,25 +17,18 @@ describe('QrSize', () => {
       const result = QrSize.create(QrSize.MIN, defaultLanguage)
 
       expect(result.isSuccess).toBe(true)
-      expect(result.qrSize?.value).toBe(50)
+      expect(result.qrSize?.value).toBe(1)
     })
 
-    it('最大値で作成できる', () => {
-      const result = QrSize.create(QrSize.MAX, defaultLanguage)
+    it('大きな値でも作成できる', () => {
+      const result = QrSize.create(5000, defaultLanguage)
 
       expect(result.isSuccess).toBe(true)
-      expect(result.qrSize?.value).toBe(1000)
+      expect(result.qrSize?.value).toBe(5000)
     })
 
     it('最小値未満の場合はエラーを返す', () => {
-      const result = QrSize.create(49, defaultLanguage)
-
-      expect(result.isFailure).toBe(true)
-      expect(result.errorMessage).toBeTruthy()
-    })
-
-    it('最大値超過の場合はエラーを返す', () => {
-      const result = QrSize.create(1001, defaultLanguage)
+      const result = QrSize.create(0, defaultLanguage)
 
       expect(result.isFailure).toBe(true)
       expect(result.errorMessage).toBeTruthy()
@@ -50,10 +43,10 @@ describe('QrSize', () => {
 
     it('日本語でエラーメッセージを返す', () => {
       const japaneseLanguage = Language.create('ja').language!
-      const result = QrSize.create(10, japaneseLanguage)
+      const result = QrSize.create(0, japaneseLanguage)
 
       expect(result.isFailure).toBe(true)
-      expect(result.errorMessage).toContain('から')
+      expect(result.errorMessage).toContain('以上')
     })
   })
 
