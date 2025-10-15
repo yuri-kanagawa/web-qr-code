@@ -5,7 +5,10 @@ import { SearchParamsManager } from '@/lib/browser'
 import { useSearchParams } from 'next/navigation'
 import { MutableRefObject, useCallback, useMemo, useRef } from 'react'
 
-import { ReadQrFromCanvasUseCase } from '@/application/usecases'
+import {
+  DownloadQrImageUseCase,
+  ReadQrFromCanvasUseCase
+} from '@/application/usecases'
 import { useNotify } from '@/hooks/useNotify'
 import { QrScannerRepository } from '@/infrastructure/repositories'
 
@@ -197,9 +200,14 @@ export function useQrCode() {
   const setWorkPhone = (value: string) =>
     SearchParamsManager.add({ workPhone: value })
   const ref = useRef<HTMLDivElement | null>(null)
+  const qrScannerRepository = useMemo(() => new QrScannerRepository(), [])
   const readQrFromCanvasUseCase = useMemo(
-    () => new ReadQrFromCanvasUseCase(new QrScannerRepository()),
-    []
+    () => new ReadQrFromCanvasUseCase(qrScannerRepository),
+    [qrScannerRepository]
+  )
+  const downloadQrImageUseCase = useMemo(
+    () => new DownloadQrImageUseCase(qrScannerRepository),
+    [qrScannerRepository]
   )
   const { successNotify, errorNotify, warningNotify } = useNotify()
 
@@ -226,19 +234,20 @@ export function useQrCode() {
 
   const onDownload = useCallback(async () => {
     const canvas = getCanvasFromRef()
-    const result = await readQrFromCanvasUseCase.execute(canvas)
+    const result = await downloadQrImageUseCase.execute(canvas, 'qr.png')
 
-    if (result.isSuccess && result.imageDataUrl) {
+    if (result.isSuccess && result.dataUrl && result.fileName) {
+      // DOM操作はUI層で実行
       const downloadLink = document.createElement('a')
-      downloadLink.href = result.imageDataUrl
-      downloadLink.download = 'qr.png'
+      downloadLink.href = result.dataUrl
+      downloadLink.download = result.fileName
       downloadLink.click()
 
       successNotify('Qrコードのダウンロード成功')
     } else {
       errorNotify(result.errorMessage || 'QRコードのダウンロードに失敗')
     }
-  }, [readQrFromCanvasUseCase, successNotify, errorNotify])
+  }, [downloadQrImageUseCase, successNotify, errorNotify])
 
   return {
     ecLevel,
