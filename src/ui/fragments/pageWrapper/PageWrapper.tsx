@@ -1,15 +1,14 @@
 'use client'
 
-import { Backdrop, Box, Collapse, Stack } from '@mui/material'
-import { useDisclosure } from '@/hooks/useDisclosure'
+import { Backdrop, Box } from '@mui/material'
 
 import { useComponentSize } from '@/hooks/useComponentSize'
-import React, { useMemo } from 'react'
+import React from 'react'
 
-import { LeftDrawer } from './internal/drawer'
-import { useSidebar } from '@/stores'
-import { useWindowSize } from '@/hooks'
 import { Language } from '@/domains/valueObjects/language'
+import { useWindowSize } from '@/hooks'
+import { useSidebar } from '@/stores'
+import { LeftDrawer } from './internal/drawer'
 
 type Props = {
   language: Language
@@ -20,6 +19,10 @@ export const PageWrapper = ({ language, children }: Props) => {
   const { ref, width } = useComponentSize()
   const { isSidebarOpen, toggleSidebar, setIsSidebarOpen } = useSidebar()
   const { isLessTablet } = useWindowSize()
+
+  // サイドバーの幅に応じてマージンを計算
+  const leftMargin = isLessTablet ? 0 : isSidebarOpen ? 210 : 70
+
   return (
     <>
       {isSidebarOpen && isLessTablet && (
@@ -43,12 +46,8 @@ export const PageWrapper = ({ language, children }: Props) => {
           flex={1}
           display="flex"
           sx={{
-            pl: 5
-            // transition: (theme) =>
-            //   theme.transitions.create('padding-left', {
-            //     duration: theme.transitions.duration.shortest,
-            //     easing: theme.transitions.easing.easeInOut
-            //   })
+            ml: `${leftMargin}px`,
+            transition: 'margin-left 200ms cubic-bezier(0.4, 0, 0.2, 1)'
           }}
         >
           <>{children}</>
