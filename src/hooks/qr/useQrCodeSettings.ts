@@ -24,15 +24,9 @@ export const useQrCodeSettings = (language: Language = Language.default()) => {
   )
 
   // 個別の設定更新メソッド
-  const updateEcLevel = useCallback(
-    (value: string) => {
-      const result = EcLevel.create(value, language)
-      if (result.isSuccess && result.ecLevel) {
-        SearchParamsManager.add({ ecLevel: result.ecLevel.value })
-      }
-    },
-    [language]
-  )
+  const updateEcLevel = useCallback((ecLevel: EcLevel) => {
+    SearchParamsManager.add({ ecLevel: ecLevel.value })
+  }, [])
 
   const updateSize = useCallback(
     (value: number) => {
@@ -44,55 +38,25 @@ export const useQrCodeSettings = (language: Language = Language.default()) => {
     [language]
   )
 
-  const updateFgColor = useCallback(
-    (value: string) => {
-      const result = QrColor.create(value, language)
-      if (result.isSuccess && result.qrColor) {
-        SearchParamsManager.add({ fgColor: result.qrColor.value })
-      }
-    },
-    [language]
-  )
+  const updateFgColor = useCallback((qrColor: QrColor) => {
+    SearchParamsManager.add({ fgColor: qrColor.value })
+  }, [])
 
-  const updateBgColor = useCallback(
-    (value: string) => {
-      const result = QrColor.create(value, language)
-      if (result.isSuccess && result.qrColor) {
-        SearchParamsManager.add({ bgColor: result.qrColor.value })
-      }
-    },
-    [language]
-  )
+  const updateBgColor = useCallback((qrColor: QrColor) => {
+    SearchParamsManager.add({ bgColor: qrColor.value })
+  }, [])
 
-  const updateEyeColor1 = useCallback(
-    (value: string) => {
-      const result = QrColor.create(value, language)
-      if (result.isSuccess && result.qrColor) {
-        SearchParamsManager.add({ eyeColor1: result.qrColor.value })
-      }
-    },
-    [language]
-  )
+  const updateEyeColor1 = useCallback((qrColor: QrColor) => {
+    SearchParamsManager.add({ eyeColor1: qrColor.value })
+  }, [])
 
-  const updateEyeColor2 = useCallback(
-    (value: string) => {
-      const result = QrColor.create(value, language)
-      if (result.isSuccess && result.qrColor) {
-        SearchParamsManager.add({ eyeColor2: result.qrColor.value })
-      }
-    },
-    [language]
-  )
+  const updateEyeColor2 = useCallback((qrColor: QrColor) => {
+    SearchParamsManager.add({ eyeColor2: qrColor.value })
+  }, [])
 
-  const updateEyeColor3 = useCallback(
-    (value: string) => {
-      const result = QrColor.create(value, language)
-      if (result.isSuccess && result.qrColor) {
-        SearchParamsManager.add({ eyeColor3: result.qrColor.value })
-      }
-    },
-    [language]
-  )
+  const updateEyeColor3 = useCallback((qrColor: QrColor) => {
+    SearchParamsManager.add({ eyeColor3: qrColor.value })
+  }, [])
 
   const updateLogoImage = useCallback((value: string) => {
     SearchParamsManager.add({ logoImage: value })
@@ -144,19 +108,13 @@ export const useQrCodeSettings = (language: Language = Language.default()) => {
     SearchParamsManager.add({ quietZone: value })
   }, [])
 
-  const updateQrStyle = useCallback(
-    (value: string | null | undefined) => {
-      const result = QrStyle.create(value, language)
-      if (result.isSuccess && result.qrStyle) {
-        if (result.qrStyle.value) {
-          SearchParamsManager.add({ qrStyle: result.qrStyle.value })
-        } else {
-          SearchParamsManager.remove(['qrStyle'])
-        }
-      }
-    },
-    [language]
-  )
+  const updateQrStyle = useCallback((qrStyle: QrStyle) => {
+    if (qrStyle.value) {
+      SearchParamsManager.add({ qrStyle: qrStyle.value })
+    } else {
+      SearchParamsManager.remove(['qrStyle'])
+    }
+  }, [])
 
   return {
     settings,

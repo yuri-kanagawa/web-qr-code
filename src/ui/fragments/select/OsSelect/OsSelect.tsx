@@ -5,11 +5,12 @@ import { Os } from '@/domains/valueObjects/os'
 import { FormControl, InputLabel, MenuItem, Select } from '@/ui/cores'
 
 type Props = {
-  value: number
-  onChange: ({ id, name }: { id: number; name: string }) => void
+  value: Os
+  onChange: (os: Os) => void
   language?: Language
   isOptional?: boolean
   hiddenItems?: number[] // 非表示にする項目のID配列
+  label?: string
 }
 
 export const OsSelect: FC<Props> = ({
@@ -17,7 +18,8 @@ export const OsSelect: FC<Props> = ({
   onChange,
   language = Language.default(),
   isOptional = false,
-  hiddenItems = []
+  hiddenItems = [],
+  label
 }) => {
   const array = useMemo(() => {
     const filtered = isOptional
@@ -30,22 +32,23 @@ export const OsSelect: FC<Props> = ({
       : filtered
   }, [isOptional, hiddenItems])
 
+  const locale = language.getLocale()
+  const displayLabel = label || locale.word.select.os
+
   return (
     <FormControl fullWidth>
-      <InputLabel id="demo-simple-select-label">OS</InputLabel>
+      <InputLabel id="os-select-label">{displayLabel}</InputLabel>
       <Select
-        labelId="demo-simple-select-label"
-        id="demo-simple-select"
-        value={value}
-        label="OS"
+        labelId="os-select-label"
+        id="os-select"
+        value={value.value}
+        label={displayLabel}
         onChange={(e) => {
-          const value = Number(e.target.value)
-          const osResult = Os.create(value, language)
-          const name = osResult.isSuccess && osResult.os ? osResult.os.name : ''
-          onChange({
-            id: value,
-            name
-          })
+          const osId = Number(e.target.value)
+          const osResult = Os.create(osId, language)
+          if (osResult.isSuccess && osResult.os) {
+            onChange(osResult.os)
+          }
         }}
       >
         {array.map((osValue) => {

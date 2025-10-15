@@ -1,18 +1,23 @@
-import React, { FC } from 'react'
-import { QRCode } from 'react-qrcode-logo'
-import { CornerHighlightBox } from '@/ui/fragments/box'
-import { MuiColorInput } from 'mui-color-input'
+import { Language } from '@/domains/valueObjects/language'
+import { QrColor } from '@/domains/valueObjects/qrSettings'
 import { useWindowSize } from '@/hooks'
 import { ColorInput } from '@/ui/cores/input'
+import { CornerHighlightBox } from '@/ui/fragments/box'
+import { FC } from 'react'
+import { QRCode } from 'react-qrcode-logo'
 
 type Props = {
   eyeColor2: string
-  setEyeColor2: (value: string) => void
+  setEyeColor2: (qrColor: QrColor) => void
+  label: string
+  language: Language
 }
 
 export const RightTopQrFinderPattern: FC<Props> = ({
   eyeColor2,
-  setEyeColor2
+  setEyeColor2,
+  label,
+  language
 }) => {
   const { isLessLaptop } = useWindowSize()
   return (
@@ -20,8 +25,13 @@ export const RightTopQrFinderPattern: FC<Props> = ({
       <ColorInput
         format="hex"
         value={eyeColor2}
-        label={'Space Color'}
-        onChange={setEyeColor2}
+        label={label}
+        onChange={(value) => {
+          const result = QrColor.create(value, language)
+          if (result.isSuccess && result.qrColor) {
+            setEyeColor2(result.qrColor)
+          }
+        }}
         isAlphaHidden={true}
       />
       {isLessLaptop && (

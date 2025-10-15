@@ -1,8 +1,7 @@
-import { FC } from 'react'
-import { Select, MenuItem, FormControl, InputLabel } from '@mui/material'
 import { Language, LanguageKey } from '@/domains/valueObjects/language'
-import { useRouter, usePathname } from 'next/navigation'
-import { word } from '@/locales/en/word'
+import { FormControl, InputLabel, MenuItem, Select } from '@mui/material'
+import { usePathname, useRouter } from 'next/navigation'
+import { FC } from 'react'
 
 type Props = {
   language: Language
@@ -12,6 +11,7 @@ type Props = {
 export const LanguageSelect: FC<Props> = ({ language, onLanguageChange }) => {
   const router = useRouter()
   const pathname = usePathname()
+  const locale = language.getLocale()
 
   const handleLanguageChange = (event: any) => {
     const newLanguageKey = event.target.value as LanguageKey
@@ -44,12 +44,14 @@ export const LanguageSelect: FC<Props> = ({ language, onLanguageChange }) => {
 
   return (
     <FormControl size="small" sx={{ minWidth: 120 }}>
-      <InputLabel id="language-select-label">{word.select.language}</InputLabel>
+      <InputLabel id="language-select-label">
+        {locale.word.select.language}
+      </InputLabel>
       <Select
         labelId="language-select-label"
         id="language-select"
         value={language.value}
-        label={word.select.language}
+        label={locale.word.select.language}
         onChange={handleLanguageChange}
       >
         {Language.getAllLanguages().map(({ key, label }) => (

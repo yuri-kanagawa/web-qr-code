@@ -1,23 +1,45 @@
-import { Select, SelectProps, MenuItem } from '@/ui/cores'
-import { FC, ReactNode } from 'react'
+import { Language } from '@/domains'
+import { FormControl, InputLabel, MenuItem, Select } from '@/ui/cores'
+import { FC } from 'react'
+
 type Props = {
-  value: string
-  onChange: (value: string) => void
-} & Omit<SelectProps, 'value' | 'onChange'>
+  value: 'square' | 'circle'
+  onChange: (value: 'square' | 'circle') => void
+  language: Language
+  label: string
+  disabled?: boolean
+}
+
+const PADDING_STYLES = ['square', 'circle'] as const
+
 export const LogoPaddingStyleSelect: FC<Props> = ({
   value,
   onChange,
-  ...selectProps
+  language,
+  label,
+  disabled = false
 }) => {
+  const locale = language.getLocale()
+
   return (
-    <Select
-      {...selectProps}
-      value={value}
-      label="Age"
-      onChange={(event) => onChange(String(event.target.value))}
-    >
-      <MenuItem value={'square'}>square</MenuItem>
-      <MenuItem value={'circle'}>circle</MenuItem>
-    </Select>
+    <FormControl fullWidth disabled={disabled}>
+      <InputLabel id="logo-padding-style-select-label">{label}</InputLabel>
+      <Select
+        labelId="logo-padding-style-select-label"
+        id="logo-padding-style-select"
+        value={value}
+        label={label}
+        disabled={disabled}
+        onChange={(event) =>
+          onChange(event.target.value as 'square' | 'circle')
+        }
+      >
+        {PADDING_STYLES.map((style) => (
+          <MenuItem key={style} value={style}>
+            {locale.word.options.logoPaddingStyle[style]}
+          </MenuItem>
+        ))}
+      </Select>
+    </FormControl>
   )
 }

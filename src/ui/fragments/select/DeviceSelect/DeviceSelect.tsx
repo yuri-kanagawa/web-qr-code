@@ -5,11 +5,12 @@ import { Language } from '@/domains/valueObjects/language'
 import { FormControl, InputLabel, MenuItem, Select } from '@/ui/cores'
 
 type Props = {
-  value: number
-  onChange: ({ id, name }: { id: number; name: string }) => void
+  value: Device
+  onChange: (device: Device) => void
   language?: Language
   isOptional?: boolean
   hiddenItems?: number[] // 非表示にする項目のID配列
+  label?: string
 }
 
 export const DeviceSelect: FC<Props> = ({
@@ -17,7 +18,8 @@ export const DeviceSelect: FC<Props> = ({
   onChange,
   language = Language.default(),
   isOptional = false,
-  hiddenItems = []
+  hiddenItems = [],
+  label
 }) => {
   const array = useMemo(() => {
     const filtered = isOptional
@@ -30,25 +32,23 @@ export const DeviceSelect: FC<Props> = ({
       : filtered
   }, [isOptional, hiddenItems])
 
+  const locale = language.getLocale()
+  const displayLabel = label || locale.word.select.device
+
   return (
     <FormControl fullWidth>
-      <InputLabel id="demo-simple-select-label">Device</InputLabel>
+      <InputLabel id="device-select-label">{displayLabel}</InputLabel>
       <Select
-        labelId="demo-simple-select-label"
-        id="demo-simple-select"
-        value={value}
-        label="Device"
+        labelId="device-select-label"
+        id="device-select"
+        value={value.value}
+        label={displayLabel}
         onChange={(e) => {
-          const value = Number(e.target.value)
-          const deviceResult = Device.create(value, language)
-          const name =
-            deviceResult.isSuccess && deviceResult.device
-              ? deviceResult.device.name
-              : ''
-          onChange({
-            id: value,
-            name
-          })
+          const deviceId = Number(e.target.value)
+          const deviceResult = Device.create(deviceId, language)
+          if (deviceResult.isSuccess && deviceResult.device) {
+            onChange(deviceResult.device)
+          }
         }}
       >
         {array.map((deviceValue) => {

@@ -1,12 +1,12 @@
-import { FC } from 'react'
-import { Stack, Button } from '@mui/material'
-import { SocialMediaSelect } from '@/ui/fragments/select'
-import { useSocialMediaQrCodeForm } from '../../hooks'
-import { useFieldArray, Controller } from 'react-hook-form'
+import { Language, SocialMedia } from '@/domains'
 import { FormButton } from '@/ui/fragments/form/FormButton'
-import type { RegisterSocialMediaQrCodeSchema } from '../../hooks/zod'
+import { SocialMediaSelect } from '@/ui/fragments/select'
 import { LabelTextField, UrlTextField } from '@/ui/fragments/textField'
-import { Language } from '@/domains'
+import { Button, Stack } from '@mui/material'
+import { FC } from 'react'
+import { Controller, useFieldArray } from 'react-hook-form'
+import { useSocialMediaQrCodeForm } from '../../hooks'
+import type { RegisterSocialMediaQrCodeSchema } from '../../hooks/zod'
 type Props = {
   language: Language
 }
@@ -34,14 +34,25 @@ export const SocialMediaForm: FC<Props> = ({ language }) => {
             <Controller
               control={control}
               name={`socialMedia.${index}.socialMedia`}
-              render={({ field: { value, onChange } }) => (
-                <SocialMediaSelect
-                  value={value}
-                  onChange={({ id }) => onChange(id)}
-                  sx={{ width: 200 }}
-                  isOptional={true}
-                />
-              )}
+              render={({ field: { value, onChange } }) => {
+                const socialMediaResult = SocialMedia.create(value, language)
+                const socialMedia =
+                  socialMediaResult.isSuccess && socialMediaResult.socialMedia
+                    ? socialMediaResult.socialMedia
+                    : SocialMedia.notSet(language)
+
+                return (
+                  <SocialMediaSelect
+                    value={socialMedia}
+                    onChange={(selectedSocialMedia) =>
+                      onChange(selectedSocialMedia.value)
+                    }
+                    isOptional={true}
+                    language={language}
+                    label={language.getLocale().word.select.socialMedia}
+                  />
+                )
+              }}
             />
             <Controller
               control={control}

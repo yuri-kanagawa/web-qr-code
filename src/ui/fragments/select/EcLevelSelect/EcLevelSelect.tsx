@@ -1,24 +1,44 @@
-import { Select, SelectProps, MenuItem } from '@/ui/cores'
+import { EcLevel, Language } from '@/domains'
+import { FormControl, InputLabel, MenuItem, Select } from '@/ui/cores'
 import { FC } from 'react'
 
 type Props = {
-  value: 'L' | 'M' | 'Q' | 'H'
-  onChange: (value: 'L' | 'M' | 'Q' | 'H') => void
-} & Omit<SelectProps, 'onChange' | 'value'>
+  value: EcLevel
+  onChange: (ecLevel: EcLevel) => void
+  language: Language
+  label: string
+}
 
-export const EcLevelSelect: FC<Props> = ({ value, onChange, ...rest }) => {
+export const EcLevelSelect: FC<Props> = ({
+  value,
+  onChange,
+  language,
+  label
+}) => {
   return (
-    <Select
-      value={value}
-      onChange={(e) => {
-        onChange(e.target.value as 'L' | 'M' | 'Q' | 'H')
-      }}
-      {...rest}
-    >
-      <MenuItem value="L">L</MenuItem>
-      <MenuItem value="M">M</MenuItem>
-      <MenuItem value="Q">Q</MenuItem>
-      <MenuItem value="H">H</MenuItem>
-    </Select>
+    <FormControl fullWidth>
+      <InputLabel id="ec-level-select-label">{label}</InputLabel>
+      <Select
+        labelId="ec-level-select-label"
+        id="ec-level-select"
+        value={value.value}
+        label={label}
+        onChange={(e) => {
+          const result = EcLevel.create(e.target.value as string, language)
+          if (result.isSuccess && result.ecLevel) {
+            onChange(result.ecLevel)
+          }
+        }}
+      >
+        {EcLevel.list.map((level) => {
+          const ecLevel = EcLevel[level](language)
+          return (
+            <MenuItem key={level} value={level}>
+              {ecLevel.name}
+            </MenuItem>
+          )
+        })}
+      </Select>
+    </FormControl>
   )
 }

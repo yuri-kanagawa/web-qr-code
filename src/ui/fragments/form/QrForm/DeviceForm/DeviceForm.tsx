@@ -1,6 +1,7 @@
 'use client'
 import { Language } from '@/domains'
 import { Device } from '@/domains/valueObjects/device'
+import { Os } from '@/domains/valueObjects/os'
 import { FormButton } from '@/ui/fragments/form/FormButton'
 import { DeviceSelect, OsSelect } from '@/ui/fragments/select'
 import { UrlTextField } from '@/ui/fragments/textField'
@@ -22,7 +23,8 @@ export const DeviceForm: FC<Props> = ({ language }) => {
     onDownload,
     ref,
     url,
-    formState: { isValid }
+    formState: { isValid },
+    setValue
   } = useDeviceQrCodeForm()
 
   const { fields, append, remove } = useFieldArray({
@@ -34,9 +36,11 @@ export const DeviceForm: FC<Props> = ({ language }) => {
   const devices = useWatch({ control, name: 'devices' })
 
   // 各フィールドの非表示項目を計算
-  const getHiddenItemsForField = (index: number) => {
+  const getHiddenItemsForField = (index: number, selectedOs?: number) => {
     const currentDevice = devices?.[index]?.device || 0
-    const currentOs = devices?.[index]?.os || 0
+    // selectedOsが渡された場合はそれを使用（OS選択直後の計算用）
+    const currentOs =
+      selectedOs !== undefined ? selectedOs : devices?.[index]?.os || 0
 
     // 他のフィールドで既に選択されている組み合わせを収集
     const usedCombinations =
@@ -144,26 +148,64 @@ export const DeviceForm: FC<Props> = ({ language }) => {
               <Controller
                 control={control}
                 name={`devices.${index}.os`}
-                render={({ field: { value, onChange } }) => (
-                  <OsSelect
-                    value={value}
-                    onChange={({ id }) => onChange(id)}
-                    language={language}
-                    hiddenItems={hiddenOsItems}
-                  />
-                )}
+                render={({ field: { value, onChange } }) => {
+                  const osResult = Os.create(value, language)
+                  const os =
+                    osResult.isSuccess && osResult.os
+                      ? osResult.os
+                      : Os.notSet(language)
+
+                  return (
+                    <OsSelect
+                      value={os}
+                      onChange={(selectedOs) => {
+                        onChange(selectedOs.value)
+
+                        // OS選択後の状態で利用可能なDeviceを再計算
+                        const { hiddenDeviceItems: newHiddenDeviceItems } =
+                          getHiddenItemsForField(index, selectedOs.value)
+
+                        const availableDevices = Device.list.filter(
+                          (d) =>
+                            !newHiddenDeviceItems.includes(d) &&
+                            !Device.isNotSet(d)
+                        )
+
+                        // 選択可能なDeviceが1つだけの場合は自動設定
+                        if (availableDevices.length === 1) {
+                          setValue(
+                            `devices.${index}.device`,
+                            availableDevices[0]
+                          )
+                        }
+                      }}
+                      language={language}
+                      hiddenItems={hiddenOsItems}
+                    />
+                  )
+                }}
               />
               <Controller
                 control={control}
                 name={`devices.${index}.device`}
-                render={({ field: { value, onChange } }) => (
-                  <DeviceSelect
-                    value={value}
-                    onChange={({ id }) => onChange(id)}
-                    language={language}
-                    hiddenItems={hiddenDeviceItems}
-                  />
-                )}
+                render={({ field: { value, onChange } }) => {
+                  const deviceResult = Device.create(value, language)
+                  const device =
+                    deviceResult.isSuccess && deviceResult.device
+                      ? deviceResult.device
+                      : Device.notSet(language)
+
+                  return (
+                    <DeviceSelect
+                      value={device}
+                      onChange={(selectedDevice) =>
+                        onChange(selectedDevice.value)
+                      }
+                      language={language}
+                      hiddenItems={hiddenDeviceItems}
+                    />
+                  )
+                }}
               />
               <Controller
                 control={control}
@@ -172,7 +214,11 @@ export const DeviceForm: FC<Props> = ({ language }) => {
                   <UrlTextField value={value} onChange={onChange} />
                 )}
               />
-              <Button onClick={() => remove(index)} color="error">
+              <Button
+                onClick={() => remove(index)}
+                color="error"
+                disabled={fields.length === 1}
+              >
                 {word.buttons.delete}
               </Button>
             </Stack>
@@ -181,6 +227,9 @@ export const DeviceForm: FC<Props> = ({ language }) => {
         <Button
           onClick={() => append({ os: 0, device: 0, url: '' })}
           variant="outlined"
+          disabled={devices?.some(
+            (d) => Device.isNotSet(d.device) || Os.isNotSet(d.os)
+          )}
         >
           {word.buttons.add}
         </Button>

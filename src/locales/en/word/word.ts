@@ -35,6 +35,20 @@ export const word = {
     privateCellularTelephone: 'Private Cellular Telephone'
   },
 
+  // QR Code settings labels
+  qrSettings: {
+    size: 'QR Code Size',
+    bgColor: 'Background Color',
+    fgColor: 'Foreground Color',
+    ecLevel: 'Error Correction Level',
+    logo: 'Logo Image',
+    opacity: 'Logo Opacity',
+    logoPadding: 'Logo Padding Style',
+    eyeColor1: 'Eye Color (Top-Left)',
+    eyeColor2: 'Eye Color (Top-Right)',
+    eyeColor3: 'Eye Color (Bottom-Left)'
+  },
+
   // Select labels
   select: {
     device: 'Device',
@@ -110,13 +124,6 @@ export const word = {
   map: {
     latitude: 'Latitude',
     longitude: 'Longitude'
-  },
-
-  // QR Code customization
-  qrCode: {
-    spaceColor: 'Space Color',
-    moduleColor: 'Module Color',
-    logoOpacity: 'Logo Opacity'
   },
 
   // Buttons

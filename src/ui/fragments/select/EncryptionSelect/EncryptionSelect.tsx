@@ -1,25 +1,20 @@
-import { WiFiType } from '@/domains/valueObjects/wifiType'
 import { Language } from '@/domains/valueObjects/language'
-import {
-  Select,
-  MenuItem,
-  FormControl,
-  InputLabel,
-  SelectProps
-} from '@/ui/cores'
+import { WiFiType } from '@/domains/valueObjects/wifiType'
+import { FormControl, InputLabel, MenuItem, Select } from '@/ui/cores'
 import { FC, useMemo } from 'react'
 
 type Props = {
-  value: string
-  onChange: (value: string) => void
+  value: WiFiType
+  onChange: (wifiType: WiFiType) => void
   language?: Language
-} & Omit<SelectProps, 'onChange' | 'value'>
+  label: string
+}
 
 export const EncryptionSelect: FC<Props> = ({
   value,
   onChange,
   language = Language.default(),
-  ...rest
+  label
 }) => {
   const encryptionOptions = useMemo(() => {
     const types = [
@@ -39,12 +34,21 @@ export const EncryptionSelect: FC<Props> = ({
 
   return (
     <FormControl fullWidth>
-      <InputLabel>Encryption Type</InputLabel>
+      <InputLabel id="encryption-select-label">{label}</InputLabel>
       <Select
-        value={value}
-        onChange={(e) => onChange(e.target.value as string)}
-        label="Encryption Type"
-        {...rest}
+        labelId="encryption-select-label"
+        id="encryption-select"
+        value={value.value}
+        label={label}
+        onChange={(e) => {
+          const wifiTypeResult = WiFiType.create(
+            e.target.value as string,
+            language
+          )
+          if (wifiTypeResult.isSuccess && wifiTypeResult.wifiType) {
+            onChange(wifiTypeResult.wifiType)
+          }
+        }}
       >
         {encryptionOptions.map((option) => (
           <MenuItem key={option.value} value={option.value}>

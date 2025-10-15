@@ -1,26 +1,22 @@
-import { FC, useMemo } from 'react'
-import { SocialMedia } from '@/domains/valueObjects/socialMedia'
 import { Language } from '@/domains/valueObjects/language'
-import {
-  SelectProps,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem
-} from '@/ui/cores'
+import { SocialMedia } from '@/domains/valueObjects/socialMedia'
+import { FormControl, InputLabel, MenuItem, Select } from '@/ui/cores'
+import { FC, useMemo } from 'react'
 
 type Props = {
-  value: number
-  onChange: ({ id, name }: { id: number; name: string }) => void
+  value: SocialMedia
+  onChange: (socialMedia: SocialMedia) => void
   language?: Language
   isOptional?: boolean
-} & Omit<SelectProps, 'onChange' | 'value'>
+  label: string
+}
 
 export const SocialMediaSelect: FC<Props> = ({
   value,
   onChange,
   language = Language.default(),
-  isOptional
+  isOptional,
+  label
 }) => {
   const array = useMemo(() => {
     const filtered = isOptional
@@ -28,25 +24,21 @@ export const SocialMediaSelect: FC<Props> = ({
       : SocialMedia.list.filter((e) => !SocialMedia.isNotSet(e))
     return filtered
   }, [isOptional])
+
   return (
     <FormControl fullWidth>
-      <InputLabel id="demo-simple-select-label">Social Media</InputLabel>
+      <InputLabel id="social-media-select-label">{label}</InputLabel>
       <Select
-        labelId="demo-simple-select-label"
-        id="demo-simple-select"
-        value={value}
-        label="social media"
+        labelId="social-media-select-label"
+        id="social-media-select"
+        value={value.value}
+        label={label}
         onChange={(e) => {
-          const value = Number(e.target.value)
-          const socialMediaResult = SocialMedia.create(value, language)
-          const name =
-            socialMediaResult.isSuccess && socialMediaResult.socialMedia
-              ? socialMediaResult.socialMedia.name
-              : ''
-          onChange({
-            id: value,
-            name
-          })
+          const socialMediaId = Number(e.target.value)
+          const socialMediaResult = SocialMedia.create(socialMediaId, language)
+          if (socialMediaResult.isSuccess && socialMediaResult.socialMedia) {
+            onChange(socialMediaResult.socialMedia)
+          }
         }}
       >
         {array.map((socialMediaValue) => {

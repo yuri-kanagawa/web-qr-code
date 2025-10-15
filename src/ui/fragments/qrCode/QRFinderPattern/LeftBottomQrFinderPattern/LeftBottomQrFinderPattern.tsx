@@ -1,19 +1,24 @@
-import React, { FC } from 'react'
+import { FC } from 'react'
 
-import { CornerHighlightBox } from '@/ui/fragments/box'
-
+import { Language } from '@/domains/valueObjects/language'
+import { QrColor } from '@/domains/valueObjects/qrSettings'
 import { useWindowSize } from '@/hooks'
-import { QRCode } from '@/ui/cores/QrCode'
 import { ColorInput } from '@/ui/cores/input'
+import { QRCode } from '@/ui/cores/QrCode'
+import { CornerHighlightBox } from '@/ui/fragments/box'
 
 type Props = {
   eyeColor3: string
-  setEyeColor3: (value: string) => void
+  setEyeColor3: (qrColor: QrColor) => void
+  label: string
+  language: Language
 }
 
 export const LeftBottomQrFinderPattern: FC<Props> = ({
   eyeColor3,
-  setEyeColor3
+  setEyeColor3,
+  label,
+  language
 }) => {
   const { isLessLaptop } = useWindowSize()
   return (
@@ -21,8 +26,13 @@ export const LeftBottomQrFinderPattern: FC<Props> = ({
       <ColorInput
         format="hex"
         value={eyeColor3}
-        label={'Space Color'}
-        onChange={setEyeColor3}
+        label={label}
+        onChange={(value) => {
+          const result = QrColor.create(value, language)
+          if (result.isSuccess && result.qrColor) {
+            setEyeColor3(result.qrColor)
+          }
+        }}
         isAlphaHidden={true}
       />
       {isLessLaptop && (

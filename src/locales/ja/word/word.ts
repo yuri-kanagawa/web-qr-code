@@ -35,6 +35,20 @@ export const word = {
     privateCellularTelephone: 'プライベート携帯電話'
   },
 
+  // QR Code settings labels
+  qrSettings: {
+    size: 'QRコードサイズ',
+    bgColor: '背景色',
+    fgColor: '前景色',
+    ecLevel: '誤り訂正レベル',
+    logo: 'ロゴ画像',
+    opacity: 'ロゴの透明度',
+    logoPadding: 'ロゴパディングスタイル',
+    eyeColor1: '目の色（左上）',
+    eyeColor2: '目の色（右上）',
+    eyeColor3: '目の色（左下）'
+  },
+
   // Select labels
   select: {
     device: 'デバイス',
@@ -110,13 +124,6 @@ export const word = {
   map: {
     latitude: '緯度',
     longitude: '経度'
-  },
-
-  // QR Code customization
-  qrCode: {
-    spaceColor: '空白色',
-    moduleColor: 'モジュール色',
-    logoOpacity: 'ロゴ透明度'
   },
 
   // Buttons
