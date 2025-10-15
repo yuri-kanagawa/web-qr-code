@@ -92,12 +92,15 @@ export const message = {
 
     // Error messages
     error: {
+      title: 'Error',
       general: 'An error occurred',
       network: 'Network error occurred',
       validation: 'Please check your input',
       fileTooLarge: 'File size is too large',
       unsupportedFormat: 'Unsupported format',
-      qrCodeReadFailed: 'Failed to read QR code'
+      qrCodeReadFailed: 'Failed to read QR code',
+      noDeviceDestination: 'No destination found for this device or OS.',
+      invalidUrlFormat: 'The destination URL is invalid.'
     },
 
     // Form labels

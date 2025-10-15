@@ -1,6 +1,7 @@
 'use client'
 import { Language } from '@/domains/valueObjects/language'
 import { FormButton } from '@/ui/fragments/form/FormButton'
+import { FormCard } from '@/ui/fragments/form/FormCard'
 import { GoogleMap } from '@/ui/fragments/map'
 import {
   LatitudeTextField,
@@ -50,59 +51,63 @@ export const MapForm: FC<Props> = ({ language }) => {
       language={language}
       ref={ref}
     >
-      <Stack spacing={3}>
-        <Button
-          onClick={onSetCurrentLocation}
-          variant="outlined"
-          fullWidth
-          disabled={isLoadingLocation}
-        >
-          {language.getLocale().message.common.buttons.getCurrentLocation}
-        </Button>
-        <Controller
-          control={control}
-          name="latitude"
-          render={({
-            field: { value, onChange, ref: inputRef },
-            fieldState: { error }
-          }) => (
-            <LatitudeTextField
-              value={value ? parseFloat(value) : undefined}
-              onChange={(numValue: number) => onChange(numValue.toString())}
-              inputRef={inputRef}
-              error={!!error}
-              helperText={error?.message}
-              isLoading={isLoadingLocation}
-            />
-          )}
-        />
-        <Controller
-          control={control}
-          name="longitude"
-          render={({
-            field: { value, onChange, ref: inputRef },
-            fieldState: { error }
-          }) => (
-            <LongitudeTextField
-              value={value ? parseFloat(value) : undefined}
-              onChange={(numValue: number) => onChange(numValue.toString())}
-              inputRef={inputRef}
-              error={!!error}
-              helperText={error?.message}
-              isLoading={isLoadingLocation}
-            />
-          )}
-        />
-        <GoogleMap
-          isLoading={isLoadingLocation}
-          value={{
-            latitude: values.latitude ? parseFloat(values.latitude) : undefined,
-            longitude: values.longitude
-              ? parseFloat(values.longitude)
-              : undefined
-          }}
-        />
-      </Stack>
+      <FormCard cardProps={{ sx: { p: 2 } }}>
+        <Stack spacing={3}>
+          <Button
+            onClick={onSetCurrentLocation}
+            variant="outlined"
+            fullWidth
+            disabled={isLoadingLocation}
+          >
+            {language.getLocale().message.common.buttons.getCurrentLocation}
+          </Button>
+          <Controller
+            control={control}
+            name="latitude"
+            render={({
+              field: { value, onChange, ref: inputRef },
+              fieldState: { error }
+            }) => (
+              <LatitudeTextField
+                value={value ? parseFloat(value) : undefined}
+                onChange={(numValue: number) => onChange(numValue.toString())}
+                inputRef={inputRef}
+                error={!!error}
+                helperText={error?.message}
+                isLoading={isLoadingLocation}
+              />
+            )}
+          />
+          <Controller
+            control={control}
+            name="longitude"
+            render={({
+              field: { value, onChange, ref: inputRef },
+              fieldState: { error }
+            }) => (
+              <LongitudeTextField
+                value={value ? parseFloat(value) : undefined}
+                onChange={(numValue: number) => onChange(numValue.toString())}
+                inputRef={inputRef}
+                error={!!error}
+                helperText={error?.message}
+                isLoading={isLoadingLocation}
+              />
+            )}
+          />
+          <GoogleMap
+            isLoading={isLoadingLocation}
+            value={{
+              latitude: values.latitude
+                ? parseFloat(values.latitude)
+                : undefined,
+              longitude: values.longitude
+                ? parseFloat(values.longitude)
+                : undefined
+            }}
+          />
+        </Stack>
+      </FormCard>
     </FormButton>
   )
 }

@@ -3,6 +3,7 @@ import { FC, useMemo } from 'react'
 import { Device } from '@/domains/valueObjects/device'
 import { Language } from '@/domains/valueObjects/language'
 import { FormControl, InputLabel, MenuItem, Select } from '@/ui/cores'
+import { FormHelperText } from '@mui/material'
 
 type Props = {
   value: Device
@@ -11,6 +12,8 @@ type Props = {
   isOptional?: boolean
   hiddenItems?: number[] // 非表示にする項目のID配列
   label?: string
+  error?: boolean
+  helperText?: string
 }
 
 export const DeviceSelect: FC<Props> = ({
@@ -19,7 +22,9 @@ export const DeviceSelect: FC<Props> = ({
   language = Language.default(),
   isOptional = false,
   hiddenItems = [],
-  label
+  label,
+  error = false,
+  helperText
 }) => {
   const array = useMemo(() => {
     const filtered = isOptional
@@ -36,7 +41,7 @@ export const DeviceSelect: FC<Props> = ({
   const displayLabel = label || locale.word.select.device
 
   return (
-    <FormControl fullWidth>
+    <FormControl fullWidth error={error}>
       <InputLabel id="device-select-label">{displayLabel}</InputLabel>
       <Select
         labelId="device-select-label"
@@ -64,6 +69,7 @@ export const DeviceSelect: FC<Props> = ({
           )
         })}
       </Select>
+      {helperText && <FormHelperText>{helperText}</FormHelperText>}
     </FormControl>
   )
 }

@@ -75,4 +75,56 @@ export class DeviceOsService {
 
     return DeviceOsService.COMBINATIONS.NOT_SET
   }
+
+  /**
+   * QRコードのdeviceOs配列から、現在のデバイス・OSにマッチするインデックスを探す
+   * Device=Allの場合は、OSのみが一致すればマッチする
+   * @param deviceOsList QRコードに含まれるdeviceOs組み合わせIDの配列
+   * @param currentDevice 現在のデバイス
+   * @param currentOs 現在のOS
+   * @returns マッチするインデックス（-1の場合はマッチなし）
+   */
+  static findMatchingIndex(
+    deviceOsList: number[],
+    currentDevice: Device,
+    currentOs: Os
+  ): number {
+    if (!deviceOsList || deviceOsList.length === 0) {
+      return -1
+    }
+
+    // 現在のデバイス・OSの完全一致の組み合わせIDを取得
+    const currentDeviceOsId = DeviceOsService.getDeviceOs(
+      currentDevice,
+      currentOs
+    )
+
+    // 完全一致を優先的に探す
+    const exactMatchIndex = deviceOsList.indexOf(currentDeviceOsId)
+    if (exactMatchIndex !== -1) {
+      return exactMatchIndex
+    }
+
+    // Device=Allの場合のマッチング
+    // QRコードのdeviceOs配列を走査して、OSが一致するものを探す
+    for (let i = 0; i < deviceOsList.length; i++) {
+      const deviceOsId = deviceOsList[i]
+
+      // Device=All の組み合わせIDとOSのマッピング
+      const allDeviceMapping: { [key: number]: boolean } = {
+        [DeviceOsService.COMBINATIONS.WINDOWS_AND_ALL]: currentOs.isWindows,
+        [DeviceOsService.COMBINATIONS.MACINTOSH_AND_ALL]: currentOs.isMacintosh,
+        [DeviceOsService.COMBINATIONS.IOS_AND_ALL]: currentOs.isIos,
+        [DeviceOsService.COMBINATIONS.ANDROID_AND_ALL]: currentOs.isAndroid,
+        [DeviceOsService.COMBINATIONS.LINUX_AND_ALL]: currentOs.isLinux,
+        [DeviceOsService.COMBINATIONS.OTHER_AND_ALL]: currentOs.isOther
+      }
+
+      if (allDeviceMapping[deviceOsId]) {
+        return i
+      }
+    }
+
+    return -1
+  }
 }

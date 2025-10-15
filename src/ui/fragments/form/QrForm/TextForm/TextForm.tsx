@@ -1,5 +1,6 @@
 import { Language } from '@/domains/valueObjects/language'
 import { FormButton } from '@/ui/fragments/form/FormButton'
+import { FormCard } from '@/ui/fragments/form/FormCard'
 import { TextTextField } from '@/ui/fragments/textField/TextTextField'
 import { FC } from 'react'
 import { Controller } from 'react-hook-form'
@@ -32,7 +33,9 @@ export const TextForm: FC<Props> = ({ language, text = '' }: Props) => {
           language={language}
           ref={ref}
         >
-          <TextTextField value={value} onChange={onChange} />
+          <FormCard cardProps={{ sx: { p: 2 } }}>
+            <TextTextField value={value} onChange={onChange} />
+          </FormCard>
         </FormButton>
       )}
     />

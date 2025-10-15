@@ -32,6 +32,9 @@ export const FormButton = React.forwardRef<HTMLDivElement, Props>(
     const { height, width, isLessLaptop } = useWindowSize()
     const [file, setFile] = useState<File | null>(null)
 
+    // canvasが生成される条件: isValid && value が存在する
+    const hasCanvas = isValid && !!value
+
     return (
       <Box
         sx={{
@@ -92,8 +95,16 @@ export const FormButton = React.forwardRef<HTMLDivElement, Props>(
                 pt={4}
                 pb={2}
               >
-                <QrConfirmButton onClick={onConfirm} language={language} />
-                <QrDownloadButton onClick={onDownload} language={language} />
+                <QrConfirmButton
+                  onClick={onConfirm}
+                  language={language}
+                  isValid={hasCanvas}
+                />
+                <QrDownloadButton
+                  onClick={onDownload}
+                  language={language}
+                  isValid={hasCanvas}
+                />
               </Stack>
             </Stack>
           </Box>

@@ -1,6 +1,5 @@
 import { FC, ReactNode } from 'react'
 
-import { themeColors } from '@/config/theme'
 import { useSidebar } from '@/stores'
 import {
   Link,
@@ -77,7 +76,8 @@ export const DrawerItemIcon: FC<Props> = ({ icon, path, label }) => {
                 'opacity 200ms cubic-bezier(0.4, 0, 0.2, 1), transform 200ms cubic-bezier(0.4, 0, 0.2, 1)',
               '& .MuiTypography-root': {
                 fontSize: '0.875rem',
-                whiteSpace: 'nowrap'
+                whiteSpace: 'nowrap',
+                fontWeight: isCurrentPath ? 600 : 400
               }
             }}
           />

@@ -1,12 +1,11 @@
 'use client'
+import { Language } from '@/domains/valueObjects/language'
+import { FormButton } from '@/ui/fragments/form/FormButton'
+import { FormCard } from '@/ui/fragments/form/FormCard'
+import { useUrlQRCodeForm } from '@/ui/fragments/form/QrForm/UrlForm/hooks'
+import { UrlTextField } from '@/ui/fragments/textField'
 import { FC } from 'react'
 import { Controller } from 'react-hook-form'
-import { useUrlQRCodeForm } from '@/ui/fragments/form/QrForm/UrlForm/hooks'
-import { FormCard } from '@/ui/fragments/form/FormCard'
-import { UrlTextField } from '@/ui/fragments/textField'
-import { usePathname } from 'next/navigation'
-import { FormButton } from '@/ui/fragments/form/FormButton'
-import { Language } from '@/domains/valueObjects/language'
 
 type Props = {
   language: Language

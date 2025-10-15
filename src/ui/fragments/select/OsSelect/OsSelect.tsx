@@ -3,6 +3,7 @@ import { FC, useMemo } from 'react'
 import { Language } from '@/domains/valueObjects/language'
 import { Os } from '@/domains/valueObjects/os'
 import { FormControl, InputLabel, MenuItem, Select } from '@/ui/cores'
+import { FormHelperText } from '@mui/material'
 
 type Props = {
   value: Os
@@ -11,6 +12,8 @@ type Props = {
   isOptional?: boolean
   hiddenItems?: number[] // 非表示にする項目のID配列
   label?: string
+  error?: boolean
+  helperText?: string
 }
 
 export const OsSelect: FC<Props> = ({
@@ -19,7 +22,9 @@ export const OsSelect: FC<Props> = ({
   language = Language.default(),
   isOptional = false,
   hiddenItems = [],
-  label
+  label,
+  error = false,
+  helperText
 }) => {
   const array = useMemo(() => {
     const filtered = isOptional
@@ -36,7 +41,7 @@ export const OsSelect: FC<Props> = ({
   const displayLabel = label || locale.word.select.os
 
   return (
-    <FormControl fullWidth>
+    <FormControl fullWidth error={error}>
       <InputLabel id="os-select-label">{displayLabel}</InputLabel>
       <Select
         labelId="os-select-label"
@@ -61,6 +66,7 @@ export const OsSelect: FC<Props> = ({
           )
         })}
       </Select>
+      {helperText && <FormHelperText>{helperText}</FormHelperText>}
     </FormControl>
   )
 }

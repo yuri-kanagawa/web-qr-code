@@ -93,12 +93,16 @@ export const message = {
 
     // Error messages
     error: {
+      title: 'エラー',
       general: 'エラーが発生しました',
       network: 'ネットワークエラーが発生しました',
       validation: '入力内容を確認してください',
       fileTooLarge: 'ファイルサイズが大きすぎます',
       unsupportedFormat: 'サポートされていない形式です',
-      qrCodeReadFailed: 'QRコードの読み込みに失敗しました'
+      qrCodeReadFailed: 'QRコードの読み込みに失敗しました',
+      noDeviceDestination:
+        'このデバイスもしくはOSと一致する遷移先が存在しませんでした',
+      invalidUrlFormat: '遷移先のURLが無効です。'
     },
 
     // Form labels
