@@ -5,13 +5,20 @@ import {
   ListItemText
 } from '@mui/material'
 
-import { word } from '@/locales/en/word'
+import { Language } from '@/domains/valueObjects/language'
 import { useSidebar } from '@/stores'
 import NavigateNextIcon from '@mui/icons-material/NavigateNext'
 import { FC } from 'react'
 
-export const OpenButton: FC<Props> = ({}) => {
+type Props = {
+  language: Language
+}
+
+export const OpenButton: FC<Props> = ({ language }) => {
   const { isSidebarOpen, toggleSidebar, setIsSidebarOpen } = useSidebar()
+  const locale = language.getLocale()
+  const word = locale.word
+
   return (
     <ListItem disablePadding>
       <ListItemButton onClick={toggleSidebar}>

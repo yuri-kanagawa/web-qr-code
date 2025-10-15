@@ -1,16 +1,7 @@
 'use client'
 import { Language } from '@/domains/valueObjects/language'
 import { PathBuilder } from '@/lib/routing'
-import {
-  Box,
-  Button,
-  Card,
-  CardActions,
-  CardContent,
-  Container,
-  Grid,
-  Typography
-} from '@/ui/cores'
+import { Box, Card, CardContent, Container, Grid, Typography } from '@/ui/cores'
 import EditIcon from '@mui/icons-material/Edit'
 import LinkIcon from '@mui/icons-material/Link'
 import PhoneIcon from '@mui/icons-material/Phone'
@@ -101,46 +92,70 @@ export const Page: FC<Props> = ({ language }) => {
         {features.map((feature) => (
           <Grid item xs={12} sm={6} md={4} key={feature.key}>
             <Card
+              component={Link}
+              href={feature.path}
               sx={{
                 height: '100%',
                 display: 'flex',
                 flexDirection: 'column',
-                transition:
-                  'transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out',
+                textDecoration: 'none',
+                cursor: 'pointer',
+                background: 'linear-gradient(135deg, #ffffff 0%, #f5f7fa 100%)',
+                border: '1px solid',
+                borderColor: 'divider',
+                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                 '&:hover': {
-                  transform: 'translateY(-4px)',
-                  boxShadow: 4
+                  transform: 'translateY(-8px)',
+                  boxShadow: '0 12px 24px rgba(0, 0, 0, 0.12)',
+                  borderColor: 'primary.main',
+                  background:
+                    'linear-gradient(135deg, #ffffff 0%, #e3f2fd 100%)',
+                  '& .feature-icon': {
+                    color: 'primary.dark',
+                    transform: 'scale(1.15)'
+                  }
                 }
               }}
             >
-              <CardContent sx={{ flexGrow: 1, textAlign: 'center', pt: 3 }}>
-                <Box sx={{ mb: 2, display: 'flex', justifyContent: 'center' }}>
+              <CardContent
+                sx={{ flexGrow: 1, textAlign: 'center', pt: 4, pb: 3 }}
+              >
+                <Box
+                  className="feature-icon"
+                  sx={{
+                    mb: 2.5,
+                    display: 'flex',
+                    justifyContent: 'center',
+                    color: 'primary.main',
+                    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                    fontSize: '2.5rem'
+                  }}
+                >
                   {feature.icon}
                 </Box>
-                <Typography variant="h6" component="h2" gutterBottom>
+                <Typography
+                  variant="h6"
+                  component="h2"
+                  gutterBottom
+                  fontWeight={600}
+                  sx={{ color: 'text.primary', mb: 1 }}
+                >
                   {
                     word.features[feature.key as keyof typeof word.features]
                       .title
                   }
                 </Typography>
-                <Typography variant="body2" color="text.secondary">
+                <Typography
+                  variant="body2"
+                  color="text.secondary"
+                  sx={{ lineHeight: 1.6 }}
+                >
                   {
                     word.features[feature.key as keyof typeof word.features]
                       .description
                   }
                 </Typography>
               </CardContent>
-              <CardActions sx={{ justifyContent: 'center', pb: 2 }}>
-                <Button
-                  component={Link}
-                  href={feature.path}
-                  variant="contained"
-                  fullWidth
-                  sx={{ mx: 2 }}
-                >
-                  {word.buttons.confirm}
-                </Button>
-              </CardActions>
             </Card>
           </Grid>
         ))}

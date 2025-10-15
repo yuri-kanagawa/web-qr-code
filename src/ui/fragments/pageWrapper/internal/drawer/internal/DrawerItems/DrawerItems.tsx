@@ -1,6 +1,5 @@
 import { Language } from '@/domains/valueObjects/language'
 import { PathBuilder } from '@/lib/routing'
-import { word } from '@/locales/en/word'
 import { useSidebar } from '@/stores'
 import { DrawerItemIcon } from '@/ui/fragments/pageWrapper/internal/drawer/internal/DrawerItems/DrawerItemIcon/DrawerItemIcon'
 import { OpenButton } from '@/ui/fragments/pageWrapper/internal/drawer/internal/DrawerItems/OpenButton/OpenButton'
@@ -24,6 +23,8 @@ export const DrawerItems = forwardRef<HTMLDivElement, Props>(
     const { isSidebarOpen, toggleSidebar, setIsSidebarOpen } = useSidebar()
     const pathname = usePathname()
     const pathBuilder = useMemo(() => new PathBuilder(language), [language])
+    const locale = language.getLocale()
+    const word = locale.word
 
     return (
       <Collapse in={isSidebarOpen} orientation="horizontal" collapsedSize={70}>
@@ -114,7 +115,7 @@ export const DrawerItems = forwardRef<HTMLDivElement, Props>(
                 <LanguageSelect language={language} />
               </Box>
             )}
-            <OpenButton />
+            <OpenButton language={language} />
           </Stack>
         </Stack>
       </Collapse>
