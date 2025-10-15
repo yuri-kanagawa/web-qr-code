@@ -1,8 +1,71 @@
 # テストとStorybook
 
-このプロジェクトでは、E2Eテストとコンポーネントカタログのためのツールをセットアップしています。
+このプロジェクトでは、Unit Test、E2Eテスト、コンポーネントカタログのためのツールをセットアップしています。
 
-## 🧪 E2Eテスト (Playwright)
+## 🧪 Unit Test (Vitest)
+
+### セットアップ
+
+Vitestは既にインストールされています。
+
+### テストの実行
+
+```bash
+# すべてのUnit Testを実行
+yarn test
+
+# ウォッチモードで実行（推奨）
+yarn test:watch
+
+# UIモードで実行
+yarn test:ui
+
+# カバレッジレポートを生成
+yarn test:coverage
+```
+
+### テストファイルの配置
+
+テストファイルはテスト対象と同じディレクトリに配置します:
+
+```
+src/domains/valueObjects/
+  ├─ geoLocation/
+  │   ├─ valueObject.ts
+  │   └─ valueObject.test.ts     ← ここにテスト
+  ├─ base64/
+  │   ├─ valueObject.ts
+  │   └─ valueObject.test.ts     ← ここにテスト
+  └─ email/
+      ├─ valueObject.ts
+      └─ valueObject.test.ts     ← ここにテスト
+```
+
+### テストの書き方
+
+```typescript
+import { describe, it, expect } from 'vitest'
+import { GeoLocation } from './valueObject'
+import { Language } from '@/domains/valueObjects/language'
+
+describe('GeoLocation', () => {
+  it('正しい緯度・経度で作成できる', () => {
+    const result = GeoLocation.create(35.68, 139.76, 'Tokyo', Language.default())
+    
+    expect(result.isSuccess).toBe(true)
+    expect(result.geoLocation?.latitude).toBe(35.68)
+  })
+})
+```
+
+### 既存のテスト例
+
+- `src/domains/valueObjects/geoLocation/valueObject.test.ts`
+- `src/domains/valueObjects/base64/valueObject.test.ts`
+- `src/domains/valueObjects/email/valueObject.test.ts`
+- `src/infrastructure/repositories/geoLocation/IpApiGeoLocationRepository.test.ts`
+
+## 🎭 E2Eテスト (Playwright)
 
 ### セットアップ
 
@@ -15,17 +78,17 @@ npx playwright install
 ### テストの実行
 
 ```bash
-# すべてのテストを実行
-yarn test
+# すべてのE2Eテストを実行
+yarn test:e2e
 
 # UIモードでテストを実行（推奨）
-yarn test:ui
+yarn test:e2e:ui
 
 # ヘッドモードでテストを実行（ブラウザを表示）
-yarn test:headed
+yarn test:e2e:headed
 
 # デバッグモードでテストを実行
-yarn test:debug
+yarn test:e2e:debug
 ```
 
 ### テストファイルの配置
@@ -117,6 +180,12 @@ export const Primary: Story = {
 
 ## 🎯 ベストプラクティス
 
+### Unit Test (推奨順)
+1. **Domain層（最優先）**: Value Objects、Domain Services
+2. **Infrastructure層**: Repository実装（モックを使用）
+3. **Hooks**: 複雑なロジックを持つカスタムフック
+4. **UI Components**: 必要な場合のみ（基本はStorybookで十分）
+
 ### E2Eテスト
 - ユーザーの実際の操作フローをテスト
 - 重要な機能を優先的にカバー
@@ -128,6 +197,25 @@ export const Primary: Story = {
 - インタラクティブなコントロールを提供
 - アクセシビリティをチェック（addon-a11y）
 - ドキュメントを自動生成（autodocs）
+
+## 📊 テスト戦略
+
+```
+テストピラミッド:
+        /\
+       /  \  E2E Tests (少数・重要フローのみ)
+      /----\  
+     /      \ Integration Tests (中)
+    /--------\
+   /          \ Unit Tests (多数・Domain層中心)
+  /____________\
+```
+
+### 優先順位:
+1. 🔴 **Domain層のUnit Test** - ビジネスロジックの核心
+2. 🟠 **E2Eテスト** - クリティカルなユーザーフロー
+3. 🟡 **Repository層のUnit Test** - 外部依存のテスト
+4. 🟢 **Storybook** - UIコンポーネントの視覚確認
 
 ## 🚀 CI/CDでの実行
 

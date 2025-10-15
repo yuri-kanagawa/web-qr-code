@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test'
+import { expect, test } from '@playwright/test'
 
 test.describe('トップページ', () => {
   test('トップページが正しく表示される', async ({ page }) => {
@@ -91,4 +91,3 @@ test.describe('レスポンシブデザイン', () => {
     await expect(mainContent).toBeVisible()
   })
 })
-

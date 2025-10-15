@@ -1,7 +1,6 @@
-import type { Preview } from '@storybook/nextjs'
-import { CssBaseline, ThemeProvider } from '@mui/material'
+import { CssBaseline } from '@mui/material'
 import { withThemeFromJSXProvider } from '@storybook/addon-themes'
-import React from 'react'
+import type { Preview } from '@storybook/nextjs'
 
 const preview: Preview = {
   parameters: {
