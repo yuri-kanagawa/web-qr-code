@@ -1,7 +1,7 @@
 import { Language } from '@/domains/valueObjects/language'
 import { useQrCode } from '@/hooks'
 import { ImageForm } from '@/ui/fragments/form/OptionalForm/ImageForm/ImageForm'
-import { Stack, Typography } from '@mui/material'
+import { Box, FormLabel } from '@mui/material'
 import { FC } from 'react'
 
 type Props = {
@@ -15,10 +15,32 @@ export const Logo: FC<Props> = ({ file, setFile, language }) => {
   const locale = language.getLocale()
 
   return (
-    <Stack spacing={1}>
-      <Typography variant="body2" color="text.secondary">
+    <Box
+      sx={{
+        border: '1px solid',
+        borderColor: 'rgba(0, 0, 0, 0.23)',
+        borderRadius: 1,
+        position: 'relative',
+        px: 2,
+        pt: 3,
+        pb: 4,
+        '&:hover': {
+          borderColor: 'rgba(0, 0, 0, 0.87)'
+        }
+      }}
+    >
+      <FormLabel
+        sx={{
+          position: 'absolute',
+          top: -10,
+          left: 10,
+          px: 0.5,
+          bgcolor: 'background.paper',
+          fontSize: '0.75rem'
+        }}
+      >
         {locale.word.qrSettings.logo}
-      </Typography>
+      </FormLabel>
       <ImageForm
         file={file}
         setFile={setFile}
@@ -29,6 +51,6 @@ export const Logo: FC<Props> = ({ file, setFile, language }) => {
         max={settings.size.value}
         language={language}
       />
-    </Stack>
+    </Box>
   )
 }
