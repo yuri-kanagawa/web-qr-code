@@ -6,7 +6,13 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test": "playwright test",
+    "test:ui": "playwright test --ui",
+    "test:headed": "playwright test --headed",
+    "test:debug": "playwright test --debug",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "dependencies": {
     "@emotion/cache": "^11.11.0",
@@ -41,11 +47,21 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "@types/node": "^20",
+    "@chromatic-com/storybook": "^4.1.1",
+    "@playwright/test": "^1.56.0",
+    "@storybook/addon-a11y": "^9.1.10",
+    "@storybook/addon-docs": "^9.1.10",
+    "@storybook/addon-onboarding": "^9.1.10",
+    "@storybook/addon-themes": "^9.1.10",
+    "@storybook/addon-vitest": "^9.1.10",
+    "@storybook/nextjs": "^9.1.10",
+    "@types/node": "^24.7.2",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "eslint": "^9.17.0",
     "eslint-config-next": "14.2.3",
+    "eslint-plugin-storybook": "^9.1.10",
+    "storybook": "^9.1.10",
     "typescript": "^5"
   }
 }
