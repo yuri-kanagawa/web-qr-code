@@ -1,7 +1,7 @@
-import { FC } from 'react'
-import { NumberTextField } from '../NumberTextField'
 import { TextFieldProps } from '@/ui/cores/TextField'
 import { CircularProgress, InputAdornment } from '@mui/material'
+import { FC } from 'react'
+import { NumberTextField } from '../NumberTextField'
 
 type Props = {
   value: number | undefined
@@ -9,11 +9,11 @@ type Props = {
   isLoading?: boolean
 } & Omit<TextFieldProps, 'value' | 'onChange'>
 
-export const LongitudeTextField: FC<Props> = ({ 
-  value, 
-  onChange, 
+export const LongitudeTextField: FC<Props> = ({
+  value,
+  onChange,
   isLoading = false,
-  ...rest 
+  ...rest
 }) => {
   return (
     <NumberTextField
