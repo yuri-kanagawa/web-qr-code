@@ -18,7 +18,13 @@ export const useDeviceQrCodeForm = () => {
   const { ref, onConfirm, onDownload } = useQrCode(language)
 
   const defaultValues: RegisterDeviceQrCodeSchema = {
-    devices: []
+    devices: [
+      {
+        device: 0, // NOT_SET
+        os: 0, // NOT_SET
+        url: ''
+      }
+    ]
   }
 
   const { handleSubmit, ...rest } = useForm<RegisterDeviceQrCodeSchema>({

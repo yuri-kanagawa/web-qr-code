@@ -1,5 +1,5 @@
-import { useQrCode } from '@/hooks'
 import { Language } from '@/domains/valueObjects/language'
+import { useQrCode } from '@/hooks'
 import { SearchParamsManager } from '@/lib/browser'
 import { RegisterQrCodeUrlSchema } from '@/ui/fragments/form/QrForm/UrlForm/hooks'
 import {
