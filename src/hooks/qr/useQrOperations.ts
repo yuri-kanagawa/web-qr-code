@@ -2,6 +2,7 @@ import {
   DownloadQrImageUseCase,
   ReadQrFromCanvasUseCase
 } from '@/application/usecases'
+import { Language } from '@/domains/valueObjects/language'
 import { QrScannerRepository } from '@/infrastructure/repositories'
 import { useCallback, useMemo } from 'react'
 import { useNotify } from '../useNotify'
@@ -10,19 +11,20 @@ import { useNotify } from '../useNotify'
  * QRコードの操作（読み取り・ダウンロード）を提供するフック
  */
 export const useQrOperations = (
-  getCanvas: () => HTMLCanvasElement | null
+  getCanvas: () => HTMLCanvasElement | null,
+  language: Language = Language.default()
 ) => {
   const { successNotify, errorNotify, warningNotify } = useNotify()
   const qrScannerRepository = useMemo(() => new QrScannerRepository(), [])
 
   const readQrFromCanvasUseCase = useMemo(
-    () => new ReadQrFromCanvasUseCase(qrScannerRepository),
-    [qrScannerRepository]
+    () => new ReadQrFromCanvasUseCase(qrScannerRepository, language),
+    [qrScannerRepository, language]
   )
 
   const downloadQrImageUseCase = useMemo(
-    () => new DownloadQrImageUseCase(qrScannerRepository),
-    [qrScannerRepository]
+    () => new DownloadQrImageUseCase(qrScannerRepository, language),
+    [qrScannerRepository, language]
   )
 
   const onConfirm = useCallback(async (): Promise<string | undefined> => {

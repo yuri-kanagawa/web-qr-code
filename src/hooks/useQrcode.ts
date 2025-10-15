@@ -20,7 +20,7 @@ export function useQrCode(language: Language = Language.default()) {
   const { canvasRef, getCanvas } = useQrCanvas()
 
   // QR操作（読み取り・ダウンロード）
-  const { onConfirm, onDownload } = useQrOperations(getCanvas)
+  const { onConfirm, onDownload } = useQrOperations(getCanvas, language)
 
   // デバイスOS検出
   const deviceOs = searchParams.get('deviceOs')?.split(',').map(Number) ?? []

@@ -1,4 +1,5 @@
 import { IQrScannerRepository } from '@/domains/repositories'
+import { Language } from '@/domains/valueObjects/language'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { DownloadQrImageUseCase } from './usecase'
 
@@ -12,7 +13,10 @@ describe('DownloadQrImageUseCase', () => {
     mockQrScannerRepository = {
       scanFromImageUrl: vi.fn()
     }
-    useCase = new DownloadQrImageUseCase(mockQrScannerRepository)
+    useCase = new DownloadQrImageUseCase(
+      mockQrScannerRepository,
+      Language.default()
+    )
 
     // Canvas要素のモック
     mockCanvas = {

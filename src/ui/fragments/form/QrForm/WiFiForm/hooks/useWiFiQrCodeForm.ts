@@ -18,22 +18,16 @@ export const useWiFiQrCodeForm = ({
   type,
   language
 }: Props) => {
-  const {
-    ref,
-    onConfirm,
-    onDownload,
-    phoneNumber,
-    body,
-    resetPhoneNumber,
-    resetBody
-  } = useQrCode()
+  const { ref, onConfirm, onDownload } = useQrCode(language)
+  
   const defaultValues: RegisterQrCodeWiFiSchema = useMemo(() => {
     return {
       ssid,
       password,
       type
     }
-  }, [phoneNumber, body])
+  }, [ssid, password, type])
+  
   const {
     handleSubmit,
     trigger,
@@ -47,34 +41,15 @@ export const useWiFiQrCodeForm = ({
     mode: 'onChange',
     resolver: zodResolver(registerQrCodeWiFiSchema)
   })
-  useEffect(() => {
-    if (phoneNumber || body) {
-      reset(defaultValues)
-      resetPhoneNumber()
-      resetBody()
-    }
-  }, [defaultValues, reset, resetPhoneNumber, resetBody])
 
   const submitErrorHandler: SubmitErrorHandler<RegisterQrCodeWiFiSchema> = (
     errors
   ) => {
     console.error(errors)
-    // if (errors.phoneNumber) {
-    //   return setFocus('phoneNumber')
-    // }
-
-    // if (errors.body) {
-    //   return setFocus('body')
-    // }
   }
 
   const handleConfirm = async (): Promise<string | undefined> => {
     await trigger()
-    // const { error } = getFieldState('phoneNumber')
-    // if (error) {
-    //   setFocus('phoneNumber')
-    //   return
-    // }
     return await onConfirm()
   }
 

@@ -1,11 +1,15 @@
 import { IQrScannerRepository } from '@/domains/repositories'
+import { Language } from '@/domains/valueObjects/language'
 import { DownloadQrImageUseCaseResult } from './result'
 
 /**
  * CanvasからQRコード画像をダウンロードするユースケース
  */
 export class DownloadQrImageUseCase {
-  constructor(private readonly qrScannerRepository: IQrScannerRepository) {}
+  constructor(
+    private readonly qrScannerRepository: IQrScannerRepository,
+    private readonly language: Language
+  ) {}
 
   /**
    * CanvasからQRコード画像をダウンロード用のData URLを取得

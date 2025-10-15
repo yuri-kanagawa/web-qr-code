@@ -17,7 +17,10 @@ describe('ReadQrFromFileUseCase', () => {
     mockQrScannerRepository = {
       scanFromImageUrl: vi.fn()
     }
-    useCase = new ReadQrFromFileUseCase(mockQrScannerRepository)
+    useCase = new ReadQrFromFileUseCase(
+      mockQrScannerRepository,
+      defaultLanguage
+    )
     vi.clearAllMocks()
   })
 
@@ -31,7 +34,7 @@ describe('ReadQrFromFileUseCase', () => {
         data: 'https://example.com'
       })
 
-      const result = await useCase.execute(file, defaultLanguage)
+      const result = await useCase.execute(file)
 
       expect(result.isSuccess).toBe(true)
       expect(result.qr?.value).toBe('https://example.com')
@@ -49,7 +52,7 @@ describe('ReadQrFromFileUseCase', () => {
         data: 'https://example.com'
       })
 
-      const result = await useCase.execute(file, defaultLanguage)
+      const result = await useCase.execute(file)
 
       expect(result.isSuccess).toBe(true)
       expect(global.URL.revokeObjectURL).toHaveBeenCalledTimes(1)
@@ -63,7 +66,7 @@ describe('ReadQrFromFileUseCase', () => {
         new Error('Scan failed')
       )
 
-      const result = await useCase.execute(file, defaultLanguage)
+      const result = await useCase.execute(file)
 
       expect(result.isFailure).toBe(true)
       expect(result.errorMessage).toBe('Scan failed')
@@ -78,7 +81,7 @@ describe('ReadQrFromFileUseCase', () => {
         data: '' // 空文字列は無効
       })
 
-      const result = await useCase.execute(file, defaultLanguage)
+      const result = await useCase.execute(file)
 
       expect(result.isFailure).toBe(true)
       expect(result.errorMessage).toBeTruthy()
@@ -89,12 +92,16 @@ describe('ReadQrFromFileUseCase', () => {
     it('日本語でエラーメッセージを返す', async () => {
       const japaneseLanguage = Language.create('ja').language!
       const file = new File(['test'], 'test.png', { type: 'image/png' })
+      const japaneseUseCase = new ReadQrFromFileUseCase(
+        mockQrScannerRepository,
+        japaneseLanguage
+      )
 
       ;(mockQrScannerRepository.scanFromImageUrl as any).mockResolvedValueOnce({
         data: ''
       })
 
-      const result = await useCase.execute(file, japaneseLanguage)
+      const result = await japaneseUseCase.execute(file)
 
       expect(result.isFailure).toBe(true)
       expect(result.errorMessage).toBeTruthy()
@@ -129,7 +136,7 @@ describe('ReadQrFromFileUseCase', () => {
         data: 'こんにちは、世界！'
       })
 
-      const result = await useCase.execute(file, defaultLanguage)
+      const result = await useCase.execute(file)
 
       expect(result.isSuccess).toBe(true)
       expect(result.qr?.value).toBe('こんにちは、世界！')

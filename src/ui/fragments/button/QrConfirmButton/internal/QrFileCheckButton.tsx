@@ -21,14 +21,14 @@ export const QrFileCheckButton: FC<Props> = ({
 }) => {
   const { errorNotify } = useNotify()
   const readQrFromFileUseCase = useMemo(
-    () => new ReadQrFromFileUseCase(new QrScannerRepository()),
-    []
+    () => new ReadQrFromFileUseCase(new QrScannerRepository(), language),
+    [language]
   )
 
   const onClick = useCallback(async () => {
     if (!file) return
 
-    const result = await readQrFromFileUseCase.execute(file, language)
+    const result = await readQrFromFileUseCase.execute(file)
 
     if (result.isSuccess && result.qr) {
       setQr(result.qr)

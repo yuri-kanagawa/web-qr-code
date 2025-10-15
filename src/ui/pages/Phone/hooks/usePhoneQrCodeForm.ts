@@ -1,16 +1,23 @@
 import { useQrCode } from '@/hooks'
+import { SearchParamsManager } from '@/lib/browser'
 import { RegisterQrCodeUrlSchema } from '@/ui/fragments/form/QrForm/UrlForm/hooks'
 import {
   registerQrCodePhoneSchema,
   RegisterQrCodePhoneSchema
 } from '@/ui/pages/phone/hooks/zod'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useEffect, useMemo } from 'react'
+import { useCallback, useEffect, useMemo } from 'react'
 import { SubmitErrorHandler, useForm } from 'react-hook-form'
+import { useSearchParams } from 'next/navigation'
 
 export const usePhoneQrCodeForm = () => {
-  const { ref, onConfirm, onDownload, phoneNumber, resetPhoneNumber } =
-    useQrCode()
+  const searchParams = useSearchParams()
+  const phoneNumber = searchParams.get('phoneNumber') ?? ''
+  const resetPhoneNumber = useCallback(() => {
+    SearchParamsManager.remove(['phoneNumber'])
+  }, [])
+  
+  const { ref, onConfirm, onDownload } = useQrCode()
 
   const defaultValues: RegisterQrCodePhoneSchema = useMemo(() => {
     return {

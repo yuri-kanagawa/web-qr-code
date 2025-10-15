@@ -1,11 +1,15 @@
 import { IQrScannerRepository } from '@/domains/repositories'
+import { Language } from '@/domains/valueObjects/language'
 import { ReadQrFromCanvasUseCaseResult } from './result'
 
 /**
  * CanvasからQRコードを読み取るユースケース
  */
 export class ReadQrFromCanvasUseCase {
-  constructor(private readonly qrScannerRepository: IQrScannerRepository) {}
+  constructor(
+    private readonly qrScannerRepository: IQrScannerRepository,
+    private readonly language: Language
+  ) {}
 
   /**
    * CanvasからQRコードを読み取る
