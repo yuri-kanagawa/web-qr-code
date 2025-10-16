@@ -1,4 +1,4 @@
-import { IconButton, Input } from '@mui/material'
+import { IconButton, Input, useTheme } from '@mui/material'
 
 import { ImageFile } from '@/domains/valueObjects/imageFile'
 import { Language } from '@/domains/valueObjects/language'
@@ -24,6 +24,7 @@ export const InputFile: FC<Props> = ({
   ...props
 }) => {
   const locale = language.locale
+  const theme = useTheme()
   const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault()
     const droppedFiles = Array.from(event.dataTransfer.files)
@@ -75,7 +76,11 @@ export const InputFile: FC<Props> = ({
   return (
     <Box>
       <CornerHighlightBox width={props.width} height={props.height}>
-        <Stack width={props.width} height={props.height}>
+        <Stack
+          width={props.width}
+          height={props.height}
+          sx={{ position: 'relative' }}
+        >
           {!file && (
             <div onDrop={handleDrop} onDragOver={handleDragOver}>
               <Box
@@ -83,9 +88,22 @@ export const InputFile: FC<Props> = ({
                 display="flex"
                 justifyContent="center"
                 alignItems="center"
+                sx={{
+                  borderRadius: 2,
+                  bgcolor: 'action.hover',
+                  cursor: 'pointer',
+                  transition: 'all 0.3s',
+                  '&:hover': {
+                    bgcolor: 'action.selected'
+                  }
+                }}
+                onClick={onClickFileSelect}
               >
-                <Stack alignItems="center">
-                  <IoCloudUploadOutline size={50} />
+                <Stack alignItems="center" spacing={2} py={4}>
+                  <IoCloudUploadOutline
+                    size={80}
+                    color={theme.palette.primary.main}
+                  />
 
                   <Input
                     type={'file'}
@@ -94,7 +112,7 @@ export const InputFile: FC<Props> = ({
                     inputProps={{ accept: '.jpg, .jpeg, .png' }}
                     onChange={handleFileChange}
                   ></Input>
-                  <Button onClick={onClickFileSelect}>
+                  <Button variant="contained" size="large">
                     {locale.word.buttons.selectFile}
                   </Button>
                 </Stack>
@@ -103,15 +121,28 @@ export const InputFile: FC<Props> = ({
           )}
           {image && (
             <>
-              <img
-                src={image}
-                alt="uploaded image"
-                style={{
+              <Box
+                sx={{
                   width: '100%',
                   height: '100%',
-                  objectFit: 'cover'
+                  p: 1,
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center'
                 }}
-              />
+              >
+                <img
+                  src={image}
+                  alt="uploaded image"
+                  style={{
+                    maxWidth: '100%',
+                    maxHeight: '100%',
+                    width: 'auto',
+                    height: 'auto',
+                    objectFit: 'contain'
+                  }}
+                />
+              </Box>
 
               <IconButton
                 color="error"

@@ -1,5 +1,6 @@
 import { Language } from '@/domains'
 import { QrConfirmButton } from '@/ui/fragments/button'
+import { FormCard } from '@/ui/fragments/form'
 import { InputFile } from '@/ui/fragments/input/InputFile/InputFile'
 import { Box, Stack } from '@mui/material'
 import { FC, useState } from 'react'
@@ -20,10 +21,20 @@ export const FileReader: FC<Props> = ({ language }) => {
         width: '100%'
       }}
     >
-      <Stack spacing={3} alignItems="center">
-        <InputFile file={file} onChange={setFile} language={language} />
-        <QrConfirmButton file={file} language={language} />
-      </Stack>
+      <Box sx={{ maxWidth: 600, width: '100%' }}>
+        <FormCard cardProps={{ sx: { p: 3 } }}>
+          <Stack spacing={3} alignItems="center">
+            <InputFile
+              file={file}
+              onChange={setFile}
+              language={language}
+              width={400}
+              height={300}
+            />
+            <QrConfirmButton file={file} language={language} />
+          </Stack>
+        </FormCard>
+      </Box>
     </Box>
   )
 }

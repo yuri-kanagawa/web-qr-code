@@ -138,14 +138,19 @@ export const DrawerItems = forwardRef<HTMLDivElement, Props>(
           /> */}
         </Stack>
         <Stack display={'flex'} justifyContent={'flex-end'} spacing={2} pb={2}>
-          {isSidebarOpen && (
-            <Box sx={{ px: 1 }}>
-              <LanguageSelect
-                language={language}
-                onChange={handleLanguageChange}
-              />
-            </Box>
-          )}
+          <Box
+            sx={{
+              px: isSidebarOpen ? 1 : 0,
+              display: isSidebarOpen ? 'block' : 'flex',
+              justifyContent: isSidebarOpen ? undefined : 'center'
+            }}
+          >
+            <LanguageSelect
+              language={language}
+              onChange={handleLanguageChange}
+              isSidebarOpen={isSidebarOpen}
+            />
+          </Box>
           <OpenButton language={language} />
         </Stack>
       </Stack>
