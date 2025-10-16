@@ -1,4 +1,5 @@
 export * from './ecLevel'
+export * from './eyeRadius'
 export * from './eyeSettings'
 export * from './logoSettings'
 export * from './qrColor'
