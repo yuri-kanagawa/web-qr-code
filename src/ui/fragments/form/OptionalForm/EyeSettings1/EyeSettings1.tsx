@@ -36,7 +36,7 @@ export const EyeSettings1: FC<Props> = ({ language }) => {
         position: 'relative',
         px: 2,
         pt: 3,
-        pb: 4,
+        pb: 5,
         '&:hover': {
           borderColor: 'rgba(0, 0, 0, 0.87)'
         }
@@ -105,6 +105,11 @@ export const EyeSettings1: FC<Props> = ({ language }) => {
             }
           ]}
           valueLabelDisplay="auto"
+          sx={{
+            '& .MuiSlider-markLabel': {
+              fontSize: '1.5rem'
+            }
+          }}
         />
       </Stack>
     </Box>
