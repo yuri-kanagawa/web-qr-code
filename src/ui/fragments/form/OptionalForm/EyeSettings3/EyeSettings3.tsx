@@ -5,7 +5,7 @@ import { ColorInput } from '@/ui/cores/input'
 import { QRCode } from '@/ui/cores/QrCode'
 import { CornerHighlightBox } from '@/ui/fragments/box'
 import { Box, FormLabel, Slider, Stack, TextField } from '@mui/material'
-import { FC, useEffect, useRef, useState } from 'react'
+import { FC } from 'react'
 
 type Props = {
   language: Language
@@ -16,62 +16,16 @@ export const EyeSettings3: FC<Props> = ({ language }) => {
   const { isOverLaptop } = useWindowSize()
   const locale = language.getLocale()
 
-  const [radiusInput, setRadiusInput] = useState(
-    settings.eye.radius3.toString()
-  )
-  const debounceTimerRef = useRef<NodeJS.Timeout | null>(null)
-
-  useEffect(() => {
-    setRadiusInput(settings.eye.radius3.toString())
-  }, [settings.eye.radius3])
-
-  const handleRadiusInputChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const value = event.target.value
-    setRadiusInput(value)
-
-    if (debounceTimerRef.current) {
-      clearTimeout(debounceTimerRef.current)
-    }
-
-    const numValue = Number(value)
-    if (
-      !isNaN(numValue) &&
-      numValue >= EyeRadius.MIN &&
-      numValue <= EyeRadius.MAX
-    ) {
-      debounceTimerRef.current = setTimeout(() => {
-        updateEyeRadius3(numValue)
-      }, 500)
-    }
-  }
-
-  const handleRadiusBlur = () => {
-    if (debounceTimerRef.current) {
-      clearTimeout(debounceTimerRef.current)
-      debounceTimerRef.current = null
-    }
-
-    const numValue = Number(radiusInput)
+  const handleRadiusChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const numValue = Number(event.target.value)
     if (
       !isNaN(numValue) &&
       numValue >= EyeRadius.MIN &&
       numValue <= EyeRadius.MAX
     ) {
       updateEyeRadius3(numValue)
-    } else {
-      setRadiusInput(settings.eye.radius3.toString())
     }
   }
-
-  useEffect(() => {
-    return () => {
-      if (debounceTimerRef.current) {
-        clearTimeout(debounceTimerRef.current)
-      }
-    }
-  }, [])
 
   return (
     <Box
@@ -114,24 +68,25 @@ export const EyeSettings3: FC<Props> = ({ language }) => {
           isAlphaHidden={true}
         />
         {isOverLaptop && (
-          <CornerHighlightBox width={170} p={2}>
-            <QRCode
-              value={''}
-              size={150}
-              bgColor={'white'}
-              fgColor={'white'}
-              eyeRadius={[0, 0, settings.eye.radius3]}
-              eyeColor={['white', 'white', settings.colors.eyeColor3.value]}
-            />
-          </CornerHighlightBox>
+          <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+            <CornerHighlightBox width={170} p={2}>
+              <QRCode
+                value={''}
+                size={150}
+                bgColor={'white'}
+                fgColor={'white'}
+                eyeRadius={[0, 0, settings.eye.radius3]}
+                eyeColor={['white', 'white', settings.colors.eyeColor3.value]}
+              />
+            </CornerHighlightBox>
+          </Box>
         )}
         <TextField
           label={language.isEnglish ? 'Corner Radius' : '角の丸み'}
           type="number"
           size="small"
-          value={radiusInput}
-          onChange={handleRadiusInputChange}
-          onBlur={handleRadiusBlur}
+          value={settings.eye.radius3}
+          onChange={handleRadiusChange}
           inputProps={{ min: EyeRadius.MIN, max: EyeRadius.MAX }}
           fullWidth
         />
@@ -143,11 +98,11 @@ export const EyeSettings3: FC<Props> = ({ language }) => {
           marks={[
             {
               value: EyeRadius.MIN,
-              label: language.isEnglish ? 'Square' : '四角'
+              label: '■'
             },
             {
               value: EyeRadius.MAX,
-              label: language.isEnglish ? 'Round' : '丸'
+              label: '●'
             }
           ]}
           valueLabelDisplay="auto"
