@@ -157,7 +157,7 @@ export class SocialMedia {
   }
 
   get name(): string {
-    const locale = this._language.getLocale()
+    const locale = this._language.locale
     const { word } = locale
 
     switch (this._value) {

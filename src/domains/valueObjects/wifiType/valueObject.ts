@@ -43,7 +43,7 @@ export class WiFiType {
     language: Language
   ): WiFiTypeValueError | null {
     if (!WiFiType.validTypes.includes(value)) {
-      const locale = language.getLocale()
+      const locale = language.locale
       const errorMessage = locale.message.validation.common.invalid
       return new WiFiTypeValueError(errorMessage)
     }
@@ -89,7 +89,7 @@ export class WiFiType {
   }
 
   get label(): string {
-    const locale = this._language.getLocale()
+    const locale = this._language.locale
     const { word } = locale
 
     if (this.isWPA) {
