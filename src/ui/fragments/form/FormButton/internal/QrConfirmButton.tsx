@@ -25,7 +25,7 @@ export const QrConfirmButton: FC<Props> = ({
 }) => {
   const { onOpen, onClose, isOpen } = useDisclosure()
   const [qr, setQr] = useState<Qr>(Qr.default())
-  const locale = language.getLocale()
+  const locale = language.locale
 
   const onConfirm = async () => {
     if (!onClick) {

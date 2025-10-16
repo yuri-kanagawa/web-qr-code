@@ -15,7 +15,7 @@ export const Size: FC<Props> = ({ language }) => {
     maxSize: savedMaxSize,
     updateMaxSize
   } = useQrCode()
-  const locale = language.getLocale()
+  const locale = language.locale
 
   // 画面サイズから計算される推奨最大値
   const calculatedMaxSize = useMemo(() => {

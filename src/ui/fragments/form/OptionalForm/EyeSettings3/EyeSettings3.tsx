@@ -14,7 +14,7 @@ type Props = {
 export const EyeSettings3: FC<Props> = ({ language }) => {
   const { settings, updateEyeColor3, updateEyeRadius3 } = useQrCode()
   const { isOverLaptop } = useWindowSize()
-  const locale = language.getLocale()
+  const locale = language.locale
 
   const handleRadiusChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const numValue = Number(event.target.value)

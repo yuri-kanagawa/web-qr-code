@@ -15,7 +15,7 @@ export const QrStyleSelect: FC<Props> = ({
   language,
   label
 }) => {
-  const locale = language.getLocale()
+  const locale = language.locale
 
   return (
     <FormControl fullWidth>

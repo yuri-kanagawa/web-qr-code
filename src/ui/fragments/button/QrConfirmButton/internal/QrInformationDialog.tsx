@@ -20,7 +20,7 @@ type Props = {
 
 export const QrInformationDialog: FC<Props> = ({ qr, onClose }) => {
   const qrValue = qr.value
-  const locale = qr.language.getLocale()
+  const locale = qr.language.locale
 
   const title = useMemo(() => {
     if (qr.isSms) {

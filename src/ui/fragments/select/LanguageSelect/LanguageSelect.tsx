@@ -8,7 +8,7 @@ type Props = {
 }
 
 export const LanguageSelect: FC<Props> = ({ language, onChange }) => {
-  const locale = language.getLocale()
+  const locale = language.locale
 
   const handleLanguageChange = (event: any) => {
     const newLanguageKey = event.target.value as LanguageKey

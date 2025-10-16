@@ -1,12 +1,11 @@
 import { Inter } from 'next/font/google'
-import React from 'react'
 import { headers } from 'next/headers'
-import { en } from '@/locales/en'
+import React from 'react'
 const inter = Inter({ subsets: ['latin'] })
 
 import { StateWrap } from '@/app/_state'
 import { Language } from '@/domains'
-export const metadata = Language.default().getLocale().meta.index
+export const metadata = Language.default().locale.meta.index
 
 export default function RootLayout({
   children

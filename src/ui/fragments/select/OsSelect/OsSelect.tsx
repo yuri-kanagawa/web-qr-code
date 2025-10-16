@@ -37,7 +37,7 @@ export const OsSelect: FC<Props> = ({
       : filtered
   }, [isOptional, hiddenItems])
 
-  const locale = language.getLocale()
+  const locale = language.locale
   const displayLabel = label || locale.word.select.os
 
   return (

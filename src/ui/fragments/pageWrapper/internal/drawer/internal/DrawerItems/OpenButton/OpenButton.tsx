@@ -16,7 +16,7 @@ type Props = {
 
 export const OpenButton: FC<Props> = ({ language }) => {
   const { isSidebarOpen, toggleSidebar, setIsSidebarOpen } = useSidebar()
-  const locale = language.getLocale()
+  const locale = language.locale
   const word = locale.word
 
   return (

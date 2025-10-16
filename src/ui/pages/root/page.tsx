@@ -18,7 +18,7 @@ interface Props {
 }
 
 export const Page: FC<Props> = ({ language }) => {
-  const locale = language.getLocale()
+  const locale = language.locale
   const word = locale.word
 
   const pathBuilder = useMemo(() => new PathBuilder(language), [language])

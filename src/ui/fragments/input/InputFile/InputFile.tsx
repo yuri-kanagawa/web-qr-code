@@ -1,13 +1,13 @@
 import { IconButton, Input } from '@mui/material'
 
-import { FC, useEffect, useRef, useState } from 'react'
-import { IoCloudUploadOutline } from 'react-icons/io5'
-import { useSearchParams } from 'next/navigation'
 import { ImageFile } from '@/domains/valueObjects/imageFile'
 import { Language } from '@/domains/valueObjects/language'
-import { CornerHighlightBox } from '@/ui/fragments/box'
-import { TiDelete } from 'react-icons/ti'
 import { Box, BoxProps, Button, Stack, TextField } from '@/ui/cores'
+import { CornerHighlightBox } from '@/ui/fragments/box'
+import { useSearchParams } from 'next/navigation'
+import { FC, useEffect, useRef, useState } from 'react'
+import { IoCloudUploadOutline } from 'react-icons/io5'
+import { TiDelete } from 'react-icons/ti'
 
 type Props = {
   file: File | null
@@ -23,7 +23,7 @@ export const InputFile: FC<Props> = ({
   language = Language.default(),
   ...props
 }) => {
-  const locale = language.getLocale()
+  const locale = language.locale
   const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault()
     const droppedFiles = Array.from(event.dataTransfer.files)

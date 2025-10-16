@@ -18,7 +18,7 @@ export const LatitudeTextField: FC<Props> = ({
   isLoading = false,
   ...rest
 }) => {
-  const locale = language.getLocale()
+  const locale = language.locale
 
   return (
     <NumberTextField

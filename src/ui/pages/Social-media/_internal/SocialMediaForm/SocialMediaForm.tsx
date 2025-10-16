@@ -49,7 +49,7 @@ export const SocialMediaForm: FC<Props> = ({ language }) => {
                     }
                     isOptional={true}
                     language={language}
-                    label={language.getLocale().word.select.socialMedia}
+                    label={language.locale.word.select.socialMedia}
                   />
                 )
               }}

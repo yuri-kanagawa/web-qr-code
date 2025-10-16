@@ -20,7 +20,7 @@ export const QrFileCheckButton: FC<Props> = ({
   language = Language.default()
 }) => {
   const { errorNotify } = useNotify()
-  const locale = language.getLocale()
+  const locale = language.locale
   const readQrFromFileUseCase = useMemo(
     () => new ReadQrFromFileUseCase(new QrScannerRepository(), language),
     [language]

@@ -9,7 +9,7 @@ type Props = {
 
 export const EcLevel: FC<Props> = ({ language }) => {
   const { settings, updateEcLevel } = useQrCode()
-  const locale = language.getLocale()
+  const locale = language.locale
 
   return (
     <EcLevelSelect

@@ -27,7 +27,7 @@ export const Page = ({ language }: Props) => {
   const { deviceOs: deviceOsList, urls } = useQrCode()
   const [errorType, setErrorType] = useState<ErrorType>(null)
   const router = useRouter()
-  const locale = language.getLocale()
+  const locale = language.locale
 
   // マッチするインデックスを探す（Device=All対応）
   const matchedIndex = useMemo(() => {

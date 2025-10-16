@@ -59,7 +59,7 @@ export const MapForm: FC<Props> = ({ language }) => {
             fullWidth
             disabled={isLoadingLocation}
           >
-            {language.getLocale().message.common.buttons.getCurrentLocation}
+            {language.locale.message.common.buttons.getCurrentLocation}
           </Button>
           <Controller
             control={control}

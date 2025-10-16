@@ -9,7 +9,7 @@ type Props = {
 
 export const EyeColor1: FC<Props> = ({ language }) => {
   const { settings, updateEyeColor1 } = useQrCode()
-  const locale = language.getLocale()
+  const locale = language.locale
 
   return (
     <LeftTopQrFinderPattern

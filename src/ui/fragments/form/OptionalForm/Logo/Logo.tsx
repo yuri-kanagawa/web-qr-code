@@ -12,7 +12,7 @@ type Props = {
 
 export const Logo: FC<Props> = ({ file, setFile, language }) => {
   const { settings, updateLogoWidth, updateLogoHeight } = useQrCode()
-  const locale = language.getLocale()
+  const locale = language.locale
 
   return (
     <Box

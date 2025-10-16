@@ -12,7 +12,7 @@ type Props = {
 export const Opacity: FC<Props> = ({ file, language }) => {
   const isRelationFileDisabled = file == null
   const { settings, updateLogoOpacity } = useQrCode()
-  const locale = language.getLocale()
+  const locale = language.locale
 
   const handleOpacityChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const numValue = Number(event.target.value)

@@ -67,8 +67,8 @@ export const registerQrCodeMapSchema = z
       const languageResult = Language.create(data.language)
       const locale =
         languageResult.isSuccess && languageResult.language
-          ? languageResult.language.getLocale()
-          : Language.default().getLocale()
+          ? languageResult.language.locale
+          : Language.default().locale
       const { message } = locale
 
       if (!data.latitude) {

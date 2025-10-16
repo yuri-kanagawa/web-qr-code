@@ -19,7 +19,7 @@ export const LogoPaddingStyleSelect: FC<Props> = ({
   label,
   disabled = false
 }) => {
-  const locale = language.getLocale()
+  const locale = language.locale
 
   return (
     <FormControl fullWidth disabled={disabled}>

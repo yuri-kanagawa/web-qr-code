@@ -1,6 +1,6 @@
 import { Language } from '@/domains/valueObjects/language'
 import { Button } from '@/ui/cores'
-import React, { FC, MutableRefObject, RefObject, useCallback } from 'react'
+import { FC } from 'react'
 type Props = {
   onClick?: () => void
   isValid?: boolean
@@ -12,7 +12,7 @@ export const QrDownloadButton: FC<Props> = ({
   isValid = true,
   language = Language.default()
 }) => {
-  const locale = language.getLocale()
+  const locale = language.locale
 
   return (
     <>

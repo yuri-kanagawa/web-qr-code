@@ -8,7 +8,7 @@ export const createRegisterQrCodeSmsSchema = (language: Language) =>
       body: z.string()
     })
     .refine((data) => !(data.phoneNumber === '' && data.body === ''), {
-      message: language.getLocale().message.validation.sms.bothEmpty,
+      message: language.locale.message.validation.sms.bothEmpty,
       path: ['phoneNumber', 'body']
     })
 

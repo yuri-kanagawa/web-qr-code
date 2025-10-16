@@ -10,7 +10,7 @@ type Props = {
 
 export const BgColor: FC<Props> = ({ language }) => {
   const { settings, updateBgColor } = useQrCode()
-  const locale = language.getLocale()
+  const locale = language.locale
 
   return (
     <MuiColorInput

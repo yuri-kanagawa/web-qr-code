@@ -24,7 +24,7 @@ export const DrawerItems = forwardRef<HTMLDivElement, Props>(
     const router = useRouter()
     const pathname = usePathname()
     const pathBuilder = useMemo(() => new PathBuilder(language), [language])
-    const locale = language.getLocale()
+    const locale = language.locale
     const word = locale.word
 
     const handleLanguageChange = (newLanguage: Language) => {

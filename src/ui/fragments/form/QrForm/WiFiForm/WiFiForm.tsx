@@ -80,9 +80,7 @@ export const WiFiForm: FC<Props> = ({ ssid, password, type, language }) => {
                             }
                           }}
                           language={language}
-                          label={
-                            language.getLocale().word.select.encryptionType
-                          }
+                          label={language.locale.word.select.encryptionType}
                         />
                         {!wifiType.isNoPassword && (
                           <PasswordTextField
