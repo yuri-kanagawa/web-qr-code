@@ -1,7 +1,7 @@
 import { Language } from '@/domains/valueObjects/language'
 import { useQrCode, useWindowSize } from '@/hooks'
 import { Box, FormLabel, Slider, Stack, TextField } from '@mui/material'
-import { FC, useEffect, useMemo, useRef, useState } from 'react'
+import { FC, useEffect, useMemo, useState } from 'react'
 
 type Props = {
   language: Language
@@ -28,22 +28,12 @@ export const Size: FC<Props> = ({ language }) => {
   // 実際に使用する最大値（保存された値 or デフォルト計算値）
   const currentMaxSize = savedMaxSize ?? calculatedMaxSize
 
-  const [maxSizeInput, setMaxSizeInput] = useState(currentMaxSize.toString())
-  const [sizeInput, setSizeInput] = useState(settings.size.value.toString())
   const [previousMaxSize, setPreviousMaxSize] = useState(currentMaxSize)
-  const debounceTimerRef = useRef<NodeJS.Timeout | null>(null)
-  const sizeDebounceTimerRef = useRef<NodeJS.Timeout | null>(null)
 
-  // currentMaxSizeが変更されたら入力欄も更新
+  // currentMaxSizeが変更されたら更新
   useEffect(() => {
-    setMaxSizeInput(currentMaxSize.toString())
     setPreviousMaxSize(currentMaxSize)
   }, [currentMaxSize])
-
-  // サイズが変更されたら入力欄も更新
-  useEffect(() => {
-    setSizeInput(settings.size.value.toString())
-  }, [settings.size.value])
 
   const updateMaxSizeAndRatio = (numValue: number) => {
     if (!isNaN(numValue) && numValue > 0) {
@@ -53,14 +43,6 @@ export const Size: FC<Props> = ({ language }) => {
       // 割合を計算して新しいサイズを決定
       const ratio = currentSize / oldMaxSize
       const newSize = Math.round(numValue * ratio)
-
-      console.log('Updating maxSize:', {
-        oldMaxSize,
-        newMaxSize: numValue,
-        currentSize,
-        ratio,
-        newSize
-      })
 
       // 最大値を更新
       updateMaxSize(numValue)
@@ -73,91 +55,24 @@ export const Size: FC<Props> = ({ language }) => {
     }
   }
 
-  const handleMaxSizeInputChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const value = event.target.value
-    setMaxSizeInput(value)
-
-    // デバウンスタイマーをクリア
-    if (debounceTimerRef.current) {
-      clearTimeout(debounceTimerRef.current)
-    }
-
-    // 500ms後に更新処理を実行
-    const numValue = Number(value)
-    if (!isNaN(numValue) && numValue > 0) {
-      debounceTimerRef.current = setTimeout(() => {
-        updateMaxSizeAndRatio(numValue)
-      }, 500)
+  const handleSizeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const numValue = Number(event.target.value)
+    if (!isNaN(numValue) && numValue >= 1) {
+      // maxSizeを超えた場合はmaxSizeも拡張
+      if (numValue > currentMaxSize) {
+        updateMaxSize(numValue)
+        setPreviousMaxSize(numValue)
+      }
+      updateSize(numValue)
     }
   }
 
-  const handleMaxSizeBlur = () => {
-    // デバウンスタイマーをクリア
-    if (debounceTimerRef.current) {
-      clearTimeout(debounceTimerRef.current)
-      debounceTimerRef.current = null
-    }
-
-    const numValue = Number(maxSizeInput)
+  const handleMaxSizeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const numValue = Number(event.target.value)
     if (!isNaN(numValue) && numValue > 0) {
       updateMaxSizeAndRatio(numValue)
-    } else {
-      // 無効な値の場合は元に戻す
-      setMaxSizeInput(currentMaxSize.toString())
     }
   }
-
-  const handleSizeInputChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const value = event.target.value
-    setSizeInput(value)
-
-    // デバウンスタイマーをクリア
-    if (sizeDebounceTimerRef.current) {
-      clearTimeout(sizeDebounceTimerRef.current)
-    }
-
-    // 500ms後に更新処理を実行
-    const numValue = Number(value)
-    if (!isNaN(numValue) && numValue >= 1) {
-      sizeDebounceTimerRef.current = setTimeout(() => {
-        const clampedValue = Math.min(numValue, currentMaxSize)
-        updateSize(clampedValue)
-      }, 500)
-    }
-  }
-
-  const handleSizeBlur = () => {
-    // デバウンスタイマーをクリア
-    if (sizeDebounceTimerRef.current) {
-      clearTimeout(sizeDebounceTimerRef.current)
-      sizeDebounceTimerRef.current = null
-    }
-
-    const numValue = Number(sizeInput)
-    if (!isNaN(numValue) && numValue >= 1) {
-      const clampedValue = Math.min(numValue, currentMaxSize)
-      updateSize(clampedValue)
-    } else {
-      // 無効な値の場合は元に戻す
-      setSizeInput(settings.size.value.toString())
-    }
-  }
-
-  // クリーンアップ
-  useEffect(() => {
-    return () => {
-      if (debounceTimerRef.current) {
-        clearTimeout(debounceTimerRef.current)
-      }
-      if (sizeDebounceTimerRef.current) {
-        clearTimeout(sizeDebounceTimerRef.current)
-      }
-    }
-  }, [])
 
   return (
     <Box
@@ -191,9 +106,8 @@ export const Size: FC<Props> = ({ language }) => {
           label={language.isEnglish ? 'Current Size' : '現在のサイズ'}
           type="number"
           size="small"
-          value={sizeInput}
-          onChange={handleSizeInputChange}
-          onBlur={handleSizeBlur}
+          value={settings.size.value}
+          onChange={handleSizeChange}
           inputProps={{ min: 1, max: currentMaxSize }}
           fullWidth
         />
@@ -214,9 +128,8 @@ export const Size: FC<Props> = ({ language }) => {
             label={language.isEnglish ? 'Max' : '最大値'}
             type="number"
             size="small"
-            value={maxSizeInput}
-            onChange={handleMaxSizeInputChange}
-            onBlur={handleMaxSizeBlur}
+            value={currentMaxSize}
+            onChange={handleMaxSizeChange}
             inputProps={{ min: 1 }}
             sx={{ width: 100 }}
           />

@@ -2,7 +2,7 @@ import { Language } from '@/domains/valueObjects/language'
 import { useQrCode } from '@/hooks'
 import { Step01Slider } from '@/ui/fragments/slider'
 import { Box, FormLabel, Stack, TextField } from '@mui/material'
-import { FC, useEffect, useRef, useState } from 'react'
+import { FC } from 'react'
 
 type Props = {
   file: File | null
@@ -14,60 +14,12 @@ export const Opacity: FC<Props> = ({ file, language }) => {
   const { settings, updateLogoOpacity } = useQrCode()
   const locale = language.getLocale()
 
-  const [opacityInput, setOpacityInput] = useState(
-    (settings.logo.opacity ?? 1).toString()
-  )
-  const debounceTimerRef = useRef<NodeJS.Timeout | null>(null)
-
-  // opacityが変更されたら入力欄も更新
-  useEffect(() => {
-    setOpacityInput((settings.logo.opacity ?? 1).toString())
-  }, [settings.logo.opacity])
-
-  const handleOpacityInputChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const value = event.target.value
-    setOpacityInput(value)
-
-    // デバウンスタイマーをクリア
-    if (debounceTimerRef.current) {
-      clearTimeout(debounceTimerRef.current)
-    }
-
-    // 500ms後に更新処理を実行
-    const numValue = Number(value)
-    if (!isNaN(numValue) && numValue >= 0 && numValue <= 1) {
-      debounceTimerRef.current = setTimeout(() => {
-        updateLogoOpacity(numValue)
-      }, 500)
-    }
-  }
-
-  const handleOpacityBlur = () => {
-    // デバウンスタイマーをクリア
-    if (debounceTimerRef.current) {
-      clearTimeout(debounceTimerRef.current)
-      debounceTimerRef.current = null
-    }
-
-    const numValue = Number(opacityInput)
+  const handleOpacityChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const numValue = Number(event.target.value)
     if (!isNaN(numValue) && numValue >= 0 && numValue <= 1) {
       updateLogoOpacity(numValue)
-    } else {
-      // 無効な値の場合は元に戻す
-      setOpacityInput((settings.logo.opacity ?? 1).toString())
     }
   }
-
-  // クリーンアップ
-  useEffect(() => {
-    return () => {
-      if (debounceTimerRef.current) {
-        clearTimeout(debounceTimerRef.current)
-      }
-    }
-  }, [])
 
   return (
     <Box
@@ -101,9 +53,8 @@ export const Opacity: FC<Props> = ({ file, language }) => {
           label={language.isEnglish ? 'Current Opacity' : '現在の透明度'}
           type="number"
           size="small"
-          value={opacityInput}
-          onChange={handleOpacityInputChange}
-          onBlur={handleOpacityBlur}
+          value={settings.logo.opacity ?? 1}
+          onChange={handleOpacityChange}
           disabled={isRelationFileDisabled}
           inputProps={{ min: 0, max: 1, step: 0.1 }}
           fullWidth
