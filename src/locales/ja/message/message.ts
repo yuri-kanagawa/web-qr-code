@@ -14,7 +14,8 @@ export const message = {
     // Email validation
     email: {
       invalid: 'メールが無効',
-      required: 'メールアドレスを入力してください'
+      required: 'メールアドレスを入力してください',
+      atLeastOneField: 'メールアドレス、件名、本文のいずれか1つは入力してください'
     },
 
     // URL validation

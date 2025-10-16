@@ -13,7 +13,8 @@ export const message = {
     // Email validation
     email: {
       invalid: 'Invalid email',
-      required: 'Email is required'
+      required: 'Email is required',
+      atLeastOneField: 'Please enter at least one of email, subject, or body'
     },
 
     // URL validation

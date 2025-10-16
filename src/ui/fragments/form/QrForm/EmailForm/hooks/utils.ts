@@ -4,7 +4,7 @@ export const formatEmail = ({
   subject,
   body
 }: RegisterQrCodeEmailSchema) => {
-  return `'mailto:${email}?subject=${subject}&body=${body}'`
+  return `'mailto:${email.value}?subject=${subject.value}&body=${body.value}'`
 }
 
 export const isEmail = (value: string) => {

@@ -4,6 +4,9 @@ import { SubmitErrorHandler, useForm } from 'react-hook-form'
 import { useEffect, useMemo } from 'react'
 
 import { Language } from '@/domains'
+import { Email } from '@/domains/valueObjects/email'
+import { Subject } from '@/domains/valueObjects/subject'
+import { Body } from '@/domains/valueObjects/body'
 import { useQrCode } from '@/hooks'
 import { createRegisterQrCodeEmailSchema, type RegisterQrCodeEmailSchema } from './zod'
 type Props = {
@@ -22,13 +25,17 @@ export const useEmailQRCodeForm = ({
   const { ref, onConfirm, onDownload } = useQrCode(language)
 
   const defaultValues: RegisterQrCodeEmailSchema = useMemo(() => {
+    const emailResult = email ? Email.create(email, language) : null
+    const subjectResult = subject ? Subject.create(subject, language) : null
+    const bodyResult = body ? Body.create(body, language) : null
+    
     return {
-      email,
-      subject,
-      body,
+      email: emailResult?.isSuccess ? emailResult.email! : Email.empty(language),
+      subject: subjectResult?.isSuccess ? subjectResult.subject! : Subject.empty(language),
+      body: bodyResult?.isSuccess ? bodyResult.body! : Body.empty(language),
       language: language.value
     }
-  }, [language])
+  }, [language, email, subject, body])
 
   const schema = useMemo(() => createRegisterQrCodeEmailSchema(language), [language])
 

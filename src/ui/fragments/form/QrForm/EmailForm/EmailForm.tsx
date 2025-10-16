@@ -64,11 +64,11 @@ export const EmailForm: FC<Props> = ({
               fieldState: { error }
             }) => (
               <EmailTextField
-                value={value}
-                onChange={(value) => {
-                  onChange(value)
+                value={value.value}
+                onChange={(newValue) => {
+                  onChange(newValue)
                   if (onEmailChange) {
-                    onEmailChange(value)
+                    onEmailChange(newValue)
                   }
                 }}
                 inputRef={inputRef}
@@ -87,11 +87,11 @@ export const EmailForm: FC<Props> = ({
               fieldState: { error }
             }) => (
               <SubjectTextField
-                value={value}
-                onChange={(value) => {
-                  onChange(value)
+                value={value.value}
+                onChange={(newValue) => {
+                  onChange(newValue)
                   if (onSubjectChange) {
-                    onSubjectChange(value)
+                    onSubjectChange(newValue)
                   }
                 }}
                 inputRef={inputRef}
@@ -110,11 +110,11 @@ export const EmailForm: FC<Props> = ({
               fieldState: { error }
             }) => (
               <BodyTextField
-                value={value}
-                onChange={(value) => {
-                  onChange(value)
+                value={value.value}
+                onChange={(newValue) => {
+                  onChange(newValue)
                   if (onBodyChange) {
-                    onBodyChange(value)
+                    onBodyChange(newValue)
                   }
                 }}
                 inputRef={inputRef}
