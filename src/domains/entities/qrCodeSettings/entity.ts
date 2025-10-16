@@ -1,6 +1,7 @@
 import { Language } from '@/domains/valueObjects/language'
 import {
   EcLevel,
+  EyeRadius,
   EyeSettings,
   LogoSettings,
   QrColor,
@@ -95,10 +96,29 @@ export class QrCodeSettings {
     })
 
     // Eye
-    const eye = EyeSettings.create(
+    const eyeRadius1Result = EyeRadius.create(
       Number(searchParams.get('eyeRadius1')) || 0,
+      language
+    )
+    const eyeRadius2Result = EyeRadius.create(
       Number(searchParams.get('eyeRadius2')) || 0,
-      Number(searchParams.get('eyeRadius3')) || 0
+      language
+    )
+    const eyeRadius3Result = EyeRadius.create(
+      Number(searchParams.get('eyeRadius3')) || 0,
+      language
+    )
+
+    const eye = EyeSettings.create(
+      eyeRadius1Result.isSuccess
+        ? eyeRadius1Result.eyeRadius!
+        : EyeRadius.default(),
+      eyeRadius2Result.isSuccess
+        ? eyeRadius2Result.eyeRadius!
+        : EyeRadius.default(),
+      eyeRadius3Result.isSuccess
+        ? eyeRadius3Result.eyeRadius!
+        : EyeRadius.default()
     )
 
     // QrStyle
