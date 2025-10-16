@@ -43,8 +43,8 @@ export const ImageForm: FC<Props> = memo(
               onChange={async (value) => {
                 setFile(value)
               }}
-              width={100}
-              height={100}
+              width={200}
+              height={200}
               language={language}
             />
           </HeightSlider>

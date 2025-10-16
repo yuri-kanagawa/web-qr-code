@@ -1,6 +1,13 @@
 import { Language } from '@/domains/valueObjects/language'
 import { useQrCode, useWindowSize } from '@/hooks'
-import { Box, FormLabel, Slider, Stack, TextField } from '@mui/material'
+import {
+  Box,
+  FormLabel,
+  Slider,
+  Stack,
+  TextField,
+  Typography
+} from '@mui/material'
 import { FC, useEffect, useMemo, useState } from 'react'
 
 type Props = {
@@ -134,6 +141,13 @@ export const Size: FC<Props> = ({ language }) => {
             sx={{ width: 100 }}
           />
         </Stack>
+        {currentMaxSize > calculatedMaxSize && (
+          <Typography variant="caption" color="warning.main" sx={{ mt: 1 }}>
+            {language.isEnglish
+              ? 'Actual size may be larger than displayed'
+              : '実際のサイズは表示より大きくなります'}
+          </Typography>
+        )}
       </Stack>
     </Box>
   )
