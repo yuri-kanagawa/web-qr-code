@@ -19,7 +19,7 @@ export const RightTopQrFinderPattern: FC<Props> = ({
   label,
   language
 }) => {
-  const { isLessLaptop } = useWindowSize()
+  const { isOverLaptop } = useWindowSize()
   return (
     <>
       <ColorInput
@@ -34,7 +34,7 @@ export const RightTopQrFinderPattern: FC<Props> = ({
         }}
         isAlphaHidden={true}
       />
-      {isLessLaptop && (
+      {isOverLaptop && (
         <CornerHighlightBox width={170} p={2}>
           <QRCode
             value={''}
