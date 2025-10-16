@@ -40,6 +40,19 @@ export class Language {
     return languages[this._value]
   }
 
+  get flag(): string {
+    switch (this._value) {
+      case 'en':
+        return '🇺🇸'
+      case 'ja':
+        return '🇯🇵'
+      case 'fr':
+        return '🇫🇷'
+      default:
+        return '🌐'
+    }
+  }
+
   get isEnglish(): boolean {
     return this._value === 'en'
   }
