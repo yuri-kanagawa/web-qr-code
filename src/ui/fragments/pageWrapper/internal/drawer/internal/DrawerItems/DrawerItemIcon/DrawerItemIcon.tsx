@@ -1,4 +1,4 @@
-import { FC, ReactNode } from 'react'
+import { FC, ReactNode, cloneElement, isValidElement } from 'react'
 
 import { useSidebar } from '@/stores'
 import {
@@ -20,6 +20,18 @@ export const DrawerItemIcon: FC<Props> = ({ icon, path, label }) => {
   const pathname = usePathname()
   const isCurrentPath = pathname === path
   const { isSidebarOpen, toggleSidebar, setIsSidebarOpen } = useSidebar()
+
+  // アイコンに色を適用
+  const iconColor = isCurrentPath
+    ? 'rgba(0, 0, 0, 0.87)'
+    : 'rgba(0, 0, 0, 0.54)'
+  const iconWithColor = isValidElement(icon)
+    ? cloneElement(icon as React.ReactElement<any>, {
+        style: { color: iconColor },
+        color: iconColor
+      })
+    : icon
+
   return (
     <Link href={path} passHref legacyBehavior>
       <ListItem
@@ -34,12 +46,12 @@ export const DrawerItemIcon: FC<Props> = ({ icon, path, label }) => {
                 left: 0,
                 top: 0,
                 height: '100%',
-                width: '4px',
+                width: '6px',
                 backgroundColor: 'primary.main',
+                borderRadius: '0 4px 4px 0',
                 zIndex: 1
               }
             : undefined,
-          bgcolor: isCurrentPath ? 'action.selected' : undefined,
           '&:hover': {
             bgcolor: 'action.hover'
           }
@@ -61,10 +73,12 @@ export const DrawerItemIcon: FC<Props> = ({ icon, path, label }) => {
           <ListItemIcon
             sx={{
               justifyContent: 'center',
-              color: isCurrentPath ? 'primary.main' : 'inherit'
+              transform: isCurrentPath ? 'scale(1.08)' : 'scale(1)',
+              transition:
+                'transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), color 0.2s'
             }}
           >
-            {icon}
+            {iconWithColor}
           </ListItemIcon>
           <ListItemText
             primary={label}
