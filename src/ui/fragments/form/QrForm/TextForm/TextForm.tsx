@@ -34,7 +34,12 @@ export const TextForm: FC<Props> = ({ language, text = '' }: Props) => {
           ref={ref}
         >
           <FormCard cardProps={{ sx: { p: 2 } }}>
-            <TextTextField value={value} onChange={onChange} />
+            <TextTextField
+              value={value}
+              onChange={onChange}
+              language={language}
+              isRequired={true}
+            />
           </FormCard>
         </FormButton>
       )}
