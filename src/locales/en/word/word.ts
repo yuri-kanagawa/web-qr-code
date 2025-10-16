@@ -23,6 +23,7 @@ export const word = {
     middleName: 'Middle Name',
     email: 'Email',
     phone: 'Phone',
+    phoneNumber: 'Phone Number',
     url: 'URL',
     ssid: 'SSID',
     password: 'Password',
@@ -33,6 +34,13 @@ export const word = {
     post: 'Post',
     businessCellularTelephone: 'Business Cellular Telephone',
     privateCellularTelephone: 'Private Cellular Telephone'
+  },
+
+  // Form placeholders
+  placeholder: {
+    email: 'example@example.com',
+    subject: 'Enter email subject',
+    body: 'Enter email body'
   },
 
   // QR Code settings labels

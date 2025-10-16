@@ -6,27 +6,35 @@ type Props = {
   value: string
   onChange: (value: string) => void
   isRequired?: boolean
-  language?: Language
-} & Omit<TextFieldProps, 'value' | 'onChange' | 'isRequired' | 'label'>
+  language: Language
+} & Omit<
+  TextFieldProps,
+  'value' | 'onChange' | 'isRequired' | 'label' | 'placeholder'
+>
 
 export const BodyTextField: FC<Props> = ({
   value,
   onChange,
   isRequired = false,
-  language = Language.default(),
+  language,
   ...rest
 }) => {
-  const labelText = language.isEnglish ? 'Body' : '本文'
+  const locale = language.locale
+  const labelText = locale.word.form.body
   const label = isRequired ? `*${labelText}` : labelText
+  const placeholder = locale.word.placeholder.body
 
   return (
     <TextField
       multiline
       rows={20}
-      value={value}
-      {...rest}
       label={label}
+      placeholder={value ? undefined : placeholder}
+      value={value}
       onChange={(e) => onChange(e.target.value)}
+      InputLabelProps={{ shrink: true }}
+      {...rest}
+      fullWidth
     />
   )
 }

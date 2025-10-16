@@ -22,7 +22,8 @@ export const word = {
     lastName: '姓',
     middleName: 'ミドルネーム',
     email: 'メールアドレス',
-    phone: '*電話番号',
+    phone: '電話',
+    phoneNumber: '電話番号',
     url: 'URL',
     ssid: 'SSID',
     password: 'パスワード',
@@ -33,6 +34,13 @@ export const word = {
     post: '役職',
     businessCellularTelephone: 'ビジネス携帯電話',
     privateCellularTelephone: 'プライベート携帯電話'
+  },
+
+  // Form placeholders
+  placeholder: {
+    email: 'example@example.com',
+    subject: 'メールの件名を入力',
+    body: 'メールの本文を入力'
   },
 
   // QR Code settings labels
