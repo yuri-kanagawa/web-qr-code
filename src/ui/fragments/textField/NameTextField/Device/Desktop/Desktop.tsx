@@ -1,19 +1,24 @@
+import { FC } from 'react'
 import {
   FirstNameForm,
   LastNameForm,
   MiddleNameForm,
   NameProps
 } from '../Common'
-import { FC } from 'react'
 
 type Props = NameProps
 
-export const Desktop: FC<Props> = ({ firstName, middleName, lastName }) => {
+export const Desktop: FC<Props> = ({
+  firstName,
+  middleName,
+  lastName,
+  language
+}) => {
   return (
     <>
-      <FirstNameForm {...firstName} />
-      <MiddleNameForm {...middleName} />
-      <LastNameForm {...lastName} />
+      <FirstNameForm {...firstName} language={language} />
+      <MiddleNameForm {...middleName} language={language} />
+      <LastNameForm {...lastName} language={language} />
     </>
   )
 }

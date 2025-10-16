@@ -1,17 +1,16 @@
 'use client'
-import { FC } from 'react'
 import {
   EmailTextField,
   NameTextField,
   OrganizationForm,
-  PhoneTextField,
   UrlTextField
 } from '@/ui/fragments/textField'
+import { FC } from 'react'
 
-import { useContactQrCodeForm, convertContact } from './hooks'
-import { Controller } from 'react-hook-form'
-import { FormButton, FormCard } from '@/ui/fragments/form'
 import { Language } from '@/domains/valueObjects/language'
+import { FormButton, FormCard } from '@/ui/fragments/form'
+import { Controller } from 'react-hook-form'
+import { convertContact, useContactQrCodeForm } from './hooks'
 
 interface Props {
   language: Language
@@ -102,6 +101,7 @@ export const ContactForm: FC<Props> = ({
                       firstName={{ ...firstNameField }}
                       lastName={{ ...lastNameField }}
                       middleName={{ ...middleNameField }}
+                      language={language}
                     />
                   )}
                 />
@@ -120,9 +120,11 @@ export const ContactForm: FC<Props> = ({
             <EmailTextField
               value={value}
               onChange={onChange}
+              language={language}
               inputRef={inputRef}
               error={!!error}
               helperText={error?.message}
+              fullWidth
             />
           )}
         />
@@ -137,9 +139,11 @@ export const ContactForm: FC<Props> = ({
             <OrganizationForm
               value={value}
               onChange={onChange}
+              language={language}
               inputRef={inputRef}
               error={!!error}
               helperText={error?.message}
+              fullWidth
             />
           )}
         />
@@ -157,6 +161,7 @@ export const ContactForm: FC<Props> = ({
               inputRef={inputRef}
               error={!!error}
               helperText={error?.message}
+              fullWidth
             />
           )}
         />
