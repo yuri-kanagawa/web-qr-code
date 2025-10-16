@@ -3,14 +3,20 @@ import {
   CellPhoneTextField,
   FaxTextField,
   HomePhoneTextField,
-  WorkPhoneTextField,
+  PhoneProps,
   PhoneTextField,
-  PhoneProps
+  WorkPhoneTextField
 } from '../Common'
 
 type Props = PhoneProps
 
-export const Mobile: FC<Props> = ({ cellPhone, homePhone, workPhone, fax }) => {
+export const Mobile: FC<Props> = ({
+  cellPhone,
+  homePhone,
+  workPhone,
+  fax,
+  language
+}) => {
   const isMulti = !!cellPhone && !!homePhone && !!workPhone && !!fax
   const isSingle =
     [!!cellPhone, !!homePhone, !!workPhone, !!fax].filter(Boolean).length ===
@@ -31,6 +37,7 @@ export const Mobile: FC<Props> = ({ cellPhone, homePhone, workPhone, fax }) => {
           homePhone={homePhone}
           workPhone={workPhone}
           fax={fax}
+          language={language}
         />
       )}
     </>

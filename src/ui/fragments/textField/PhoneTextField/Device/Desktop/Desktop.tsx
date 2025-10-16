@@ -4,8 +4,8 @@ import {
   CellPhoneTextField,
   FaxTextField,
   HomePhoneTextField,
-  WorkPhoneTextField,
-  PhoneTextField
+  PhoneTextField,
+  WorkPhoneTextField
 } from '../Common'
 
 type Props = PhoneProps
@@ -14,7 +14,8 @@ export const Desktop: FC<PhoneProps> = ({
   cellPhone,
   homePhone,
   workPhone,
-  fax
+  fax,
+  language
 }) => {
   const isMulti = !!cellPhone && !!homePhone && !!workPhone && !!fax
   const isSingle =
@@ -36,6 +37,7 @@ export const Desktop: FC<PhoneProps> = ({
           homePhone={homePhone}
           workPhone={workPhone}
           fax={fax}
+          language={language}
         />
       )}
     </>

@@ -1,10 +1,11 @@
+import { TextFieldProps } from '@/ui/cores/TextField'
 import { FC } from 'react'
-import { TextField, TextFieldProps } from '@/ui/cores/TextField'
 
 export type FaxTextFieldProps = {
   value: string
   onChange: (value: string) => void
-} & Omit<TextFieldProps, 'onChange' | 'value'>
+  isRequired?: boolean
+} & Omit<TextFieldProps, 'onChange' | 'value' | 'isRequired'>
 
 export const FaxTextField: FC<FaxTextFieldProps> = ({}) => {
   return <></>

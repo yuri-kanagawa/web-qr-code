@@ -1,4 +1,3 @@
-'use client'
 import { Language } from '@/domains/valueObjects/language'
 import { FormButton } from '@/ui/fragments/form/FormButton'
 import { FormCard } from '@/ui/fragments/form/FormCard'
@@ -40,6 +39,7 @@ export const PhoneForm: FC<Props> = ({ language }) => {
                 helperText: error?.message,
                 inputRef
               }}
+              language={language}
             />
           </FormCard>
         </FormButton>

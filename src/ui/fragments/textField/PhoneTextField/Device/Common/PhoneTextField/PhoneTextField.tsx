@@ -9,8 +9,22 @@ export const PhoneTextField: FC<PhoneProps> = ({
   cellPhone,
   homePhone,
   fax,
-  workPhone
+  workPhone,
+  language
 }) => {
+  const locale = language.locale
+
+  // どの電話番号タイプが使われているかで必須判定
+  const isRequired =
+    cellPhone?.isRequired ??
+    homePhone?.isRequired ??
+    fax?.isRequired ??
+    workPhone?.isRequired ??
+    true // デフォルトは必須
+
+  const label = isRequired
+    ? `*${locale.word.form.phoneNumber}`
+    : locale.word.form.phoneNumber
   const value = useMemo(() => {
     if (cellPhone) {
       return cellPhone.value
@@ -90,7 +104,7 @@ export const PhoneTextField: FC<PhoneProps> = ({
   return (
     <Stack>
       <PhoneNumber
-        label={'*phone'}
+        label={label}
         defaultCountry={LocaleService.detectCountry().code}
         value={value}
         onChange={(e) => onChange(typeof e === 'string' ? e : e.target.value)}
@@ -98,6 +112,7 @@ export const PhoneTextField: FC<PhoneProps> = ({
         error={error}
         helperText={helperText}
         ref={inputRef}
+        fullWidth
       />
     </Stack>
   )

@@ -2,6 +2,7 @@ import { Language } from '@/domains/valueObjects/language'
 import { FormButton, FormCard } from '@/ui/fragments/form'
 import { BodyTextField } from '@/ui/fragments/textField'
 import { PhoneTextField } from '@/ui/fragments/textField/PhoneTextField'
+import { Stack } from '@mui/material'
 import { FC } from 'react'
 import { Controller } from 'react-hook-form'
 import { toSmsSchema } from './hooks'
@@ -33,43 +34,47 @@ export const SmsForm: FC<Props> = (props) => {
       ref={ref}
     >
       <FormCard cardProps={{ sx: { p: 2 } }}>
-        <Controller
-          control={control}
-          name="phoneNumber"
-          render={({
-            field: { value, onChange, ref: inputRef },
-            formState: { isValid },
-            fieldState: { error }
-          }) => (
-            <PhoneTextField
-              cellPhone={{
-                value,
-                onChange,
-                error: !!error,
-                helperText: error?.message,
-                inputRef
-              }}
-            />
-          )}
-        />
-        <Controller
-          control={control}
-          name="body"
-          render={({
-            field: { value, onChange, ref: inputRef },
-            formState: { isValid },
-            fieldState: { error }
-          }) => (
-            <BodyTextField
-              value={value}
-              onChange={onChange}
-              inputRef={inputRef}
-              helperText={error?.message}
-              error={!!error}
-              language={props.language}
-            />
-          )}
-        />
+        <Stack spacing={3}>
+          <Controller
+            control={control}
+            name="phoneNumber"
+            render={({
+              field: { value, onChange, ref: inputRef },
+              formState: { isValid },
+              fieldState: { error }
+            }) => (
+              <PhoneTextField
+                cellPhone={{
+                  value,
+                  onChange,
+                  error: !!error,
+                  helperText: error?.message,
+                  inputRef,
+                  isRequired: false
+                }}
+                language={props.language}
+              />
+            )}
+          />
+          <Controller
+            control={control}
+            name="body"
+            render={({
+              field: { value, onChange, ref: inputRef },
+              formState: { isValid },
+              fieldState: { error }
+            }) => (
+              <BodyTextField
+                value={value}
+                onChange={onChange}
+                inputRef={inputRef}
+                helperText={error?.message}
+                error={!!error}
+                language={props.language}
+              />
+            )}
+          />
+        </Stack>
       </FormCard>
     </FormButton>
   )

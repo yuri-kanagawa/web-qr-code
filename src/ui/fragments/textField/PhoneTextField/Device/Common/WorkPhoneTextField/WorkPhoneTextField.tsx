@@ -4,7 +4,8 @@ import { FC } from 'react'
 export type WorkPhoneTextFieldProps = {
   value: string
   onChange: (value: string) => void
-} & Omit<TextFieldProps, 'onChange' | 'value'>
+  isRequired?: boolean
+} & Omit<TextFieldProps, 'onChange' | 'value' | 'isRequired'>
 
 export const WorkPhoneTextField: FC<WorkPhoneTextFieldProps> = ({}) => {
   return <></>
