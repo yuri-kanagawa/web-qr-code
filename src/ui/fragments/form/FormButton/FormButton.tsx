@@ -29,7 +29,7 @@ export const FormButton = React.forwardRef<HTMLDivElement, Props>(
     },
     ref
   ) => {
-    const { height, width, isLessLaptop } = useWindowSize()
+    const { height, width, isLessLaptop, isOverLaptop } = useWindowSize()
     const [file, setFile] = useState<File | null>(null)
 
     // canvasが生成される条件: isValid && value が存在する
@@ -93,7 +93,7 @@ export const FormButton = React.forwardRef<HTMLDivElement, Props>(
                 display={'flex'}
                 justifyContent={'center'}
                 pt={4}
-                pb={2}
+                pb={isOverLaptop ? 8 : 2}
               >
                 <QrConfirmButton
                   onClick={onConfirm}
