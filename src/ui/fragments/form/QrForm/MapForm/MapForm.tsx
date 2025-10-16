@@ -71,6 +71,7 @@ export const MapForm: FC<Props> = ({ language }) => {
               <LatitudeTextField
                 value={value ? parseFloat(value) : undefined}
                 onChange={(numValue: number) => onChange(numValue.toString())}
+                language={language}
                 inputRef={inputRef}
                 error={!!error}
                 helperText={error?.message}
@@ -88,6 +89,7 @@ export const MapForm: FC<Props> = ({ language }) => {
               <LongitudeTextField
                 value={value ? parseFloat(value) : undefined}
                 onChange={(numValue: number) => onChange(numValue.toString())}
+                language={language}
                 inputRef={inputRef}
                 error={!!error}
                 helperText={error?.message}
