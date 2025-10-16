@@ -1,6 +1,6 @@
-import { LanguageResult } from './result'
+import { LanguageKey, languages, Locale, locales } from '@/locales'
 import { LanguageValueError } from './error'
-import { Locale, locales, languages, LanguageKey } from '@/locales'
+import { LanguageResult } from './result'
 
 export type { LanguageKey }
 
@@ -60,7 +60,7 @@ export class Language {
     return this._value
   }
 
-  getLocale(): Locale {
+  get locale(): Locale {
     return locales[this._value]
   }
 }
