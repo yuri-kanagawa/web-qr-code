@@ -17,7 +17,9 @@ export class PathBuilder {
     EDIT_CONTENT: '/edit/content',
     PHONE: '/phone',
     MAP: '/map',
-    MULTIPLE: '/multiple'
+    MULTIPLE: '/multiple',
+    PRIVACY: '/privacy',
+    TERMS: '/terms'
   } as const
 
   private readonly _language: Language
@@ -127,5 +129,13 @@ export class PathBuilder {
 
   get multiple() {
     return this.buildPath(PathBuilder.PATHS.MULTIPLE)
+  }
+
+  get privacy() {
+    return this.buildPath(PathBuilder.PATHS.PRIVACY)
+  }
+
+  get terms() {
+    return this.buildPath(PathBuilder.PATHS.TERMS)
   }
 }

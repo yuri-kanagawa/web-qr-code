@@ -1,6 +1,7 @@
 'use client'
 
 import { Language } from '@/domains/valueObjects/language'
+import { PathBuilder } from '@/lib/routing'
 import { Box, Link, Typography } from '@mui/material'
 
 type Props = {
@@ -16,6 +17,7 @@ export const Footer = ({
 }: Props) => {
   const locale = language.locale
   const currentYear = new Date().getFullYear()
+  const pathBuilder = new PathBuilder(language)
 
   return (
     <Box
@@ -69,7 +71,7 @@ export const Footer = ({
           }}
         >
           <Link
-            href={`/${language.value}/privacy`}
+            href={pathBuilder.privacy}
             color="text.secondary"
             underline="hover"
             variant="body2"
@@ -77,7 +79,7 @@ export const Footer = ({
             {language.isEnglish ? 'Privacy Policy' : 'プライバシーポリシー'}
           </Link>
           <Link
-            href={`/${language.value}/terms`}
+            href={pathBuilder.terms}
             color="text.secondary"
             underline="hover"
             variant="body2"
