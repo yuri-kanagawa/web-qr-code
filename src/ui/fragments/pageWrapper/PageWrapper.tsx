@@ -8,6 +8,7 @@ import React from 'react'
 import { Language } from '@/domains/valueObjects/language'
 import { useWindowSize } from '@/hooks'
 import { useSidebar } from '@/stores'
+import { Footer } from '@/ui/fragments/footer'
 import { LeftDrawer } from './internal/drawer'
 
 type Props = {
@@ -18,10 +19,13 @@ type Props = {
 export const PageWrapper = ({ language, children }: Props) => {
   const { ref, width } = useComponentSize()
   const { isSidebarOpen, toggleSidebar, setIsSidebarOpen } = useSidebar()
-  const { isLessTablet } = useWindowSize()
+  const { isLessTablet, isOverLaptop } = useWindowSize()
 
   // サイドバーの幅に応じてマージンを計算
   const leftMargin = isLessTablet ? 0 : isSidebarOpen ? 210 : 70
+
+  // laptop以上の場合はfooterを固定表示
+  const isFooterFixed = isOverLaptop
 
   return (
     <>
@@ -39,18 +43,27 @@ export const PageWrapper = ({ language, children }: Props) => {
           }}
         />
       )}
-      <Box display={'flex'}>
+      <Box display={'flex'} minHeight="100vh">
         <LeftDrawer language={language} />
 
         <Box
           flex={1}
           display="flex"
+          flexDirection="column"
           sx={{
             ml: `${leftMargin}px`,
-            transition: 'margin-left 200ms cubic-bezier(0.4, 0, 0.2, 1)'
+            transition: 'margin-left 200ms cubic-bezier(0.4, 0, 0.2, 1)',
+            pb: isFooterFixed ? '50px' : 0
           }}
         >
-          <>{children}</>
+          <Box flex={1}>
+            <>{children}</>
+          </Box>
+          <Footer
+            language={language}
+            isFixed={isFooterFixed}
+            leftMargin={leftMargin}
+          />
         </Box>
       </Box>
     </>
