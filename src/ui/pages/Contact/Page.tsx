@@ -20,7 +20,7 @@ interface Props {
   workUrl: string
 }
 
-export const Page: FC<Props> = (props) => {
+export const ContactPage: FC<Props> = (props) => {
   return (
     <PageWrapper language={props.language}>
       <ContactForm {...props} />

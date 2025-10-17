@@ -1,1 +1,1 @@
-export * from './Page'
+export { TextPage } from './Page'

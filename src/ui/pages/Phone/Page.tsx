@@ -9,7 +9,7 @@ interface Props {
   language: Language
 }
 
-export const Page: FC<Props> = (props) => {
+export const PhonePage: FC<Props> = (props) => {
   return (
     <PageWrapper language={props.language}>
       <PhoneForm {...props} />

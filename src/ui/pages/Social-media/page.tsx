@@ -9,7 +9,7 @@ type Props = {
   language: Language
 }
 
-export const Page: FC<Props> = ({ language }) => {
+export const SocialMediaPage: FC<Props> = ({ language }) => {
   return (
     <PageWrapper language={language}>
       <SocialMediaForm language={language} />

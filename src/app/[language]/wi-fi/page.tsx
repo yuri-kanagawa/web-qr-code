@@ -1,5 +1,5 @@
 'use client'
-import { Page as WiFiPage } from '@/ui/pages/Wi-fi'
+import { WiFiPage } from '@/ui/pages/Wi-fi'
 
 type Props = {
   params: { language: string }

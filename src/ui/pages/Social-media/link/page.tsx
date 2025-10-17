@@ -1,5 +1,5 @@
 import { SocialMediaLinkList } from './_internal'
 
-export const Page = () => {
+export const SocialMediaLinkPage = () => {
   return <SocialMediaLinkList />
 }

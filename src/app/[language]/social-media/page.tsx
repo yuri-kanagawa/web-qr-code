@@ -1,6 +1,6 @@
 'use client'
 import { Language } from '@/domains'
-import { Page as SocialMediaPage } from '@/ui/pages/Social-media/page'
+import { SocialMediaPage } from '@/ui/pages/Social-media'
 
 type Props = {
   params: { language: string }

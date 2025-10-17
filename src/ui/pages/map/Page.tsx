@@ -6,7 +6,7 @@ import { Language } from '@/domains/valueObjects/language'
 interface Props {
   language: Language
 }
-export const Page: FC<Props> = (props) => {
+export const MapPage: FC<Props> = (props) => {
   return (
     <PageWrapper language={props.language}>
       <MapForm {...props} />

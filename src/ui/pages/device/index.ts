@@ -1,1 +1,1 @@
-export * from './Page'
+export { DevicePage } from './Page'

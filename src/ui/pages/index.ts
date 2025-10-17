@@ -1,2 +1,2 @@
-export { Page as RootPage } from './RootPage'
+export { Page as RootPage } from './RootPage';
 

@@ -1,5 +1,4 @@
 'use client'
-import { Language } from '@/domains'
 import { SmsPage } from '@/ui/pages/Sms'
 
 type Props = {

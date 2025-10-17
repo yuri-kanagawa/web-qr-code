@@ -11,7 +11,7 @@ type Props = {
   body: string
 }
 
-export const Page: FC<Props> = (props) => {
+export const EmailPage: FC<Props> = (props) => {
   return (
     <PageWrapper language={props.language}>
       <EmailForm {...props} />

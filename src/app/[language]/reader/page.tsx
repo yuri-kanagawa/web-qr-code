@@ -1,6 +1,5 @@
 'use client'
-import { Language } from '@/domains'
-import { Page as ReaderPage } from '@/ui/pages/Reader'
+import { ReaderPage } from '@/ui/pages/Reader'
 
 type Props = {
   params: { language: string }

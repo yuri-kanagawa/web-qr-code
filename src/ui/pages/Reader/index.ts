@@ -1,1 +1,1 @@
-export * from './Page'
+export { ReaderPage } from './Page'

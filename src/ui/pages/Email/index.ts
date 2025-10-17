@@ -1,1 +1,1 @@
-export * from './Page'
+export { EmailPage } from './Page'

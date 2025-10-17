@@ -1,5 +1,5 @@
 'use client'
-import { Page as MapPage } from '@/ui/pages/Map/Page'
+import { MapPage } from '@/ui/pages/Map'
 import { Language } from '@/domains'
 
 export default function Page() {
