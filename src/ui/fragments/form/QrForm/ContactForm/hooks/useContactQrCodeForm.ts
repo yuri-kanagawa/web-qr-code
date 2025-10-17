@@ -14,13 +14,14 @@ interface Props {
   lastName: string
   middleName: string
   email: string
-  organization: string
-  url: string
   phoneNumber: string
+  homeAddress: string
+  homeUrl: string
+  organization: string
   post: string
-  businessCellularTelephone: string
-  privateCellularTelephone: string
-  address: string
+  workPhone: string
+  workAddress: string
+  workUrl: string
 }
 
 export function useContactQrCodeForm({
@@ -29,27 +30,29 @@ export function useContactQrCodeForm({
   lastName,
   middleName,
   email,
-  organization,
-  url,
   phoneNumber,
+  homeAddress,
+  homeUrl,
+  organization,
   post,
-  businessCellularTelephone,
-  privateCellularTelephone,
-  address
+  workPhone,
+  workAddress,
+  workUrl
 }: Props) {
   const { ref, onConfirm, onDownload } = useQrCode(language)
   const defaultValues: RegisterQrCodeContactSchema = {
     firstName,
     lastName,
     middleName,
+    email,
     phoneNumber,
+    homeAddress,
+    homeUrl,
     organization,
     post,
-    businessCellularTelephone,
-    privateCellularTelephone,
-    email,
-    address,
-    url
+    workPhone,
+    workAddress,
+    workUrl
   }
 
   const schema = useMemo(
@@ -69,9 +72,13 @@ export function useContactQrCodeForm({
     'firstName',
     'lastName',
     'phoneNumber',
+    'homeAddress',
+    'homeUrl',
     'organization',
-    'address',
-    'url'
+    'post',
+    'workPhone',
+    'workAddress',
+    'workUrl'
   ]
 
   const submitErrorHandler: SubmitErrorHandler<RegisterQrCodeContactSchema> = (
