@@ -5,7 +5,7 @@ import { RegisterQrCodeUrlSchema } from '@/ui/fragments/form/QrForm/UrlForm/hook
 import {
   registerQrCodePhoneSchema,
   RegisterQrCodePhoneSchema
-} from '@/ui/pages/phone/hooks/zod'
+} from '@/ui/pages/Phone/hooks/zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useSearchParams } from 'next/navigation'
 import { useCallback, useEffect, useMemo } from 'react'
