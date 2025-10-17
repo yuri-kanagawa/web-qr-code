@@ -1,0 +1,9 @@
+yarn run v1.22.19
+$ next build
+  ▲ Next.js 14.2.3
+  - Environments: .env.production
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully
+   Linting and checking validity of types ...
+ ⨯ ESLint: Invalid Options: - Unknown options: useEslintrc, extensions - 'extensions' has been removed.

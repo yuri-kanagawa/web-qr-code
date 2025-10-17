@@ -1,2 +1,2 @@
-export { SocialMediaPage } from './Page'
+export { SocialMediaPage } from './Page';
 

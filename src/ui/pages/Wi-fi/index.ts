@@ -1,2 +1,2 @@
-export { WiFiPage } from './Page'
+export { WiFiPage } from './Page';
 

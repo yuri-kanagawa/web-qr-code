@@ -1,2 +1,2 @@
-export { UrlPage } from './Page'
+export { UrlPage } from './Page';
 

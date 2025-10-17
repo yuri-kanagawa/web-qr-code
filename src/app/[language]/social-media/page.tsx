@@ -1,5 +1,4 @@
 'use client'
-import { Language } from '@/domains'
 import { SocialMediaPage } from '@/ui/pages/Social-media'
 
 type Props = {

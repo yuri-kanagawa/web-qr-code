@@ -23,7 +23,7 @@ type Props = {
   language: Language
 }
 
-export const Page = ({ language }: Props) => {
+export const DeviceRedirectPage = ({ language }: Props) => {
   const { deviceOs: deviceOsList, urls } = useQrCode()
   const [errorType, setErrorType] = useState<ErrorType>(null)
   const router = useRouter()

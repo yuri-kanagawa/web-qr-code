@@ -1,7 +1,7 @@
 'use client'
-import { PageWrapper, WiFiForm } from '@/ui/fragments'
 import { Language } from '@/domains/valueObjects/language'
-import React, { FC } from 'react'
+import { PageWrapper, WiFiForm } from '@/ui/fragments'
+import { FC } from 'react'
 
 interface Props {
   language: Language
@@ -9,7 +9,7 @@ interface Props {
   password: string
   type: string
 }
-export const Page: FC<Props> = (props) => {
+export const WiFiPage: FC<Props> = (props) => {
   return (
     <PageWrapper language={props.language}>
       <WiFiForm {...props} />
