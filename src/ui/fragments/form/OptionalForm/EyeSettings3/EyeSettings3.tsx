@@ -3,8 +3,8 @@ import { EyeRadius, QrColor } from '@/domains/valueObjects/qrSettings'
 import { useQrCode, useWindowSize } from '@/hooks'
 import { ColorInput } from '@/ui/cores/input'
 import { QRCode } from '@/ui/cores/QrCode'
-import { CornerHighlightBox } from '@/ui/fragments/box'
-import { Box, FormLabel, Slider, Stack, TextField } from '@mui/material'
+import { CornerHighlightBox, FormSection } from '@/ui/fragments/box'
+import { Box, Slider, Stack, TextField } from '@mui/material'
 import { FC } from 'react'
 
 type Props = {
@@ -27,34 +27,11 @@ export const EyeSettings3: FC<Props> = ({ language }) => {
     }
   }
 
+  const label = language.isEnglish ? 'Eye (Bottom Left)' : '目（左下）'
+
   return (
-    <Box
-      sx={{
-        border: '1px solid',
-        borderColor: 'rgba(0, 0, 0, 0.23)',
-        borderRadius: 1,
-        position: 'relative',
-        px: 2,
-        pt: 3,
-        pb: 5,
-        '&:hover': {
-          borderColor: 'rgba(0, 0, 0, 0.87)'
-        }
-      }}
-    >
-      <FormLabel
-        sx={{
-          position: 'absolute',
-          top: -10,
-          left: 10,
-          px: 0.5,
-          bgcolor: 'background.paper',
-          fontSize: '0.75rem'
-        }}
-      >
-        {language.isEnglish ? 'Eye (Bottom Left)' : '目（左下）'}
-      </FormLabel>
-      <Stack spacing={3}>
+    <FormSection label={label}>
+      <Stack spacing={3} sx={{ pb: 3 }}>
         <ColorInput
           format="hex"
           value={settings.colors.eyeColor3.value}
@@ -113,6 +90,6 @@ export const EyeSettings3: FC<Props> = ({ language }) => {
           }}
         />
       </Stack>
-    </Box>
+    </FormSection>
   )
 }

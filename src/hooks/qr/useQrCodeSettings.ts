@@ -134,9 +134,28 @@ export const useQrCodeSettings = (language: Language = Language.default()) => {
     }
   }, [])
 
+  // 目の個別設定ON/OFF管理
+  const individualEyeSettings = useMemo(() => {
+    try {
+      const param = searchParams.get('individualEyeSettings')
+      return param === 'true'
+    } catch {
+      return false
+    }
+  }, [searchParams])
+
+  const updateIndividualEyeSettings = useCallback((value: boolean) => {
+    try {
+      SearchParamsManager.add({ individualEyeSettings: value.toString() })
+    } catch (error) {
+      console.error('Failed to update individualEyeSettings:', error)
+    }
+  }, [])
+
   return {
     settings,
     maxSize,
+    individualEyeSettings,
     // Setters
     updateEcLevel,
     updateSize,
@@ -158,6 +177,7 @@ export const useQrCodeSettings = (language: Language = Language.default()) => {
     updateEyeRadius3,
     updateEnableCORS,
     updateQuietZone,
-    updateQrStyle
+    updateQrStyle,
+    updateIndividualEyeSettings
   }
 }
