@@ -1,7 +1,7 @@
 'use client'
 import { Language } from '@/domains'
 import { PageWrapper } from '@/ui/fragments/pageWrapper/PageWrapper'
-import { PrivacyPolicyPage } from '@/ui/pages/privacy'
+import { PrivacyPolicyPage } from '@/ui/pages/Privacy'
 
 type Props = {
   params: {

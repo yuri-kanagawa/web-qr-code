@@ -1,6 +1,6 @@
 import { Language } from '@/domains'
 import { PageWrapper } from '@/ui/fragments/pageWrapper/PageWrapper'
-import { TermsOfServicePage } from '@/ui/pages/terms'
+import { TermsOfServicePage } from '@/ui/pages/Terms'
 
 export const metadata = Language.default().locale.meta.index
 

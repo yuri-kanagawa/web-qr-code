@@ -1,5 +1,5 @@
 'use client'
-import { Page as EmailPage } from '@/ui/pages/email'
+import { Page as EmailPage } from '@/ui/pages/Email'
 import { Language } from '@/domains/valueObjects/language'
 
 export default function Page() {

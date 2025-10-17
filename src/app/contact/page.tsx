@@ -1,6 +1,6 @@
 'use client'
 import { Language } from '@/domains'
-import { Page as ContactPage } from '@/ui/pages/contact'
+import { Page as ContactPage } from '@/ui/pages/Contact'
 
 export default function Page() {
   return (

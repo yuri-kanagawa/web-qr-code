@@ -1,5 +1,5 @@
 'use client'
-import { Page as MapPage } from '@/ui/pages/map/Page'
+import { Page as MapPage } from '@/ui/pages/Map/Page'
 
 type Props = {
   params: { language: string }

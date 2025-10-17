@@ -1,7 +1,7 @@
 'use client'
 import { Language } from '@/domains'
 import { PageWrapper } from '@/ui/fragments/pageWrapper/PageWrapper'
-import { TermsOfServicePage } from '@/ui/pages/terms'
+import { TermsOfServicePage } from '@/ui/pages/Terms'
 
 type Props = {
   params: {

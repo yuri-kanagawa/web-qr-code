@@ -1,6 +1,6 @@
 'use client'
 import { Language } from '@/domains'
-import { Page as DevicePage } from '@/ui/pages/device'
+import { Page as DevicePage } from '@/ui/pages/Device'
 
 type Props = {
   params: { language: string }

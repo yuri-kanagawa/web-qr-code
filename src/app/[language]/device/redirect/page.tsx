@@ -1,6 +1,6 @@
 'use client'
 
-import { Page as DeviceRedirectPage } from '@/ui/pages/device/redirect'
+import { Page as DeviceRedirectPage } from '@/ui/pages/Device/redirect'
 
 type Props = {
   params: { language: string }
