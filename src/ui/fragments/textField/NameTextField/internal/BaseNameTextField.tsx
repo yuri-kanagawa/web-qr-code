@@ -2,25 +2,31 @@ import { Language } from '@/domains/valueObjects/language'
 import { TextField, TextFieldProps } from '@/ui/cores/TextField'
 import { FC } from 'react'
 
-export type MiddleNameFormProps = {
+type Props = {
   value: string
   onChange: (value: string) => void
   language: Language
+  label: string
 } & Omit<TextFieldProps, 'onChange' | 'value' | 'label'>
-export const MiddleNameForm: FC<MiddleNameFormProps> = ({
+
+/**
+ * 基本のNameTextField
+ * firstName, middleName, lastNameなどに使用される
+ */
+export const BaseNameTextField: FC<Props> = ({
   value,
   onChange,
   language,
-  ...textFieldProps
+  label,
+  ...rest
 }) => {
-  const locale = language.locale
   return (
     <TextField
-      label={locale.word.form.middleName}
+      label={label}
       value={value}
-      onChange={(event) => onChange(event.currentTarget.value)}
+      onChange={(e) => onChange(e.target.value)}
       fullWidth
-      {...textFieldProps}
+      {...rest}
     />
   )
 }
