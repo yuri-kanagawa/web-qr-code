@@ -133,3 +133,5 @@ export const FormButton = React.forwardRef<HTMLDivElement, Props>(
     )
   }
 )
+
+FormButton.displayName = 'FormButton'

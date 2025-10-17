@@ -36,3 +36,5 @@ export const LeftDrawer = forwardRef<HTMLDivElement, Props>(
     )
   }
 )
+
+LeftDrawer.displayName = 'LeftDrawer'

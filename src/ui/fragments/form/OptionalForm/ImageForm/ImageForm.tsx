@@ -61,3 +61,5 @@ export const ImageForm: FC<Props> = memo(
     )
   }
 )
+
+ImageForm.displayName = 'ImageForm'

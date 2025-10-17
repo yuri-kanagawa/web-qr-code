@@ -157,3 +157,5 @@ export const DrawerItems = forwardRef<HTMLDivElement, Props>(
     )
   }
 )
+
+DrawerItems.displayName = 'DrawerItems'
