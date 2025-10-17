@@ -1,8 +1,8 @@
 'use client'
-import { PageWrapper, ContactForm } from '@/ui/fragments'
 import { Language } from '@/domains/valueObjects/language'
+import { ContactForm, PageWrapper } from '@/ui/fragments'
 
-import React, { FC } from 'react'
+import { FC } from 'react'
 
 interface Props {
   language: Language
@@ -10,13 +10,14 @@ interface Props {
   lastName: string
   middleName: string
   email: string
-  organization: string
-  url: string
   phoneNumber: string
+  homeAddress: string
+  homeUrl: string
+  organization: string
   post: string
-  businessCellularTelephone: string
-  privateCellularTelephone: string
-  address: string
+  workPhone: string
+  workAddress: string
+  workUrl: string
 }
 
 export const Page: FC<Props> = (props) => {

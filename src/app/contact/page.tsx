@@ -1,6 +1,6 @@
 'use client'
-import { Page as ContactPage } from '@/ui/pages/contact'
 import { Language } from '@/domains'
+import { Page as ContactPage } from '@/ui/pages/contact'
 
 export default function Page() {
   return (
@@ -10,13 +10,14 @@ export default function Page() {
       lastName=""
       middleName=""
       email=""
-      organization=""
-      url=""
       phoneNumber=""
+      homeAddress=""
+      homeUrl=""
+      organization=""
       post=""
-      businessCellularTelephone=""
-      privateCellularTelephone=""
-      address=""
+      workPhone=""
+      workAddress=""
+      workUrl=""
     />
   )
 }

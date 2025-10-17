@@ -1,5 +1,4 @@
 'use client'
-import { Language } from '@/domains'
 import { Page as ContactPage } from '@/ui/pages/contact'
 
 type Props = {
@@ -17,13 +16,14 @@ export default function Page({ params }: Props) {
       lastName=""
       middleName=""
       email=""
-      organization=""
-      url=""
       phoneNumber=""
+      homeAddress=""
+      homeUrl=""
+      organization=""
       post=""
-      businessCellularTelephone=""
-      privateCellularTelephone=""
-      address=""
+      workPhone=""
+      workAddress=""
+      workUrl=""
     />
   )
 }
