@@ -1,1 +1,2 @@
-export * from './CornerHighlightBox'
+export { CornerHighlightBox } from './CornerHighlightBox'
+export { FormSection } from './FormSection'
