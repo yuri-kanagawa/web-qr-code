@@ -3,11 +3,14 @@ import {
   EmailTextField,
   NameTextField,
   OrganizationForm,
+  PhoneTextField,
   UrlTextField
 } from '@/ui/fragments/textField'
 import { FC } from 'react'
 
 import { Language } from '@/domains/valueObjects/language'
+import { Stack, TextField } from '@/ui/cores'
+import { FormSection } from '@/ui/fragments/box'
 import { FormButton, FormCard } from '@/ui/fragments/form'
 import { Controller } from 'react-hook-form'
 import { convertContact, useContactQrCodeForm } from './hooks'
@@ -41,6 +44,7 @@ export const ContactForm: FC<Props> = ({
   privateCellularTelephone,
   address
 }) => {
+  const locale = language.locale
   const {
     control,
     onConfirm,
@@ -72,99 +76,216 @@ export const ContactForm: FC<Props> = ({
       isValid={isValid}
       ref={ref}
     >
-      <FormCard>
-        <Controller
-          control={control}
-          name="firstName"
-          render={({
-            field: firstNameField,
-            formState: { isValid },
-            fieldState: { error }
-          }) => (
+      <FormCard cardProps={{ sx: { p: 2 } }}>
+        <Stack spacing={3}>
+          <FormSection label={language.isEnglish ? 'Name' : '名前'}>
             <Controller
               control={control}
-              name="lastName"
+              name="firstName"
               render={({
-                field: lastNameField,
+                field: firstNameField,
                 formState: { isValid },
                 fieldState: { error }
               }) => (
                 <Controller
                   control={control}
-                  name="middleName"
+                  name="lastName"
                   render={({
-                    field: middleNameField,
+                    field: lastNameField,
                     formState: { isValid },
                     fieldState: { error }
                   }) => (
-                    <NameTextField
-                      firstName={{ ...firstNameField }}
-                      lastName={{ ...lastNameField }}
-                      middleName={{ ...middleNameField }}
-                      language={language}
+                    <Controller
+                      control={control}
+                      name="middleName"
+                      render={({
+                        field: middleNameField,
+                        formState: { isValid },
+                        fieldState: { error }
+                      }) => (
+                        <NameTextField
+                          firstName={{ ...firstNameField }}
+                          lastName={{ ...lastNameField }}
+                          middleName={{ ...middleNameField }}
+                          language={language}
+                        />
+                      )}
                     />
                   )}
                 />
               )}
             />
-          )}
-        />
-        <Controller
-          control={control}
-          name="email"
-          render={({
-            field: { value, onChange, ref: inputRef },
-            formState: { isValid },
-            fieldState: { error }
-          }) => (
-            <EmailTextField
-              value={value}
-              onChange={onChange}
-              language={language}
-              inputRef={inputRef}
-              error={!!error}
-              helperText={error?.message}
-              fullWidth
+          </FormSection>
+          <Controller
+            control={control}
+            name="email"
+            render={({
+              field: { value, onChange, ref: inputRef },
+              formState: { isValid },
+              fieldState: { error }
+            }) => (
+              <EmailTextField
+                value={value}
+                onChange={onChange}
+                language={language}
+                inputRef={inputRef}
+                error={!!error}
+                helperText={error?.message}
+                fullWidth
+              />
+            )}
+          />
+          <Controller
+            control={control}
+            name="organization"
+            render={({
+              field: { value, onChange, ref: inputRef },
+              formState: { isValid },
+              fieldState: { error }
+            }) => (
+              <OrganizationForm
+                value={value}
+                onChange={onChange}
+                language={language}
+                inputRef={inputRef}
+                error={!!error}
+                helperText={error?.message}
+                fullWidth
+              />
+            )}
+          />
+          <Controller
+            control={control}
+            name="phoneNumber"
+            render={({
+              field: { value, onChange, ref: inputRef },
+              formState: { isValid },
+              fieldState: { error }
+            }) => (
+              <PhoneTextField
+                cellPhone={{
+                  value,
+                  onChange,
+                  error: !!error,
+                  helperText: error?.message,
+                  inputRef,
+                  isRequired: false
+                }}
+                language={language}
+              />
+            )}
+          />
+          <Controller
+            control={control}
+            name="post"
+            render={({
+              field: { value, onChange, ref: inputRef },
+              formState: { isValid },
+              fieldState: { error }
+            }) => (
+              <TextField
+                label={locale.word.form.post}
+                value={value}
+                onChange={(e) => onChange(e.target.value)}
+                inputRef={inputRef}
+                error={!!error}
+                helperText={error?.message}
+                fullWidth
+              />
+            )}
+          />
+          <FormSection
+            label={language.isEnglish ? 'Business Contact' : 'ビジネス連絡先'}
+          >
+            <Controller
+              control={control}
+              name="businessCellularTelephone"
+              render={({
+                field: { value, onChange, ref: inputRef },
+                formState: { isValid },
+                fieldState: { error }
+              }) => (
+                <PhoneTextField
+                  cellPhone={{
+                    value,
+                    onChange,
+                    error: !!error,
+                    helperText: error?.message,
+                    inputRef,
+                    isRequired: false
+                  }}
+                  language={language}
+                />
+              )}
             />
-          )}
-        />
-        <Controller
-          control={control}
-          name="organization"
-          render={({
-            field: { value, onChange, ref: inputRef },
-            formState: { isValid },
-            fieldState: { error }
-          }) => (
-            <OrganizationForm
-              value={value}
-              onChange={onChange}
-              language={language}
-              inputRef={inputRef}
-              error={!!error}
-              helperText={error?.message}
-              fullWidth
+          </FormSection>
+          <FormSection
+            label={
+              language.isEnglish ? 'Private Contact' : 'プライベート連絡先'
+            }
+          >
+            <Controller
+              control={control}
+              name="privateCellularTelephone"
+              render={({
+                field: { value, onChange, ref: inputRef },
+                formState: { isValid },
+                fieldState: { error }
+              }) => (
+                <PhoneTextField
+                  cellPhone={{
+                    value,
+                    onChange,
+                    error: !!error,
+                    helperText: error?.message,
+                    inputRef,
+                    isRequired: false
+                  }}
+                  language={language}
+                />
+              )}
             />
-          )}
-        />
-        <Controller
-          control={control}
-          name="url"
-          render={({
-            field: { value, onChange, ref: inputRef },
-            formState: { isValid },
-            fieldState: { error }
-          }) => (
-            <UrlTextField
-              value={value}
-              onChange={onChange}
-              inputRef={inputRef}
-              error={!!error}
-              helperText={error?.message}
-              fullWidth
-            />
-          )}
-        />
+          </FormSection>
+          <Controller
+            control={control}
+            name="address"
+            render={({
+              field: { value, onChange, ref: inputRef },
+              formState: { isValid },
+              fieldState: { error }
+            }) => (
+              <TextField
+                label={locale.word.form.address}
+                value={value}
+                onChange={(e) => onChange(e.target.value)}
+                inputRef={inputRef}
+                error={!!error}
+                helperText={error?.message}
+                fullWidth
+                multiline
+                rows={3}
+              />
+            )}
+          />
+          <Controller
+            control={control}
+            name="url"
+            render={({
+              field: { value, onChange, ref: inputRef },
+              formState: { isValid },
+              fieldState: { error }
+            }) => (
+              <UrlTextField
+                value={value}
+                onChange={onChange}
+                inputRef={inputRef}
+                error={!!error}
+                helperText={error?.message}
+                fullWidth
+              />
+            )}
+          />
+        </Stack>
       </FormCard>
     </FormButton>
   )
