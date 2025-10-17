@@ -1,5 +1,5 @@
 'use client'
-import { Page as RootPage } from '@/ui/pages/root'
+import { RootPage } from '@/ui/pages'
 
 type Props = {
   params: { language: string }

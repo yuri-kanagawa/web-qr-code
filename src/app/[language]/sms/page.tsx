@@ -1,6 +1,6 @@
 'use client'
 import { Language } from '@/domains'
-import { SmsPage } from '@/ui/pages/sms'
+import { SmsPage } from '@/ui/pages/Sms'
 
 type Props = {
   params: { language: string }

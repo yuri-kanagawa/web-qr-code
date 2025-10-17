@@ -1,5 +1,5 @@
 'use client'
-import { Page as ContactPage } from '@/ui/pages/contact'
+import { Page as ContactPage } from '@/ui/pages/Contact'
 
 type Props = {
   params: { language: string }
