@@ -1,7 +1,7 @@
 import { Language } from '@/domains/valueObjects/language'
 import { FormButton, FormCard } from '@/ui/fragments/form'
 import { BodyTextField } from '@/ui/fragments/textField'
-import { PhoneTextField } from '@/ui/fragments/textField/PhoneTextField'
+import { CellPhoneTextField } from '@/ui/fragments/textField/PhoneTextField'
 import { Stack } from '@mui/material'
 import { FC } from 'react'
 import { Controller } from 'react-hook-form'
@@ -43,16 +43,14 @@ export const SmsForm: FC<Props> = (props) => {
               formState: { isValid },
               fieldState: { error }
             }) => (
-              <PhoneTextField
-                cellPhone={{
-                  value,
-                  onChange,
-                  error: !!error,
-                  helperText: error?.message,
-                  inputRef,
-                  isRequired: false
-                }}
+              <CellPhoneTextField
+                value={value}
+                onChange={onChange}
+                error={!!error}
+                helperText={error?.message}
+                inputRef={inputRef}
                 language={props.language}
+                isRequired={false}
               />
             )}
           />

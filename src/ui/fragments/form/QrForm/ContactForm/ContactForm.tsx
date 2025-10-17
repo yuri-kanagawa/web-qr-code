@@ -3,9 +3,9 @@ import {
   EmailTextField,
   NameTextField,
   OrganizationForm,
-  PhoneTextField,
   UrlTextField
 } from '@/ui/fragments/textField'
+import { CellPhoneTextField } from '@/ui/fragments/textField/PhoneTextField'
 import { FC } from 'react'
 
 import { Language } from '@/domains/valueObjects/language'
@@ -162,16 +162,14 @@ export const ContactForm: FC<Props> = ({
               formState: { isValid },
               fieldState: { error }
             }) => (
-              <PhoneTextField
-                cellPhone={{
-                  value,
-                  onChange,
-                  error: !!error,
-                  helperText: error?.message,
-                  inputRef,
-                  isRequired: false
-                }}
+              <CellPhoneTextField
+                value={value}
+                onChange={onChange}
+                error={!!error}
+                helperText={error?.message}
+                inputRef={inputRef}
                 language={language}
+                isRequired={false}
               />
             )}
           />
@@ -205,16 +203,14 @@ export const ContactForm: FC<Props> = ({
                 formState: { isValid },
                 fieldState: { error }
               }) => (
-                <PhoneTextField
-                  cellPhone={{
-                    value,
-                    onChange,
-                    error: !!error,
-                    helperText: error?.message,
-                    inputRef,
-                    isRequired: false
-                  }}
+                <CellPhoneTextField
+                  value={value}
+                  onChange={onChange}
+                  error={!!error}
+                  helperText={error?.message}
+                  inputRef={inputRef}
                   language={language}
+                  isRequired={false}
                 />
               )}
             />
@@ -232,16 +228,14 @@ export const ContactForm: FC<Props> = ({
                 formState: { isValid },
                 fieldState: { error }
               }) => (
-                <PhoneTextField
-                  cellPhone={{
-                    value,
-                    onChange,
-                    error: !!error,
-                    helperText: error?.message,
-                    inputRef,
-                    isRequired: false
-                  }}
+                <CellPhoneTextField
+                  value={value}
+                  onChange={onChange}
+                  error={!!error}
+                  helperText={error?.message}
+                  inputRef={inputRef}
                   language={language}
+                  isRequired={false}
                 />
               )}
             />
