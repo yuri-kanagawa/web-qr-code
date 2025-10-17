@@ -11,7 +11,7 @@ import { FC, useMemo } from 'react'
 import { FaCommentSms, FaWifi } from 'react-icons/fa6'
 import { MdLocationOn, MdPermContactCalendar } from 'react-icons/md'
 import { RiMailFill } from 'react-icons/ri'
-import { FeatureCard } from './internal/FeatureCard'
+import { FeatureCard } from './_internal/FeatureCard'
 
 interface Props {
   language: Language
