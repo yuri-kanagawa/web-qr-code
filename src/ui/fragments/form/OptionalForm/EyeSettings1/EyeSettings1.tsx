@@ -1,27 +1,35 @@
+import { QrCodeSettings } from '@/domains'
 import { Language } from '@/domains/valueObjects/language'
-import { EyeRadius, QrColor } from '@/domains/valueObjects/qrSettings'
-import { useQrCode, useWindowSize } from '@/hooks'
+import {
+  EyeRadius as EyeRadiusClass,
+  EyeSettings,
+  QrColor,
+  QrColors
+} from '@/domains/valueObjects/qrSettings'
+import { useWindowSize } from '@/hooks'
 import { ColorInput } from '@/ui/cores/input'
 import { QRCode } from '@/ui/cores/QrCode'
-import { CornerHighlightBox, FormSection } from '@/ui/fragments/box'
+import {
+  CornerHighlightBox,
+  FormSection,
+  WarningAlert
+} from '@/ui/fragments/box'
 import { Box, Slider, Stack, TextField } from '@mui/material'
 import { FC } from 'react'
 
 type Props = {
   language: Language
   isUnified?: boolean
+  settings: QrCodeSettings
+  onChange: (settings: QrCodeSettings) => void
 }
 
-export const EyeSettings1: FC<Props> = ({ language, isUnified = false }) => {
-  const {
-    settings,
-    updateEyeColor1,
-    updateEyeColor2,
-    updateEyeColor3,
-    updateEyeRadius1,
-    updateEyeRadius2,
-    updateEyeRadius3
-  } = useQrCode()
+export const EyeSettings1: FC<Props> = ({
+  language,
+  isUnified = false,
+  settings,
+  onChange
+}) => {
   const { isOverLaptop } = useWindowSize()
   const locale = language.locale
 
@@ -29,16 +37,50 @@ export const EyeSettings1: FC<Props> = ({ language, isUnified = false }) => {
     const numValue = Number(event.target.value)
     if (
       !isNaN(numValue) &&
-      numValue >= EyeRadius.MIN &&
-      numValue <= EyeRadius.MAX
+      numValue >= EyeRadiusClass.MIN &&
+      numValue <= EyeRadiusClass.MAX
     ) {
       if (isUnified) {
         // 統一設定モード：すべての目に適用
-        updateEyeRadius1(numValue)
-        updateEyeRadius2(numValue)
-        updateEyeRadius3(numValue)
+        const r1 = EyeRadiusClass.create(numValue, language)
+        const r2 = EyeRadiusClass.create(numValue, language)
+        const r3 = EyeRadiusClass.create(numValue, language)
+        if (
+          r1.isSuccess &&
+          r2.isSuccess &&
+          r3.isSuccess &&
+          r1.eyeRadius &&
+          r2.eyeRadius &&
+          r3.eyeRadius
+        ) {
+          const newEye = EyeSettings.create(
+            r1.eyeRadius,
+            r2.eyeRadius,
+            r3.eyeRadius
+          )
+          const newSettings = settings.changeEye(newEye)
+          onChange(newSettings)
+        }
       } else {
-        updateEyeRadius1(numValue)
+        const r1 = EyeRadiusClass.create(numValue, language)
+        const r2 = EyeRadiusClass.create(settings.eye.radius2, language)
+        const r3 = EyeRadiusClass.create(settings.eye.radius3, language)
+        if (
+          r1.isSuccess &&
+          r2.isSuccess &&
+          r3.isSuccess &&
+          r1.eyeRadius &&
+          r2.eyeRadius &&
+          r3.eyeRadius
+        ) {
+          const newEye = EyeSettings.create(
+            r1.eyeRadius,
+            r2.eyeRadius,
+            r3.eyeRadius
+          )
+          const newSettings = settings.changeEye(newEye)
+          onChange(newSettings)
+        }
       }
     }
   }
@@ -48,11 +90,25 @@ export const EyeSettings1: FC<Props> = ({ language, isUnified = false }) => {
     if (result.isSuccess && result.qrColor) {
       if (isUnified) {
         // 統一設定モード：すべての目に適用
-        updateEyeColor1(result.qrColor)
-        updateEyeColor2(result.qrColor)
-        updateEyeColor3(result.qrColor)
+        const newColors = QrColors.create(
+          settings.colors.fgColor,
+          settings.colors.bgColor,
+          result.qrColor,
+          result.qrColor,
+          result.qrColor
+        )
+        const newSettings = settings.changeColors(newColors)
+        onChange(newSettings)
       } else {
-        updateEyeColor1(result.qrColor)
+        const newColors = QrColors.create(
+          settings.colors.fgColor,
+          settings.colors.bgColor,
+          result.qrColor,
+          settings.colors.eyeColor2,
+          settings.colors.eyeColor3
+        )
+        const newSettings = settings.changeColors(newColors)
+        onChange(newSettings)
       }
     }
   }
@@ -61,11 +117,45 @@ export const EyeSettings1: FC<Props> = ({ language, isUnified = false }) => {
     const numValue = Number(value)
     if (isUnified) {
       // 統一設定モード：すべての目に適用
-      updateEyeRadius1(numValue)
-      updateEyeRadius2(numValue)
-      updateEyeRadius3(numValue)
+      const r1 = EyeRadiusClass.create(numValue, language)
+      const r2 = EyeRadiusClass.create(numValue, language)
+      const r3 = EyeRadiusClass.create(numValue, language)
+      if (
+        r1.isSuccess &&
+        r2.isSuccess &&
+        r3.isSuccess &&
+        r1.eyeRadius &&
+        r2.eyeRadius &&
+        r3.eyeRadius
+      ) {
+        const newEye = EyeSettings.create(
+          r1.eyeRadius,
+          r2.eyeRadius,
+          r3.eyeRadius
+        )
+        const newSettings = settings.changeEye(newEye)
+        onChange(newSettings)
+      }
     } else {
-      updateEyeRadius1(numValue)
+      const r1 = EyeRadiusClass.create(numValue, language)
+      const r2 = EyeRadiusClass.create(settings.eye.radius2, language)
+      const r3 = EyeRadiusClass.create(settings.eye.radius3, language)
+      if (
+        r1.isSuccess &&
+        r2.isSuccess &&
+        r3.isSuccess &&
+        r1.eyeRadius &&
+        r2.eyeRadius &&
+        r3.eyeRadius
+      ) {
+        const newEye = EyeSettings.create(
+          r1.eyeRadius,
+          r2.eyeRadius,
+          r3.eyeRadius
+        )
+        const newSettings = settings.changeEye(newEye)
+        onChange(newSettings)
+      }
     }
   }
 
@@ -76,6 +166,17 @@ export const EyeSettings1: FC<Props> = ({ language, isUnified = false }) => {
     : language.isEnglish
       ? 'Eye (Top Left)'
       : '目（左上）'
+
+  // 目の色のコントラスト比チェック
+  const eyeBgContrast = settings.colors.getContrastRatio(
+    settings.colors.eyeColor1,
+    settings.colors.bgColor
+  )
+  const eyeFgContrast = settings.colors.getContrastRatio(
+    settings.colors.eyeColor1,
+    settings.colors.fgColor
+  )
+  const hasLowContrast = eyeBgContrast < 3.0 || eyeFgContrast < 3.0
 
   return (
     <FormSection label={label}>
@@ -106,21 +207,21 @@ export const EyeSettings1: FC<Props> = ({ language, isUnified = false }) => {
           size="small"
           value={settings.eye.radius1}
           onChange={handleRadiusChange}
-          inputProps={{ min: EyeRadius.MIN, max: EyeRadius.MAX }}
+          inputProps={{ min: EyeRadiusClass.MIN, max: EyeRadiusClass.MAX }}
           fullWidth
         />
         <Slider
-          min={EyeRadius.MIN}
-          max={EyeRadius.MAX}
+          min={EyeRadiusClass.MIN}
+          max={EyeRadiusClass.MAX}
           value={settings.eye.radius1}
           onChange={handleSliderChange}
           marks={[
             {
-              value: EyeRadius.MIN,
+              value: EyeRadiusClass.MIN,
               label: '■'
             },
             {
-              value: EyeRadius.MAX,
+              value: EyeRadiusClass.MAX,
               label: '●'
             }
           ]}
@@ -131,6 +232,33 @@ export const EyeSettings1: FC<Props> = ({ language, isUnified = false }) => {
             }
           }}
         />
+        {hasLowContrast && (
+          <WarningAlert
+            language={language}
+            title={language.isEnglish ? 'Eye Color Warning' : '目の色警告'}
+            messages={[
+              ...(eyeBgContrast < 3.0
+                ? [
+                    language.isEnglish
+                      ? `Eye color has low contrast with background (${eyeBgContrast.toFixed(1)}:1)`
+                      : `目の色と背景色のコントラスト比が低いです (${eyeBgContrast.toFixed(1)}:1)`
+                  ]
+                : []),
+              ...(eyeFgContrast < 3.0
+                ? [
+                    language.isEnglish
+                      ? `Eye color has low contrast with foreground (${eyeFgContrast.toFixed(1)}:1)`
+                      : `目の色と前景色のコントラスト比が低いです (${eyeFgContrast.toFixed(1)}:1)`
+                  ]
+                : [])
+            ]}
+            recommendedText={
+              language.isEnglish
+                ? 'Recommended contrast ratio: 3.0:1 or higher'
+                : '推奨コントラスト比: 3.0:1以上'
+            }
+          />
+        )}
       </Stack>
     </FormSection>
   )
