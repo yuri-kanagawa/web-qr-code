@@ -10,6 +10,7 @@ type Props = {
   onChange: (device: Device) => void
   language?: Language
   isOptional?: boolean
+  isRequired?: boolean
   hiddenItems?: number[] // 非表示にする項目のID配列
   label?: string
   error?: boolean
@@ -21,6 +22,7 @@ export const DeviceSelect: FC<Props> = ({
   onChange,
   language = Language.default(),
   isOptional = false,
+  isRequired = false,
   hiddenItems = [],
   label,
   error = false,
@@ -29,16 +31,20 @@ export const DeviceSelect: FC<Props> = ({
   const array = useMemo(() => {
     const filtered = isOptional
       ? [...Device.list]
-      : Device.list.filter((e) => !Device.isNotSet(e))
+      : Device.list.filter((e) => {
+          const deviceObj = Device.create(e, language)
+          return deviceObj.isSuccess && !deviceObj.device!.isNotSet
+        })
 
     // 非表示項目を除外
     return hiddenItems.length > 0
       ? filtered.filter((e) => !hiddenItems.includes(e))
       : filtered
-  }, [isOptional, hiddenItems])
+  }, [isOptional, hiddenItems, language])
 
   const locale = language.locale
-  const displayLabel = label || locale.word.select.device
+  const baseLabel = label || locale.word.select.device
+  const displayLabel = isRequired ? `*${baseLabel}` : baseLabel
 
   return (
     <FormControl fullWidth error={error}>

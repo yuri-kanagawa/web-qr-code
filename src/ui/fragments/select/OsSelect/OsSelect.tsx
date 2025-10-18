@@ -10,6 +10,7 @@ type Props = {
   onChange: (os: Os) => void
   language?: Language
   isOptional?: boolean
+  isRequired?: boolean
   hiddenItems?: number[] // 非表示にする項目のID配列
   label?: string
   error?: boolean
@@ -21,6 +22,7 @@ export const OsSelect: FC<Props> = ({
   onChange,
   language = Language.default(),
   isOptional = false,
+  isRequired = false,
   hiddenItems = [],
   label,
   error = false,
@@ -29,16 +31,20 @@ export const OsSelect: FC<Props> = ({
   const array = useMemo(() => {
     const filtered = isOptional
       ? [...Os.list]
-      : Os.list.filter((e) => !Os.isNotSet(e))
+      : Os.list.filter((e) => {
+          const osObj = Os.create(e, language)
+          return osObj.isSuccess && !osObj.os!.isNotSet
+        })
 
     // 非表示項目を除外
     return hiddenItems.length > 0
       ? filtered.filter((e) => !hiddenItems.includes(e))
       : filtered
-  }, [isOptional, hiddenItems])
+  }, [isOptional, hiddenItems, language])
 
   const locale = language.locale
-  const displayLabel = label || locale.word.select.os
+  const baseLabel = label || locale.word.select.os
+  const displayLabel = isRequired ? `*${baseLabel}` : baseLabel
 
   return (
     <FormControl fullWidth error={error}>
