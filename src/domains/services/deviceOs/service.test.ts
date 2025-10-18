@@ -252,4 +252,152 @@ describe('DeviceOsService', () => {
       })
     })
   })
+
+  describe('isMatch', () => {
+    describe('完全一致', () => {
+      it('iOS + Mobile の組み合わせが完全一致する', () => {
+        const deviceOsId = DeviceOsService.COMBINATIONS.IOS_AND_MOBILE
+        const currentDevice = Device.mobile(defaultLanguage)
+        const currentOs = Os.ios(defaultLanguage)
+
+        const result = DeviceOsService.isMatch(
+          deviceOsId,
+          currentDevice,
+          currentOs
+        )
+
+        expect(result).toBe(true)
+      })
+
+      it('Windows + PC の組み合わせが完全一致する', () => {
+        const deviceOsId = DeviceOsService.COMBINATIONS.WINDOWS_AND_PC
+        const currentDevice = Device.pc(defaultLanguage)
+        const currentOs = Os.windows(defaultLanguage)
+
+        const result = DeviceOsService.isMatch(
+          deviceOsId,
+          currentDevice,
+          currentOs
+        )
+
+        expect(result).toBe(true)
+      })
+
+      it('完全一致しない場合はfalseを返す', () => {
+        const deviceOsId = DeviceOsService.COMBINATIONS.IOS_AND_MOBILE
+        const currentDevice = Device.tablet(defaultLanguage)
+        const currentOs = Os.ios(defaultLanguage)
+
+        const result = DeviceOsService.isMatch(
+          deviceOsId,
+          currentDevice,
+          currentOs
+        )
+
+        expect(result).toBe(false)
+      })
+    })
+
+    describe('Device=Allの場合のマッチング', () => {
+      it('iOS + All は iOS + Mobile にマッチする', () => {
+        const deviceOsId = DeviceOsService.COMBINATIONS.IOS_AND_ALL
+        const currentDevice = Device.mobile(defaultLanguage)
+        const currentOs = Os.ios(defaultLanguage)
+
+        const result = DeviceOsService.isMatch(
+          deviceOsId,
+          currentDevice,
+          currentOs
+        )
+
+        expect(result).toBe(true)
+      })
+
+      it('iOS + All は iOS + Tablet にマッチする', () => {
+        const deviceOsId = DeviceOsService.COMBINATIONS.IOS_AND_ALL
+        const currentDevice = Device.tablet(defaultLanguage)
+        const currentOs = Os.ios(defaultLanguage)
+
+        const result = DeviceOsService.isMatch(
+          deviceOsId,
+          currentDevice,
+          currentOs
+        )
+
+        expect(result).toBe(true)
+      })
+
+      it('Android + All は Android + Mobile にマッチする', () => {
+        const deviceOsId = DeviceOsService.COMBINATIONS.ANDROID_AND_ALL
+        const currentDevice = Device.mobile(defaultLanguage)
+        const currentOs = Os.android(defaultLanguage)
+
+        const result = DeviceOsService.isMatch(
+          deviceOsId,
+          currentDevice,
+          currentOs
+        )
+
+        expect(result).toBe(true)
+      })
+
+      it('Windows + All は Windows + PC にマッチする', () => {
+        const deviceOsId = DeviceOsService.COMBINATIONS.WINDOWS_AND_ALL
+        const currentDevice = Device.pc(defaultLanguage)
+        const currentOs = Os.windows(defaultLanguage)
+
+        const result = DeviceOsService.isMatch(
+          deviceOsId,
+          currentDevice,
+          currentOs
+        )
+
+        expect(result).toBe(true)
+      })
+
+      it('iOS + All は Android + Mobile にマッチしない', () => {
+        const deviceOsId = DeviceOsService.COMBINATIONS.IOS_AND_ALL
+        const currentDevice = Device.mobile(defaultLanguage)
+        const currentOs = Os.android(defaultLanguage)
+
+        const result = DeviceOsService.isMatch(
+          deviceOsId,
+          currentDevice,
+          currentOs
+        )
+
+        expect(result).toBe(false)
+      })
+    })
+
+    describe('エッジケース', () => {
+      it('NOT_SET の deviceOsId はマッチしない', () => {
+        const deviceOsId = DeviceOsService.COMBINATIONS.NOT_SET
+        const currentDevice = Device.mobile(defaultLanguage)
+        const currentOs = Os.ios(defaultLanguage)
+
+        const result = DeviceOsService.isMatch(
+          deviceOsId,
+          currentDevice,
+          currentOs
+        )
+
+        expect(result).toBe(false)
+      })
+
+      it('不正な deviceOsId はマッチしない', () => {
+        const deviceOsId = 9999
+        const currentDevice = Device.mobile(defaultLanguage)
+        const currentOs = Os.ios(defaultLanguage)
+
+        const result = DeviceOsService.isMatch(
+          deviceOsId,
+          currentDevice,
+          currentOs
+        )
+
+        expect(result).toBe(false)
+      })
+    })
+  })
 })
