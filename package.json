@@ -50,9 +50,11 @@
     "react-phone-number-input": "^3.4.12",
     "react-qrcode-logo": "^3.0.0",
     "react-router-dom": "^6.24.1",
-    "sharp": "^0.34.4",
     "uri-js": "4.2.2",
     "zod": "^3.23.8"
+  },
+  "optionalDependencies": {
+    "sharp": "^0.34.4"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^4.1.1",
