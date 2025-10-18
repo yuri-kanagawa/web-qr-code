@@ -1,5 +1,4 @@
 import { Inter } from 'next/font/google'
-import { headers } from 'next/headers'
 import React from 'react'
 const inter = Inter({ subsets: ['latin'] })
 
@@ -12,12 +11,22 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  const headersList = headers()
-  const acceptLanguage = headersList.get('accept-language') || 'en'
-  const lang = acceptLanguage.split(',')[0]
   return (
-    <html lang={lang}>
-      <head></head>
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              // URLから言語を検出してlang属性を更新
+              (function() {
+                const path = window.location.pathname;
+                const lang = path.startsWith('/ja') ? 'ja' : 'en';
+                document.documentElement.lang = lang;
+              })();
+            `
+          }}
+        />
+      </head>
       <body
         style={{
           background: 'white',
