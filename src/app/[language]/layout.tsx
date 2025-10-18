@@ -6,6 +6,11 @@ type Props = {
   params: { language: string }
 }
 
+// 静的パスを生成
+export function generateStaticParams() {
+  return [{ language: 'en' }, { language: 'ja' }]
+}
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { getMeta } = await import('./utils')
   return (await getMeta(params.language)).root
