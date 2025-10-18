@@ -4,8 +4,8 @@ import { Language } from '@/domains/valueObjects/language'
 import { Os } from '@/domains/valueObjects/os'
 import { SearchParamsManager } from '@/lib/browser'
 import { useMemo } from 'react'
-import { useClientSearchParams } from './useClientSearchParams'
 import { useQrCanvas, useQrCodeSettings, useQrOperations } from './qr'
+import { useClientSearchParams } from './useClientSearchParams'
 
 /**
  * QRコード全体を管理する統合フック（リファクタリング版）

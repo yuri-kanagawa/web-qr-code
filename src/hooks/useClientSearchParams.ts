@@ -20,7 +20,7 @@ export const useClientSearchParams = () => {
 
       // popstateイベント（ブラウザの戻る/進む）を監視
       window.addEventListener('popstate', handleChange)
-      
+
       return () => {
         window.removeEventListener('popstate', handleChange)
       }
@@ -30,4 +30,3 @@ export const useClientSearchParams = () => {
   // サーバーサイドレンダリング時は空のURLSearchParamsを返す
   return searchParams ?? new URLSearchParams()
 }
-

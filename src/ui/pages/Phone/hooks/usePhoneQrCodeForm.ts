@@ -1,5 +1,6 @@
 import { Language } from '@/domains/valueObjects/language'
 import { useQrCode } from '@/hooks'
+import { useClientSearchParams } from '@/hooks/useClientSearchParams'
 import { SearchParamsManager } from '@/lib/browser'
 import { RegisterQrCodeUrlSchema } from '@/ui/fragments/form/QrForm/UrlForm/hooks'
 import {
@@ -9,7 +10,6 @@ import {
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useCallback, useEffect, useMemo } from 'react'
 import { SubmitErrorHandler, useForm } from 'react-hook-form'
-import { useClientSearchParams } from '@/hooks/useClientSearchParams'
 
 export const usePhoneQrCodeForm = () => {
   const searchParams = useClientSearchParams()
