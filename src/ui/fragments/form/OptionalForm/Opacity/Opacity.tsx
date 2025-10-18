@@ -1,5 +1,6 @@
+import { QrCodeSettings } from '@/domains'
 import { Language } from '@/domains/valueObjects/language'
-import { useQrCode } from '@/hooks'
+import { LogoSettings } from '@/domains/valueObjects/qrSettings'
 import { Step01Slider } from '@/ui/fragments/slider'
 import { Box, FormLabel, Stack, TextField } from '@mui/material'
 import { FC } from 'react'
@@ -7,12 +8,24 @@ import { FC } from 'react'
 type Props = {
   file: File | null
   language: Language
+  settings: QrCodeSettings
+  onChange: (settings: QrCodeSettings) => void
 }
 
-export const Opacity: FC<Props> = ({ file, language }) => {
+export const Opacity: FC<Props> = ({ file, language, settings, onChange }) => {
   const isRelationFileDisabled = file == null
-  const { settings, updateLogoOpacity } = useQrCode()
   const locale = language.locale
+
+  const updateLogoOpacity = (opacity: number) => {
+    const newLogo = LogoSettings.create({
+      width: settings.logo.width,
+      height: settings.logo.height,
+      opacity,
+      paddingStyle: settings.logo.paddingStyle
+    })
+    const newSettings = settings.changeLogo(newLogo)
+    onChange(newSettings)
+  }
 
   const handleOpacityChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const numValue = Number(event.target.value)
