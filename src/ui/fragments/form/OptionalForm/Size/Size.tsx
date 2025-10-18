@@ -1,28 +1,21 @@
+import { QrCodeSettings } from '@/domains'
 import { Language } from '@/domains/valueObjects/language'
-import { useQrCode, useWindowSize } from '@/hooks'
-import {
-  Box,
-  FormLabel,
-  Slider,
-  Stack,
-  TextField,
-  Typography
-} from '@mui/material'
+import { QrSize } from '@/domains/valueObjects/qrSettings'
+import { useWindowSize } from '@/hooks'
+import { WarningAlert } from '@/ui/fragments/box'
+import { Box, FormLabel, Slider, Stack, TextField } from '@mui/material'
 import { FC, useEffect, useMemo, useState } from 'react'
 
 type Props = {
   language: Language
+  settings: QrCodeSettings
+  onChange: (settings: QrCodeSettings) => void
 }
 
-export const Size: FC<Props> = ({ language }) => {
+export const Size: FC<Props> = ({ language, settings, onChange }) => {
   const { height, width } = useWindowSize()
-  const {
-    settings,
-    updateSize,
-    maxSize: savedMaxSize,
-    updateMaxSize
-  } = useQrCode()
   const locale = language.locale
+  const [savedMaxSize, setSavedMaxSize] = useState<number | null>(null)
 
   // 画面サイズから計算される推奨最大値
   const calculatedMaxSize = useMemo(() => {
@@ -52,12 +45,16 @@ export const Size: FC<Props> = ({ language }) => {
       const newSize = Math.round(numValue * ratio)
 
       // 最大値を更新
-      updateMaxSize(numValue)
+      setSavedMaxSize(numValue)
       setPreviousMaxSize(numValue)
 
       // サイズも割合に応じて更新
       if (newSize >= 1) {
-        updateSize(newSize)
+        const result = QrSize.create(newSize, language)
+        if (result.isSuccess && result.qrSize) {
+          const newSettings = settings.changeSize(result.qrSize)
+          onChange(newSettings)
+        }
       }
     }
   }
@@ -67,10 +64,14 @@ export const Size: FC<Props> = ({ language }) => {
     if (!isNaN(numValue) && numValue >= 1) {
       // maxSizeを超えた場合はmaxSizeも拡張
       if (numValue > currentMaxSize) {
-        updateMaxSize(numValue)
+        setSavedMaxSize(numValue)
         setPreviousMaxSize(numValue)
       }
-      updateSize(numValue)
+      const result = QrSize.create(numValue, language)
+      if (result.isSuccess && result.qrSize) {
+        const newSettings = settings.changeSize(result.qrSize)
+        onChange(newSettings)
+      }
     }
   }
 
@@ -123,7 +124,14 @@ export const Size: FC<Props> = ({ language }) => {
             max={currentMaxSize}
             value={Math.min(settings.size.value, currentMaxSize)}
             min={1}
-            onChange={(event, value) => updateSize(Number(value))}
+            onChange={(event, value) => {
+              const numValue = Number(value)
+              const result = QrSize.create(numValue, language)
+              if (result.isSuccess && result.qrSize) {
+                const newSettings = settings.changeSize(result.qrSize)
+                onChange(newSettings)
+              }
+            }}
             marks={[
               { value: 1, label: 1 },
               { value: currentMaxSize, label: currentMaxSize }
@@ -142,11 +150,35 @@ export const Size: FC<Props> = ({ language }) => {
           />
         </Stack>
         {currentMaxSize > calculatedMaxSize && (
-          <Typography variant="caption" color="warning.main" sx={{ mt: 1 }}>
-            {language.isEnglish
-              ? 'Actual size may be larger than displayed'
-              : '実際のサイズは表示より大きくなります'}
-          </Typography>
+          <WarningAlert
+            language={language}
+            title={
+              language.isEnglish ? 'Size Display Warning' : 'サイズ表示警告'
+            }
+            messages={[
+              language.isEnglish
+                ? 'Actual size may be larger than displayed'
+                : '実際のサイズは表示より大きくなります'
+            ]}
+          />
+        )}
+        {settings.size.value < 75 && (
+          <WarningAlert
+            language={language}
+            title={
+              language.isEnglish ? 'QR Code Size Warning' : 'QRコードサイズ警告'
+            }
+            messages={[
+              language.isEnglish
+                ? 'Size less than 75 may cause reading failure'
+                : '75未満だと読み込みに失敗します'
+            ]}
+            recommendedText={
+              language.isEnglish
+                ? 'Recommended size: 75 or higher'
+                : '推奨サイズ: 75以上'
+            }
+          />
         )}
       </Stack>
     </Box>
