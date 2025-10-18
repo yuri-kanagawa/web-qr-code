@@ -23,38 +23,6 @@ export class Os {
     Os.TYPES.OTHER
   ] as const
 
-  static isNotSet(value: number): boolean {
-    return value === Os.TYPES.NOT_SET
-  }
-
-  static isWindows(value: number): boolean {
-    return value === Os.TYPES.WINDOWS
-  }
-
-  static isMacintosh(value: number): boolean {
-    return value === Os.TYPES.MACINTOSH
-  }
-
-  static isIos(value: number): boolean {
-    return value === Os.TYPES.IOS
-  }
-
-  static isMacintoshOrIos(value: number): boolean {
-    return Os.isMacintosh(value) || Os.isIos(value)
-  }
-
-  static isAndroid(value: number): boolean {
-    return value === Os.TYPES.ANDROID
-  }
-
-  static isLinux(value: number): boolean {
-    return value === Os.TYPES.LINUX
-  }
-
-  static isOther(value: number): boolean {
-    return value === Os.TYPES.OTHER
-  }
-
   private readonly _value: number
   private readonly _language: Language
 

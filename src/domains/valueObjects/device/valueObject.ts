@@ -19,26 +19,6 @@ export class Device {
     Device.TYPES.PC
   ] as const
 
-  static isNotSet(value: number): boolean {
-    return value === Device.TYPES.NOT_SET
-  }
-
-  static isAll(value: number): boolean {
-    return value === Device.TYPES.ALL
-  }
-
-  static isMobile(value: number): boolean {
-    return value === Device.TYPES.MOBILE
-  }
-
-  static isTablet(value: number): boolean {
-    return value === Device.TYPES.TABLET
-  }
-
-  static isPc(value: number): boolean {
-    return value === Device.TYPES.PC
-  }
-
   private readonly _value: number
   private readonly _language: Language
 
