@@ -1,11 +1,9 @@
 'use client'
 import { Language } from '@/domains'
+import { DeviceOsService } from '@/domains/services/deviceOs'
 import { Device } from '@/domains/valueObjects/device'
 import { Os } from '@/domains/valueObjects/os'
 import { FormButton } from '@/ui/fragments/form/FormButton'
-import { FormCard } from '@/ui/fragments/form/FormCard'
-import { DeviceSelect, OsSelect } from '@/ui/fragments/select'
-import { UrlTextField } from '@/ui/fragments/textField'
 import {
   closestCenter,
   DndContext,
@@ -18,168 +16,14 @@ import {
 import {
   SortableContext,
   sortableKeyboardCoordinates,
-  useSortable,
   verticalListSortingStrategy
 } from '@dnd-kit/sortable'
-import { CSS } from '@dnd-kit/utilities'
 import AddIcon from '@mui/icons-material/Add'
-import CancelIcon from '@mui/icons-material/Cancel'
-import { Button, IconButton, Stack } from '@mui/material'
+import { Button, Stack } from '@mui/material'
 import { FC } from 'react'
-import { Controller, useFieldArray, useWatch } from 'react-hook-form'
+import { useFieldArray, useWatch } from 'react-hook-form'
+import { SortableDeviceItem } from './_internal'
 import { useDeviceQrCodeForm } from './hooks'
-
-type SortableDeviceItemProps = {
-  id: string
-  index: number
-  language: Language
-  hiddenOsItems: number[]
-  hiddenDeviceItems: number[]
-  canDelete: boolean
-  control: any
-  setValue: any
-  getHiddenItemsForField: (index: number, selectedOs?: number) => any
-  remove: (index: number) => void
-}
-
-const SortableDeviceItem: FC<SortableDeviceItemProps> = ({
-  id,
-  index,
-  language,
-  hiddenOsItems,
-  hiddenDeviceItems,
-  canDelete,
-  control,
-  setValue,
-  getHiddenItemsForField,
-  remove
-}) => {
-  const {
-    attributes,
-    listeners,
-    setNodeRef,
-    transform,
-    transition,
-    isDragging
-  } = useSortable({ id })
-
-  const style = {
-    transform: CSS.Transform.toString(transform),
-    transition,
-    opacity: isDragging ? 0.5 : 1
-  }
-
-  return (
-    <div ref={setNodeRef} style={style} {...attributes}>
-      <FormCard
-        cardProps={{
-          sx: {
-            p: 2,
-            position: 'relative',
-            overflow: 'visible',
-            cursor: 'grab',
-            '&:active': {
-              cursor: 'grabbing'
-            }
-          }
-        }}
-      >
-        <div
-          {...listeners}
-          style={{ position: 'absolute', inset: 0, zIndex: 0 }}
-        />
-        <IconButton
-          onClick={() => remove(index)}
-          color="error"
-          disabled={!canDelete}
-          size="small"
-          sx={{
-            position: 'absolute',
-            top: -16,
-            right: -16,
-            zIndex: 2
-          }}
-        >
-          <CancelIcon />
-        </IconButton>
-        <Stack spacing={2} sx={{ position: 'relative', zIndex: 1 }}>
-          <Controller
-            control={control}
-            name={`devices.${index}.os`}
-            render={({ field: { value, onChange }, fieldState: { error } }) => {
-              const osResult = Os.create(value, language)
-              const os =
-                osResult.isSuccess && osResult.os
-                  ? osResult.os
-                  : Os.notSet(language)
-
-              return (
-                <OsSelect
-                  value={os}
-                  onChange={(selectedOs) => {
-                    onChange(selectedOs.value)
-
-                    // OS選択後の状態で利用可能なDeviceを再計算
-                    const { hiddenDeviceItems: newHiddenDeviceItems } =
-                      getHiddenItemsForField(index, selectedOs.value)
-
-                    const availableDevices = Device.list.filter(
-                      (d) =>
-                        !newHiddenDeviceItems.includes(d) && !Device.isNotSet(d)
-                    )
-
-                    // 選択可能なDeviceが1つだけの場合は自動設定
-                    if (availableDevices.length === 1) {
-                      setValue(`devices.${index}.device`, availableDevices[0])
-                    }
-                  }}
-                  language={language}
-                  hiddenItems={hiddenOsItems}
-                  error={!!error}
-                  helperText={error?.message}
-                />
-              )
-            }}
-          />
-          <Controller
-            control={control}
-            name={`devices.${index}.device`}
-            render={({ field: { value, onChange }, fieldState: { error } }) => {
-              const deviceResult = Device.create(value, language)
-              const device =
-                deviceResult.isSuccess && deviceResult.device
-                  ? deviceResult.device
-                  : Device.notSet(language)
-
-              return (
-                <DeviceSelect
-                  value={device}
-                  onChange={(selectedDevice) => onChange(selectedDevice.value)}
-                  language={language}
-                  hiddenItems={hiddenDeviceItems}
-                  error={!!error}
-                  helperText={error?.message}
-                />
-              )
-            }}
-          />
-          <Controller
-            control={control}
-            name={`devices.${index}.url`}
-            render={({ field: { value, onChange }, fieldState: { error } }) => (
-              <UrlTextField
-                value={value}
-                onChange={onChange}
-                error={!!error}
-                helperText={error?.message}
-              />
-            )}
-          />
-        </Stack>
-      </FormCard>
-    </div>
-  )
-}
 
 type Props = {
   language: Language
@@ -192,7 +36,8 @@ export const DeviceForm: FC<Props> = ({ language }) => {
     ref,
     url,
     formState: { isValid },
-    setValue
+    setValue,
+    trigger
   } = useDeviceQrCodeForm({ language })
 
   const { fields, append, remove, move } = useFieldArray({
@@ -221,12 +66,88 @@ export const DeviceForm: FC<Props> = ({ language }) => {
   // 現在のフォーム値を監視
   const devices = useWatch({ control, name: 'devices' })
 
+  // ValueObjectヘルパー関数
+  const createDeviceValueObject = (value: number) => {
+    const result = Device.create(value, language)
+    return result.isSuccess ? result.device! : null
+  }
+
+  const createOsValueObject = (value: number) => {
+    const result = Os.create(value, language)
+    return result.isSuccess ? result.os! : null
+  }
+
+  // デバイスセットが完全に選択されているかチェック
+  const isDeviceComplete = (
+    device: { device: number; os: number } | undefined
+  ): boolean => {
+    if (!device) return false
+
+    const deviceObj = createDeviceValueObject(device.device)
+    const osObj = createOsValueObject(device.os)
+
+    if (!deviceObj || !osObj) return false
+
+    return !deviceObj.isNotSet && !osObj.isNotSet
+  }
+
+  // 未選択のデバイスまたはOSが存在するかチェック（追加ボタンの制御用）
+  const hasIncompleteDevices = () => {
+    if (!devices) return false
+    return devices.some((d) => !isDeviceComplete(d))
+  }
+
+  // すべての組み合わせが使用されているかチェック
+  const allCombinationsUsed = () => {
+    if (!devices) return false
+
+    // 使用済みの組み合わせIDを収集
+    const usedCombinationIds = new Set<number>()
+    // AllデバイスとOS組み合わせを追跡
+    const usedOsTypesWithAll = new Set<string>()
+
+    devices.forEach((item) => {
+      const deviceObj = createDeviceValueObject(item.device)
+      const osObj = createOsValueObject(item.os)
+
+      if (deviceObj && osObj && !deviceObj.isNotSet && !osObj.isNotSet) {
+        const combinationId = DeviceOsService.getDeviceOs(deviceObj, osObj)
+        usedCombinationIds.add(combinationId)
+
+        // AllデバイスとOSの組み合わせを記録（OSの種類を文字列で識別）
+        if (deviceObj.isAll) {
+          if (osObj.isWindows) usedOsTypesWithAll.add('windows')
+          if (osObj.isMacintosh) usedOsTypesWithAll.add('macintosh')
+          if (osObj.isIos) usedOsTypesWithAll.add('ios')
+          if (osObj.isAndroid) usedOsTypesWithAll.add('android')
+          if (osObj.isLinux) usedOsTypesWithAll.add('linux')
+          if (osObj.isOther) usedOsTypesWithAll.add('other')
+        }
+      }
+    })
+
+    // すべてのOS（6つ）にAllが設定されている場合、追加不可
+    // Windows, Macintosh, iOS, Android, Linux, Other = 6種類
+    if (usedOsTypesWithAll.size >= 6) {
+      return true
+    }
+
+    // NOT_SET以外の全組み合わせ数は24種類
+    // (6 OS × 4 Device = 24)
+    return usedCombinationIds.size >= 24
+  }
+
   // 各フィールドの非表示項目を計算
   const getHiddenItemsForField = (index: number, selectedOs?: number) => {
-    const currentDevice = devices?.[index]?.device || 0
+    const notSetDevice = Device.notSet(language)
+    const notSetOs = Os.notSet(language)
+
+    const currentDevice = devices?.[index]?.device ?? notSetDevice.value
     // selectedOsが渡された場合はそれを使用（OS選択直後の計算用）
     const currentOs =
-      selectedOs !== undefined ? selectedOs : devices?.[index]?.os || 0
+      selectedOs !== undefined
+        ? selectedOs
+        : (devices?.[index]?.os ?? notSetOs.value)
 
     // 他のフィールドで既に選択されている組み合わせを収集
     const usedCombinations =
@@ -243,7 +164,15 @@ export const DeviceForm: FC<Props> = ({ language }) => {
 
     // 他のフィールドで既に使用されている組み合わせを非表示にする
     usedCombinations.forEach(({ device, os }) => {
-      if (device !== 0 && os !== 0) {
+      const usedDeviceObj = createDeviceValueObject(device)
+      const usedOsObj = createOsValueObject(os)
+
+      if (
+        usedDeviceObj &&
+        usedOsObj &&
+        !usedDeviceObj.isNotSet &&
+        !usedOsObj.isNotSet
+      ) {
         // 同じOSが選択されている場合、そのOSを非表示にする
         if (currentDevice === device) {
           hiddenOsItems.push(os)
@@ -255,12 +184,17 @@ export const DeviceForm: FC<Props> = ({ language }) => {
       }
     })
 
+    // ValueObjectを作成してドメインロジックを使用
+    const currentDeviceObj = createDeviceValueObject(currentDevice)
+    const currentOsObj = createOsValueObject(currentOs)
+
     // all選択時の制約
-    if (Device.isAll(currentDevice)) {
+    if (currentDeviceObj && currentDeviceObj.isAll) {
       // allが選択されている場合、そのOSは他のフィールドで選択できない
-      if (currentOs !== 0) {
+      if (currentOsObj && !currentOsObj.isNotSet) {
         usedCombinations.forEach(({ device, os }) => {
-          if (os === currentOs && !Device.isAll(device)) {
+          const usedDeviceObj = createDeviceValueObject(device)
+          if (os === currentOs && usedDeviceObj && !usedDeviceObj.isAll) {
             // 同じOSでall以外のデバイスが選択されている場合、そのOSを非表示にする
             hiddenOsItems.push(os)
           }
@@ -270,9 +204,17 @@ export const DeviceForm: FC<Props> = ({ language }) => {
 
     // 他のフィールドでallが選択されている場合の制約
     usedCombinations.forEach(({ device, os }) => {
-      if (Device.isAll(device) && os !== 0) {
+      const usedDeviceObj = createDeviceValueObject(device)
+      const usedOsObj = createOsValueObject(os)
+
+      if (
+        usedDeviceObj &&
+        usedDeviceObj.isAll &&
+        usedOsObj &&
+        !usedOsObj.isNotSet
+      ) {
         // allが選択されている場合、そのOSは他のフィールドで選択できない
-        if (!Device.isAll(currentDevice)) {
+        if (currentDeviceObj && !currentDeviceObj.isAll) {
           hiddenOsItems.push(os)
         }
       }
@@ -280,26 +222,40 @@ export const DeviceForm: FC<Props> = ({ language }) => {
 
     // all以外を選択した場合の制約
     if (
-      !Device.isAll(currentDevice) &&
-      !Device.isNotSet(currentDevice) &&
-      currentOs !== 0
+      currentDeviceObj &&
+      !currentDeviceObj.isAll &&
+      !currentDeviceObj.isNotSet &&
+      currentOsObj &&
+      !currentOsObj.isNotSet
     ) {
       // 現在のフィールドでall以外のデバイスが選択されている場合
       usedCombinations.forEach(({ device, os }) => {
-        if (os === currentOs && Device.isAll(device)) {
+        const usedDeviceObj = createDeviceValueObject(device)
+        if (os === currentOs && usedDeviceObj && usedDeviceObj.isAll) {
           // 同じOSでallが選択されている場合、そのOSのallは非表示にする
-          hiddenDeviceItems.push(Device.TYPES.ALL)
+          const allDevice = Device.all(language)
+          hiddenDeviceItems.push(allDevice.value)
         }
       })
     }
 
     // 他のフィールドでall以外が選択されている場合の制約
     usedCombinations.forEach(({ device, os }) => {
-      if (!Device.isAll(device) && !Device.isNotSet(device) && os !== 0) {
+      const usedDeviceObj = createDeviceValueObject(device)
+      const usedOsObj = createOsValueObject(os)
+
+      if (
+        usedDeviceObj &&
+        !usedDeviceObj.isAll &&
+        !usedDeviceObj.isNotSet &&
+        usedOsObj &&
+        !usedOsObj.isNotSet
+      ) {
         // 他のフィールドでall以外のデバイスが選択されている場合
         if (currentOs === os) {
           // 同じOSの場合、allは非表示にする
-          hiddenDeviceItems.push(Device.TYPES.ALL)
+          const allDevice = Device.all(language)
+          hiddenDeviceItems.push(allDevice.value)
         }
       }
     })
@@ -333,12 +289,8 @@ export const DeviceForm: FC<Props> = ({ language }) => {
               const { hiddenOsItems, hiddenDeviceItems } =
                 getHiddenItemsForField(index)
 
-              const currentDevice = devices?.[index]
-              const canDelete =
-                fields.length > 1 &&
-                currentDevice &&
-                !Device.isNotSet(currentDevice.device) &&
-                !Os.isNotSet(currentDevice.os)
+              // 2個以上あれば削除可能
+              const canDelete = fields.length > 1
 
               return (
                 <SortableDeviceItem
@@ -351,17 +303,24 @@ export const DeviceForm: FC<Props> = ({ language }) => {
                   canDelete={canDelete}
                   control={control}
                   setValue={setValue}
+                  trigger={trigger}
                   getHiddenItemsForField={getHiddenItemsForField}
                   remove={remove}
                 />
               )
             })}
             <Button
-              onClick={() => append({ os: 0, device: 0, url: '' })}
+              onClick={() => {
+                const notSetDevice = Device.notSet(language)
+                const notSetOs = Os.notSet(language)
+                append({
+                  os: notSetOs.value,
+                  device: notSetDevice.value,
+                  url: ''
+                })
+              }}
               variant="outlined"
-              disabled={devices?.some(
-                (d) => Device.isNotSet(d.device) || Os.isNotSet(d.os)
-              )}
+              disabled={hasIncompleteDevices() || allCombinationsUsed()}
             >
               <AddIcon />
             </Button>

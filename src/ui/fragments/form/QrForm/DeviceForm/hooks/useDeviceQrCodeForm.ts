@@ -28,17 +28,21 @@ export const useDeviceQrCodeForm = ({ language }: Props) => {
     [language]
   )
 
-  const defaultValues: RegisterDeviceQrCodeSchema = {
-    devices: [
-      {
-        device: 0, // NOT_SET
-        os: 0, // NOT_SET
-        url: ''
-      }
-    ]
-  }
+  const defaultValues: RegisterDeviceQrCodeSchema = useMemo(() => {
+    const notSetDevice = Device.notSet(language)
+    const notSetOs = Os.notSet(language)
+    return {
+      devices: [
+        {
+          device: notSetDevice.value,
+          os: notSetOs.value,
+          url: ''
+        }
+      ]
+    }
+  }, [language])
 
-  const { handleSubmit, control, ...rest } =
+  const { handleSubmit, control, trigger, ...rest } =
     useForm<RegisterDeviceQrCodeSchema>({
       defaultValues,
       resolver: zodResolver(schema),
@@ -72,8 +76,14 @@ export const useDeviceQrCodeForm = ({ language }: Props) => {
       return baseUrl
     }
 
+    const notSetDevice = Device.notSet(language)
+    const notSetOs = Os.notSet(language)
+
     const validDevices = devices.filter(
-      (d) => d.device !== 0 && d.os !== 0 && d.url.trim() !== ''
+      (d) =>
+        d.device !== notSetDevice.value &&
+        d.os !== notSetOs.value &&
+        d.url.trim() !== ''
     )
 
     if (validDevices.length === 0) {
@@ -121,6 +131,7 @@ export const useDeviceQrCodeForm = ({ language }: Props) => {
   return {
     ref,
     control,
+    trigger,
     ...rest,
     url,
     onConfirm: handleConfirm,
