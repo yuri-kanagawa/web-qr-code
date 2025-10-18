@@ -53,7 +53,10 @@ export const message = {
 
     // Device validation
     device: {
-      minSelection: 'At least one selection is required'
+      minSelection: 'At least one selection is required',
+      notSelected: 'Not selected',
+      atLeastOneCompleteSet:
+        'At least one complete set (Device + OS + URL) is required'
     }
   },
 

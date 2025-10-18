@@ -55,7 +55,10 @@ export const message = {
 
     // Device validation
     device: {
-      minSelection: '一つ以上選択しないと'
+      minSelection: '一つ以上選択しないと',
+      notSelected: '未選択です',
+      atLeastOneCompleteSet:
+        '少なくとも1つの完全なセット（デバイス + OS + URL）が必要です'
     }
   },
 
