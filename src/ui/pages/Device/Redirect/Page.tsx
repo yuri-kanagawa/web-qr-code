@@ -31,13 +31,31 @@ export const DeviceRedirectPage = ({ language }: Props) => {
 
   // マッチするインデックスを探す（Device=All対応）
   const matchedIndex = useMemo(() => {
+    if (!deviceOsList || deviceOsList.length === 0) {
+      return -1
+    }
+
     const currentDevice = Device.detect()
     const currentOs = Os.detect()
-    return DeviceOsService.findMatchingIndex(
-      deviceOsList,
+
+    // 完全一致を優先的に探す
+    const currentDeviceOsId = DeviceOsService.getDeviceOs(
       currentDevice,
       currentOs
     )
+    const exactMatchIndex = deviceOsList.indexOf(currentDeviceOsId)
+    if (exactMatchIndex !== -1) {
+      return exactMatchIndex
+    }
+
+    // Device=Allの場合のマッチング
+    for (let i = 0; i < deviceOsList.length; i++) {
+      if (DeviceOsService.isMatch(deviceOsList[i], currentDevice, currentOs)) {
+        return i
+      }
+    }
+
+    return -1
   }, [deviceOsList])
 
   useEffect(() => {
@@ -70,7 +88,7 @@ export const DeviceRedirectPage = ({ language }: Props) => {
 
     console.log('Redirecting to:', urlString)
     window.location.href = urlString
-  }, [urls, matchedIndex, language])
+  }, [urls, matchedIndex, language, deviceOsList])
 
   const handleClose = () => {
     setErrorType(null)
