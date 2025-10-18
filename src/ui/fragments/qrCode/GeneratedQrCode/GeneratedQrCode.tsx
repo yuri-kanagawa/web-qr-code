@@ -2,30 +2,53 @@
 
 import React, { useEffect, useMemo, useState } from 'react'
 
-import { useQrCode, useWindowSize } from '@/hooks'
+import { QrCodeSettings } from '@/domains'
+import { useWindowSize } from '@/hooks'
 
-import { CornerHighlightBox } from '@/ui/fragments/box'
 import { QRCode, Stack } from '@/ui/cores'
-import { IoEyeOffOutline, IoEyeOutline } from 'react-icons/io5'
+import { CornerHighlightBox } from '@/ui/fragments/box'
 import { IconButton } from '@mui/material'
+import { IoEyeOffOutline, IoEyeOutline } from 'react-icons/io5'
 
 type Props = {
   file: File | null
   value: string
   isValid?: boolean
   showHiddenIcon?: boolean
+  height?: number
+  width?: number
+  settings: QrCodeSettings
 }
 
 const GeneratedQrCode = React.forwardRef<HTMLDivElement, Props>(
-  ({ value, file, isValid, showHiddenIcon = false }, ref) => {
-    const { settings } = useQrCode()
+  (
+    {
+      value,
+      file,
+      isValid,
+      showHiddenIcon = false,
+      height: propHeight,
+      width: propWidth,
+      settings
+    },
+    ref
+  ) => {
     const { height, width } = useWindowSize()
+
+    // settingsがundefinedの場合のフォールバック
+    const safeSettings = settings || QrCodeSettings.default()
+
     const maxSize = useMemo(() => {
+      // 親から指定されたサイズがある場合はそれを使用
+      if (propHeight && propWidth) {
+        return Math.min(propHeight, propWidth) - 50
+      }
+      // 従来の計算ロジック
       if (height < width) {
         return height - 150
       }
       return width - 500
-    }, [height, width])
+    }, [height, width, propHeight, propWidth])
 
     const [logoImage, setLogoImage] = useState<string | undefined>(undefined)
 
@@ -64,27 +87,29 @@ const GeneratedQrCode = React.forwardRef<HTMLDivElement, Props>(
                   <>
                     <QRCode
                       value={value}
-                      size={settings.size.value}
-                      bgColor={settings.colors.bgColor.value}
-                      fgColor={settings.colors.fgColor.value}
-                      ecLevel={settings.ecLevel.value}
+                      size={safeSettings.size.value}
+                      bgColor={safeSettings.colors.bgColor.value}
+                      fgColor={safeSettings.colors.fgColor.value}
+                      ecLevel={
+                        safeSettings.ecLevel.value as 'L' | 'M' | 'Q' | 'H'
+                      }
                       logoImage={logoImage}
-                      logoWidth={settings.logo.width}
-                      logoHeight={settings.logo.height}
-                      logoOpacity={settings.logo.opacity}
+                      logoWidth={safeSettings.logo.width}
+                      logoHeight={safeSettings.logo.height}
+                      logoOpacity={safeSettings.logo.opacity}
                       eyeRadius={[
-                        settings.eye.radius1,
-                        settings.eye.radius2,
-                        settings.eye.radius3
+                        safeSettings.eye.radius1,
+                        safeSettings.eye.radius2,
+                        safeSettings.eye.radius3
                       ]}
                       eyeColor={[
-                        settings.colors.eyeColor1.value,
-                        settings.colors.eyeColor2.value,
-                        settings.colors.eyeColor3.value
+                        safeSettings.colors.eyeColor1.value,
+                        safeSettings.colors.eyeColor2.value,
+                        safeSettings.colors.eyeColor3.value
                       ]}
-                      logoPaddingStyle={settings.logo.paddingStyle}
+                      logoPaddingStyle={safeSettings.logo.paddingStyle}
                       logoPadding={9}
-                      enableCORS={settings.enableCORS}
+                      enableCORS={safeSettings.enableCORS || false}
                     />
                   </>
                 )}

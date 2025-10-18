@@ -1,9 +1,10 @@
-import { Language } from '@/domains/valueObjects/language'
+import { Language, QrCodeSettings } from '@/domains'
+
 import { FormButton } from '@/ui/fragments/form/FormButton'
 import { FormCard } from '@/ui/fragments/form/FormCard'
 import { useUrlQRCodeForm } from '@/ui/fragments/form/QrForm/UrlForm/hooks'
 import { UrlTextField } from '@/ui/fragments/textField'
-import { FC } from 'react'
+import { FC, useState } from 'react'
 import { Controller } from 'react-hook-form'
 
 type Props = {
@@ -23,13 +24,15 @@ export const UrlForm: FC<Props> = ({ language, url }) => {
     language,
     url
   })
-
+  const [settings, setSettings] = useState(() => QrCodeSettings.default())
   return (
     <FormButton
       onConfirm={onConfirm}
       onDownload={onDownload}
       value={watch('url')}
       isValid={isValid}
+      settings={settings}
+      onChange={setSettings}
       language={language}
       ref={ref}
     >

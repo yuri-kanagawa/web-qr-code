@@ -2,6 +2,7 @@ import React, { ReactNode, useState } from 'react'
 
 import { FormCard, OptionalForm } from '@/ui/fragments'
 
+import { QrCodeSettings } from '@/domains'
 import { Language } from '@/domains/valueObjects/language'
 import { useWindowSize } from '@/hooks'
 import { Box, Stack } from '@/ui/cores'
@@ -14,7 +15,9 @@ type Props = {
   onDownload?: () => void
   value: string
   isValid?: boolean
-  language?: Language
+  language: Language
+  settings: QrCodeSettings
+  onChange: (settings: QrCodeSettings) => void
 }
 
 export const FormButton = React.forwardRef<HTMLDivElement, Props>(
@@ -25,7 +28,9 @@ export const FormButton = React.forwardRef<HTMLDivElement, Props>(
       onDownload,
       value,
       isValid,
-      language = Language.default()
+      language,
+      settings,
+      onChange
     },
     ref
   ) => {
@@ -65,6 +70,8 @@ export const FormButton = React.forwardRef<HTMLDivElement, Props>(
                   file={file}
                   setFile={setFile}
                   language={language}
+                  settings={settings}
+                  onChange={onChange}
                 />
               </FormCard>
             </Stack>
@@ -85,6 +92,7 @@ export const FormButton = React.forwardRef<HTMLDivElement, Props>(
                   file={file}
                   isValid={isValid}
                   showHiddenIcon={true}
+                  settings={settings}
                 />
               )}
               <Stack
@@ -108,25 +116,34 @@ export const FormButton = React.forwardRef<HTMLDivElement, Props>(
               </Stack>
             </Stack>
           </Box>
-          {!isLessLaptop && (
-            <Stack sx={{ height: '100vh', p: 2, boxSizing: 'border-box' }}>
+          {isOverLaptop && (
+            <Box
+              sx={{ p: 2, height: 'calc(100vh - 100px)', overflow: 'hidden' }}
+            >
               <FormCard
                 cardProps={{
                   sx: {
-                    height: '95%',
-                    pb: 3
+                    height: '250px',
+                    width: '250px',
+                    p: 2,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
                   },
                   elevation: 4
                 }}
               >
                 <GeneratedQrCode
                   ref={ref}
+                  settings={settings}
                   value={value}
                   file={file}
                   isValid={isValid}
+                  height={200}
+                  width={200}
                 />
               </FormCard>
-            </Stack>
+            </Box>
           )}
         </Stack>
       </Box>

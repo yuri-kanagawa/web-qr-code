@@ -10,19 +10,39 @@ export const useClientSearchParams = () => {
   useEffect(() => {
     // クライアント側でのみ実行
     if (typeof window !== 'undefined') {
-      const params = new URLSearchParams(window.location.search)
-      setSearchParams(params)
+      const updateParams = () => {
+        setSearchParams(new URLSearchParams(window.location.search))
+      }
+
+      // 初期読み込み
+      updateParams()
 
       // URLが変更されたときに更新
       const handleChange = () => {
-        setSearchParams(new URLSearchParams(window.location.search))
+        updateParams()
       }
 
       // popstateイベント（ブラウザの戻る/進む）を監視
       window.addEventListener('popstate', handleChange)
 
+      // pushState/replaceStateを監視（カスタムナビゲーション）
+      const originalPushState = window.history.pushState
+      const originalReplaceState = window.history.replaceState
+
+      window.history.pushState = function (...args) {
+        originalPushState.apply(window.history, args)
+        setTimeout(updateParams, 0)
+      }
+
+      window.history.replaceState = function (...args) {
+        originalReplaceState.apply(window.history, args)
+        setTimeout(updateParams, 0)
+      }
+
       return () => {
         window.removeEventListener('popstate', handleChange)
+        window.history.pushState = originalPushState
+        window.history.replaceState = originalReplaceState
       }
     }
   }, [])

@@ -8,10 +8,12 @@ import {
 import { CellPhoneTextField } from '@/ui/fragments/textField/PhoneTextField'
 import { FC } from 'react'
 
+import { QrCodeSettings } from '@/domains'
 import { Language } from '@/domains/valueObjects/language'
 import { Stack, TextField } from '@/ui/cores'
 import { FormSection } from '@/ui/fragments/box'
 import { FormButton, FormCard } from '@/ui/fragments/form'
+import { useState } from 'react'
 import { Controller } from 'react-hook-form'
 import { convertContact, useContactQrCodeForm } from './hooks'
 
@@ -50,6 +52,7 @@ export const ContactForm: FC<Props> = ({
   workAddress,
   workUrl
 }) => {
+  const [settings, setSettings] = useState(() => QrCodeSettings.default())
   const locale = language.locale
   const {
     control,
@@ -83,6 +86,8 @@ export const ContactForm: FC<Props> = ({
       value={convertContact(watch())}
       language={language}
       isValid={isValid}
+      settings={settings}
+      onChange={setSettings}
       ref={ref}
     >
       <FormCard cardProps={{ sx: { p: 2 } }}>
