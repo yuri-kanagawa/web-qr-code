@@ -145,6 +145,7 @@ export const word = {
     cancel: 'キャンセル',
     save: '保存',
     edit: '編集',
+    editQrCode: 'QRコードを編集',
     delete: '削除',
     add: '追加',
     remove: '削除',
@@ -152,7 +153,8 @@ export const word = {
     close: '閉じる',
     execute: '実行',
     getCurrentLocation: '現在地を取得',
-    selectFile: 'ファイルを選択'
+    selectFile: 'ファイルを選択',
+    read: 'QRコードを読み取る'
   },
 
   // Sidebar

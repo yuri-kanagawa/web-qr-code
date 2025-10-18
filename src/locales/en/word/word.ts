@@ -145,6 +145,7 @@ export const word = {
     cancel: 'Cancel',
     save: 'Save',
     edit: 'Edit',
+    editQrCode: 'Edit QR Code',
     delete: 'Delete',
     add: 'Add',
     remove: 'Remove',
@@ -152,7 +153,8 @@ export const word = {
     close: 'Close',
     execute: 'Execute',
     getCurrentLocation: 'Get Current Location',
-    selectFile: 'Select File'
+    selectFile: 'Select File',
+    read: 'Read QR Code'
   },
 
   // Sidebar

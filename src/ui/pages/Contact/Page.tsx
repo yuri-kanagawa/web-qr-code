@@ -10,11 +10,13 @@ interface Props {
   lastName: string
   middleName: string
   email: string
-  phoneNumber: string
+  mobilePhone: string
+  homePhone: string
   homeAddress: string
   homeUrl: string
   organization: string
   post: string
+  workMobile: string
   workPhone: string
   workAddress: string
   workUrl: string

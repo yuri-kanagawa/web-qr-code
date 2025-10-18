@@ -4,6 +4,7 @@ import { useSidebar } from '@/stores'
 import { DrawerItemIcon } from '@/ui/fragments/pageWrapper/internal/drawer/internal/DrawerItems/DrawerItemIcon/DrawerItemIcon'
 import { OpenButton } from '@/ui/fragments/pageWrapper/internal/drawer/internal/DrawerItems/OpenButton/OpenButton'
 import { LanguageSelect } from '@/ui/fragments/select'
+import EditIcon from '@mui/icons-material/Edit'
 import LinkIcon from '@mui/icons-material/Link'
 import PhoneIcon from '@mui/icons-material/Phone'
 import QrCodeScannerIcon from '@mui/icons-material/QrCodeScanner'
@@ -131,11 +132,11 @@ export const DrawerItems = forwardRef<HTMLDivElement, Props>(
             icon={<QrCodeScannerIcon sx={{ fontSize: 24 }} />}
             path={pathBuilder.reader.index}
           />
-          {/* <DrawerItemIcon
+          <DrawerItemIcon
             label={word.navigation.edit}
-            icon={<EditIcon />}
-            path={path.edit.index({ lang: 'en' })}
-          /> */}
+            icon={<EditIcon sx={{ fontSize: 24 }} />}
+            path={pathBuilder.edit.index}
+          />
         </Stack>
         <Stack display={'flex'} justifyContent={'flex-end'} spacing={2} pb={2}>
           <Box

@@ -1,0 +1,1 @@
+export { QrFormSelector } from './QrFormSelector'
