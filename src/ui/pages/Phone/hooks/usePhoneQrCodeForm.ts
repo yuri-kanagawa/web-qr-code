@@ -45,7 +45,7 @@ export const usePhoneQrCodeForm = () => {
       reset(defaultValues)
       resetPhoneNumber()
     }
-  }, [phoneNumber, reset, defaultValues])
+  }, [phoneNumber, reset, defaultValues, resetPhoneNumber])
 
   const submitErrorHandler: SubmitErrorHandler<RegisterQrCodeUrlSchema> = (
     errors
