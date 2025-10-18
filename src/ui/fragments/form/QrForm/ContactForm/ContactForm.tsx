@@ -21,11 +21,13 @@ interface Props {
   lastName: string
   middleName: string
   email: string
-  phoneNumber: string
+  mobilePhone: string
+  homePhone: string
   homeAddress: string
   homeUrl: string
   organization: string
   post: string
+  workMobile: string
   workPhone: string
   workAddress: string
   workUrl: string
@@ -37,11 +39,13 @@ export const ContactForm: FC<Props> = ({
   lastName,
   middleName,
   email,
-  phoneNumber,
+  mobilePhone,
+  homePhone,
   homeAddress,
   homeUrl,
   organization,
   post,
+  workMobile,
   workPhone,
   workAddress,
   workUrl
@@ -60,11 +64,13 @@ export const ContactForm: FC<Props> = ({
     lastName,
     middleName,
     email,
-    phoneNumber,
+    mobilePhone,
+    homePhone,
     homeAddress,
     homeUrl,
     organization,
     post,
+    workMobile,
     workPhone,
     workAddress,
     workUrl
@@ -143,7 +149,7 @@ export const ContactForm: FC<Props> = ({
               />
               <Controller
                 control={control}
-                name="phoneNumber"
+                name="mobilePhone"
                 render={({
                   field: { value, onChange, ref: inputRef },
                   formState: { isValid },
@@ -156,6 +162,27 @@ export const ContactForm: FC<Props> = ({
                     helperText={error?.message}
                     inputRef={inputRef}
                     language={language}
+                    label={locale.word.form.mobilePhone}
+                    isRequired={false}
+                  />
+                )}
+              />
+              <Controller
+                control={control}
+                name="homePhone"
+                render={({
+                  field: { value, onChange, ref: inputRef },
+                  formState: { isValid },
+                  fieldState: { error }
+                }) => (
+                  <CellPhoneTextField
+                    value={value}
+                    onChange={onChange}
+                    error={!!error}
+                    helperText={error?.message}
+                    inputRef={inputRef}
+                    language={language}
+                    label={locale.word.form.homePhone}
                     isRequired={false}
                   />
                 )}
@@ -247,6 +274,26 @@ export const ContactForm: FC<Props> = ({
               />
               <Controller
                 control={control}
+                name="workMobile"
+                render={({
+                  field: { value, onChange, ref: inputRef },
+                  formState: { isValid },
+                  fieldState: { error }
+                }) => (
+                  <CellPhoneTextField
+                    value={value}
+                    onChange={onChange}
+                    error={!!error}
+                    helperText={error?.message}
+                    inputRef={inputRef}
+                    language={language}
+                    label={locale.word.form.workMobile}
+                    isRequired={false}
+                  />
+                )}
+              />
+              <Controller
+                control={control}
                 name="workPhone"
                 render={({
                   field: { value, onChange, ref: inputRef },
@@ -260,6 +307,7 @@ export const ContactForm: FC<Props> = ({
                     helperText={error?.message}
                     inputRef={inputRef}
                     language={language}
+                    label={locale.word.form.workPhone}
                     isRequired={false}
                   />
                 )}

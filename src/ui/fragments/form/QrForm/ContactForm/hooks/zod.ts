@@ -16,11 +16,13 @@ export const createRegisterQrCodeContactSchema = (language: Language) =>
     lastName: createNameZodSchema(language),
     middleName: createNameZodSchema(language),
     email: createEmailZodSchema(language),
-    phoneNumber: createPhoneNumberZodSchema(language),
+    mobilePhone: createPhoneNumberZodSchema(language),
+    homePhone: createPhoneNumberZodSchema(language),
     homeAddress: createAddressZodSchema(language),
     homeUrl: createUrlZodSchema(language),
     organization: createOrganizationZodSchema(language),
     post: createPostZodSchema(language),
+    workMobile: createPhoneNumberZodSchema(language),
     workPhone: createPhoneNumberZodSchema(language),
     workAddress: createAddressZodSchema(language),
     workUrl: createUrlZodSchema(language)
@@ -31,11 +33,13 @@ export type RegisterQrCodeContactSchema = {
   lastName: string
   middleName: string
   email: string
-  phoneNumber: string
+  mobilePhone: string
+  homePhone: string
   homeAddress: string
   homeUrl: string
   organization: string
   post: string
+  workMobile: string
   workPhone: string
   workAddress: string
   workUrl: string

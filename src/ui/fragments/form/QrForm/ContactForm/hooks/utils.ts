@@ -22,12 +22,20 @@ N:${value.lastName};${value.firstName};${value.middleName};;`
     vcard += `\nEMAIL:${value.email}`
   }
 
-  if (value.phoneNumber) {
-    vcard += `\nTEL;TYPE=HOME:${value.phoneNumber}`
+  if (value.mobilePhone) {
+    vcard += `\nTEL;TYPE=CELL:${value.mobilePhone}`
+  }
+
+  if (value.homePhone) {
+    vcard += `\nTEL;TYPE=HOME,VOICE:${value.homePhone}`
+  }
+
+  if (value.workMobile) {
+    vcard += `\nTEL;TYPE=CELL,WORK:${value.workMobile}`
   }
 
   if (value.workPhone) {
-    vcard += `\nTEL;TYPE=WORK:${value.workPhone}`
+    vcard += `\nTEL;TYPE=WORK,VOICE:${value.workPhone}`
   }
 
   if (value.homeAddress) {
