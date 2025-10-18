@@ -3,15 +3,15 @@ import { Device } from '@/domains/valueObjects/device'
 import { Language } from '@/domains/valueObjects/language'
 import { Os } from '@/domains/valueObjects/os'
 import { SearchParamsManager } from '@/lib/browser'
-import { useSearchParams } from 'next/navigation'
 import { useMemo } from 'react'
+import { useClientSearchParams } from './useClientSearchParams'
 import { useQrCanvas, useQrCodeSettings, useQrOperations } from './qr'
 
 /**
  * QRコード全体を管理する統合フック（リファクタリング版）
  */
 export function useQrCode(language: Language = Language.default()) {
-  const searchParams = useSearchParams()
+  const searchParams = useClientSearchParams()
 
   // QR設定（Entity）
   const qrSettings = useQrCodeSettings(language)

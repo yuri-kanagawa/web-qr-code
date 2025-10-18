@@ -7,12 +7,12 @@ import {
   RegisterQrCodePhoneSchema
 } from '@/ui/pages/Phone/hooks/zod'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useSearchParams } from 'next/navigation'
 import { useCallback, useEffect, useMemo } from 'react'
 import { SubmitErrorHandler, useForm } from 'react-hook-form'
+import { useClientSearchParams } from '@/hooks/useClientSearchParams'
 
 export const usePhoneQrCodeForm = () => {
-  const searchParams = useSearchParams()
+  const searchParams = useClientSearchParams()
   const phoneNumber = searchParams.get('phoneNumber') ?? ''
   const resetPhoneNumber = useCallback(() => {
     SearchParamsManager.remove(['phoneNumber'])

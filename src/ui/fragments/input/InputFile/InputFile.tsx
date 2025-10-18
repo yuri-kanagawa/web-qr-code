@@ -2,9 +2,9 @@ import { IconButton, Input, useTheme } from '@mui/material'
 
 import { ImageFile } from '@/domains/valueObjects/imageFile'
 import { Language } from '@/domains/valueObjects/language'
+import { useClientSearchParams } from '@/hooks/useClientSearchParams'
 import { Box, BoxProps, Button, Stack, TextField } from '@/ui/cores'
 import { CornerHighlightBox } from '@/ui/fragments/box'
-import { useSearchParams } from 'next/navigation'
 import { FC, useEffect, useRef, useState } from 'react'
 import { IoCloudUploadOutline } from 'react-icons/io5'
 import { TiDelete } from 'react-icons/ti'
@@ -31,7 +31,7 @@ export const InputFile: FC<Props> = ({
     const droppedFile = droppedFiles[0] as File
     onChange(droppedFile)
   }
-  const searchParams = useSearchParams()
+  const searchParams = useClientSearchParams()
   const inputRef = useRef<HTMLInputElement>(null)
 
   const onClickFileSelect = () => {

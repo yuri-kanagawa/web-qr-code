@@ -7,15 +7,15 @@ import {
   QrStyle
 } from '@/domains/valueObjects/qrSettings'
 import { SearchParamsManager } from '@/lib/browser'
-import { useSearchParams } from 'next/navigation'
 import { useCallback, useMemo } from 'react'
+import { useClientSearchParams } from '../useClientSearchParams'
 
 /**
  * QRコード設定を管理するフック
  * SearchParamsとQrCodeSettings Entityを連携
  */
 export const useQrCodeSettings = (language: Language = Language.default()) => {
-  const searchParams = useSearchParams()
+  const searchParams = useClientSearchParams()
 
   // SearchParamsからEntityを構築
   const settings = useMemo(
