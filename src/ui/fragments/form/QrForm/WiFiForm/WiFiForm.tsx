@@ -31,7 +31,6 @@ export const WiFiForm: FC<Props> = ({ language, qr }) => {
       language={language}
       settings={qr}
       onChange={() => {}}
-      ref={ref}
       value={toWifiSchema(watch())}
     >
       <FormCard cardProps={{ sx: { p: 2 } }}>

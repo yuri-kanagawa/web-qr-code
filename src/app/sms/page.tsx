@@ -1,5 +1,5 @@
 'use client'
-import { QrCode } from '@/domains'
+import { Language, QrCode } from '@/domains'
 import { SmsPage } from '@/ui/pages/Sms'
 
 export default function Page() {

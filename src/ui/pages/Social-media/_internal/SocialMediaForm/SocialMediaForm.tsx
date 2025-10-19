@@ -1,4 +1,4 @@
-import { Language, QrCodeSettings, SocialMedia } from '@/domains'
+import { Language, QrCode, SocialMedia } from '@/domains'
 import { FormButton } from '@/ui/fragments/form/FormButton'
 import { SocialMediaSelect } from '@/ui/fragments/select'
 import { LabelTextField, UrlTextField } from '@/ui/fragments/textField'

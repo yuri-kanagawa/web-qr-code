@@ -31,7 +31,6 @@ export const UrlForm: FC<Props> = ({ language, qr }) => {
       settings={qr}
       onChange={() => {}}
       language={language}
-      ref={ref}
     >
       <Controller
         control={control}

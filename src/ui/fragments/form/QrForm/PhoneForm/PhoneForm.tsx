@@ -32,7 +32,6 @@ export const PhoneForm: FC<Props> = ({ language, qr }) => {
           isValid={isValid}
           settings={qr}
           onChange={() => {}}
-          ref={ref}
         >
           <FormCard cardProps={{ sx: { p: 2 } }}>
             <CellPhoneTextField

@@ -52,7 +52,6 @@ export const MapForm: FC<Props> = ({ language, qr }) => {
       language={language}
       settings={qr}
       onChange={() => {}}
-      ref={ref}
     >
       <FormCard cardProps={{ sx: { p: 2 } }}>
         <Stack spacing={3}>
