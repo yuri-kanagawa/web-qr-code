@@ -1,20 +1,9 @@
 'use client'
 import { QrCode } from '@/domains'
 import { Language } from '@/domains/valueObjects/language'
-import { PageWrapper } from '../../fragments/pageWrapper'
-import dynamic from 'next/dynamic'
+import { TextForm } from '@/ui/fragments'
 import { FC, useState } from 'react'
-
-const TextForm = dynamic(
-  () =>
-    import('@/ui/fragments/form/QrForm/TextForm/TextForm').then((mod) => ({
-      default: mod.TextForm
-    })),
-  {
-    ssr: false,
-    loading: () => <div>Loading...</div>
-  }
-)
+import { PageWrapper } from '../../fragments/pageWrapper'
 
 interface Props {
   language: Language

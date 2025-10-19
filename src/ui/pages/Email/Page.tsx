@@ -1,20 +1,9 @@
 'use client'
 import { QrCode } from '@/domains'
 import { Language } from '@/domains/valueObjects/language'
+import { EmailForm } from '@/ui/fragments'
 import { PageWrapper } from '@/ui/fragments/pageWrapper'
-import dynamic from 'next/dynamic'
 import { FC, useState } from 'react'
-
-const EmailForm = dynamic(
-  () =>
-    import('@/ui/fragments/form/QrForm/EmailForm/EmailForm').then((mod) => ({
-      default: mod.EmailForm
-    })),
-  {
-    ssr: false,
-    loading: () => <div>Loading...</div>
-  }
-)
 
 type Props = {
   language: Language

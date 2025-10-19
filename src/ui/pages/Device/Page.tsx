@@ -1,16 +1,19 @@
 'use client'
-import { Language, Qr } from '@/domains'
+import { Language, QrCode } from '@/domains'
 import { DeviceForm, PageWrapper } from '@/ui/fragments'
+import { useState } from 'react'
 
 interface Props {
   language: Language
-  qr: Qr
+  qr: QrCode
 }
 
 export const DevicePage = (props: Props) => {
+  const [currentQr, setCurrentQr] = useState<QrCode>(props.qr.changeQrCodeType('device'))
+  
   return (
     <PageWrapper language={props.language}>
-      <DeviceForm language={props.language} qr={props.qr} />
+      <DeviceForm language={props.language} qr={currentQr} onChange={setCurrentQr} />
     </PageWrapper>
   )
 }
