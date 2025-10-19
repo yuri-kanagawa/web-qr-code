@@ -1,5 +1,5 @@
 'use client'
-import { Language, QrCode } from '@/domains'
+import { QrCode } from '@/domains'
 import { WiFiPage } from '@/ui/pages/Wi-fi'
 
 type Props = {

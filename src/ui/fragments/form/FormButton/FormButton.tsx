@@ -15,8 +15,8 @@ type Props = {
   value: string
   isValid?: boolean
   language: Language
-  settings: QrCodeCode
-  onChange: (settings: QrCodeCode) => void
+  settings: QrCode
+  onChange: (settings: QrCode) => void
 }
 
 export const FormButton = React.forwardRef<HTMLDivElement, Props>(
@@ -106,6 +106,7 @@ export const FormButton = React.forwardRef<HTMLDivElement, Props>(
                   onClick={onConfirm}
                   language={language}
                   isValid={hasCanvas}
+                  settings={settings}
                 />
                 <QrDownloadButton
                   onClick={onDownload}

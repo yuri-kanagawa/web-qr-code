@@ -15,6 +15,11 @@ interface Props {
 }
 
 export const PhoneForm: FC<Props> = ({ language, qr }) => {
+  const { control, onConfirm, onDownload, watch } = usePhoneQrCodeForm({
+    phoneNumber: qr.value.phoneNumber || '',
+    language
+  })
+
   return (
     <Controller
       control={control}

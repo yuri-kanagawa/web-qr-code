@@ -1,8 +1,8 @@
 'use client'
-import React, { FC } from 'react'
-import { PageWrapper } from '@/ui/fragments/pageWrapper'
-import { EmailForm } from '@/ui/fragments'
 import { QrCode } from '@/domains'
+import { EmailForm } from '@/ui/fragments'
+import { PageWrapper } from '@/ui/fragments/pageWrapper'
+import { FC } from 'react'
 
 type Props = {
   language: Language

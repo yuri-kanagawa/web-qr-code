@@ -1,6 +1,4 @@
-import { QrCode } from '@/domains/repositories'
 import { Language } from '@/domains/valueObjects/language'
-import { Qr as QrValue } from '@/domains/valueObjects/qr'
 import { ReadQrFromFileUseCaseResult } from './result'
 
 /**

@@ -1,4 +1,3 @@
-import { QrCode } from '@/domains'
 import { Language } from '@/domains/valueObjects/language'
 import { Qr as QrValue } from '@/domains/valueObjects/qr'
 import { FC, useState } from 'react'

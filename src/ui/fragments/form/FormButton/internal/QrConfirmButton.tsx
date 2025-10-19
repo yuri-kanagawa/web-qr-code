@@ -8,6 +8,7 @@ import {
 } from '@mui/material'
 import { FC, useCallback, useMemo, useState } from 'react'
 
+import { QrCode } from '@/domains'
 import { Language } from '@/domains/valueObjects/language'
 import { Qr as QrValue } from '@/domains/valueObjects/qr'
 import { useDisclosure } from '@/hooks/useDisclosure'
@@ -16,15 +17,17 @@ type Props = {
   onClick?: () => Promise<string | undefined>
   isValid?: boolean
   language?: Language
+  settings?: QrCode
 }
 
 export const QrConfirmButton: FC<Props> = ({
   onClick,
   isValid = true,
-  language = Language.default()
+  language = Language.default(),
+  settings
 }) => {
   const { onOpen, onClose, isOpen } = useDisclosure()
-  const [qr, setQr] = useState<Qr>(QrCode.default())
+  const [qr, setQr] = useState<QrValue>(QrValue.default(language))
   const locale = language.locale
 
   const onConfirm = async () => {
@@ -35,7 +38,7 @@ export const QrConfirmButton: FC<Props> = ({
     if (!result) {
       return
     }
-    const qrResult = Qr.create(result, language)
+    const qrResult = QrValue.create(result, language)
     if (qrResult.isSuccess && qrResult.qr) {
       setQr(qrResult.qr)
       onOpen()

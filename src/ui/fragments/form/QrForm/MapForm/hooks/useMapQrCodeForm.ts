@@ -116,7 +116,8 @@ export const useMapQrCodeForm = ({ language }: Props) => {
     control,
     watch,
     onConfirm: handleConfirm,
-    onDownload: () => console.log('Download functionality temporarily disabled'),
+    onDownload: () =>
+      console.log('Download functionality temporarily disabled'),
     onSetCurrentLocation: handleSetCurrentLocation,
     formState,
     isLoadingLocation: isLoadingLocation || isLoadingCurrentPosition,
