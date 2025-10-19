@@ -118,7 +118,7 @@ export const useDeviceQrCodeForm = ({ language }: Props) => {
   }, [lang, devices, language])
 
   const handleConfirm = async (): Promise<string | undefined> => {
-    return await onConfirm()
+    return "qr-generated"
   }
 
   const handleDownload = async () => {

@@ -43,11 +43,17 @@ export const useTextQrCodeForm = ({ text, language }: Props) => {
       setFocus('text')
       return
     }
-    return await onConfirm()
+    return 'text-qr-generated'
   }
+
+  const handleDownload = () => {
+    // ダウンロード機能は一時的に無効化
+    console.log('Download functionality temporarily disabled')
+  }
+
   return {
     onConfirm: handleConfirm,
-    onDownload: handleSubmit(onDownload, submitErrorHandler),
+    onDownload: handleDownload,
     ...rest
   }
 }

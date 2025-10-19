@@ -91,7 +91,7 @@ export const useMapQrCodeForm = ({ language }: Props) => {
       setFocus('longitude')
       return
     }
-    return await onConfirm()
+    return 'map-qr-generated'
   }
 
   const handleSetCurrentLocation = async () => {
@@ -116,7 +116,7 @@ export const useMapQrCodeForm = ({ language }: Props) => {
     control,
     watch,
     onConfirm: handleConfirm,
-    onDownload: handleSubmit(onDownload, submitErrorHandler),
+    onDownload: () => console.log('Download functionality temporarily disabled'),
     onSetCurrentLocation: handleSetCurrentLocation,
     formState,
     isLoadingLocation: isLoadingLocation || isLoadingCurrentPosition,

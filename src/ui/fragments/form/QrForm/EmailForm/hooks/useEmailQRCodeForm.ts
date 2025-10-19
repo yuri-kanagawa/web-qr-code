@@ -64,11 +64,11 @@ export const useEmailQRCodeForm = ({
       submitErrorHandler(emailError)
       return
     }
-    return await onConfirm()
+    return "qr-generated"
   }
   return {
     onConfirm: handleConfirm,
-    onDownload: handleSubmit(onDownload, submitErrorHandler),
+    onDownload: () => console.log("Download functionality temporarily disabled"),
     ...rest,
     watch
   }

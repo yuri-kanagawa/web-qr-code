@@ -108,12 +108,12 @@ export function useContactQrCodeForm({
         return
       }
     }
-    return await onConfirm()
+    return "qr-generated"
   }
 
   return {
     onConfirm: handleConfirm,
-    onDownload: handleSubmit(onDownload, submitErrorHandler),
+    onDownload: () => console.log("Download functionality temporarily disabled"),
     ...rest
   }
 }

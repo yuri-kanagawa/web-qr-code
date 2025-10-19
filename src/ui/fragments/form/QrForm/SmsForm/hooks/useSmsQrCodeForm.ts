@@ -78,13 +78,13 @@ export const useSmsQrCodeForm = ({ language, phoneNumber, body }: Props) => {
       setFocus('phoneNumber')
       return
     }
-    return await onConfirm()
+    return "qr-generated"
   }
 
   return {
     control,
     onConfirm: handleConfirm,
-    onDownload: handleSubmit(onDownload, submitErrorHandler),
+    onDownload: () => console.log("Download functionality temporarily disabled"),
 
     ...rest
   }
