@@ -1,1 +1,1 @@
-export { QrCodeSettings } from './entity'
+export { QrCode } from './entity'

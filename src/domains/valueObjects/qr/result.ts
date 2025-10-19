@@ -3,7 +3,7 @@ import { QrValueError } from './error'
 
 export class QrResult {
   constructor(
-    public readonly qr: Qr | null,
+    public readonly qr: QrCode | null,
     public readonly error: QrValueError | null
   ) {}
 

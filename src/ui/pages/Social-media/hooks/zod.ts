@@ -7,7 +7,6 @@ const label = z.string()
 export const registerSocialMediaQrCodeSchema = z.object({
   socialMedia: z.array(
     z.object({
-      socialMedia,
       url,
       label
     })

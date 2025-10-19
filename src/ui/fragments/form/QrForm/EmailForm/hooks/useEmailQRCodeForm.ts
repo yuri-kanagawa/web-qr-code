@@ -7,7 +7,6 @@ import { Language } from '@/domains'
 import { Email } from '@/domains/valueObjects/email'
 import { Subject } from '@/domains/valueObjects/subject'
 import { Body } from '@/domains/valueObjects/body'
-import { useQrCode } from '@/hooks'
 import { createRegisterQrCodeEmailSchema, type RegisterQrCodeEmailSchema } from './zod'
 type Props = {
   language: Language
@@ -22,7 +21,6 @@ export const useEmailQRCodeForm = ({
   subject = '',
   body = ''
 }: Props) => {
-  const { ref, onConfirm, onDownload } = useQrCode(language)
 
   const defaultValues: RegisterQrCodeEmailSchema = useMemo(() => {
     const emailResult = email ? Email.create(email, language) : null
@@ -69,7 +67,6 @@ export const useEmailQRCodeForm = ({
     return await onConfirm()
   }
   return {
-    ref,
     onConfirm: handleConfirm,
     onDownload: handleSubmit(onDownload, submitErrorHandler),
     ...rest,

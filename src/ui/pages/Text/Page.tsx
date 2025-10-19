@@ -2,17 +2,17 @@
 import React, { FC } from 'react'
 import { PageWrapper } from '../../fragments/pageWrapper'
 import { TextForm } from '@/ui/fragments'
-import { Language } from '@/domains/valueObjects/language'
+import { QrCode } from '@/domains'
 
 interface Props {
   language: Language
-  text: string
+  qr: QrCode
 }
 
 export const TextPage: FC<Props> = (props) => {
   return (
     <PageWrapper language={props.language}>
-      <TextForm {...props} />
+      <TextForm language={props.language} qr={props.qr} />
     </PageWrapper>
   )
 }

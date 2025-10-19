@@ -1,21 +1,20 @@
 'use client'
-import { QrCodeSettings } from '@/domains'
+import { QrCode } from '@/domains'
 import { Language } from '@/domains/valueObjects/language'
 import { FormButton } from '@/ui/fragments/form/FormButton'
 import { FormCard } from '@/ui/fragments/form/FormCard'
 import { CellPhoneTextField } from '@/ui/fragments/textField/PhoneTextField'
-import { usePhoneQrCodeForm } from '@/ui/pages/Phone/hooks/usePhoneQrCodeForm'
-import { FC, useState } from 'react'
+import { FC } from 'react'
 import { Controller } from 'react-hook-form'
-import { toTelScheme } from '../../hooks/utils'
+import { usePhoneQrCodeForm } from './hooks/usePhoneQrCodeForm'
+import { toTelScheme } from './hooks/utils'
 
 interface Props {
   language: Language
+  qr: QrCode
 }
 
-export const PhoneForm: FC<Props> = ({ language }) => {
-  const { control, ref, onConfirm, onDownload, watch } = usePhoneQrCodeForm()
-  const [settings, setSettings] = useState(() => QrCodeSettings.default())
+export const PhoneForm: FC<Props> = ({ language, qr }) => {
   return (
     <Controller
       control={control}
@@ -31,8 +30,8 @@ export const PhoneForm: FC<Props> = ({ language }) => {
           value={toTelScheme(watch())}
           language={language}
           isValid={isValid}
-          settings={settings}
-          onChange={setSettings}
+          settings={qr}
+          onChange={() => {}}
           ref={ref}
         >
           <FormCard cardProps={{ sx: { p: 2 } }}>

@@ -1,12 +1,11 @@
 import { Language } from '@/domains/valueObjects/language'
-import { useQrCode } from '@/hooks'
 import { useClientSearchParams } from '@/hooks/useClientSearchParams'
 import { SearchParamsManager } from '@/lib/browser'
 import { RegisterQrCodeUrlSchema } from '@/ui/fragments/form/QrForm/UrlForm/hooks'
 import {
   registerQrCodePhoneSchema,
   RegisterQrCodePhoneSchema
-} from '@/ui/pages/Phone/hooks/zod'
+} from '@/ui/pages/phone/hooks/zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useCallback, useEffect, useMemo } from 'react'
 import { SubmitErrorHandler, useForm } from 'react-hook-form'
@@ -18,7 +17,6 @@ export const usePhoneQrCodeForm = () => {
     SearchParamsManager.remove(['phoneNumber'])
   }, [])
 
-  const { ref, onConfirm, onDownload } = useQrCode(Language.default())
 
   const defaultValues: RegisterQrCodePhoneSchema = useMemo(() => {
     return {
@@ -68,7 +66,6 @@ export const usePhoneQrCodeForm = () => {
   return {
     control,
     watch,
-    ref,
     onConfirm: handleConfirm,
     onDownload: handleSubmit(onDownload, submitErrorHandler),
     ...rest

@@ -5,7 +5,6 @@ import { Device } from '@/domains/valueObjects/device'
 import { Language } from '@/domains/valueObjects/language'
 import { Os } from '@/domains/valueObjects/os'
 import { Url } from '@/domains/valueObjects/url'
-import { useQrCode } from '@/hooks'
 import {
   Dialog,
   DialogActions,
@@ -24,14 +23,12 @@ type Props = {
 }
 
 export const DeviceRedirectPage = ({ language }: Props) => {
-  const { deviceOs: deviceOsList, urls } = useQrCode()
   const [errorType, setErrorType] = useState<ErrorType>(null)
   const router = useRouter()
   const locale = language.locale
 
   // マッチするインデックスを探す（Device=All対応）
   const matchedIndex = useMemo(() => {
-    if (!deviceOsList || deviceOsList.length === 0) {
       return -1
     }
 
@@ -43,23 +40,18 @@ export const DeviceRedirectPage = ({ language }: Props) => {
       currentDevice,
       currentOs
     )
-    const exactMatchIndex = deviceOsList.indexOf(currentDeviceOsId)
     if (exactMatchIndex !== -1) {
       return exactMatchIndex
     }
 
     // Device=Allの場合のマッチング
-    for (let i = 0; i < deviceOsList.length; i++) {
-      if (DeviceOsService.isMatch(deviceOsList[i], currentDevice, currentOs)) {
         return i
       }
     }
 
     return -1
-  }, [deviceOsList])
 
   useEffect(() => {
-    console.log('deviceOsList:', deviceOsList, 'matchedIndex:', matchedIndex)
 
     // マッチするインデックスがない、または、urlsが空、またはurlがnullの場合
     if (
@@ -88,7 +80,6 @@ export const DeviceRedirectPage = ({ language }: Props) => {
 
     console.log('Redirecting to:', urlString)
     window.location.href = urlString
-  }, [urls, matchedIndex, language, deviceOsList])
 
   const handleClose = () => {
     setErrorType(null)

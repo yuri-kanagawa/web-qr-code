@@ -1,9 +1,8 @@
 'use client'
-import React from 'react'
 
+import { Language, QrCode } from '@/domains'
 import { TextPage } from '@/ui/pages/Text'
-import { Language } from '@/domains/valueObjects/language'
 
 export default function Page() {
-  return <TextPage language={Language.default()} text={''} />
+  return <TextPage language={Language.default()} qr={QrCode.default()} />
 }

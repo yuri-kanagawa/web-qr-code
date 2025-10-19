@@ -1,5 +1,5 @@
 import { Result } from '@/domains/common'
-import { Qr } from '@/domains/valueObjects/qr'
+import { Qr as QrValue } from '@/domains/valueObjects/qr'
 
 /**
  * ReadQrFromFileUseCaseの実行結果
@@ -30,7 +30,7 @@ export class ReadQrFromFileUseCaseResult extends Result<Qr, Error> {
   /**
    * 成功を表すResultを作成
    */
-  static ok(qr: Qr): ReadQrFromFileUseCaseResult {
+  static ok(qr: QrCode): ReadQrFromFileUseCaseResult {
     return new ReadQrFromFileUseCaseResult(qr, null)
   }
 

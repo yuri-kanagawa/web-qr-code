@@ -1,23 +1,22 @@
-import { Language, QrCodeSettings } from '@/domains'
+import { Language, QrCode } from '@/domains'
 import { FormButton } from '@/ui/fragments/form/FormButton'
 import { FormCard } from '@/ui/fragments/form/FormCard'
 import { TextTextField } from '@/ui/fragments/textField/TextTextField'
-import { FC, useState } from 'react'
+import { FC } from 'react'
 import { Controller } from 'react-hook-form'
 import { toTextSchema, useTextQrCodeForm } from './hooks'
 
 interface Props {
   language: Language
-  text?: string
+  qr: QrCode
 }
 
-export const TextForm: FC<Props> = ({ language, text = '' }: Props) => {
-  const [settings, setSettings] = useState<QrCodeSettings>(QrCodeSettings.default())
-  
-  const { control, ref, onConfirm, onDownload, watch } = useTextQrCodeForm({
-    text,
+export const TextForm: FC<Props> = ({ language, qr }: Props) => {
+  const { control, onConfirm, onDownload, watch } = useTextQrCodeForm({
+    text: qr.value.text || '',
     language
   })
+
   return (
     <Controller
       control={control}
@@ -33,9 +32,8 @@ export const TextForm: FC<Props> = ({ language, text = '' }: Props) => {
           value={toTextSchema(watch())}
           isValid={isValid}
           language={language}
-          settings={settings}
-          onChange={setSettings}
-          ref={ref}
+          settings={qr}
+          onChange={() => {}}
         >
           <FormCard cardProps={{ sx: { p: 2 } }}>
             <TextTextField

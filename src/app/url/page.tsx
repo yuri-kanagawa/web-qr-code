@@ -1,7 +1,7 @@
 'use client'
+import { QrCode } from '@/domains'
 import { UrlPage } from '@/ui/pages/Url'
-import { Language } from '@/domains/valueObjects/language'
 
 export default function Page() {
-  return <UrlPage language={Language.default()} url="" />
+  return <UrlPage language={Language.default()} qr={QrCode.default()} />
 }

@@ -1,6 +1,6 @@
 import { FC, useMemo } from 'react'
 
-import { Qr } from '@/domains/valueObjects/qr'
+import { Qr as QrValue } from '@/domains/valueObjects/qr'
 import { PathBuilder } from '@/lib/routing'
 import { useQr } from '@/stores'
 import {
@@ -16,7 +16,7 @@ import {
 import { useRouter } from 'next/navigation'
 
 type Props = {
-  qr: Qr
+  qr: QrCode
   onClose: () => void
 }
 

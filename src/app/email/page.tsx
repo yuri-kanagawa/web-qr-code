@@ -1,14 +1,7 @@
 'use client'
-import { Language } from '@/domains/valueObjects/language'
+import { QrCode } from '@/domains'
 import { EmailPage } from '@/ui/pages/Email'
 
 export default function Page() {
-  return (
-    <EmailPage
-      language={Language.default()}
-      email={''}
-      subject={''}
-      body={''}
-    />
-  )
+  return <EmailPage language={Language.default()} qr={QrCode.default()} />
 }

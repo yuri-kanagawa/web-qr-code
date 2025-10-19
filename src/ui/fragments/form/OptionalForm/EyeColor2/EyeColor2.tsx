@@ -1,5 +1,4 @@
 import { Language } from '@/domains/valueObjects/language'
-import { useQrCode } from '@/hooks'
 import { RightTopQrFinderPattern } from '@/ui/fragments/qrCode'
 import { FC } from 'react'
 
@@ -8,7 +7,6 @@ type Props = {
 }
 
 export const EyeColor2: FC<Props> = ({ language }) => {
-  const { settings, updateEyeColor2 } = useQrCode()
   const locale = language.locale
 
   return (

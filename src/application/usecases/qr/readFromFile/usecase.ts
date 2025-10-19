@@ -1,6 +1,6 @@
-import { IQrScannerRepository } from '@/domains/repositories'
+import { QrCode } from '@/domains/repositories'
 import { Language } from '@/domains/valueObjects/language'
-import { Qr } from '@/domains/valueObjects/qr'
+import { Qr as QrValue } from '@/domains/valueObjects/qr'
 import { ReadQrFromFileUseCaseResult } from './result'
 
 /**

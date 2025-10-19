@@ -4,12 +4,12 @@ import {
   ContactForm,
   DeviceForm,
   MapForm,
+  PhoneForm,
   SmsForm,
   TextForm,
   UrlForm,
   WiFiForm
 } from '@/ui/fragments/form/QrForm'
-import { PhoneForm } from '@/ui/pages/phone/internal/PhoneForm'
 import { Box, Typography } from '@mui/material'
 import { useRouter } from 'next/navigation'
 import { FC, useEffect, useMemo } from 'react'

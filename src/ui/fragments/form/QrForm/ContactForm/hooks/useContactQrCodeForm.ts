@@ -1,5 +1,4 @@
 import { Language } from '@/domains/valueObjects/language'
-import { useQrCode } from '@/hooks'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMemo } from 'react'
 import { SubmitErrorHandler, useForm } from 'react-hook-form'
@@ -43,7 +42,6 @@ export function useContactQrCodeForm({
   workAddress,
   workUrl
 }: Props) {
-  const { ref, onConfirm, onDownload } = useQrCode(language)
   const defaultValues: RegisterQrCodeContactSchema = {
     firstName,
     lastName,
@@ -114,7 +112,6 @@ export function useContactQrCodeForm({
   }
 
   return {
-    ref,
     onConfirm: handleConfirm,
     onDownload: handleSubmit(onDownload, submitErrorHandler),
     ...rest

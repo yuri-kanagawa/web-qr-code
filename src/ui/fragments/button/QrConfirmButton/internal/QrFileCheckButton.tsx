@@ -4,13 +4,13 @@ import { useNotify } from '@/hooks'
 
 import { ReadQrFromFileUseCase } from '@/application/usecases'
 import { Language } from '@/domains/valueObjects/language'
-import { Qr } from '@/domains/valueObjects/qr'
+import { Qr as QrValue } from '@/domains/valueObjects/qr'
 import { QrScannerRepository } from '@/infrastructure/repositories'
 import { Button } from '@/ui/cores'
 
 type Props = {
   file: File | null
-  setQr: (qr: Qr) => void
+  setQr: (qr: QrCode) => void
   language?: Language
 }
 

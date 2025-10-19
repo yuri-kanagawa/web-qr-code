@@ -4,7 +4,6 @@ import { MutableRefObject, useCallback, useRef } from 'react'
  * QRコード用のCanvas要素を管理するフック
  */
 export const useQrCanvas = () => {
-  const ref = useRef<HTMLDivElement | null>(null)
 
   const getCanvasFromRef = useCallback((): HTMLCanvasElement | null => {
     const mutableRef = ref as MutableRefObject<HTMLDivElement | null>
@@ -16,7 +15,6 @@ export const useQrCanvas = () => {
   }, [])
 
   return {
-    canvasRef: ref,
     getCanvas: getCanvasFromRef
   }
 }

@@ -1,5 +1,5 @@
 import { Stack } from '@mui/material'
-import { FC, useState } from 'react'
+import { FC } from 'react'
 import { Controller } from 'react-hook-form'
 
 import { FormButton } from '@/ui/fragments/form/FormButton'
@@ -7,24 +7,20 @@ import { FormCard } from '@/ui/fragments/form/FormCard'
 import { EncryptionSelect } from '@/ui/fragments/select'
 import { PasswordTextField, SSIDTextField } from '@/ui/fragments/textField'
 
-import { Language, QrCodeSettings } from '@/domains'
+import { QrCode } from '@/domains'
 import { WiFiType } from '@/domains/valueObjects/wifiType'
 import { toWifiSchema, useWiFiQrCodeForm } from './hooks'
 
 interface Props {
-  ssid: string
-  password: string
-  type: string
   language: Language
+  qr: QrCode
 }
 
-export const WiFiForm: FC<Props> = ({ ssid, password, type, language }) => {
-  const [settings, setSettings] = useState<QrCodeSettings>(QrCodeSettings.default())
-  
-  const { control, ref, onConfirm, onDownload, watch } = useWiFiQrCodeForm({
-    ssid,
-    password,
-    type,
+export const WiFiForm: FC<Props> = ({ language, qr }) => {
+  const { control, onConfirm, onDownload, watch } = useWiFiQrCodeForm({
+    ssid: qr.value.ssid || '',
+    password: qr.value.password || '',
+    type: qr.value.type || '',
     language
   })
 
@@ -33,8 +29,8 @@ export const WiFiForm: FC<Props> = ({ ssid, password, type, language }) => {
       onConfirm={onConfirm}
       onDownload={onDownload}
       language={language}
-      settings={settings}
-      onChange={setSettings}
+      settings={qr}
+      onChange={() => {}}
       ref={ref}
       value={toWifiSchema(watch())}
     >

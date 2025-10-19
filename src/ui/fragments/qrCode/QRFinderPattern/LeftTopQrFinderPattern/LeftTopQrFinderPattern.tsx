@@ -1,5 +1,5 @@
 import { Language } from '@/domains/valueObjects/language'
-import { QrColor } from '@/domains/valueObjects/qrSettings'
+import { QrSettings } from '@/domains/valueObjects/qrSettings'
 import { useWindowSize } from '@/hooks'
 import { ColorInput } from '@/ui/cores/input'
 import { QRCode } from '@/ui/cores/QrCode'

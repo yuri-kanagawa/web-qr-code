@@ -1,11 +1,11 @@
 import { Language } from '@/domains/valueObjects/language'
-import { EcLevel, QrColor, QrSize } from '@/domains/valueObjects/qrSettings'
+import { QrSettings } from '@/domains/valueObjects/qrSettings'
 import { describe, expect, it } from 'vitest'
-import { QrCodeSettings } from './entity'
+import { QrCode } from './entity'
 
-describe('QrCodeSettings', () => {
+describe('QrCode', () => {
   describe('fromSearchParams', () => {
-    it('SearchParamsからQrCodeSettingsを作成できる', () => {
+    it('SearchParamsからQrCodeを作成できる', () => {
       const params = new URLSearchParams({
         ecLevel: 'H',
         size: '250',
@@ -13,7 +13,7 @@ describe('QrCodeSettings', () => {
         bgColor: '#ffffff'
       })
 
-      const settings = QrCodeSettings.fromSearchParams(params)
+      const settings = QrCode.fromSearchParams(params)
 
       expect(settings.ecLevel.value).toBe('H')
       expect(settings.size.value).toBe(250)
@@ -24,7 +24,7 @@ describe('QrCodeSettings', () => {
     it('パラメータが無い場合はデフォルト値を使用する', () => {
       const params = new URLSearchParams()
 
-      const settings = QrCodeSettings.fromSearchParams(params)
+      const settings = QrCode.fromSearchParams(params)
 
       expect(settings.ecLevel.value).toBe('M')
       expect(settings.size.value).toBe(150)
@@ -36,7 +36,7 @@ describe('QrCodeSettings', () => {
         size: '99999'
       })
 
-      const settings = QrCodeSettings.fromSearchParams(params)
+      const settings = QrCode.fromSearchParams(params)
 
       expect(settings.ecLevel.value).toBe('M')
       expect(settings.size.value).toBe(150)
@@ -52,7 +52,7 @@ describe('QrCodeSettings', () => {
         logoPaddingStyle: 'circle'
       })
 
-      const settings = QrCodeSettings.fromSearchParams(params)
+      const settings = QrCode.fromSearchParams(params)
 
       expect(settings.logo.image).toBe('https://example.com/logo.png')
       expect(settings.logo.width).toBe(50)
@@ -69,7 +69,7 @@ describe('QrCodeSettings', () => {
         eyeRadius3: '15'
       })
 
-      const settings = QrCodeSettings.fromSearchParams(params)
+      const settings = QrCode.fromSearchParams(params)
 
       expect(settings.eye.radius1).toBe(5)
       expect(settings.eye.radius2).toBe(10)
@@ -84,7 +84,7 @@ describe('QrCodeSettings', () => {
         eyeColor3: '#0000FF'
       })
 
-      const settings = QrCodeSettings.fromSearchParams(params)
+      const settings = QrCode.fromSearchParams(params)
 
       expect(settings.colors.eyeColor1.value).toBe('#FF0000')
       expect(settings.colors.eyeColor2.value).toBe('#00FF00')
@@ -96,7 +96,7 @@ describe('QrCodeSettings', () => {
         fgColor: '#FF5733'
       })
 
-      const settings = QrCodeSettings.fromSearchParams(params)
+      const settings = QrCode.fromSearchParams(params)
 
       expect(settings.colors.eyeColor1.value).toBe('#FF5733')
       expect(settings.colors.eyeColor2.value).toBe('#FF5733')
@@ -105,8 +105,8 @@ describe('QrCodeSettings', () => {
   })
 
   describe('toSearchParams', () => {
-    it('QrCodeSettingsをSearchParamsに変換できる', () => {
-      const settings = QrCodeSettings.default()
+    it('QrCodeをSearchParamsに変換できる', () => {
+      const settings = QrCode.default()
       const params = settings.toSearchParams()
 
       expect(params.ecLevel).toBe('M')
@@ -123,7 +123,7 @@ describe('QrCodeSettings', () => {
         bgColor: '#FFFFFF'
       })
 
-      const settings = QrCodeSettings.fromSearchParams(originalParams)
+      const settings = QrCode.fromSearchParams(originalParams)
       const convertedParams = settings.toSearchParams()
 
       expect(convertedParams.ecLevel).toBe('H')
@@ -135,7 +135,7 @@ describe('QrCodeSettings', () => {
 
   describe('default', () => {
     it('デフォルト設定を作成できる', () => {
-      const settings = QrCodeSettings.default()
+      const settings = QrCode.default()
 
       expect(settings.ecLevel.value).toBe('M')
       expect(settings.size.value).toBe(150)
@@ -146,7 +146,7 @@ describe('QrCodeSettings', () => {
 
   describe('変更メソッド（不変性）', () => {
     it('changeEcLevelで新しいインスタンスを返す', () => {
-      const settings = QrCodeSettings.default()
+      const settings = QrCode.default()
       const newEcLevel = EcLevel.H()
       const newSettings = settings.changeEcLevel(newEcLevel)
 
@@ -156,7 +156,7 @@ describe('QrCodeSettings', () => {
     })
 
     it('changeSizeで新しいインスタンスを返す', () => {
-      const settings = QrCodeSettings.default()
+      const settings = QrCode.default()
       const newSize = QrSize.create(300, Language.default()).qrSize!
       const newSettings = settings.changeSize(newSize)
 
@@ -165,7 +165,7 @@ describe('QrCodeSettings', () => {
     })
 
     it('changeColorsで新しいインスタンスを返す', () => {
-      const settings = QrCodeSettings.default()
+      const settings = QrCode.default()
       const newColors = settings.colors.changeFgColor(
         QrColor.create('#FF0000', Language.default()).qrColor!
       )

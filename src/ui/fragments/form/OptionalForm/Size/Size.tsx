@@ -1,6 +1,6 @@
-import { QrCodeSettings } from '@/domains'
+import { QrCode } from '@/domains'
 import { Language } from '@/domains/valueObjects/language'
-import { QrSize } from '@/domains/valueObjects/qrSettings'
+import { QrSettings } from '@/domains/valueObjects/qrSettings'
 import { useWindowSize } from '@/hooks'
 import { WarningAlert } from '@/ui/fragments/box'
 import { Box, FormLabel, Slider, Stack, TextField } from '@mui/material'

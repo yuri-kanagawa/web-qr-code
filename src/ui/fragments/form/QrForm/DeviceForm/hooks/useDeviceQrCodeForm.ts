@@ -2,7 +2,6 @@ import { DeviceOsService } from '@/domains/services/deviceOs'
 import { Device } from '@/domains/valueObjects/device'
 import { Language } from '@/domains/valueObjects/language'
 import { Os } from '@/domains/valueObjects/os'
-import { useQrCode } from '@/hooks/useQrCode'
 import { PathBuilder } from '@/lib/routing'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useParams } from 'next/navigation'
@@ -21,7 +20,6 @@ export const useDeviceQrCodeForm = ({ language }: Props) => {
   const params = useParams()
   const lang = Array.isArray(params.lang) ? params.lang[0] : params.lang
 
-  const { ref, onConfirm, onDownload } = useQrCode(language)
 
   const schema = useMemo(
     () => createRegisterDeviceQrCodeSchema(language),
@@ -129,7 +127,6 @@ export const useDeviceQrCodeForm = ({ language }: Props) => {
 
   console.log('url', url)
   return {
-    ref,
     control,
     trigger,
     ...rest,

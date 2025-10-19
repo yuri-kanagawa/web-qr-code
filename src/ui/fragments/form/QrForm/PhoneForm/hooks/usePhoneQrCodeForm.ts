@@ -1,73 +1,56 @@
 import { Language } from '@/domains/valueObjects/language'
+import { useClientSearchParams } from '@/hooks/useClientSearchParams'
 import { SearchParamsManager } from '@/lib/browser'
+import { RegisterQrCodeUrlSchema } from '@/ui/fragments/form/QrForm/UrlForm/hooks'
+import {
+  registerQrCodePhoneSchema,
+  RegisterQrCodePhoneSchema
+} from './zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useCallback, useEffect, useMemo } from 'react'
 import { SubmitErrorHandler, useForm } from 'react-hook-form'
-import {
-  createRegisterQrCodeSmsSchema,
-  type RegisterQrCodeSmsSchema
-} from './zod'
 
-interface Props {
-  language: Language
-  phoneNumber: string
-  body: string
-}
-
-export const useSmsQrCodeForm = ({ language, phoneNumber, body }: Props) => {
-
+export const usePhoneQrCodeForm = () => {
+  const searchParams = useClientSearchParams()
+  const phoneNumber = searchParams.get('phoneNumber') ?? ''
   const resetPhoneNumber = useCallback(() => {
     SearchParamsManager.remove(['phoneNumber'])
   }, [])
 
-  const resetBody = useCallback(() => {
-    SearchParamsManager.remove(['body'])
-  }, [])
 
-  const defaultValues: RegisterQrCodeSmsSchema = useMemo(() => {
+  const defaultValues: RegisterQrCodePhoneSchema = useMemo(() => {
     return {
-      phoneNumber,
-      body
+      phoneNumber
     }
-  }, [phoneNumber, body])
-
-  const schema = useMemo(
-    () => createRegisterQrCodeSmsSchema(language),
-    [language]
-  )
-
+  }, [phoneNumber])
   const {
     handleSubmit,
-    trigger,
-    setFocus,
-    getFieldState,
-    control,
     reset,
+    control,
+    watch,
+    trigger,
+    formState: { errors, isValid },
+    getFieldState,
+    setFocus,
     ...rest
-  } = useForm<RegisterQrCodeSmsSchema>({
+  } = useForm<RegisterQrCodePhoneSchema>({
     defaultValues,
     mode: 'onChange',
-    resolver: zodResolver(schema)
+    resolver: zodResolver(registerQrCodePhoneSchema)
   })
-
   useEffect(() => {
-    if (phoneNumber || body) {
+    if (phoneNumber) {
       reset(defaultValues)
       resetPhoneNumber()
-      resetBody()
     }
-  }, [defaultValues, reset, resetPhoneNumber, resetBody, phoneNumber, body])
+  }, [phoneNumber, reset, defaultValues, resetPhoneNumber])
 
-  const submitErrorHandler: SubmitErrorHandler<RegisterQrCodeSmsSchema> = (
+  const submitErrorHandler: SubmitErrorHandler<RegisterQrCodeUrlSchema> = (
     errors
   ) => {
     console.error(errors)
-    if (errors.phoneNumber) {
+    if (errors.url) {
       return setFocus('phoneNumber')
-    }
-
-    if (errors.body) {
-      return setFocus('body')
     }
   }
 
@@ -80,12 +63,11 @@ export const useSmsQrCodeForm = ({ language, phoneNumber, body }: Props) => {
     }
     return await onConfirm()
   }
-
   return {
     control,
+    watch,
     onConfirm: handleConfirm,
     onDownload: handleSubmit(onDownload, submitErrorHandler),
-
     ...rest
   }
 }

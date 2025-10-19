@@ -1,7 +1,7 @@
 'use client'
+import { Language, QrCode } from '@/domains'
 import { MapPage } from '@/ui/pages/Map'
-import { Language } from '@/domains'
 
 export default function Page() {
-  return <MapPage language={Language.default()} />
+  return <MapPage language={Language.default()} qr={QrCode.default()} />
 }

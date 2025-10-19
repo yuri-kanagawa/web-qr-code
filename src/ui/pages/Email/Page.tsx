@@ -2,19 +2,17 @@
 import React, { FC } from 'react'
 import { PageWrapper } from '@/ui/fragments/pageWrapper'
 import { EmailForm } from '@/ui/fragments'
-import { Language } from '@/domains/valueObjects/language'
+import { QrCode } from '@/domains'
 
 type Props = {
   language: Language
-  email: string
-  subject: string
-  body: string
+  qr: QrCode
 }
 
 export const EmailPage: FC<Props> = (props) => {
   return (
     <PageWrapper language={props.language}>
-      <EmailForm {...props} />
+      <EmailForm language={props.language} qr={props.qr} />
     </PageWrapper>
   )
 }

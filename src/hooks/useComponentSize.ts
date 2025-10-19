@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 
 export const useComponentSize = () => {
-  const ref = useRef<HTMLDivElement | null>(null)
   const [width, setWidth] = useState(0)
 
   useEffect(() => {
@@ -22,7 +21,6 @@ export const useComponentSize = () => {
     }
   }, [])
   return {
-    ref,
     width,
     setWidth
   }

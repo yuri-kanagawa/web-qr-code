@@ -1,5 +1,4 @@
 import { Language } from '@/domains/valueObjects/language'
-import { useQrCode } from '@/hooks'
 import { BrowserGeoLocationRepository } from '@/infrastructure/repositories/external/geoLocation/client'
 import { IpApiGeoLocationRepository } from '@/infrastructure/repositories/external/geoLocation/server'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -12,7 +11,6 @@ type Props = {
 }
 
 export const useMapQrCodeForm = ({ language }: Props) => {
-  const { ref, onConfirm, onDownload } = useQrCode(language)
   const [isLoadingLocation, setIsLoadingLocation] = useState(true)
   const [isLoadingCurrentPosition, setIsLoadingCurrentPosition] =
     useState(false)
@@ -117,7 +115,6 @@ export const useMapQrCodeForm = ({ language }: Props) => {
   return {
     control,
     watch,
-    ref,
     onConfirm: handleConfirm,
     onDownload: handleSubmit(onDownload, submitErrorHandler),
     onSetCurrentLocation: handleSetCurrentLocation,

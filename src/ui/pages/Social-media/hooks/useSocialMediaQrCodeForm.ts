@@ -1,5 +1,4 @@
 import { Language } from '@/domains'
-import { useQrCode } from '@/hooks'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { SubmitErrorHandler, useForm } from 'react-hook-form'
 import {
@@ -11,7 +10,6 @@ type Props = {
   language: Language
 }
 export const useSocialMediaQrCodeForm = ({ language }: Props) => {
-  const { ref, onConfirm, onDownload } = useQrCode(language)
   const defaultValues: RegisterSocialMediaQrCodeSchema = {
     socialMedia: [
       {
@@ -40,7 +38,6 @@ export const useSocialMediaQrCodeForm = ({ language }: Props) => {
   }
 
   return {
-    ref,
     control,
     onConfirm: handleConfirm,
     onDownload: handleSubmit(onDownload, submitErrorHandler),

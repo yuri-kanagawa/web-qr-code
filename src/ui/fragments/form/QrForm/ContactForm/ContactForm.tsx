@@ -8,75 +8,43 @@ import {
 import { CellPhoneTextField } from '@/ui/fragments/textField/PhoneTextField'
 import { FC } from 'react'
 
-import { QrCodeSettings } from '@/domains'
+import { QrCode } from '@/domains'
 import { Language } from '@/domains/valueObjects/language'
 import { Stack, TextField } from '@/ui/cores'
 import { FormSection } from '@/ui/fragments/box'
 import { FormButton, FormCard } from '@/ui/fragments/form'
-import { useState } from 'react'
 import { Controller } from 'react-hook-form'
 import { convertContact, useContactQrCodeForm } from './hooks'
 
 interface Props {
   language: Language
-  firstName: string
-  lastName: string
-  middleName: string
-  email: string
-  mobilePhone: string
-  homePhone: string
-  homeAddress: string
-  homeUrl: string
-  organization: string
-  post: string
-  workMobile: string
-  workPhone: string
-  workAddress: string
-  workUrl: string
+  qr: QrCode
 }
 
-export const ContactForm: FC<Props> = ({
-  language,
-  firstName,
-  lastName,
-  middleName,
-  email,
-  mobilePhone,
-  homePhone,
-  homeAddress,
-  homeUrl,
-  organization,
-  post,
-  workMobile,
-  workPhone,
-  workAddress,
-  workUrl
-}) => {
-  const [settings, setSettings] = useState(() => QrCodeSettings.default())
+export const ContactForm: FC<Props> = ({ language, qr }) => {
   const locale = language.locale
   const {
     control,
     onConfirm,
     onDownload,
-    ref,
     watch,
     formState: { isValid }
   } = useContactQrCodeForm({
     language,
-    firstName,
-    lastName,
-    middleName,
-    email,
-    mobilePhone,
-    homePhone,
-    homeAddress,
-    homeUrl,
-    organization,
-    post,
-    workMobile,
-    workPhone,
-    workAddress,
-    workUrl
+    firstName: qr.value.firstName || '',
+    lastName: qr.value.lastName || '',
+    middleName: qr.value.middleName || '',
+    email: qr.value.emailContact || '',
+    mobilePhone: qr.value.mobilePhone || '',
+    homePhone: qr.value.homePhone || '',
+    homeAddress: qr.value.homeAddress || '',
+    homeUrl: qr.value.homeUrl || '',
+    organization: qr.value.organization || '',
+    post: qr.value.post || '',
+    workMobile: qr.value.workMobile || '',
+    workPhone: qr.value.workPhone || '',
+    workAddress: qr.value.workAddress || '',
+    workUrl: qr.value.workUrl || ''
   })
 
   return (
@@ -86,8 +54,8 @@ export const ContactForm: FC<Props> = ({
       value={convertContact(watch())}
       language={language}
       isValid={isValid}
-      settings={settings}
-      onChange={setSettings}
+      settings={qr}
+      onChange={() => {}}
       ref={ref}
     >
       <FormCard cardProps={{ sx: { p: 2 } }}>

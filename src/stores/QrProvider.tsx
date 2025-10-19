@@ -1,6 +1,6 @@
 'use client'
 import { Language } from '@/domains/valueObjects/language'
-import { Qr } from '@/domains/valueObjects/qr'
+import { Qr as QrValue } from '@/domains/valueObjects/qr'
 import React, {
   createContext,
   ReactNode,
@@ -11,8 +11,8 @@ import React, {
 } from 'react'
 
 interface QrContextType {
-  qr: Qr | null
-  setQr: (qr: Qr | null) => void
+  qr: QrCode | null
+  setQr: (qr: QrCode | null) => void
   clearQr: () => void
 }
 
@@ -21,7 +21,7 @@ const QrContext = createContext<QrContextType | undefined>(undefined)
 const QR_STORAGE_KEY = 'qr_edit_data'
 
 // QRデータを保存用にシリアライズ
-const serializeQr = (qr: Qr) => {
+const serializeQr = (qr: QrCode) => {
   return {
     value: qr.value,
     languageValue: qr.language.value

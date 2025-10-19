@@ -15,7 +15,7 @@ import {
  *
  * QRコードの全ての設定を保持し、整合性を保証する
  */
-export class QrCodeSettings {
+export class QrCode {
   private constructor(
     private _ecLevel: EcLevel,
     private _size: QrSize,
@@ -29,12 +29,12 @@ export class QrCodeSettings {
   ) {}
 
   /**
-   * SearchParamsから QrCodeSettings を作成
+   * SearchParamsから QrCode を作成
    */
   static fromSearchParams(
     searchParams: URLSearchParams,
     language: Language = Language.default()
-  ): QrCodeSettings {
+  ): QrCode {
     // EcLevel
     const ecLevelResult = EcLevel.create(
       searchParams.get('ecLevel') || 'M',
@@ -133,7 +133,7 @@ export class QrCodeSettings {
       : undefined
     const quietZone = Number(searchParams.get('quietZone')) || undefined
 
-    return new QrCodeSettings(
+    return new QrCode(
       ecLevel,
       size,
       colors,
@@ -149,8 +149,8 @@ export class QrCodeSettings {
   /**
    * デフォルト設定を作成
    */
-  static default(): QrCodeSettings {
-    return new QrCodeSettings(
+  static default(): QrCode {
+    return new QrCode(
       EcLevel.default(),
       QrSize.default(),
       QrColors.default(),
@@ -236,8 +236,8 @@ export class QrCodeSettings {
   }
 
   // Setters（不変性を保つため新しいインスタンスを返す）
-  changeEcLevel(newEcLevel: EcLevel): QrCodeSettings {
-    return new QrCodeSettings(
+  changeEcLevel(newEcLevel: EcLevel): QrCode {
+    return new QrCode(
       newEcLevel,
       this._size,
       this._colors,
@@ -250,8 +250,8 @@ export class QrCodeSettings {
     )
   }
 
-  changeSize(newSize: QrSize): QrCodeSettings {
-    return new QrCodeSettings(
+  changeSize(newSize: QrSize): QrCode {
+    return new QrCode(
       this._ecLevel,
       newSize,
       this._colors,
@@ -264,8 +264,8 @@ export class QrCodeSettings {
     )
   }
 
-  changeColors(newColors: QrColors): QrCodeSettings {
-    return new QrCodeSettings(
+  changeColors(newColors: QrColors): QrCode {
+    return new QrCode(
       this._ecLevel,
       this._size,
       newColors,
@@ -278,8 +278,8 @@ export class QrCodeSettings {
     )
   }
 
-  changeLogo(newLogo: LogoSettings): QrCodeSettings {
-    return new QrCodeSettings(
+  changeLogo(newLogo: LogoSettings): QrCode {
+    return new QrCode(
       this._ecLevel,
       this._size,
       this._colors,
@@ -292,8 +292,8 @@ export class QrCodeSettings {
     )
   }
 
-  changeEye(newEye: EyeSettings): QrCodeSettings {
-    return new QrCodeSettings(
+  changeEye(newEye: EyeSettings): QrCode {
+    return new QrCode(
       this._ecLevel,
       this._size,
       this._colors,
@@ -306,8 +306,8 @@ export class QrCodeSettings {
     )
   }
 
-  changeQrStyle(newQrStyle: QrStyle): QrCodeSettings {
-    return new QrCodeSettings(
+  changeQrStyle(newQrStyle: QrStyle): QrCode {
+    return new QrCode(
       this._ecLevel,
       this._size,
       this._colors,

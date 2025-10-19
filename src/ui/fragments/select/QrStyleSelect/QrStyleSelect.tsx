@@ -1,4 +1,4 @@
-import { Language, QrStyle } from '@/domains'
+import { QrCode } from '@/domains'
 import { FormControl, InputLabel, MenuItem, Select } from '@/ui/cores'
 import { FC } from 'react'
 

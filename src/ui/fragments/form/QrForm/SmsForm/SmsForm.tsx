@@ -1,23 +1,19 @@
-import { QrCodeSettings } from '@/domains'
 import { Language } from '@/domains/valueObjects/language'
 import { FormButton, FormCard } from '@/ui/fragments/form'
 import { BodyTextField } from '@/ui/fragments/textField'
 import { CellPhoneTextField } from '@/ui/fragments/textField/PhoneTextField'
 import { Stack } from '@mui/material'
-import { FC, useState } from 'react'
+import { FC } from 'react'
 import { Controller } from 'react-hook-form'
 import { toSmsSchema } from './hooks'
 import { useSmsQrCodeForm } from './hooks/useSmsQrCodeForm'
 
 interface Props {
   language: Language
-  phoneNumber: string
-  body: string
+  qr: QrCodeCode
 }
 
-export const SmsForm: FC<Props> = (props) => {
-  const [settings, setSettings] = useState<QrCodeSettings>(QrCodeSettings.default())
-  
+export const SmsForm: FC<Props> = ({ language, qr }) => {
   const {
     control,
     ref,
@@ -25,7 +21,11 @@ export const SmsForm: FC<Props> = (props) => {
     onDownload,
     watch,
     formState: { isValid }
-  } = useSmsQrCodeForm(props)
+  } = useSmsQrCodeForm({
+    language,
+    phoneNumber: qr.value.phoneNumber || '',
+    body: qr.value.body || ''
+  })
 
   return (
     <FormButton
@@ -33,9 +33,9 @@ export const SmsForm: FC<Props> = (props) => {
       onDownload={onDownload}
       value={toSmsSchema(watch())}
       isValid={isValid}
-      language={props.language}
-      settings={settings}
-      onChange={setSettings}
+      language={language}
+      settings={qr}
+      onChange={() => {}}
       ref={ref}
     >
       <FormCard cardProps={{ sx: { p: 2 } }}>
@@ -54,7 +54,7 @@ export const SmsForm: FC<Props> = (props) => {
                 error={!!error}
                 helperText={error?.message}
                 inputRef={inputRef}
-                language={props.language}
+                language={language}
                 isRequired={false}
               />
             )}
@@ -73,7 +73,7 @@ export const SmsForm: FC<Props> = (props) => {
                 inputRef={inputRef}
                 helperText={error?.message}
                 error={!!error}
-                language={props.language}
+                language={language}
               />
             )}
           />

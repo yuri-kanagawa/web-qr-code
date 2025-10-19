@@ -17,7 +17,6 @@ type Props = {
 }
 
 export const PageWrapper = ({ language, children }: Props) => {
-  const { ref, width } = useComponentSize()
   const { isSidebarOpen, toggleSidebar, setIsSidebarOpen } = useSidebar()
   const { isLessTablet, isOverLaptop } = useWindowSize()
 

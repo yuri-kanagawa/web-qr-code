@@ -1,7 +1,7 @@
 'use client'
-import { PhonePage } from '@/ui/pages/Phone'
-import { Language } from '@/domains'
+import { Language, QrCode } from '@/domains'
+import { PhonePage } from '@/ui/pages/phone'
 
 export default function Page() {
-  return <PhonePage language={Language.default()} />
+  return <PhonePage language={Language.default()} qr={QrCode.default()} />
 }

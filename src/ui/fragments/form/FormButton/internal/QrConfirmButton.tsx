@@ -9,7 +9,7 @@ import {
 import { FC, useCallback, useMemo, useState } from 'react'
 
 import { Language } from '@/domains/valueObjects/language'
-import { Qr } from '@/domains/valueObjects/qr'
+import { Qr as QrValue } from '@/domains/valueObjects/qr'
 import { useDisclosure } from '@/hooks/useDisclosure'
 
 type Props = {
@@ -24,7 +24,7 @@ export const QrConfirmButton: FC<Props> = ({
   language = Language.default()
 }) => {
   const { onOpen, onClose, isOpen } = useDisclosure()
-  const [qr, setQr] = useState<Qr>(Qr.default())
+  const [qr, setQr] = useState<Qr>(QrCode.default())
   const locale = language.locale
 
   const onConfirm = async () => {

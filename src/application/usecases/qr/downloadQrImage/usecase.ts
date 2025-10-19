@@ -1,4 +1,4 @@
-import { IQrScannerRepository } from '@/domains/repositories'
+import { QrCode } from '@/domains/repositories'
 import { Language } from '@/domains/valueObjects/language'
 import { DownloadQrImageUseCaseResult } from './result'
 

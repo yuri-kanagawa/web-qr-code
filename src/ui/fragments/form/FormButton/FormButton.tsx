@@ -2,7 +2,6 @@ import React, { ReactNode, useState } from 'react'
 
 import { FormCard, OptionalForm } from '@/ui/fragments'
 
-import { QrCodeSettings } from '@/domains'
 import { Language } from '@/domains/valueObjects/language'
 import { useWindowSize } from '@/hooks'
 import { Box, Stack } from '@/ui/cores'
@@ -16,8 +15,8 @@ type Props = {
   value: string
   isValid?: boolean
   language: Language
-  settings: QrCodeSettings
-  onChange: (settings: QrCodeSettings) => void
+  settings: QrCodeCode
+  onChange: (settings: QrCodeCode) => void
 }
 
 export const FormButton = React.forwardRef<HTMLDivElement, Props>(

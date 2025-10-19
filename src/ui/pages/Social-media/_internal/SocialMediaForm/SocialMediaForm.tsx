@@ -1,4 +1,4 @@
-import { Language, SocialMedia, QrCodeSettings } from '@/domains'
+import { Language, QrCodeSettings, SocialMedia } from '@/domains'
 import { FormButton } from '@/ui/fragments/form/FormButton'
 import { SocialMediaSelect } from '@/ui/fragments/select'
 import { LabelTextField, UrlTextField } from '@/ui/fragments/textField'
@@ -12,9 +12,9 @@ type Props = {
 }
 
 export const SocialMediaForm: FC<Props> = ({ language }) => {
-  const [settings, setSettings] = useState<QrCodeSettings>(QrCodeSettings.default())
+  const [settings, setSettings] = useState<QrCode>(QrCode.default())
   
-  const { control, onConfirm, onDownload, ref } = useSocialMediaQrCodeForm({
+  const { control, onConfirm, onDownload } = useSocialMediaQrCodeForm({
     language
   })
   const { fields, append } = useFieldArray<RegisterSocialMediaQrCodeSchema>({
@@ -30,7 +30,6 @@ export const SocialMediaForm: FC<Props> = ({ language }) => {
       language={language}
       settings={settings}
       onChange={setSettings}
-      ref={ref}
     >
       <Stack spacing={2}>
         {fields.map((field, index) => (

@@ -2,7 +2,7 @@
 
 import React, { useEffect, useMemo, useState } from 'react'
 
-import { QrCodeSettings } from '@/domains'
+import { QrCode } from '@/domains'
 import { useWindowSize } from '@/hooks'
 
 import { QRCode, Stack } from '@/ui/cores'
@@ -36,7 +36,7 @@ const GeneratedQrCode = React.forwardRef<HTMLDivElement, Props>(
     const { height, width } = useWindowSize()
 
     // settingsがundefinedの場合のフォールバック
-    const safeSettings = settings || QrCodeSettings.default()
+    const safeSettings = settings || QrCode.default()
 
     const maxSize = useMemo(() => {
       // 親から指定されたサイズがある場合はそれを使用

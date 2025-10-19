@@ -1,6 +1,6 @@
-import { QrCodeSettings } from '@/domains'
+import { QrCode } from '@/domains'
 import { Language } from '@/domains/valueObjects/language'
-import { QrColor, QrColors } from '@/domains/valueObjects/qrSettings'
+import { QrSettings } from '@/domains/valueObjects/qrSettings'
 import { WarningAlert } from '@/ui/fragments/box'
 import { Stack } from '@mui/material'
 import { MuiColorInput } from 'mui-color-input'

@@ -13,8 +13,7 @@ import { useClientSearchParams } from './useClientSearchParams'
 export function useQrCode(language: Language = Language.default()) {
   const searchParams = useClientSearchParams()
 
-  // QR設定（Entity）
-  const qrSettings = useQrCodeSettings(language)
+  // QR設定は不要（各フォームで直接QrCodeを使用）
 
   // Canvas管理
   const { canvasRef, getCanvas } = useQrCanvas()
@@ -49,8 +48,6 @@ export function useQrCode(language: Language = Language.default()) {
   }
 
   return {
-    // QR設定（Entity経由）
-    ...qrSettings,
     // Canvas
     ref: canvasRef,
     // 操作

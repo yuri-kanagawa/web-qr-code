@@ -1,4 +1,4 @@
-import { Language, QrCodeSettings } from '@/domains'
+import { QrCode } from '@/domains'
 import { Stack } from '@/ui/cores'
 import { FormButton, FormCard } from '@/ui/fragments'
 import {
@@ -6,44 +6,28 @@ import {
   EmailTextField,
   SubjectTextField
 } from '@/ui/fragments/textField'
-import { FC, useState } from 'react'
+import { FC } from 'react'
 import { Controller } from 'react-hook-form'
 import { useEmailQRCodeForm } from './hooks'
 import { formatEmail } from './hooks/utils'
 
 interface Props {
   language: Language
-  email?: string
-  subject?: string
-  body?: string
-  onEmailChange?: (email: string) => void
-  onSubjectChange?: (subject: string) => void
-  onBodyChange?: (body: string) => void
+  qr: QrCode
 }
 
-export const EmailForm: FC<Props> = ({
-  language,
-  email,
-  subject,
-  body,
-  onEmailChange,
-  onSubjectChange,
-  onBodyChange
-}) => {
-  const [settings, setSettings] = useState<QrCodeSettings>(QrCodeSettings.default())
-  
+export const EmailForm: FC<Props> = ({ language, qr }) => {
   const {
     control,
-    ref,
     onDownload,
     onConfirm,
     watch,
     formState: { isValid }
   } = useEmailQRCodeForm({
     language,
-    email,
-    subject,
-    body
+    email: qr.value.email || '',
+    subject: qr.value.subject || '',
+    body: qr.value.body || ''
   })
 
   return (
@@ -53,8 +37,8 @@ export const EmailForm: FC<Props> = ({
       value={formatEmail(watch())}
       isValid={isValid}
       language={language}
-      settings={settings}
-      onChange={setSettings}
+      settings={qr}
+      onChange={() => {}}
       ref={ref}
     >
       <FormCard cardProps={{ sx: { p: 2 } }}>
