@@ -1,5 +1,5 @@
 'use client'
-import { Language } from '@/domains'
+import { Language, QrCodeSettings } from '@/domains'
 import { DeviceOsService } from '@/domains/services/deviceOs'
 import { Device } from '@/domains/valueObjects/device'
 import { Os } from '@/domains/valueObjects/os'
@@ -20,7 +20,7 @@ import {
 } from '@dnd-kit/sortable'
 import AddIcon from '@mui/icons-material/Add'
 import { Button, Stack } from '@mui/material'
-import { FC } from 'react'
+import { FC, useState } from 'react'
 import { useFieldArray, useWatch } from 'react-hook-form'
 import { SortableDeviceItem } from './_internal'
 import { useDeviceQrCodeForm } from './hooks'
@@ -29,6 +29,8 @@ type Props = {
   language: Language
 }
 export const DeviceForm: FC<Props> = ({ language }) => {
+  const [settings, setSettings] = useState<QrCodeSettings>(QrCodeSettings.default())
+  
   const {
     control,
     onConfirm,
@@ -271,6 +273,8 @@ export const DeviceForm: FC<Props> = ({ language }) => {
       onConfirm={onConfirm}
       onDownload={onDownload}
       language={language}
+      settings={settings}
+      onChange={setSettings}
       ref={ref}
       value={url}
       isValid={isValid}

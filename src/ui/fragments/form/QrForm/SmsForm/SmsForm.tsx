@@ -1,9 +1,10 @@
+import { QrCodeSettings } from '@/domains'
 import { Language } from '@/domains/valueObjects/language'
 import { FormButton, FormCard } from '@/ui/fragments/form'
 import { BodyTextField } from '@/ui/fragments/textField'
 import { CellPhoneTextField } from '@/ui/fragments/textField/PhoneTextField'
 import { Stack } from '@mui/material'
-import { FC } from 'react'
+import { FC, useState } from 'react'
 import { Controller } from 'react-hook-form'
 import { toSmsSchema } from './hooks'
 import { useSmsQrCodeForm } from './hooks/useSmsQrCodeForm'
@@ -15,6 +16,8 @@ interface Props {
 }
 
 export const SmsForm: FC<Props> = (props) => {
+  const [settings, setSettings] = useState<QrCodeSettings>(QrCodeSettings.default())
+  
   const {
     control,
     ref,
@@ -31,6 +34,8 @@ export const SmsForm: FC<Props> = (props) => {
       value={toSmsSchema(watch())}
       isValid={isValid}
       language={props.language}
+      settings={settings}
+      onChange={setSettings}
       ref={ref}
     >
       <FormCard cardProps={{ sx: { p: 2 } }}>

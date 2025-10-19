@@ -1,4 +1,5 @@
 'use client'
+import { QrCodeSettings } from '@/domains'
 import { Language } from '@/domains/valueObjects/language'
 import { FormButton } from '@/ui/fragments/form/FormButton'
 import { FormCard } from '@/ui/fragments/form/FormCard'
@@ -8,7 +9,7 @@ import {
   LongitudeTextField
 } from '@/ui/fragments/textField/NumberTextField'
 import { Button, Stack } from '@mui/material'
-import { FC } from 'react'
+import { FC, useState } from 'react'
 import { Controller } from 'react-hook-form'
 import { formatMapUrl, useMapQrCodeForm } from './hooks'
 
@@ -17,6 +18,8 @@ type Props = {
 }
 
 export const MapForm: FC<Props> = ({ language }) => {
+  const [settings, setSettings] = useState<QrCodeSettings>(QrCodeSettings.default())
+  
   const {
     control,
     ref,
@@ -49,6 +52,8 @@ export const MapForm: FC<Props> = ({ language }) => {
       value={formatMapUrl(watch())}
       isValid={latitudeIsValid && longitudeIsValid}
       language={language}
+      settings={settings}
+      onChange={setSettings}
       ref={ref}
     >
       <FormCard cardProps={{ sx: { p: 2 } }}>

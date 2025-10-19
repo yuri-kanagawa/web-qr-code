@@ -4,12 +4,12 @@ import {
   ContactForm,
   DeviceForm,
   MapForm,
-  PhoneForm,
   SmsForm,
   TextForm,
   UrlForm,
-  WifiForm
+  WiFiForm
 } from '@/ui/fragments/form/QrForm'
+import { PhoneForm } from '@/ui/pages/phone/internal/PhoneForm'
 import { Box, Typography } from '@mui/material'
 import { useRouter } from 'next/navigation'
 import { FC, useEffect, useMemo } from 'react'
@@ -100,11 +100,11 @@ export const QrFormSelector: FC<Props> = ({ language }) => {
       const encryptionType = typeMatch ? typeMatch[1] : 'WPA'
 
       return (
-        <WifiForm
+        <WiFiForm
           language={language}
           ssid={ssid}
           password={password}
-          encryptionType={encryptionType}
+          type={encryptionType}
         />
       )
     }
