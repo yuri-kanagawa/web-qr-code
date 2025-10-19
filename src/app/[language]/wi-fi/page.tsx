@@ -1,6 +1,6 @@
 'use client'
 import { QrCode } from '@/domains'
-import { WiFiPage } from '@/ui/pages/Wi-fi'
+import { WiFiPage } from '@/ui/pages/WiFi'
 
 type Props = {
   params: { language: string }

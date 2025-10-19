@@ -1,6 +1,5 @@
 import { QrCode } from '@/domains'
 import { Language } from '@/domains/valueObjects/language'
-import { LogoSettings } from '@/domains/valueObjects/qrSettings'
 import { WarningAlert } from '@/ui/fragments/box'
 import { ImageForm } from '@/ui/fragments/form/OptionalForm/ImageForm/ImageForm'
 import { Box, FormLabel, Stack } from '@mui/material'
@@ -10,23 +9,17 @@ type Props = {
   file: File | null
   setFile: (value: File | null) => void
   language: Language
-  settings: QrCodeSettings
-  onChange: (settings: QrCodeSettings) => void
+  qr: QrCode
+  onChange: (qr: QrCode) => void
 }
 
-export const Logo: FC<Props> = ({
-  file,
-  setFile,
-  language,
-  settings,
-  onChange
-}) => {
+export const Logo: FC<Props> = ({ file, setFile, language, qr, onChange }) => {
   const locale = language.locale
 
   // ロゴサイズの警告チェック
-  const qrSize = settings.size.value
-  const logoWidth = settings.logo.width || 0
-  const logoHeight = settings.logo.height || 0
+  const qrSize = qr.size.value
+  const logoWidth = qr.logo.width || 0
+  const logoHeight = qr.logo.height || 0
   const maxRecommendedSize = Math.floor(qrSize * 0.3) // QRコードサイズの30%を推奨最大値とする（実際のテスト結果に基づく）
 
   const isLogoTooLarge =
@@ -34,25 +27,23 @@ export const Logo: FC<Props> = ({
   const logoAreaRatio = (logoWidth * logoHeight) / (qrSize * qrSize)
 
   const updateLogoWidth = (width: number) => {
-    const newLogo = LogoSettings.create({
+    const newQr = qr.changeLogo(
       width,
-      height: settings.logo.height,
-      opacity: settings.logo.opacity,
-      paddingStyle: settings.logo.paddingStyle
-    })
-    const newSettings = settings.changeLogo(newLogo)
-    onChange(newSettings)
+      qr.logo.height || 0,
+      qr.logo.opacity || 1,
+      qr.logo.paddingStyle
+    )
+    onChange(newQr)
   }
 
   const updateLogoHeight = (height: number) => {
-    const newLogo = LogoSettings.create({
-      width: settings.logo.width,
+    const newQr = qr.changeLogo(
+      qr.logo.width || 0,
       height,
-      opacity: settings.logo.opacity,
-      paddingStyle: settings.logo.paddingStyle
-    })
-    const newSettings = settings.changeLogo(newLogo)
-    onChange(newSettings)
+      qr.logo.opacity || 1,
+      qr.logo.paddingStyle
+    )
+    onChange(newQr)
   }
 
   return (
@@ -86,11 +77,11 @@ export const Logo: FC<Props> = ({
         <ImageForm
           file={file}
           setFile={setFile}
-          logHeight={settings.logo.height}
-          logWidth={settings.logo.width}
+          logHeight={qr.logo.height}
+          logWidth={qr.logo.width}
           setLogoHeight={updateLogoHeight}
           setLogoWidth={updateLogoWidth}
-          max={settings.size.value}
+          max={qr.size.value}
           language={language}
         />
       </Box>

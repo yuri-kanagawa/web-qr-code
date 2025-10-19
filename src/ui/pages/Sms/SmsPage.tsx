@@ -2,18 +2,17 @@
 import React, { FC } from 'react'
 
 import { PageWrapper, SmsForm } from '@/ui/fragments'
-import { Language } from '@/domains/valueObjects/language'
+import { Language, QrCode } from '@/domains'
 
 type Props = {
   language: Language
-  phoneNumber: string
-  body: string
+  qr: QrCode
 }
 
 export const SmsPage: FC<Props> = (props) => {
   return (
     <PageWrapper language={props.language}>
-      <SmsForm {...props} />
+      <SmsForm language={props.language} qr={props.qr} />
     </PageWrapper>
   )
 }

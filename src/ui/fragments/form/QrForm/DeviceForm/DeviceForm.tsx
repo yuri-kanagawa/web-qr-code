@@ -1,5 +1,5 @@
 'use client'
-import { QrCode } from '@/domains'
+import { Language, QrCode } from '@/domains'
 import { DeviceOsService } from '@/domains/services/deviceOs'
 import { Device } from '@/domains/valueObjects/device'
 import { Os } from '@/domains/valueObjects/os'
@@ -28,12 +28,14 @@ import { useDeviceQrCodeForm } from './hooks'
 type Props = {
   language: Language
   qr: QrCode
+  onChange: (qr: QrCode) => void
 }
-export const DeviceForm: FC<Props> = ({ language, qr }) => {
+export const DeviceForm: FC<Props> = ({ language, qr, onChange }) => {
   const {
     control,
     onConfirm,
     onDownload,
+    ref,
     url,
     formState: { isValid },
     setValue,
@@ -147,7 +149,7 @@ export const DeviceForm: FC<Props> = ({ language, qr }) => {
     const currentOs =
       selectedOs !== undefined
         ? selectedOs
-        : (devices?.[index]?.os ?? notSetOs.value)
+        : devices?.[index]?.os ?? notSetOs.value
 
     // 他のフィールドで既に選択されている組み合わせを収集
     const usedCombinations =
@@ -271,9 +273,9 @@ export const DeviceForm: FC<Props> = ({ language, qr }) => {
       onConfirm={onConfirm}
       onDownload={onDownload}
       language={language}
-      settings={qr}
-      onChange={() => {}}
-      value={url}
+      qr={qr}
+      onChange={onChange}
+      ref={ref}
       isValid={isValid}
     >
       <DndContext

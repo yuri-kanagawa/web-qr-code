@@ -12,31 +12,29 @@ import { IoEyeOffOutline, IoEyeOutline } from 'react-icons/io5'
 
 type Props = {
   file: File | null
-  value: string
   isValid?: boolean
   showHiddenIcon?: boolean
   height?: number
   width?: number
-  settings: QrCodeSettings
+  qr: QrCode
 }
 
 const GeneratedQrCode = React.forwardRef<HTMLDivElement, Props>(
   (
     {
-      value,
       file,
       isValid,
       showHiddenIcon = false,
       height: propHeight,
       width: propWidth,
-      settings
+      qr
     },
     ref
   ) => {
     const { height, width } = useWindowSize()
 
-    // settingsがundefinedの場合のフォールバック
-    const safeSettings = settings || QrCode.default()
+    // qrがundefinedの場合のフォールバック
+    const safeQr = qr || QrCode.default()
 
     const maxSize = useMemo(() => {
       // 親から指定されたサイズがある場合はそれを使用
@@ -83,33 +81,32 @@ const GeneratedQrCode = React.forwardRef<HTMLDivElement, Props>(
           <Stack p={4}>
             <CornerHighlightBox height={maxSize + 50} width={maxSize + 50}>
               <div ref={ref} style={{ position: 'relative' }}>
-                {isValid && value && (
+                {isValid && qr.qrValue.value && (
+                  console.log('GeneratedQrCode rendering QR:', qr.qrValue.value) || true) && (
                   <>
                     <QRCode
-                      value={value}
-                      size={safeSettings.size.value}
-                      bgColor={safeSettings.colors.bgColor.value}
-                      fgColor={safeSettings.colors.fgColor.value}
-                      ecLevel={
-                        safeSettings.ecLevel.value as 'L' | 'M' | 'Q' | 'H'
-                      }
+                      value={qr.qrValue.value}
+                      size={safeQr.size.value}
+                      bgColor={safeQr.colors.bgColor.value}
+                      fgColor={safeQr.colors.fgColor.value}
+                      ecLevel={safeQr.ecLevel.value as 'L' | 'M' | 'Q' | 'H'}
                       logoImage={logoImage}
-                      logoWidth={safeSettings.logo.width}
-                      logoHeight={safeSettings.logo.height}
-                      logoOpacity={safeSettings.logo.opacity}
+                      logoWidth={safeQr.logo.width}
+                      logoHeight={safeQr.logo.height}
+                      logoOpacity={safeQr.logo.opacity}
                       eyeRadius={[
-                        safeSettings.eye.radius1,
-                        safeSettings.eye.radius2,
-                        safeSettings.eye.radius3
+                        safeQr.eye.radius1,
+                        safeQr.eye.radius2,
+                        safeQr.eye.radius3
                       ]}
                       eyeColor={[
-                        safeSettings.colors.eyeColor1.value,
-                        safeSettings.colors.eyeColor2.value,
-                        safeSettings.colors.eyeColor3.value
+                        safeQr.colors.eyeColor1.value,
+                        safeQr.colors.eyeColor2.value,
+                        safeQr.colors.eyeColor3.value
                       ]}
-                      logoPaddingStyle={safeSettings.logo.paddingStyle}
+                      logoPaddingStyle={safeQr.logo.paddingStyle}
                       logoPadding={9}
-                      enableCORS={safeSettings.enableCORS || false}
+                      enableCORS={safeQr.enableCORS || false}
                     />
                   </>
                 )}
@@ -119,8 +116,8 @@ const GeneratedQrCode = React.forwardRef<HTMLDivElement, Props>(
                     sx={{
                       zIndex: 2,
                       position: 'absolute',
-                      top: isValid && value ? -12 : -60,
-                      right: isValid && value ? -12 : -60
+                      top: isValid && qr.qrValue.value ? -12 : -60,
+                      right: isValid && qr.qrValue.value ? -12 : -60
                       // backgroundColor: 'white',
                       // '&:hover': {
                       //   backgroundColor: 'white'

@@ -2,6 +2,7 @@ import React, { ReactNode, useState } from 'react'
 
 import { FormCard, OptionalForm } from '@/ui/fragments'
 
+import { QrCode } from '@/domains'
 import { Language } from '@/domains/valueObjects/language'
 import { useWindowSize } from '@/hooks'
 import { Box, Stack } from '@/ui/cores'
@@ -12,32 +13,23 @@ type Props = {
   children: ReactNode
   onConfirm?: () => Promise<string | undefined>
   onDownload?: () => void
-  value: string
   isValid?: boolean
   language: Language
-  settings: QrCode
-  onChange: (settings: QrCode) => void
+  qr: QrCode
+  onChange: (qr: QrCode) => void
 }
 
 export const FormButton = React.forwardRef<HTMLDivElement, Props>(
   (
-    {
-      children,
-      onConfirm,
-      onDownload,
-      value,
-      isValid,
-      language,
-      settings,
-      onChange
-    },
+    { children, onConfirm, onDownload, isValid, language, qr, onChange },
     ref
   ) => {
     const { height, width, isLessLaptop, isOverLaptop } = useWindowSize()
     const [file, setFile] = useState<File | null>(null)
 
-    // canvasが生成される条件: isValid && value が存在する
-    const hasCanvas = isValid && !!value
+    // canvasが生成される条件: isValid && qr.qrValue.value が存在する
+    const hasCanvas = isValid && !!qr.qrValue.value
+    console.log('FormButton hasCanvas:', hasCanvas, 'isValid:', isValid, 'qrValue:', qr.qrValue.value)
 
     return (
       <Box
@@ -69,7 +61,7 @@ export const FormButton = React.forwardRef<HTMLDivElement, Props>(
                   file={file}
                   setFile={setFile}
                   language={language}
-                  settings={settings}
+                  qr={qr}
                   onChange={onChange}
                 />
               </FormCard>
@@ -87,11 +79,10 @@ export const FormButton = React.forwardRef<HTMLDivElement, Props>(
               {isLessLaptop && (
                 <GeneratedQrCode
                   ref={ref}
-                  value={value}
                   file={file}
                   isValid={isValid}
                   showHiddenIcon={true}
-                  settings={settings}
+                  qr={qr}
                 />
               )}
               <Stack
@@ -106,12 +97,13 @@ export const FormButton = React.forwardRef<HTMLDivElement, Props>(
                   onClick={onConfirm}
                   language={language}
                   isValid={hasCanvas}
-                  settings={settings}
+                  qr={qr}
                 />
                 <QrDownloadButton
                   onClick={onDownload}
                   language={language}
                   isValid={hasCanvas}
+                  qr={qr}
                 />
               </Stack>
             </Stack>
@@ -135,8 +127,7 @@ export const FormButton = React.forwardRef<HTMLDivElement, Props>(
               >
                 <GeneratedQrCode
                   ref={ref}
-                  settings={settings}
-                  value={value}
+                  qr={qr}
                   file={file}
                   isValid={isValid}
                   height={200}

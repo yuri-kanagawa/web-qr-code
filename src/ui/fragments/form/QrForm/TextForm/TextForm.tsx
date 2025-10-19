@@ -2,18 +2,20 @@ import { Language, QrCode } from '@/domains'
 import { FormButton } from '@/ui/fragments/form/FormButton'
 import { FormCard } from '@/ui/fragments/form/FormCard'
 import { TextTextField } from '@/ui/fragments/textField/TextTextField'
-import { FC } from 'react'
+import { FC, useState } from 'react'
 import { Controller } from 'react-hook-form'
-import { toTextSchema, useTextQrCodeForm } from './hooks'
+import { useTextQrCodeForm } from './hooks'
 
 interface Props {
   language: Language
   qr: QrCode
+  onChange: (qr: QrCode) => void
 }
 
-export const TextForm: FC<Props> = ({ language, qr }: Props) => {
+export const TextForm: FC<Props> = ({ language, qr, onChange }: Props) => {
+  const [currentQr, setCurrentQr] = useState<QrCode>(qr)
   const { control, onConfirm, onDownload, watch } = useTextQrCodeForm({
-    text: qr.value.text || '',
+    text: qr.text?.value || '',
     language
   })
 
@@ -22,23 +24,30 @@ export const TextForm: FC<Props> = ({ language, qr }: Props) => {
       control={control}
       name="text"
       render={({
-        field: { value, onChange, ref: inputRef },
+        field: { value, onChange: fieldOnChange, ref: inputRef },
         formState: { isValid },
         fieldState: { error }
       }) => (
         <FormButton
           onConfirm={onConfirm}
           onDownload={onDownload}
-          value={toTextSchema(watch())}
           isValid={isValid}
           language={language}
-          settings={qr}
-          onChange={() => {}}
+          qr={currentQr}
+          onChange={(newQr) => {
+            setCurrentQr(newQr)
+            onChange(newQr)
+          }}
         >
           <FormCard cardProps={{ sx: { p: 2 } }}>
             <TextTextField
               value={value}
-              onChange={onChange}
+              onChange={(newValue) => {
+                fieldOnChange(newValue) // react-hook-formの状態を更新
+                const newQr = qr.changeText(newValue) // QrCodeの状態を更新
+                setCurrentQr(newQr) // ローカル状態を更新
+                onChange(newQr) // 親コンポーネントに新しいQrCodeを渡す
+              }}
               language={language}
               isRequired={true}
             />

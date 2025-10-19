@@ -1,14 +1,15 @@
 import { Language } from '@/domains/valueObjects/language'
+import { useQrCode } from '@/hooks'
 import { useClientSearchParams } from '@/hooks/useClientSearchParams'
 import { SearchParamsManager } from '@/lib/browser'
 import { RegisterQrCodeUrlSchema } from '@/ui/fragments/form/QrForm/UrlForm/hooks'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useCallback, useEffect, useMemo } from 'react'
+import { SubmitErrorHandler, useForm } from 'react-hook-form'
 import {
   registerQrCodePhoneSchema,
   RegisterQrCodePhoneSchema
 } from './zod'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useCallback, useEffect, useMemo } from 'react'
-import { SubmitErrorHandler, useForm } from 'react-hook-form'
 
 export const usePhoneQrCodeForm = () => {
   const searchParams = useClientSearchParams()
@@ -17,6 +18,7 @@ export const usePhoneQrCodeForm = () => {
     SearchParamsManager.remove(['phoneNumber'])
   }, [])
 
+  const { ref, onConfirm, onDownload } = useQrCode(Language.default())
 
   const defaultValues: RegisterQrCodePhoneSchema = useMemo(() => {
     return {
@@ -61,13 +63,14 @@ export const usePhoneQrCodeForm = () => {
       setFocus('phoneNumber')
       return
     }
-    return "qr-generated"
+    return await onConfirm()
   }
   return {
     control,
     watch,
+    ref,
     onConfirm: handleConfirm,
-    onDownload: () => console.log("Download functionality temporarily disabled"),
+    onDownload: handleSubmit(onDownload, submitErrorHandler),
     ...rest
   }
 }

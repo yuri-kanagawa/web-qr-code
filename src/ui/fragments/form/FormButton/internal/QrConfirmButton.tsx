@@ -6,28 +6,26 @@ import {
   Stack,
   Typography
 } from '@mui/material'
-import { FC, useCallback, useMemo, useState } from 'react'
+import { FC, useCallback, useMemo } from 'react'
 
 import { QrCode } from '@/domains'
 import { Language } from '@/domains/valueObjects/language'
-import { Qr as QrValue } from '@/domains/valueObjects/qr'
 import { useDisclosure } from '@/hooks/useDisclosure'
 
 type Props = {
   onClick?: () => Promise<string | undefined>
   isValid?: boolean
   language?: Language
-  settings?: QrCode
+  qr?: QrCode
 }
 
 export const QrConfirmButton: FC<Props> = ({
   onClick,
   isValid = true,
   language = Language.default(),
-  settings
+  qr
 }) => {
   const { onOpen, onClose, isOpen } = useDisclosure()
-  const [qr, setQr] = useState<QrValue>(QrValue.default(language))
   const locale = language.locale
 
   const onConfirm = async () => {
@@ -35,41 +33,36 @@ export const QrConfirmButton: FC<Props> = ({
       return
     }
     const result = await onClick()
-    if (!result) {
-      return
-    }
-    const qrResult = QrValue.create(result, language)
-    if (qrResult.isSuccess && qrResult.qr) {
-      setQr(qrResult.qr)
+    if (result) {
       onOpen()
     }
   }
 
   const onExceed = useCallback(() => {
-    if (qr.isUrl || qr.isMap) {
-      window.open(qr.value)
+    if (qr?.qrValue.isUrl || qr?.qrValue.isMap) {
+      window.open(qr.qrValue.value)
     }
     onClose()
   }, [qr, onClose])
 
   const getText = useMemo(() => {
-    if (qr.isUrl) {
+    if (qr?.qrValue.isUrl) {
       return `${locale.word.dialog.qrCodeUrl}\n${locale.word.dialog.qrCodeUrlMessage}`
     }
-    if (qr.isMap) {
+    if (qr?.qrValue.isMap) {
       return `${locale.word.dialog.qrCodeUrl}\n${locale.word.dialog.qrCodeUrlMessage}`
     }
-    if (qr.isSms) {
+    if (qr?.qrValue.isSms) {
       return locale.word.dialog.qrCodeSms
     }
-    if (qr.isTel) {
+    if (qr?.qrValue.isTel) {
       return locale.word.dialog.qrCodePhone
     }
     return ''
   }, [qr, locale])
 
   const display = useMemo(() => {
-    if (qr.isUrl || qr.isMap) {
+    if (qr?.qrValue.isUrl || qr?.qrValue.isMap) {
       return {
         title: locale.word.dialog.qrCodeUrl,
         message: locale.word.dialog.qrCodeUrlMessage
@@ -90,7 +83,7 @@ export const QrConfirmButton: FC<Props> = ({
         <DialogContent>
           <Stack>
             <Typography whiteSpace={'pre-wrap'}>{getText}</Typography>
-            <Typography>{qr.value}</Typography>
+            <Typography>{qr?.qrValue.value}</Typography>
           </Stack>
         </DialogContent>
         <DialogActions>

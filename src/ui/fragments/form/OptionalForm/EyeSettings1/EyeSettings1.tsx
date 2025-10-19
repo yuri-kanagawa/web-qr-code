@@ -1,11 +1,6 @@
 import { QrCode } from '@/domains'
 import { Language } from '@/domains/valueObjects/language'
-import {
-  EyeRadius as EyeRadiusClass,
-  EyeSettings,
-  QrColor,
-  QrColors
-} from '@/domains/valueObjects/qrSettings'
+import { EyeRadius as EyeRadiusClass } from '@/domains/valueObjects/qrSettings'
 import { useWindowSize } from '@/hooks'
 import { ColorInput } from '@/ui/cores/input'
 import { QRCode } from '@/ui/cores/QrCode'
@@ -20,14 +15,14 @@ import { FC } from 'react'
 type Props = {
   language: Language
   isUnified?: boolean
-  settings: QrCodeSettings
-  onChange: (settings: QrCodeSettings) => void
+  qr: QrCode
+  onChange: (qr: QrCode) => void
 }
 
 export const EyeSettings1: FC<Props> = ({
   language,
   isUnified = false,
-  settings,
+  qr,
   onChange
 }) => {
   const { isOverLaptop } = useWindowSize()
@@ -42,74 +37,35 @@ export const EyeSettings1: FC<Props> = ({
     ) {
       if (isUnified) {
         // 統一設定モード：すべての目に適用
-        const r1 = EyeRadiusClass.create(numValue, language)
-        const r2 = EyeRadiusClass.create(numValue, language)
-        const r3 = EyeRadiusClass.create(numValue, language)
-        if (
-          r1.isSuccess &&
-          r2.isSuccess &&
-          r3.isSuccess &&
-          r1.eyeRadius &&
-          r2.eyeRadius &&
-          r3.eyeRadius
-        ) {
-          const newEye = EyeSettings.create(
-            r1.eyeRadius,
-            r2.eyeRadius,
-            r3.eyeRadius
-          )
-          const newSettings = settings.changeEye(newEye)
-          onChange(newSettings)
-        }
+        const newQr = qr.changeEye(numValue, numValue, numValue)
+        onChange(newQr)
       } else {
-        const r1 = EyeRadiusClass.create(numValue, language)
-        const r2 = EyeRadiusClass.create(settings.eye.radius2, language)
-        const r3 = EyeRadiusClass.create(settings.eye.radius3, language)
-        if (
-          r1.isSuccess &&
-          r2.isSuccess &&
-          r3.isSuccess &&
-          r1.eyeRadius &&
-          r2.eyeRadius &&
-          r3.eyeRadius
-        ) {
-          const newEye = EyeSettings.create(
-            r1.eyeRadius,
-            r2.eyeRadius,
-            r3.eyeRadius
-          )
-          const newSettings = settings.changeEye(newEye)
-          onChange(newSettings)
-        }
+        const newQr = qr.changeEye(numValue, qr.eye.radius2, qr.eye.radius3)
+        onChange(newQr)
       }
     }
   }
 
   const handleColorChange = (value: string) => {
-    const result = QrColor.create(value, language)
-    if (result.isSuccess && result.qrColor) {
-      if (isUnified) {
-        // 統一設定モード：すべての目に適用
-        const newColors = QrColors.create(
-          settings.colors.fgColor,
-          settings.colors.bgColor,
-          result.qrColor,
-          result.qrColor,
-          result.qrColor
-        )
-        const newSettings = settings.changeColors(newColors)
-        onChange(newSettings)
-      } else {
-        const newColors = QrColors.create(
-          settings.colors.fgColor,
-          settings.colors.bgColor,
-          result.qrColor,
-          settings.colors.eyeColor2,
-          settings.colors.eyeColor3
-        )
-        const newSettings = settings.changeColors(newColors)
-        onChange(newSettings)
-      }
+    if (isUnified) {
+      // 統一設定モード：すべての目に適用
+      const newQr = qr.changeColors(
+        qr.colors.fgColor.value,
+        qr.colors.bgColor.value,
+        value,
+        value,
+        value
+      )
+      onChange(newQr)
+    } else {
+      const newQr = qr.changeColors(
+        qr.colors.fgColor.value,
+        qr.colors.bgColor.value,
+        value,
+        qr.colors.eyeColor2.value,
+        qr.colors.eyeColor3.value
+      )
+      onChange(newQr)
     }
   }
 
@@ -117,45 +73,11 @@ export const EyeSettings1: FC<Props> = ({
     const numValue = Number(value)
     if (isUnified) {
       // 統一設定モード：すべての目に適用
-      const r1 = EyeRadiusClass.create(numValue, language)
-      const r2 = EyeRadiusClass.create(numValue, language)
-      const r3 = EyeRadiusClass.create(numValue, language)
-      if (
-        r1.isSuccess &&
-        r2.isSuccess &&
-        r3.isSuccess &&
-        r1.eyeRadius &&
-        r2.eyeRadius &&
-        r3.eyeRadius
-      ) {
-        const newEye = EyeSettings.create(
-          r1.eyeRadius,
-          r2.eyeRadius,
-          r3.eyeRadius
-        )
-        const newSettings = settings.changeEye(newEye)
-        onChange(newSettings)
-      }
+      const newQr = qr.changeEye(numValue, numValue, numValue)
+      onChange(newQr)
     } else {
-      const r1 = EyeRadiusClass.create(numValue, language)
-      const r2 = EyeRadiusClass.create(settings.eye.radius2, language)
-      const r3 = EyeRadiusClass.create(settings.eye.radius3, language)
-      if (
-        r1.isSuccess &&
-        r2.isSuccess &&
-        r3.isSuccess &&
-        r1.eyeRadius &&
-        r2.eyeRadius &&
-        r3.eyeRadius
-      ) {
-        const newEye = EyeSettings.create(
-          r1.eyeRadius,
-          r2.eyeRadius,
-          r3.eyeRadius
-        )
-        const newSettings = settings.changeEye(newEye)
-        onChange(newSettings)
-      }
+      const newQr = qr.changeEye(numValue, qr.eye.radius2, qr.eye.radius3)
+      onChange(newQr)
     }
   }
 
@@ -168,22 +90,14 @@ export const EyeSettings1: FC<Props> = ({
       : '目（左上）'
 
   // 目の色のコントラスト比チェック
-  const eyeBgContrast = settings.colors.getContrastRatio(
-    settings.colors.eyeColor1,
-    settings.colors.bgColor
-  )
-  const eyeFgContrast = settings.colors.getContrastRatio(
-    settings.colors.eyeColor1,
-    settings.colors.fgColor
-  )
-  const hasLowContrast = eyeBgContrast < 3.0 || eyeFgContrast < 3.0
+  const contrastInfo = qr.getLeftTopEyeContrastInfo()
 
   return (
     <FormSection label={label}>
       <Stack spacing={3} sx={{ pb: 3 }}>
         <ColorInput
           format="hex"
-          value={settings.colors.eyeColor1.value}
+          value={qr.colors.eyeColor1.value}
           label={language.isEnglish ? 'Color' : '色'}
           onChange={handleColorChange}
           isAlphaHidden={true}
@@ -195,8 +109,8 @@ export const EyeSettings1: FC<Props> = ({
                 value={''}
                 bgColor={'white'}
                 fgColor={'white'}
-                eyeRadius={[settings.eye.radius1, 0, 0]}
-                eyeColor={[settings.colors.eyeColor1.value, 'white', 'white']}
+                eyeRadius={[qr.eye.radius1, 0, 0]}
+                eyeColor={[qr.colors.eyeColor1.value, 'white', 'white']}
               />
             </CornerHighlightBox>
           </Box>
@@ -205,7 +119,7 @@ export const EyeSettings1: FC<Props> = ({
           label={language.isEnglish ? 'Corner Radius' : '角の丸み'}
           type="number"
           size="small"
-          value={settings.eye.radius1}
+          value={qr.eye.radius1}
           onChange={handleRadiusChange}
           inputProps={{ min: EyeRadiusClass.MIN, max: EyeRadiusClass.MAX }}
           fullWidth
@@ -213,7 +127,7 @@ export const EyeSettings1: FC<Props> = ({
         <Slider
           min={EyeRadiusClass.MIN}
           max={EyeRadiusClass.MAX}
-          value={settings.eye.radius1}
+          value={qr.eye.radius1}
           onChange={handleSliderChange}
           marks={[
             {
@@ -232,26 +146,11 @@ export const EyeSettings1: FC<Props> = ({
             }
           }}
         />
-        {hasLowContrast && (
+        {contrastInfo.hasLowContrast && (
           <WarningAlert
             language={language}
             title={language.isEnglish ? 'Eye Color Warning' : '目の色警告'}
-            messages={[
-              ...(eyeBgContrast < 3.0
-                ? [
-                    language.isEnglish
-                      ? `Eye color has low contrast with background (${eyeBgContrast.toFixed(1)}:1)`
-                      : `目の色と背景色のコントラスト比が低いです (${eyeBgContrast.toFixed(1)}:1)`
-                  ]
-                : []),
-              ...(eyeFgContrast < 3.0
-                ? [
-                    language.isEnglish
-                      ? `Eye color has low contrast with foreground (${eyeFgContrast.toFixed(1)}:1)`
-                      : `目の色と前景色のコントラスト比が低いです (${eyeFgContrast.toFixed(1)}:1)`
-                  ]
-                : [])
-            ]}
+            messages={contrastInfo.warningMessages}
             recommendedText={
               language.isEnglish
                 ? 'Recommended contrast ratio: 3.0:1 or higher'

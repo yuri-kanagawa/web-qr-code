@@ -13,7 +13,7 @@ type Props = {
 
 export const SocialMediaForm: FC<Props> = ({ language }) => {
   const [settings, setSettings] = useState<QrCode>(QrCode.default())
-  
+
   const { control, onConfirm, onDownload } = useSocialMediaQrCodeForm({
     language
   })
@@ -28,8 +28,7 @@ export const SocialMediaForm: FC<Props> = ({ language }) => {
       onDownload={onDownload}
       value=""
       language={language}
-      settings={settings}
-      onChange={setSettings}
+      qr={settings}
     >
       <Stack spacing={2}>
         {fields.map((field, index) => (

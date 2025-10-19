@@ -9,16 +9,18 @@ import {
   LongitudeTextField
 } from '@/ui/fragments/textField/NumberTextField'
 import { Button, Stack } from '@mui/material'
-import { FC } from 'react'
+import { FC, useRef } from 'react'
 import { Controller } from 'react-hook-form'
-import { formatMapUrl, useMapQrCodeForm } from './hooks'
+import { useMapQrCodeForm } from './hooks'
 
 type Props = {
   language: Language
   qr: QrCode
+  onChange: (qr: QrCode) => void
 }
 
-export const MapForm: FC<Props> = ({ language, qr }) => {
+export const MapForm: FC<Props> = ({ language, qr, onChange }) => {
+  const ref = useRef<HTMLDivElement>(null)
   const {
     control,
     onDownload,
@@ -47,11 +49,11 @@ export const MapForm: FC<Props> = ({ language, qr }) => {
     <FormButton
       onConfirm={onConfirm}
       onDownload={onDownload}
-      value={formatMapUrl(watch())}
       isValid={latitudeIsValid && longitudeIsValid}
       language={language}
-      settings={qr}
-      onChange={() => {}}
+      qr={qr}
+      onChange={onChange}
+      ref={ref}
     >
       <FormCard cardProps={{ sx: { p: 2 } }}>
         <Stack spacing={3}>

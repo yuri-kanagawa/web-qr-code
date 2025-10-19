@@ -1,3 +1,4 @@
+import { Language, QrCode } from '@/domains'
 import { FormButton } from '@/ui/fragments/form/FormButton'
 import { FormCard } from '@/ui/fragments/form/FormCard'
 import { useUrlQRCodeForm } from '@/ui/fragments/form/QrForm/UrlForm/hooks'
@@ -7,41 +8,48 @@ import { Controller } from 'react-hook-form'
 
 type Props = {
   language: Language
-  qr: QrCodeCode
+  qr: QrCode
+  onChange: (qr: QrCode) => void
 }
 
-export const UrlForm: FC<Props> = ({ language, qr }) => {
+export const UrlForm: FC<Props> = ({ language, qr, onChange }) => {
   const {
     control,
     onConfirm,
     onDownload,
-    ref,
-    watch,
     formState: { isValid }
   } = useUrlQRCodeForm({
     language,
     url: qr.value.url || ''
   })
+
   return (
     <FormButton
       onConfirm={onConfirm}
       onDownload={onDownload}
-      value={watch('url')}
       isValid={isValid}
-      settings={qr}
-      onChange={() => {}}
+      qr={qr}
       language={language}
+      onChange={onChange}
     >
       <Controller
         control={control}
         name="url"
-        render={({ field: { value, onChange, ref: inputRef }, fieldState }) => (
+        render={({
+          field: { value, onChange: fieldOnChange, ref: inputRef },
+          fieldState
+        }) => (
           <FormCard cardProps={{ sx: { p: 2 } }}>
             <UrlTextField
               isRequired
               inputRef={inputRef}
               value={value}
-              onChange={onChange}
+              onChange={(event) => {
+                const newValue = event.target.value
+                fieldOnChange(newValue)
+                const newQr = qr.changeUrl(newValue)
+                onChange(newQr)
+              }}
               error={!!fieldState.error}
               fullWidth
               helperText={fieldState.error?.message}

@@ -1,20 +1,34 @@
+import { QrCode } from '@/domains'
 import { Language } from '@/domains/valueObjects/language'
-import { RightTopQrFinderPattern } from '@/ui/fragments/qrCode'
+import { ColorInput } from '@/ui/cores/input'
 import { FC } from 'react'
 
 type Props = {
   language: Language
+  qr: QrCode
+  onChange: (qr: QrCode) => void
+  label: string
 }
 
-export const EyeColor2: FC<Props> = ({ language }) => {
-  const locale = language.locale
+export const EyeColor2: FC<Props> = ({ language, qr, onChange, label }) => {
+  const updateEyeColor2 = (value: string) => {
+    const newQr = qr.changeColors(
+      qr.colors.fgColor.value,
+      qr.colors.bgColor.value,
+      qr.colors.eyeColor1.value,
+      value,
+      qr.colors.eyeColor3.value
+    )
+    onChange(newQr)
+  }
 
   return (
-    <RightTopQrFinderPattern
-      eyeColor2={settings.colors.eyeColor2.value}
-      setEyeColor2={updateEyeColor2}
-      label={locale.word.qrSettings.eyeColor2}
-      language={language}
+    <ColorInput
+      format="hex"
+      value={qr.colors.eyeColor2.value}
+      label={label}
+      onChange={updateEyeColor2}
+      isAlphaHidden={true}
     />
   )
 }

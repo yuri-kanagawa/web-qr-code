@@ -1,6 +1,5 @@
 import { QrCode } from '@/domains'
 import { Language } from '@/domains/valueObjects/language'
-import { QrSettings } from '@/domains/valueObjects/qrSettings'
 import { WarningAlert } from '@/ui/fragments/box'
 import { Stack } from '@mui/material'
 import { MuiColorInput } from 'mui-color-input'
@@ -8,17 +7,17 @@ import { FC } from 'react'
 
 type Props = {
   language: Language
-  settings: QrCodeSettings
-  onChange: (settings: QrCodeSettings) => void
+  qr: QrCode
+  onChange: (qr: QrCode) => void
 }
 
-export const FgColor: FC<Props> = ({ language, settings, onChange }) => {
+export const FgColor: FC<Props> = ({ language, qr, onChange }) => {
   const locale = language.locale
 
   // 前景色と背景色のコントラスト比チェック
-  const fgBgContrast = settings.colors.getContrastRatio(
-    settings.colors.fgColor,
-    settings.colors.bgColor
+  const fgBgContrast = qr.colors.getContrastRatio(
+    qr.colors.fgColor,
+    qr.colors.bgColor
   )
   const hasLowContrast = fgBgContrast < 3.0
 
@@ -26,21 +25,17 @@ export const FgColor: FC<Props> = ({ language, settings, onChange }) => {
     <Stack spacing={2}>
       <MuiColorInput
         format="hex"
-        value={settings.colors.fgColor.value}
+        value={qr.colors.fgColor.value}
         label={locale.word.qrSettings.fgColor}
         onChange={(value) => {
-          const result = QrColor.create(value, language)
-          if (result.isSuccess && result.qrColor) {
-            const newColors = QrColors.create(
-              result.qrColor,
-              settings.colors.bgColor,
-              settings.colors.eyeColor1,
-              settings.colors.eyeColor2,
-              settings.colors.eyeColor3
-            )
-            const newSettings = settings.changeColors(newColors)
-            onChange(newSettings)
-          }
+          const newQr = qr.changeColors(
+            value,
+            qr.colors.bgColor.value,
+            qr.colors.eyeColor1.value,
+            qr.colors.eyeColor2.value,
+            qr.colors.eyeColor3.value
+          )
+          onChange(newQr)
         }}
         isAlphaHidden={true}
       />

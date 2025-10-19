@@ -1,6 +1,5 @@
 import { QrCode } from '@/domains'
 import { Language } from '@/domains/valueObjects/language'
-import { LogoSettings } from '@/domains/valueObjects/qrSettings'
 import { Step01Slider } from '@/ui/fragments/slider'
 import { Box, FormLabel, Stack, TextField } from '@mui/material'
 import { FC } from 'react'
@@ -8,23 +7,22 @@ import { FC } from 'react'
 type Props = {
   file: File | null
   language: Language
-  settings: QrCodeSettings
-  onChange: (settings: QrCodeSettings) => void
+  qr: QrCode
+  onChange: (qr: QrCode) => void
 }
 
-export const Opacity: FC<Props> = ({ file, language, settings, onChange }) => {
+export const Opacity: FC<Props> = ({ file, language, qr, onChange }) => {
   const isRelationFileDisabled = file == null
   const locale = language.locale
 
   const updateLogoOpacity = (opacity: number) => {
-    const newLogo = LogoSettings.create({
-      width: settings.logo.width,
-      height: settings.logo.height,
+    const newQr = qr.changeLogo(
+      qr.logo.width || 0,
+      qr.logo.height || 0,
       opacity,
-      paddingStyle: settings.logo.paddingStyle
-    })
-    const newSettings = settings.changeLogo(newLogo)
-    onChange(newSettings)
+      qr.logo.paddingStyle
+    )
+    onChange(newQr)
   }
 
   const handleOpacityChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -66,7 +64,7 @@ export const Opacity: FC<Props> = ({ file, language, settings, onChange }) => {
           label={language.isEnglish ? 'Current Opacity' : '現在の透明度'}
           type="number"
           size="small"
-          value={settings.logo.opacity ?? 1}
+          value={qr.logo.opacity ?? 1}
           onChange={handleOpacityChange}
           disabled={isRelationFileDisabled}
           inputProps={{ min: 0, max: 1, step: 0.1 }}
@@ -76,7 +74,7 @@ export const Opacity: FC<Props> = ({ file, language, settings, onChange }) => {
           min={0}
           max={1}
           disabled={isRelationFileDisabled}
-          value={settings.logo.opacity ?? 1}
+          value={qr.logo.opacity ?? 1}
           onChange={updateLogoOpacity}
           marks={[
             { value: 0, label: 0 },

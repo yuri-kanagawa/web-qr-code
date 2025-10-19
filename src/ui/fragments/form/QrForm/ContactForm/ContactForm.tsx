@@ -14,14 +14,15 @@ import { Stack, TextField } from '@/ui/cores'
 import { FormSection } from '@/ui/fragments/box'
 import { FormButton, FormCard } from '@/ui/fragments/form'
 import { Controller } from 'react-hook-form'
-import { convertContact, useContactQrCodeForm } from './hooks'
+import { useContactQrCodeForm } from './hooks'
 
 interface Props {
   language: Language
   qr: QrCode
+  onChange: (qr: QrCode) => void
 }
 
-export const ContactForm: FC<Props> = ({ language, qr }) => {
+export const ContactForm: FC<Props> = ({ language, qr, onChange }) => {
   const locale = language.locale
   const {
     control,
@@ -51,11 +52,10 @@ export const ContactForm: FC<Props> = ({ language, qr }) => {
     <FormButton
       onConfirm={onConfirm}
       onDownload={onDownload}
-      value={convertContact(watch())}
       language={language}
       isValid={isValid}
-      settings={qr}
-      onChange={() => {}}
+      qr={qr}
+      onChange={onChange}
     >
       <FormCard cardProps={{ sx: { p: 2 } }}>
         <Stack spacing={3}>

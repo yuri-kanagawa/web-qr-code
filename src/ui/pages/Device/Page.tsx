@@ -1,15 +1,16 @@
 'use client'
-import { Language } from '@/domains/valueObjects/language'
+import { Language, Qr } from '@/domains'
 import { DeviceForm, PageWrapper } from '@/ui/fragments'
 
 interface Props {
   language: Language
+  qr: Qr
 }
 
 export const DevicePage = (props: Props) => {
   return (
     <PageWrapper language={props.language}>
-      <DeviceForm {...props} />
+      <DeviceForm language={props.language} qr={props.qr} />
     </PageWrapper>
   )
 }

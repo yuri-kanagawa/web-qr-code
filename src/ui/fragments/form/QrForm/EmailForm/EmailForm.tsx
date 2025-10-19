@@ -1,4 +1,4 @@
-import { QrCode } from '@/domains'
+import { Language, QrCode } from '@/domains'
 import { Stack } from '@/ui/cores'
 import { FormButton, FormCard } from '@/ui/fragments'
 import {
@@ -9,14 +9,14 @@ import {
 import { FC } from 'react'
 import { Controller } from 'react-hook-form'
 import { useEmailQRCodeForm } from './hooks'
-import { formatEmail } from './hooks/utils'
 
 interface Props {
   language: Language
   qr: QrCode
+  onChange: (qr: QrCode) => void
 }
 
-export const EmailForm: FC<Props> = ({ language, qr }) => {
+export const EmailForm: FC<Props> = ({ language, qr, onChange }) => {
   const {
     control,
     onDownload,
@@ -25,20 +25,19 @@ export const EmailForm: FC<Props> = ({ language, qr }) => {
     formState: { isValid }
   } = useEmailQRCodeForm({
     language,
-    email: qr.value.email || '',
-    subject: qr.value.subject || '',
-    body: qr.value.body || ''
+    email: qr.email?.value || '',
+    subject: qr.subject?.value || '',
+    body: qr.body?.value || ''
   })
 
   return (
     <FormButton
       onConfirm={onConfirm}
       onDownload={onDownload}
-      value={formatEmail(watch())}
       isValid={isValid}
       language={language}
-      settings={qr}
-      onChange={() => {}}
+      qr={qr}
+      onChange={onChange}
     >
       <FormCard cardProps={{ sx: { p: 2 } }}>
         <Stack spacing={2}>
@@ -46,17 +45,16 @@ export const EmailForm: FC<Props> = ({ language, qr }) => {
             control={control}
             name="email"
             render={({
-              field: { value, onChange, ref: inputRef },
+              field: { value, onChange: fieldOnChange, ref: inputRef },
               formState: { isValid },
               fieldState: { error }
             }) => (
               <EmailTextField
-                value={value.value}
+                value={value}
                 onChange={(newValue) => {
-                  onChange(newValue)
-                  if (onEmailChange) {
-                    onEmailChange(newValue)
-                  }
+                  fieldOnChange(newValue) // react-hook-formの状態を更新
+                  const newQr = qr.changeEmail(newValue) // QrCodeの状態を更新
+                  onChange(newQr) // 親コンポーネントに新しいQrCodeを渡す
                 }}
                 inputRef={inputRef}
                 error={!!error}
@@ -69,17 +67,16 @@ export const EmailForm: FC<Props> = ({ language, qr }) => {
             control={control}
             name="subject"
             render={({
-              field: { value, onChange, ref: inputRef },
+              field: { value, onChange: fieldOnChange, ref: inputRef },
               formState: { isValid },
               fieldState: { error }
             }) => (
               <SubjectTextField
-                value={value.value}
+                value={value}
                 onChange={(newValue) => {
-                  onChange(newValue)
-                  if (onSubjectChange) {
-                    onSubjectChange(newValue)
-                  }
+                  fieldOnChange(newValue) // react-hook-formの状態を更新
+                  const newQr = qr.changeSubject(newValue) // QrCodeの状態を更新
+                  onChange(newQr) // 親コンポーネントに新しいQrCodeを渡す
                 }}
                 inputRef={inputRef}
                 error={!!error}
@@ -92,17 +89,16 @@ export const EmailForm: FC<Props> = ({ language, qr }) => {
             control={control}
             name="body"
             render={({
-              field: { value, onChange, ref: inputRef },
+              field: { value, onChange: fieldOnChange, ref: inputRef },
               formState: { isValid },
               fieldState: { error }
             }) => (
               <BodyTextField
-                value={value.value}
+                value={value}
                 onChange={(newValue) => {
-                  onChange(newValue)
-                  if (onBodyChange) {
-                    onBodyChange(newValue)
-                  }
+                  fieldOnChange(newValue) // react-hook-formの状態を更新
+                  const newQr = qr.changeBody(newValue) // QrCodeの状態を更新
+                  onChange(newQr) // 親コンポーネントに新しいQrCodeを渡す
                 }}
                 inputRef={inputRef}
                 error={!!error}

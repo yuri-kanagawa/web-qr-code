@@ -1,39 +1,32 @@
 import { QrCode } from '@/domains'
 import { Language } from '@/domains/valueObjects/language'
-import { LogoSettings } from '@/domains/valueObjects/qrSettings'
 import { LogoPaddingStyleSelect } from '@/ui/fragments/select'
 import { FC } from 'react'
 
 type Props = {
   language: Language
   file: File | null
-  settings: QrCodeSettings
-  onChange: (settings: QrCodeSettings) => void
+  qr: QrCode
+  onChange: (qr: QrCode) => void
 }
 
-export const LogoPadding: FC<Props> = ({
-  language,
-  file,
-  settings,
-  onChange
-}) => {
+export const LogoPadding: FC<Props> = ({ language, file, qr, onChange }) => {
   const locale = language.locale
   const isDisabled = file === null
 
   const updateLogoPaddingStyle = (paddingStyle: 'square' | 'circle') => {
-    const newLogo = LogoSettings.create({
-      width: settings.logo.width,
-      height: settings.logo.height,
-      opacity: settings.logo.opacity,
+    const newQr = qr.changeLogo(
+      qr.logo.width || 0,
+      qr.logo.height || 0,
+      qr.logo.opacity || 1,
       paddingStyle
-    })
-    const newSettings = settings.changeLogo(newLogo)
-    onChange(newSettings)
+    )
+    onChange(newQr)
   }
 
   return (
     <LogoPaddingStyleSelect
-      value={settings.logo.paddingStyle}
+      value={qr.logo.paddingStyle}
       onChange={updateLogoPaddingStyle}
       language={language}
       label={locale.word.qrSettings.logoPadding}

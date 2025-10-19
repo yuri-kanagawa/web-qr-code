@@ -1,19 +1,19 @@
-import { Language } from '@/domains/valueObjects/language'
+import { Language, QrCode } from '@/domains'
 import { FormButton, FormCard } from '@/ui/fragments/form'
 import { BodyTextField } from '@/ui/fragments/textField'
 import { CellPhoneTextField } from '@/ui/fragments/textField/PhoneTextField'
 import { Stack } from '@mui/material'
 import { FC } from 'react'
 import { Controller } from 'react-hook-form'
-import { toSmsSchema } from './hooks'
 import { useSmsQrCodeForm } from './hooks/useSmsQrCodeForm'
 
 interface Props {
   language: Language
-  qr: QrCodeCode
+  qr: QrCode
+  onChange: (qr: QrCode) => void
 }
 
-export const SmsForm: FC<Props> = ({ language, qr }) => {
+export const SmsForm: FC<Props> = ({ language, qr, onChange }) => {
   const {
     control,
     ref,
@@ -31,11 +31,11 @@ export const SmsForm: FC<Props> = ({ language, qr }) => {
     <FormButton
       onConfirm={onConfirm}
       onDownload={onDownload}
-      value={toSmsSchema(watch())}
       isValid={isValid}
       language={language}
-      settings={qr}
-      onChange={() => {}}
+      qr={qr}
+      onChange={onChange}
+      ref={ref}
     >
       <FormCard cardProps={{ sx: { p: 2 } }}>
         <Stack spacing={3}>
@@ -49,7 +49,11 @@ export const SmsForm: FC<Props> = ({ language, qr }) => {
             }) => (
               <CellPhoneTextField
                 value={value}
-                onChange={onChange}
+                onChange={(newValue) => {
+                  onChange(newValue) // react-hook-formの状態を更新
+                  const newQr = qr.changePhoneNumber(newValue) // QrCodeの状態を更新
+                  onChange(newQr) // 親コンポーネントに新しいQrCodeを渡す
+                }}
                 error={!!error}
                 helperText={error?.message}
                 inputRef={inputRef}
@@ -68,7 +72,11 @@ export const SmsForm: FC<Props> = ({ language, qr }) => {
             }) => (
               <BodyTextField
                 value={value}
-                onChange={onChange}
+                onChange={(newValue) => {
+                  onChange(newValue) // react-hook-formの状態を更新
+                  const newQr = qr.changeBody(newValue) // QrCodeの状態を更新
+                  onChange(newQr) // 親コンポーネントに新しいQrCodeを渡す
+                }}
                 inputRef={inputRef}
                 helperText={error?.message}
                 error={!!error}
