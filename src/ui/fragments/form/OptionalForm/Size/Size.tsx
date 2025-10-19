@@ -1,6 +1,6 @@
 import { QrCode } from '@/domains'
 import { Language } from '@/domains/valueObjects/language'
-import { QrSettings } from '@/domains/valueObjects/qrSettings'
+import { QrSize } from '@/domains/valueObjects/qrSettings'
 import { useWindowSize } from '@/hooks'
 import { WarningAlert } from '@/ui/fragments/box'
 import { Box, FormLabel, Slider, Stack, TextField } from '@mui/material'
@@ -8,8 +8,8 @@ import { FC, useEffect, useMemo, useState } from 'react'
 
 type Props = {
   language: Language
-  settings: QrCodeSettings
-  onChange: (settings: QrCodeSettings) => void
+  settings: QrCode
+  onChange: (settings: QrCode) => void
 }
 
 export const Size: FC<Props> = ({ language, settings, onChange }) => {
