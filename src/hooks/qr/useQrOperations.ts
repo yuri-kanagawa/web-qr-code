@@ -40,8 +40,17 @@ export const useQrOperations = (
   }, [getCanvas, readQrFromCanvasUseCase, warningNotify])
 
   const onDownload = useCallback(async () => {
+    console.log('onDownload called')
     const canvas = getCanvas()
+    console.log('Canvas found:', canvas)
+    
+    if (!canvas) {
+      errorNotify('QRコードのCanvasが見つかりません')
+      return
+    }
+    
     const result = await downloadQrImageUseCase.execute(canvas, 'qr.png')
+    console.log('Download result:', result)
 
     if (result.isSuccess && result.dataUrl && result.fileName) {
       // DOM操作はUI層で実行
