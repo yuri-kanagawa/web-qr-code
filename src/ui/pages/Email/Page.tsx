@@ -12,7 +12,7 @@ type Props = {
 
 export const EmailPage: FC<Props> = (props) => {
   const [currentQr, setCurrentQr] = useState<QrCode>(
-    props.qr.changeQrCodeType('email')
+    props.qr.changeToEmail()
   )
 
   return (

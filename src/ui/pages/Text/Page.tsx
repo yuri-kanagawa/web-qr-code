@@ -12,7 +12,7 @@ interface Props {
 
 export const TextPage: FC<Props> = (props) => {
   const [currentQr, setCurrentQr] = useState<QrCode>(
-    props.qr.changeQrCodeType('text')
+    props.qr.changeToText()
   )
 
   return (

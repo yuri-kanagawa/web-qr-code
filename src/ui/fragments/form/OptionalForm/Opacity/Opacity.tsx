@@ -5,22 +5,24 @@ import { Box, FormLabel, Stack, TextField } from '@mui/material'
 import { FC } from 'react'
 
 type Props = {
-  file: File | null
   language: Language
   qr: QrCode
   onChange: (qr: QrCode) => void
 }
 
-export const Opacity: FC<Props> = ({ file, language, qr, onChange }) => {
+export const Opacity: FC<Props> = ({ language, qr, onChange }) => {
+  const file = qr.settings.logoFile
   const isRelationFileDisabled = file == null
   const locale = language.locale
 
   const updateLogoOpacity = (opacity: number) => {
-    const newQr = qr.changeLogo(
-      qr.logo.width || 0,
-      qr.logo.height || 0,
-      opacity,
-      qr.logo.paddingStyle
+    const newQr = qr.updateSettings((settings) =>
+      settings.changeLogo(
+        settings.logo.width || 0,
+        settings.logo.height || 0,
+        opacity,
+        settings.logo.paddingStyle
+      )
     )
     onChange(newQr)
   }
@@ -64,7 +66,7 @@ export const Opacity: FC<Props> = ({ file, language, qr, onChange }) => {
           label={language.isEnglish ? 'Current Opacity' : '現在の透明度'}
           type="number"
           size="small"
-          value={qr.logo.opacity ?? 1}
+          value={qr.settings.logo.opacity ?? 1}
           onChange={handleOpacityChange}
           disabled={isRelationFileDisabled}
           inputProps={{ min: 0, max: 1, step: 0.1 }}
@@ -74,7 +76,7 @@ export const Opacity: FC<Props> = ({ file, language, qr, onChange }) => {
           min={0}
           max={1}
           disabled={isRelationFileDisabled}
-          value={qr.logo.opacity ?? 1}
+          value={qr.settings.logo.opacity ?? 1}
           onChange={updateLogoOpacity}
           marks={[
             { value: 0, label: 0 },

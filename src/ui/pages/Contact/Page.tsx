@@ -11,11 +11,15 @@ interface Props {
 }
 
 export const ContactPage: FC<Props> = (props) => {
-  const [currentQr, setCurrentQr] = useState<QrCode>(props.qr.changeQrCodeType('contact'))
-  
+  const [currentQr, setCurrentQr] = useState<QrCode>(props.qr.changeToContact())
+
   return (
     <PageWrapper language={props.language}>
-      <ContactForm language={props.language} qr={currentQr} onChange={setCurrentQr} />
+      <ContactForm
+        language={props.language}
+        qr={currentQr}
+        onChange={setCurrentQr}
+      />
     </PageWrapper>
   )
 }

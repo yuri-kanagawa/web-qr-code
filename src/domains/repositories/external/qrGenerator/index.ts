@@ -1,0 +1,2 @@
+export { IQrGeneratorRepository } from './IQrGeneratorRepository'
+

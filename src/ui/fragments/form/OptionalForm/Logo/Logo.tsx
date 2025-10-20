@@ -6,20 +6,19 @@ import { Box, FormLabel, Stack } from '@mui/material'
 import { FC } from 'react'
 
 type Props = {
-  file: File | null
-  setFile: (value: File | null) => void
   language: Language
   qr: QrCode
   onChange: (qr: QrCode) => void
 }
 
-export const Logo: FC<Props> = ({ file, setFile, language, qr, onChange }) => {
+export const Logo: FC<Props> = ({ language, qr, onChange }) => {
   const locale = language.locale
+  const file = qr.settings.logoFile
 
   // ロゴサイズの警告チェック
-  const qrSize = qr.size.value
-  const logoWidth = qr.logo.width || 0
-  const logoHeight = qr.logo.height || 0
+  const qrSize = qr.settings.size.value
+  const logoWidth = qr.settings.logo.width || 0
+  const logoHeight = qr.settings.logo.height || 0
   const maxRecommendedSize = Math.floor(qrSize * 0.3) // QRコードサイズの30%を推奨最大値とする（実際のテスト結果に基づく）
 
   const isLogoTooLarge =
@@ -27,24 +26,29 @@ export const Logo: FC<Props> = ({ file, setFile, language, qr, onChange }) => {
   const logoAreaRatio = (logoWidth * logoHeight) / (qrSize * qrSize)
 
   const updateLogoWidth = (width: number) => {
-    const newQr = qr.changeLogo(
-      width,
-      qr.logo.height || 0,
-      qr.logo.opacity || 1,
-      qr.logo.paddingStyle
+    const newQr = qr.updateSettings((settings) =>
+      settings.changeLogo(
+        width,
+        settings.logo.height || 0,
+        settings.logo.opacity || 1,
+        settings.logo.paddingStyle
+      )
     )
     onChange(newQr)
   }
 
   const updateLogoHeight = (height: number) => {
-    const newQr = qr.changeLogo(
-      qr.logo.width || 0,
-      height,
-      qr.logo.opacity || 1,
-      qr.logo.paddingStyle
+    const newQr = qr.updateSettings((settings) =>
+      settings.changeLogo(
+        settings.logo.width || 0,
+        height,
+        settings.logo.opacity || 1,
+        settings.logo.paddingStyle
+      )
     )
     onChange(newQr)
   }
+
 
   return (
     <Stack spacing={2}>
@@ -75,13 +79,9 @@ export const Logo: FC<Props> = ({ file, setFile, language, qr, onChange }) => {
           {locale.word.qrSettings.logo}
         </FormLabel>
         <ImageForm
-          file={file}
-          setFile={setFile}
-          logHeight={qr.logo.height}
-          logWidth={qr.logo.width}
-          setLogoHeight={updateLogoHeight}
-          setLogoWidth={updateLogoWidth}
-          max={qr.size.value}
+          qr={qr}
+          onChange={onChange}
+          max={qr.settings.size.value}
           language={language}
         />
       </Box>

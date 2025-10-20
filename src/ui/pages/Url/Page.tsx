@@ -10,7 +10,7 @@ interface Props {
 
 export const UrlPage = (props: Props) => {
   const [currentQr, setCurrentQr] = useState<QrCode>(
-    props.qr.changeQrCodeType('url')
+    props.qr.changeToUrl()
   )
 
   return (

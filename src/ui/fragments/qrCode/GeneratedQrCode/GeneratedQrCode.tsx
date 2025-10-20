@@ -50,25 +50,27 @@ const GeneratedQrCode = React.forwardRef<HTMLDivElement, Props>(
 
     const [logoImage, setLogoImage] = useState<string | undefined>(undefined)
 
+    // qr.settings.logoFileの変更を監視
     useEffect(() => {
-      const convertImageToBase64 = async (file: File): Promise<string> => {
-        return new Promise((resolve, reject) => {
-          const reader = new FileReader()
-          reader.onload = () => resolve(reader.result as string)
-          reader.onerror = reject
-          reader.readAsDataURL(file)
-        })
-      }
+      if (qr.settings.logoFile) {
+        const convertImageToBase64 = async (file: File): Promise<string> => {
+          return new Promise((resolve, reject) => {
+            const reader = new FileReader()
+            reader.onload = () => resolve(reader.result as string)
+            reader.onerror = reject
+            reader.readAsDataURL(file)
+          })
+        }
 
-      if (file) {
         ;(async () => {
-          const base64 = await convertImageToBase64(file)
+          const base64 = await convertImageToBase64(qr.settings.logoFile!)
           setLogoImage(base64)
         })()
       } else {
         setLogoImage(undefined)
       }
-    }, [file])
+    }, [qr.settings.logoFile])
+
     const [hidden, setHidden] = useState(false)
     useEffect(() => {
       if (!showHiddenIcon) {
@@ -81,35 +83,54 @@ const GeneratedQrCode = React.forwardRef<HTMLDivElement, Props>(
           <Stack p={4}>
             <CornerHighlightBox height={maxSize + 50} width={maxSize + 50}>
               <div ref={ref} style={{ position: 'relative' }}>
-                {isValid && qr.qrValue.value && (
-                  console.log('GeneratedQrCode rendering QR:', qr.qrValue.value) || true) && (
-                  <>
-                    <QRCode
-                      value={qr.qrValue.value}
-                      size={safeQr.size.value}
-                      bgColor={safeQr.colors.bgColor.value}
-                      fgColor={safeQr.colors.fgColor.value}
-                      ecLevel={safeQr.ecLevel.value as 'L' | 'M' | 'Q' | 'H'}
-                      logoImage={logoImage}
-                      logoWidth={safeQr.logo.width}
-                      logoHeight={safeQr.logo.height}
-                      logoOpacity={safeQr.logo.opacity}
-                      eyeRadius={[
-                        safeQr.eye.radius1,
-                        safeQr.eye.radius2,
-                        safeQr.eye.radius3
-                      ]}
-                      eyeColor={[
-                        safeQr.colors.eyeColor1.value,
-                        safeQr.colors.eyeColor2.value,
-                        safeQr.colors.eyeColor3.value
-                      ]}
-                      logoPaddingStyle={safeQr.logo.paddingStyle}
-                      logoPadding={9}
-                      enableCORS={safeQr.enableCORS || false}
-                    />
-                  </>
-                )}
+                {isValid &&
+                  qr.qrValue.value &&
+                  qr.qrValue.value.trim() !== '' && (
+                    <>
+                      {(() => {
+                        const logoProps = logoImage
+                          ? {
+                              logoImage,
+                              logoWidth: safeQr.settings.logo.width,
+                              logoHeight: safeQr.settings.logo.height,
+                              logoOpacity: safeQr.settings.logo.opacity,
+                              logoPaddingStyle:
+                                safeQr.settings.logo.paddingStyle,
+                              logoPadding: 9
+                            }
+                          : {}
+
+                        return (
+                          <QRCode
+                            key={logoImage ? 'with-logo' : 'without-logo'}
+                            value={qr.qrValue.value}
+                            size={safeQr.settings.size.value}
+                            bgColor={safeQr.settings.colors.bgColor.value}
+                            fgColor={safeQr.settings.colors.fgColor.value}
+                            ecLevel={
+                              safeQr.settings.ecLevel.value as
+                                | 'L'
+                                | 'M'
+                                | 'Q'
+                                | 'H'
+                            }
+                            {...logoProps}
+                            eyeRadius={[
+                              safeQr.settings.eye.radius1,
+                              safeQr.settings.eye.radius2,
+                              safeQr.settings.eye.radius3
+                            ]}
+                            eyeColor={[
+                              safeQr.settings.colors.eyeColor1.value,
+                              safeQr.settings.colors.eyeColor2.value,
+                              safeQr.settings.colors.eyeColor3.value
+                            ]}
+                            enableCORS={safeQr.settings.enableCORS || false}
+                          />
+                        )
+                      })()}
+                    </>
+                  )}
                 {showHiddenIcon && (
                   <IconButton
                     onClick={() => setHidden(!hidden)}

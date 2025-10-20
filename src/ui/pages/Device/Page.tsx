@@ -9,7 +9,7 @@ interface Props {
 }
 
 export const DevicePage = (props: Props) => {
-  const [currentQr, setCurrentQr] = useState<QrCode>(props.qr.changeQrCodeType('device'))
+  const [currentQr, setCurrentQr] = useState<QrCode>(props.qr.changeToDevice())
   
   return (
     <PageWrapper language={props.language}>

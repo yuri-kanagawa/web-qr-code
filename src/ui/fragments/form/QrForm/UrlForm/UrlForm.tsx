@@ -15,18 +15,14 @@ type Props = {
 export const UrlForm: FC<Props> = ({ language, qr, onChange }) => {
   const {
     control,
-    onConfirm,
-    onDownload,
     formState: { isValid }
   } = useUrlQRCodeForm({
     language,
-    url: qr.value.url || ''
+    url: qr.url?.value || ''
   })
 
   return (
     <FormButton
-      onConfirm={onConfirm}
-      onDownload={onDownload}
       isValid={isValid}
       qr={qr}
       language={language}

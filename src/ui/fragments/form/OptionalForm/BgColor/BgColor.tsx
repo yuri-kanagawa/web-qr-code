@@ -15,9 +15,9 @@ export const BgColor: FC<Props> = ({ language, qr, onChange }) => {
   const locale = language.locale
 
   // 背景色と前景色のコントラスト比チェック
-  const fgBgContrast = qr.colors.getContrastRatio(
-    qr.colors.fgColor,
-    qr.colors.bgColor
+  const fgBgContrast = qr.settings.colors.getContrastRatio(
+    qr.settings.colors.fgColor,
+    qr.settings.colors.bgColor
   )
   const hasLowContrast = fgBgContrast < 3.0
 
@@ -25,15 +25,17 @@ export const BgColor: FC<Props> = ({ language, qr, onChange }) => {
     <Stack spacing={2}>
       <MuiColorInput
         format="hex"
-        value={qr.colors.bgColor.value}
+        value={qr.settings.colors.bgColor.value}
         label={locale.word.qrSettings.bgColor}
         onChange={(value) => {
-          const newQr = qr.changeColors(
-            qr.colors.fgColor.value,
-            value,
-            qr.colors.eyeColor1.value,
-            qr.colors.eyeColor2.value,
-            qr.colors.eyeColor3.value
+          const newQr = qr.updateSettings((settings) =>
+            settings.changeColors(
+              settings.colors.fgColor.value,
+              value,
+              settings.colors.eyeColor1.value,
+              settings.colors.eyeColor2.value,
+              settings.colors.eyeColor3.value
+            )
           )
           onChange(newQr)
         }}

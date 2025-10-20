@@ -1,6 +1,6 @@
 'use client'
 import { Language, QrCode } from '@/domains'
-import { PageWrapper, MapForm } from '@/ui/fragments/'
+import { MapForm, PageWrapper } from '@/ui/fragments/'
 import { FC, useState } from 'react'
 
 interface Props {
@@ -9,7 +9,7 @@ interface Props {
 }
 export const MapPage: FC<Props> = (props) => {
   const [currentQr, setCurrentQr] = useState<QrCode>(
-    props.qr.changeQrCodeType('map')
+    props.qr.changeToMap()
   )
 
   return (

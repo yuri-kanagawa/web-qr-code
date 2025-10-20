@@ -1,9 +1,9 @@
-import { Qr } from './valueObject'
 import { QrValueError } from './error'
+import { Qr } from './valueObject'
 
 export class QrResult {
   constructor(
-    public readonly qr: QrCode | null,
+    public readonly qr: Qr | null,
     public readonly error: QrValueError | null
   ) {}
 

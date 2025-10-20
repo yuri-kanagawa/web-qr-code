@@ -1,5 +1,5 @@
 'use client'
-import { Language, QrCode } from '@/domains'
+import { QrCode } from '@/domains'
 import { PhonePage } from '@/ui/pages/Phone'
 
 type Props = {

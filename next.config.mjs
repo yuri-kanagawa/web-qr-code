@@ -1,6 +1,6 @@
 /** @types {import('next').NextConfig} */
 const nextConfig = {
-  transpilePackages: ['mui-color-input'],
+  transpilePackages: ['mui-color-input', 'qrcode'],
   eslint: {
     ignoreDuringBuilds: true
   },

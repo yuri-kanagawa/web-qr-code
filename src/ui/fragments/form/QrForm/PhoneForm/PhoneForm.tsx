@@ -16,7 +16,7 @@ interface Props {
 
 export const PhoneForm: FC<Props> = ({ language, qr, onChange }) => {
   const [currentQr, setCurrentQr] = useState<QrCode>(qr)
-  const { control, onConfirm, onDownload, watch } = usePhoneQrCodeForm()
+  const { control, watch } = usePhoneQrCodeForm()
 
   return (
     <Controller
@@ -28,8 +28,6 @@ export const PhoneForm: FC<Props> = ({ language, qr, onChange }) => {
         fieldState: { error }
       }) => (
         <FormButton
-          onConfirm={onConfirm}
-          onDownload={onDownload}
           language={language}
           isValid={isValid}
           qr={currentQr}

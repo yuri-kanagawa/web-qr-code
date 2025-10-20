@@ -23,12 +23,14 @@ export const InputFile: FC<Props> = ({
   language = Language.default(),
   ...props
 }) => {
+  console.log('InputFile props:', { file, onChange: typeof onChange })
   const locale = language.locale
   const theme = useTheme()
   const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault()
     const droppedFiles = Array.from(event.dataTransfer.files)
     const droppedFile = droppedFiles[0] as File
+    console.log('InputFile: onChange called with droppedFile:', droppedFile)
     onChange(droppedFile)
   }
   const searchParams = useClientSearchParams()
@@ -45,6 +47,7 @@ export const InputFile: FC<Props> = ({
   ) => {
     const selectedFiles = Array.from(event.target.files || [])
     const selectedFile = selectedFiles[0]
+    console.log('InputFile: onChange called with selectedFile:', selectedFile)
     onChange(selectedFile)
   }
   useEffect(() => {
@@ -69,7 +72,9 @@ export const InputFile: FC<Props> = ({
     event.preventDefault()
   }
   const onRemove = () => {
+    console.log('onRemove called, current file:', file)
     if (!file) return
+    console.log('InputFile: onChange called with null (onRemove)')
     onChange(null)
     setImage(undefined)
   }
@@ -81,6 +86,7 @@ export const InputFile: FC<Props> = ({
           height={props.height}
           sx={{ position: 'relative' }}
         >
+          {console.log('InputFile render:', { file, showFileSelect: !file })}
           {!file && (
             <div onDrop={handleDrop} onDragOver={handleDragOver}>
               <Box

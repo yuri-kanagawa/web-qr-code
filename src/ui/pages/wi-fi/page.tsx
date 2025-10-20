@@ -8,9 +8,7 @@ interface Props {
   qr: QrCode
 }
 export const WiFiPage: FC<Props> = (props) => {
-  const [currentQr, setCurrentQr] = useState<QrCode>(
-    props.qr.changeQrCodeType('wifi')
-  )
+  const [currentQr, setCurrentQr] = useState<QrCode>(props.qr.changeToWifi())
 
   return (
     <PageWrapper language={props.language}>

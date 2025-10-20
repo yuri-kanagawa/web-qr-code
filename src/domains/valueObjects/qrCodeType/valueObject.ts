@@ -1,123 +1,88 @@
-import { Language } from '@/domains/valueObjects/language'
-
-export enum QrCodeTypeEnum {
-  URL = 'url',
-  EMAIL = 'email',
-  TEXT = 'text',
-  SMS = 'sms',
-  WIFI = 'wifi',
-  CONTACT = 'contact',
-  DEVICE = 'device',
-  MAP = 'map',
-  PHONE = 'phone'
-}
-
 export class QrCodeType {
-  private constructor(private readonly _value: QrCodeTypeEnum) {}
+  // 固定の定数として定義
+  static readonly URL = 0
+  static readonly EMAIL = 1
+  static readonly TEXT = 2
+  static readonly SMS = 3
+  static readonly WIFI = 4
+  static readonly CONTACT = 5
+  static readonly DEVICE = 6
+  static readonly MAP = 7
+  static readonly PHONE = 8
+  private constructor(private readonly _value: number) {}
 
-  static create(
-    value: string,
-    language: Language
-  ): { isSuccess: boolean; qrCodeType?: QrCodeType; error?: string } {
-    const normalizedValue = value.toLowerCase().trim()
-
-    switch (normalizedValue) {
-      case QrCodeTypeEnum.URL:
-      case 'url':
-        return {
-          isSuccess: true,
-          qrCodeType: new QrCodeType(QrCodeTypeEnum.URL)
-        }
-      case QrCodeTypeEnum.EMAIL:
-      case 'email':
-        return {
-          isSuccess: true,
-          qrCodeType: new QrCodeType(QrCodeTypeEnum.EMAIL)
-        }
-      case QrCodeTypeEnum.TEXT:
-      case 'text':
-        return {
-          isSuccess: true,
-          qrCodeType: new QrCodeType(QrCodeTypeEnum.TEXT)
-        }
-      case QrCodeTypeEnum.SMS:
-      case 'sms':
-        return {
-          isSuccess: true,
-          qrCodeType: new QrCodeType(QrCodeTypeEnum.SMS)
-        }
-      case QrCodeTypeEnum.WIFI:
-      case 'wifi':
-      case 'wi-fi':
-        return {
-          isSuccess: true,
-          qrCodeType: new QrCodeType(QrCodeTypeEnum.WIFI)
-        }
-      case QrCodeTypeEnum.CONTACT:
-      case 'contact':
-        return {
-          isSuccess: true,
-          qrCodeType: new QrCodeType(QrCodeTypeEnum.CONTACT)
-        }
-      case QrCodeTypeEnum.DEVICE:
-      case 'device':
-        return {
-          isSuccess: true,
-          qrCodeType: new QrCodeType(QrCodeTypeEnum.DEVICE)
-        }
-      case QrCodeTypeEnum.MAP:
-      case 'map':
-        return {
-          isSuccess: true,
-          qrCodeType: new QrCodeType(QrCodeTypeEnum.MAP)
-        }
-      case QrCodeTypeEnum.PHONE:
-      case 'phone':
-        return {
-          isSuccess: true,
-          qrCodeType: new QrCodeType(QrCodeTypeEnum.PHONE)
-        }
-      default:
-        return {
-          isSuccess: false,
-          error: language.isEnglish
-            ? `Invalid QR code type: ${value}`
-            : `無効なQRコードタイプ: ${value}`
-        }
-    }
+  static create(): QrCodeType {
+    return new QrCodeType(QrCodeType.URL)
   }
 
   static default(): QrCodeType {
-    return new QrCodeType(QrCodeTypeEnum.URL)
+    return new QrCodeType(QrCodeType.URL)
   }
 
-  get value(): QrCodeTypeEnum {
+  // QRコードタイプを変更する専用メソッド
+  changeToUrl(): QrCodeType {
+    return new QrCodeType(QrCodeType.URL)
+  }
+
+  changeToEmail(): QrCodeType {
+    return new QrCodeType(QrCodeType.EMAIL)
+  }
+
+  changeToText(): QrCodeType {
+    return new QrCodeType(QrCodeType.TEXT)
+  }
+
+  changeToSms(): QrCodeType {
+    return new QrCodeType(QrCodeType.SMS)
+  }
+
+  changeToWifi(): QrCodeType {
+    return new QrCodeType(QrCodeType.WIFI)
+  }
+
+  changeToContact(): QrCodeType {
+    return new QrCodeType(QrCodeType.CONTACT)
+  }
+
+  changeToDevice(): QrCodeType {
+    return new QrCodeType(QrCodeType.DEVICE)
+  }
+
+  changeToMap(): QrCodeType {
+    return new QrCodeType(QrCodeType.MAP)
+  }
+
+  changeToPhone(): QrCodeType {
+    return new QrCodeType(QrCodeType.PHONE)
+  }
+
+  get value(): number {
     return this._value
   }
 
   get isPhone(): boolean {
-    return this._value === QrCodeTypeEnum.PHONE
+    return this._value === QrCodeType.PHONE
   }
 
   get name(): string {
     switch (this._value) {
-      case QrCodeTypeEnum.URL:
+      case QrCodeType.URL:
         return 'URL'
-      case QrCodeTypeEnum.EMAIL:
+      case QrCodeType.EMAIL:
         return 'Email'
-      case QrCodeTypeEnum.TEXT:
+      case QrCodeType.TEXT:
         return 'Text'
-      case QrCodeTypeEnum.SMS:
+      case QrCodeType.SMS:
         return 'SMS'
-      case QrCodeTypeEnum.WIFI:
+      case QrCodeType.WIFI:
         return 'WiFi'
-      case QrCodeTypeEnum.CONTACT:
+      case QrCodeType.CONTACT:
         return 'Contact'
-      case QrCodeTypeEnum.DEVICE:
+      case QrCodeType.DEVICE:
         return 'Device'
-      case QrCodeTypeEnum.MAP:
+      case QrCodeType.MAP:
         return 'Map'
-      case QrCodeTypeEnum.PHONE:
+      case QrCodeType.PHONE:
         return 'Phone'
       default:
         return 'Unknown'

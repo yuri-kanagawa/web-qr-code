@@ -10,7 +10,7 @@ type Props = {
 }
 
 export const SmsPage: FC<Props> = (props) => {
-  const [currentQr, setCurrentQr] = useState<QrCode>(props.qr.changeQrCodeType('sms'))
+  const [currentQr, setCurrentQr] = useState<QrCode>(props.qr.changeToSms())
   
   return (
     <PageWrapper language={props.language}>

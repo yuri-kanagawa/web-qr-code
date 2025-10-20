@@ -19,22 +19,15 @@ interface Props {
 
 export const WiFiForm = forwardRef<HTMLDivElement, Props>(
   ({ language, qr, onChange }, ref) => {
-    const { control, onConfirm, onDownload, watch } = useWiFiQrCodeForm({
-      ssid: qr.value.ssid || '',
-      password: qr.value.password || '',
-      type: qr.value.type || '',
+    const { control, watch } = useWiFiQrCodeForm({
+      ssid: qr.wifiSsid?.value || '',
+      password: qr.wifiPassword?.value || '',
+      type: qr.wifiType?.value || '',
       language
     })
 
     return (
-      <FormButton
-        onConfirm={onConfirm}
-        onDownload={onDownload}
-        language={language}
-        qr={qr}
-        onChange={onChange}
-        ref={ref}
-      >
+      <FormButton language={language} qr={qr} onChange={onChange}>
         <FormCard cardProps={{ sx: { p: 2 } }}>
           <Stack spacing={3}>
             <Controller
@@ -82,9 +75,11 @@ export const WiFiForm = forwardRef<HTMLDivElement, Props>(
                           <EncryptionSelect
                             value={wifiType}
                             onChange={(selectedType) => {
+                              const parsedValue = parseInt(selectedType.value)
+
                               typeOnChange(selectedType.value) // react-hook-formの状態を更新
                               const newQr = qr.changeWifiType(
-                                parseInt(selectedType.value)
+                                isNaN(parsedValue) ? undefined : parsedValue
                               ) // QrCodeの状態を更新
                               onChange(newQr) // 親コンポーネントに新しいQrCodeを渡す
                               if (selectedType.isNoPassword) {

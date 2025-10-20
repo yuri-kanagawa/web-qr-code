@@ -37,10 +37,18 @@ export const EyeSettings1: FC<Props> = ({
     ) {
       if (isUnified) {
         // 統一設定モード：すべての目に適用
-        const newQr = qr.changeEye(numValue, numValue, numValue)
+        const newQr = qr.updateSettings((settings) =>
+          settings.changeEye(numValue, numValue, numValue)
+        )
         onChange(newQr)
       } else {
-        const newQr = qr.changeEye(numValue, qr.eye.radius2, qr.eye.radius3)
+        const newQr = qr.updateSettings((settings) =>
+          settings.changeEye(
+            numValue,
+            settings.eye.radius2,
+            settings.eye.radius3
+          )
+        )
         onChange(newQr)
       }
     }
@@ -49,21 +57,25 @@ export const EyeSettings1: FC<Props> = ({
   const handleColorChange = (value: string) => {
     if (isUnified) {
       // 統一設定モード：すべての目に適用
-      const newQr = qr.changeColors(
-        qr.colors.fgColor.value,
-        qr.colors.bgColor.value,
-        value,
-        value,
-        value
+      const newQr = qr.updateSettings((settings) =>
+        settings.changeColors(
+          settings.colors.fgColor.value,
+          settings.colors.bgColor.value,
+          value,
+          value,
+          value
+        )
       )
       onChange(newQr)
     } else {
-      const newQr = qr.changeColors(
-        qr.colors.fgColor.value,
-        qr.colors.bgColor.value,
-        value,
-        qr.colors.eyeColor2.value,
-        qr.colors.eyeColor3.value
+      const newQr = qr.updateSettings((settings) =>
+        settings.changeColors(
+          settings.colors.fgColor.value,
+          settings.colors.bgColor.value,
+          value,
+          settings.colors.eyeColor2.value,
+          settings.colors.eyeColor3.value
+        )
       )
       onChange(newQr)
     }
@@ -73,10 +85,14 @@ export const EyeSettings1: FC<Props> = ({
     const numValue = Number(value)
     if (isUnified) {
       // 統一設定モード：すべての目に適用
-      const newQr = qr.changeEye(numValue, numValue, numValue)
+      const newQr = qr.updateSettings((settings) =>
+        settings.changeEye(numValue, numValue, numValue)
+      )
       onChange(newQr)
     } else {
-      const newQr = qr.changeEye(numValue, qr.eye.radius2, qr.eye.radius3)
+      const newQr = qr.updateSettings((settings) =>
+        settings.changeEye(numValue, settings.eye.radius2, settings.eye.radius3)
+      )
       onChange(newQr)
     }
   }
@@ -97,7 +113,7 @@ export const EyeSettings1: FC<Props> = ({
       <Stack spacing={3} sx={{ pb: 3 }}>
         <ColorInput
           format="hex"
-          value={qr.colors.eyeColor1.value}
+          value={qr.settings.colors.eyeColor1.value}
           label={language.isEnglish ? 'Color' : '色'}
           onChange={handleColorChange}
           isAlphaHidden={true}
@@ -109,8 +125,12 @@ export const EyeSettings1: FC<Props> = ({
                 value={''}
                 bgColor={'white'}
                 fgColor={'white'}
-                eyeRadius={[qr.eye.radius1, 0, 0]}
-                eyeColor={[qr.colors.eyeColor1.value, 'white', 'white']}
+                eyeRadius={[qr.settings.eye.radius1, 0, 0]}
+                eyeColor={[
+                  qr.settings.colors.eyeColor1.value,
+                  'white',
+                  'white'
+                ]}
               />
             </CornerHighlightBox>
           </Box>
@@ -119,7 +139,7 @@ export const EyeSettings1: FC<Props> = ({
           label={language.isEnglish ? 'Corner Radius' : '角の丸み'}
           type="number"
           size="small"
-          value={qr.eye.radius1}
+          value={qr.settings.eye.radius1}
           onChange={handleRadiusChange}
           inputProps={{ min: EyeRadiusClass.MIN, max: EyeRadiusClass.MAX }}
           fullWidth
@@ -127,7 +147,7 @@ export const EyeSettings1: FC<Props> = ({
         <Slider
           min={EyeRadiusClass.MIN}
           max={EyeRadiusClass.MAX}
-          value={qr.eye.radius1}
+          value={qr.settings.eye.radius1}
           onChange={handleSliderChange}
           marks={[
             {

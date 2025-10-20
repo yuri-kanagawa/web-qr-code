@@ -16,44 +16,41 @@ import { Opacity } from './Opacity'
 import { Size } from './Size'
 
 type Props = {
-  file: File | null
-  setFile: (value: File | null) => void
   language: Language
   qr: QrCode
   onChange: (qr: QrCode) => void
 }
-export const OptionalForm: FC<Props> = ({
-  file,
-  setFile,
-  language,
-  qr,
-  onChange
-}) => {
+export const OptionalForm: FC<Props> = ({ language, qr, onChange }) => {
   const locale = language.locale
   const [individualEyeSettings, setIndividualEyeSettings] = useState(false)
+  const file = qr.settings.logoFile
 
   const handleToggle = (checked: boolean) => {
     setIndividualEyeSettings(checked)
 
     // OFFにした時（統一設定に戻す時）、全ての目を左上の値に統一
     if (!checked) {
-      // まず目の色を統一
-      let newSettings = qr.changeColors(
-        qr.colors.fgColor.value,
-        qr.colors.bgColor.value,
-        qr.colors.eyeColor1.value,
-        qr.colors.eyeColor1.value, // eyeColor2を eyeColor1に統一
-        qr.colors.eyeColor1.value // eyeColor3を eyeColor1に統一
-      )
+      const newQr = qr.updateSettings((settings) => {
+        // まず目の色を統一
+        let newSettings = settings.changeColors(
+          settings.colors.fgColor.value,
+          settings.colors.bgColor.value,
+          settings.colors.eyeColor1.value,
+          settings.colors.eyeColor1.value, // eyeColor2を eyeColor1に統一
+          settings.colors.eyeColor1.value // eyeColor3を eyeColor1に統一
+        )
 
-      // 目の半径も統一
-      newSettings = newSettings.changeEye(
-        qr.eye.radius1,
-        qr.eye.radius1,
-        qr.eye.radius1
-      )
+        // 目の半径も統一
+        newSettings = newSettings.changeEye(
+          settings.eye.radius1,
+          settings.eye.radius1,
+          settings.eye.radius1
+        )
 
-      onChange(newSettings)
+        return newSettings
+      })
+
+      onChange(newQr)
     }
   }
 
@@ -104,20 +101,9 @@ export const OptionalForm: FC<Props> = ({
         />
       )}
 
-      <Logo
-        file={file}
-        setFile={setFile}
-        language={language}
-        qr={qr}
-        onChange={onChange}
-      />
-      <Opacity language={language} qr={qr} onChange={onChange} file={file} />
-      <LogoPadding
-        language={language}
-        qr={qr}
-        onChange={onChange}
-        file={file}
-      />
+      <Logo language={language} qr={qr} onChange={onChange} />
+      <Opacity language={language} qr={qr} onChange={onChange} />
+      <LogoPadding language={language} qr={qr} onChange={onChange} />
     </Stack>
   )
 }

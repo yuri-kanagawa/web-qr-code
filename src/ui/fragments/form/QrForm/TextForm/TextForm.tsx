@@ -14,7 +14,7 @@ interface Props {
 
 export const TextForm: FC<Props> = ({ language, qr, onChange }: Props) => {
   const [currentQr, setCurrentQr] = useState<QrCode>(qr)
-  const { control, onConfirm, onDownload, watch } = useTextQrCodeForm({
+  const { control, watch } = useTextQrCodeForm({
     text: qr.text?.value || '',
     language
   })
@@ -29,8 +29,6 @@ export const TextForm: FC<Props> = ({ language, qr, onChange }: Props) => {
         fieldState: { error }
       }) => (
         <FormButton
-          onConfirm={onConfirm}
-          onDownload={onDownload}
           isValid={isValid}
           language={language}
           qr={currentQr}

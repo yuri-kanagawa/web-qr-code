@@ -13,16 +13,16 @@ interface Props {
 
 export const PhonePage: FC<Props> = (props) => {
   const [currentQr, setCurrentQr] = useState<QrCode>(
-    props.qr.changeQrCodeType('phone')
+    props.qr.changeToPhone()
   )
 
   console.log('PhonePage currentQr:', currentQr.qrValue.value)
 
   return (
     <PageWrapper language={props.language}>
-      <PhoneForm 
-        language={props.language} 
-        qr={currentQr} 
+      <PhoneForm
+        language={props.language}
+        qr={currentQr}
         onChange={(newQr) => {
           console.log('PhonePage onChange:', newQr.qrValue.value)
           setCurrentQr(newQr)

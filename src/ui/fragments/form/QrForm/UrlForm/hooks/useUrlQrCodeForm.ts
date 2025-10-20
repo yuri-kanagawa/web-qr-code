@@ -4,6 +4,7 @@ import { SubmitErrorHandler, useForm } from 'react-hook-form'
 import { useEffect, useMemo } from 'react'
 
 import { Language } from '@/domains/valueObjects/language'
+import { useQrCode } from '@/hooks'
 import {
   createRegisterQrCodeUrlSchema,
   type RegisterQrCodeUrlSchema
@@ -16,6 +17,7 @@ type Props = {
 
 export const useUrlQRCodeForm = ({ language, url = '' }: Props) => {
   const defaultLanguage = language || Language.default()
+  const { ref, onConfirm, onDownload } = useQrCode(defaultLanguage)
 
   const schema = useMemo(
     () => createRegisterQrCodeUrlSchema(defaultLanguage),
@@ -65,14 +67,14 @@ export const useUrlQRCodeForm = ({ language, url = '' }: Props) => {
       setFocus('url')
       return
     }
-    return "qr-generated"
+    return await onConfirm()
   }
   return {
     control,
     watch,
-
+    ref,
     onConfirm: handleConfirm,
-    onDownload: () => console.log("Download functionality temporarily disabled"),
+    onDownload: handleSubmit(onDownload, submitErrorHandler),
     ...rest
   }
 }

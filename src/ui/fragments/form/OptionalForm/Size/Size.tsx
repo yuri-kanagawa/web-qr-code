@@ -37,7 +37,7 @@ export const Size: FC<Props> = ({ language, qr, onChange }) => {
   const updateMaxSizeAndRatio = (numValue: number) => {
     if (!isNaN(numValue) && numValue > 0) {
       const oldMaxSize = previousMaxSize
-      const currentSize = qr.size.value
+      const currentSize = qr.settings.size.value
 
       // 割合を計算して新しいサイズを決定
       const ratio = currentSize / oldMaxSize
@@ -49,7 +49,9 @@ export const Size: FC<Props> = ({ language, qr, onChange }) => {
 
       // サイズも割合に応じて更新
       if (newSize >= 1) {
-        const newQr = qr.changeSize(newSize)
+        const newQr = qr.updateSettings((settings) =>
+          settings.changeSize(newSize)
+        )
         onChange(newQr)
       }
     }
@@ -63,7 +65,9 @@ export const Size: FC<Props> = ({ language, qr, onChange }) => {
         setSavedMaxSize(numValue)
         setPreviousMaxSize(numValue)
       }
-      const newQr = qr.changeSize(numValue)
+      const newQr = qr.updateSettings((settings) =>
+        settings.changeSize(numValue)
+      )
       onChange(newQr)
     }
   }
@@ -107,7 +111,7 @@ export const Size: FC<Props> = ({ language, qr, onChange }) => {
           label={language.isEnglish ? 'Current Size' : '現在のサイズ'}
           type="number"
           size="small"
-          value={qr.size.value}
+          value={qr.settings.size.value}
           onChange={handleSizeChange}
           inputProps={{ min: 1, max: currentMaxSize }}
           fullWidth
@@ -115,13 +119,15 @@ export const Size: FC<Props> = ({ language, qr, onChange }) => {
         <Stack direction="row" spacing={3} alignItems="center">
           <Slider
             max={currentMaxSize}
-            value={Math.min(qr.size.value, currentMaxSize)}
+            value={Math.min(qr.settings.size.value, currentMaxSize)}
             min={1}
             onChange={(event, value) => {
               const numValue = Number(value)
               console.log('Size slider changed:', numValue)
-              const newQr = qr.changeSize(numValue)
-              console.log('New QR created:', newQr.size.value)
+              const newQr = qr.updateSettings((settings) =>
+                settings.changeSize(numValue)
+              )
+              console.log('New QR created:', newQr.settings.size.value)
               onChange(newQr)
             }}
             marks={[
@@ -154,7 +160,7 @@ export const Size: FC<Props> = ({ language, qr, onChange }) => {
             ]}
           />
         )}
-        {qr.size.value < 75 && (
+        {qr.settings.size.value < 75 && (
           <WarningAlert
             language={language}
             title={

@@ -1,0 +1,2 @@
+export { QrGeneratorRepository } from './client'
+

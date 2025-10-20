@@ -1,18 +1,22 @@
 'use client'
-import { Language } from '@/domains/valueObjects/language'
+import { Language, QrCode } from '@/domains'
 import { PageWrapper, WiFiForm } from '@/ui/fragments'
-import { FC } from 'react'
+import { FC, useState } from 'react'
 
 interface Props {
   language: Language
-  ssid: string
-  password: string
-  type: string
+  qr: QrCode
 }
 export const WiFiPage: FC<Props> = (props) => {
+  const [currentQr, setCurrentQr] = useState<QrCode>(props.qr.changeToWifi())
+
   return (
     <PageWrapper language={props.language}>
-      <WiFiForm {...props} />
+      <WiFiForm
+        language={props.language}
+        qr={currentQr}
+        onChange={setCurrentQr}
+      />
     </PageWrapper>
   )
 }
