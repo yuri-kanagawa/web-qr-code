@@ -1,6 +1,7 @@
 import { Language } from '@/domains/valueObjects/language'
 import { Qr as QrValue } from '@/domains/valueObjects/qr'
 import { QrCodeType } from '@/domains/valueObjects/qrCodeType'
+import { DeviceQrCodeData } from './data/DeviceQrCodeData'
 import { QrCodeData } from './data/QrCodeData'
 import { QrCodeGenerator } from './generator/QrCodeGenerator'
 import { QrCodeSettings } from './settings/QrCodeSettings'
@@ -31,6 +32,7 @@ export class QrCode {
   private constructor(
     private _settings: QrCodeSettings,
     private _data: QrCodeData,
+    private _deviceData: DeviceQrCodeData | undefined,
     private _qrCodeType: QrCodeType,
     private readonly _language: Language,
     private readonly _validator: QrCodeValidator
@@ -47,6 +49,7 @@ export class QrCode {
     return new QrCode(
       resetSettings,
       QrCodeData.default(language),
+      undefined,
       QrCodeType.default(),
       language,
       QrCodeValidator.default(language)
@@ -63,6 +66,7 @@ export class QrCode {
     return new QrCode(
       resetSettings,
       QrCodeData.default(language),
+      undefined,
       QrCodeType.default(),
       language,
       QrCodeValidator.default(language)
@@ -127,9 +131,9 @@ export class QrCode {
    * DeviceタイプのQrを作成
    */
   static createDevice(language: Language): QrCode {
-    return QrCode.withLanguage(language).updateQrCodeType((qrCodeType) =>
-      qrCodeType.changeToDevice()
-    )
+    return QrCode.withLanguage(language)
+      .updateQrCodeType((qrCodeType) => qrCodeType.changeToDevice())
+      .updateDeviceData(DeviceQrCodeData.default(language))
   }
 
   /**
@@ -157,6 +161,10 @@ export class QrCode {
 
   get data() {
     return this._data
+  }
+
+  get deviceData() {
+    return this._deviceData
   }
 
   // 便利なプロパティ（よく使われるもの）
@@ -194,7 +202,8 @@ export class QrCode {
     const generatedValue = QrCodeGenerator.generate(
       this._qrCodeType,
       this._data,
-      this._language
+      this._language,
+      this._deviceData
     )
     console.log('qrValue getter - generatedValue.value:', generatedValue.value)
     return generatedValue
@@ -212,6 +221,7 @@ export class QrCode {
     return new QrCode(
       updater(this._settings),
       this._data,
+      this._deviceData,
       this._qrCodeType,
       this._language,
       this._validator
@@ -222,6 +232,7 @@ export class QrCode {
     return new QrCode(
       this._settings,
       updater(this._data),
+      this._deviceData,
       this._qrCodeType,
       this._language,
       this._validator
@@ -232,7 +243,19 @@ export class QrCode {
     return new QrCode(
       this._settings,
       this._data,
+      this._deviceData,
       updater(this._qrCodeType),
+      this._language,
+      this._validator
+    )
+  }
+
+  updateDeviceData(deviceData: DeviceQrCodeData | undefined): QrCode {
+    return new QrCode(
+      this._settings,
+      this._data,
+      deviceData,
+      this._qrCodeType,
       this._language,
       this._validator
     )
