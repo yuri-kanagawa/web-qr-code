@@ -1,3 +1,6 @@
+export * from './confirmQrCode'
+export * from './downloadQrCode'
 export * from './downloadQrImage'
+export * from './generateQrCanvas'
 export * from './readFromCanvas'
 export * from './readFromFile'

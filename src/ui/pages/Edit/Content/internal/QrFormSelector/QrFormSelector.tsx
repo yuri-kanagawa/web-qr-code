@@ -9,7 +9,7 @@ import {
   TextForm,
   UrlForm,
   WiFiForm
-} from '@/ui/fragments/form/QrForm'
+} from '@/features/qr-code'
 import { Box, Typography } from '@mui/material'
 import { useRouter } from 'next/navigation'
 import { FC, useEffect, useMemo } from 'react'

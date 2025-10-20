@@ -31,7 +31,7 @@ export class QrCodeSettings {
   ) {}
 
   // 推奨サイズの定数
-  static readonly RECOMMENDED_SIZE = 200
+  static readonly RECOMMENDED_SIZE = 75
 
   static default(language: Language = Language.default()): QrCodeSettings {
     return new QrCodeSettings(
@@ -330,21 +330,78 @@ export class QrCodeSettings {
 
   /**
    * 現在のサイズが推奨サイズ以下かどうかをチェック
+   * QRコードの複雑さとロゴの有無を考慮した動的な閾値を使用
    */
   isSizeBelowRecommended(): boolean {
-    const result = this._size.value < QrCodeSettings.RECOMMENDED_SIZE
+    // 基本の推奨サイズ
+    let recommendedSize = QrCodeSettings.RECOMMENDED_SIZE
+
+    // エラー訂正レベルが高い場合はより大きなサイズが必要
+    if (this._ecLevel.value === 'H') {
+      recommendedSize = Math.max(recommendedSize, 100)
+    } else if (this._ecLevel.value === 'Q') {
+      recommendedSize = Math.max(recommendedSize, 90)
+    } else if (this._ecLevel.value === 'M') {
+      recommendedSize = Math.max(recommendedSize, 80)
+    }
+
+    // ロゴがある場合はさらに大きなサイズが必要
+    if (this._logoFile) {
+      const logoAreaPercent =
+        ((this._logo.width || 0) * (this._logo.height || 0)) / 10000
+      if (logoAreaPercent > 0.05) {
+        // ロゴが5%以上の面積を占める場合
+        recommendedSize = Math.max(recommendedSize, 120)
+      } else if (logoAreaPercent > 0.02) {
+        // ロゴが2%以上の面積を占める場合
+        recommendedSize = Math.max(recommendedSize, 100)
+      }
+    }
+
+    const result = this._size.value < recommendedSize
     console.log('QrCodeSettings.isSizeBelowRecommended:', {
       currentSize: this._size.value,
-      recommendedSize: QrCodeSettings.RECOMMENDED_SIZE,
+      baseRecommendedSize: QrCodeSettings.RECOMMENDED_SIZE,
+      calculatedRecommendedSize: recommendedSize,
+      ecLevel: this._ecLevel.value,
+      hasLogo: !!this._logoFile,
+      logoAreaPercent: this._logoFile
+        ? ((this._logo.width || 0) * (this._logo.height || 0)) / 10000
+        : 0,
       result: result
     })
     return result
   }
 
   /**
-   * 推奨サイズを取得
+   * 推奨サイズを取得（動的に計算）
    */
   get recommendedSize(): number {
-    return QrCodeSettings.RECOMMENDED_SIZE
+    // 基本の推奨サイズ
+    let recommendedSize = QrCodeSettings.RECOMMENDED_SIZE
+
+    // エラー訂正レベルが高い場合はより大きなサイズが必要
+    if (this._ecLevel.value === 'H') {
+      recommendedSize = Math.max(recommendedSize, 100)
+    } else if (this._ecLevel.value === 'Q') {
+      recommendedSize = Math.max(recommendedSize, 90)
+    } else if (this._ecLevel.value === 'M') {
+      recommendedSize = Math.max(recommendedSize, 80)
+    }
+
+    // ロゴがある場合はさらに大きなサイズが必要
+    if (this._logoFile) {
+      const logoAreaPercent =
+        ((this._logo.width || 0) * (this._logo.height || 0)) / 10000
+      if (logoAreaPercent > 0.05) {
+        // ロゴが5%以上の面積を占める場合
+        recommendedSize = Math.max(recommendedSize, 120)
+      } else if (logoAreaPercent > 0.02) {
+        // ロゴが2%以上の面積を占める場合
+        recommendedSize = Math.max(recommendedSize, 100)
+      }
+    }
+
+    return recommendedSize
   }
 }

@@ -1,19 +1,11 @@
-import React, {
-  createContext,
-  useContext,
-  useState,
-  useCallback,
-  ReactNode
-} from 'react'
-import { Snackbar, Alert } from '@mui/material'
+import { Alert, Snackbar } from '@mui/material'
+import { createContext, ReactNode, useCallback, useState } from 'react'
 
-// NotifyContext の型を定義
 type NotifyContextType = (
   msg: string,
   sev?: 'success' | 'error' | 'info' | 'warning'
 ) => void
 
-// Context を作成
 export const NotifyContext = createContext<NotifyContextType | undefined>(
   undefined
 )
@@ -22,7 +14,6 @@ type Props = {
   children: ReactNode
 }
 
-// NotifyProvider を定義
 export function NotifyProvider({ children }: Props) {
   const [open, setOpen] = useState(false)
   const [message, setMessage] = useState('')
@@ -33,7 +24,7 @@ export function NotifyProvider({ children }: Props) {
   const notify = useCallback(
     (msg: string, sev: 'success' | 'error' | 'info' | 'warning' = 'info') => {
       setMessage(msg)
-      setSeverity(sev) // severity によって色を変更
+      setSeverity(sev)
       setOpen(true)
     },
     []
@@ -48,11 +39,16 @@ export function NotifyProvider({ children }: Props) {
       {children}
       <Snackbar
         open={open}
-        autoHideDuration={3000}
+        autoHideDuration={5000}
         onClose={handleClose}
         anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
       >
-        <Alert onClose={handleClose} severity={severity} variant="filled">
+        <Alert
+          onClose={handleClose}
+          severity={severity}
+          variant="filled"
+          sx={{ minWidth: 300 }}
+        >
           {message}
         </Alert>
       </Snackbar>

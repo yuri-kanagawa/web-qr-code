@@ -100,14 +100,14 @@ export const ImageForm: FC<Props> = memo(
           const newQr = qr.updateSettings((settings) => {
             // まずロゴファイルを設定
             let updatedSettings = settings.changeLogoFile(newFile)
-            // ロゴサイズが0の場合はデフォルトサイズを設定
+            // ロゴサイズが0の場合はデフォルトサイズを設定（QRコードサイズの20%）
             if (
               !updatedSettings.logo.width ||
               updatedSettings.logo.width === 0
             ) {
               updatedSettings = updatedSettings.changeLogo(
-                100,
-                100,
+                20,
+                20,
                 1,
                 updatedSettings.logo.paddingStyle
               )
@@ -125,10 +125,10 @@ export const ImageForm: FC<Props> = memo(
       <Stack spacing={2}>
         <Stack direction={'row'}>
           <HeightSlider
-            value={qr.settings.logo.height ?? 100}
+            value={qr.settings.logo.height ?? 20}
             onChange={updateLogoHeight}
             disabled={isRelationFileDisabled}
-            max={max}
+            max={30}
           >
             <InputFile
               file={file}
@@ -141,17 +141,17 @@ export const ImageForm: FC<Props> = memo(
         </Stack>
         <Box sx={{ pl: 2 }}>
           <WidthSlider
-            value={qr.settings.logo.width ?? 100}
+            value={qr.settings.logo.width ?? 20}
             onChange={updateLogoWidth}
             disabled={isRelationFileDisabled}
-            max={max}
+            max={30}
           />
         </Box>
 
-        {/* 数値入力欄 */}
+        {/* 数値入力欄（パーセンテージ） */}
         <Stack direction="row" spacing={2}>
           <TextField
-            label={language.isEnglish ? 'Width' : '幅'}
+            label={language.isEnglish ? 'Width (%)' : '幅 (%)'}
             type="number"
             size="small"
             value={qr.settings.logo.width || ''}
@@ -161,7 +161,7 @@ export const ImageForm: FC<Props> = memo(
                 value === '' ||
                 (!isNaN(Number(value)) &&
                   Number(value) >= 1 &&
-                  Number(value) <= (max || 1000))
+                  Number(value) <= 30)
               ) {
                 updateLogoWidth(value === '' ? 0 : Number(value))
               }
@@ -173,11 +173,11 @@ export const ImageForm: FC<Props> = memo(
               }
             }}
             disabled={isRelationFileDisabled}
-            inputProps={{ min: 1, max: max || 1000 }}
+            inputProps={{ min: 1, max: 30 }}
             sx={{ flex: 1 }}
           />
           <TextField
-            label={language.isEnglish ? 'Height' : '高さ'}
+            label={language.isEnglish ? 'Height (%)' : '高さ (%)'}
             type="number"
             size="small"
             value={qr.settings.logo.height || ''}
@@ -187,7 +187,7 @@ export const ImageForm: FC<Props> = memo(
                 value === '' ||
                 (!isNaN(Number(value)) &&
                   Number(value) >= 1 &&
-                  Number(value) <= (max || 1000))
+                  Number(value) <= 30)
               ) {
                 updateLogoHeight(value === '' ? 0 : Number(value))
               }
@@ -199,7 +199,7 @@ export const ImageForm: FC<Props> = memo(
               }
             }}
             disabled={isRelationFileDisabled}
-            inputProps={{ min: 1, max: max || 1000 }}
+            inputProps={{ min: 1, max: 30 }}
             sx={{ flex: 1 }}
           />
         </Stack>

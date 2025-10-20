@@ -91,8 +91,14 @@ const GeneratedQrCode = React.forwardRef<HTMLDivElement, Props>(
                         const logoProps = logoImage
                           ? {
                               logoImage,
-                              logoWidth: safeQr.settings.logo.width,
-                              logoHeight: safeQr.settings.logo.height,
+                              logoWidth: Math.floor(
+                                (safeQr.settings.logo.width / 100) *
+                                  safeQr.settings.size.value
+                              ),
+                              logoHeight: Math.floor(
+                                (safeQr.settings.logo.height / 100) *
+                                  safeQr.settings.size.value
+                              ),
                               logoOpacity: safeQr.settings.logo.opacity,
                               logoPaddingStyle:
                                 safeQr.settings.logo.paddingStyle,

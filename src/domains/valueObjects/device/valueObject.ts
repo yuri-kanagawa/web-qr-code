@@ -43,6 +43,10 @@ export class Device {
     return new Device(Device.TYPES.NOT_SET, language)
   }
 
+  static default(): Device {
+    return new Device(Device.TYPES.NOT_SET, Language.default())
+  }
+
   static all(language: Language): Device {
     return new Device(Device.TYPES.ALL, language)
   }

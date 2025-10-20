@@ -59,8 +59,8 @@ export class Latitude {
     return LatitudeResult.ok(new Latitude(value, language))
   }
 
-  static default(): Latitude {
-    return new Latitude(35.681236, Language.default()) // 東京
+  static default(language: Language = Language.default()): Latitude {
+    return new Latitude(35.681236, language) // 東京
   }
 
   get value(): number {

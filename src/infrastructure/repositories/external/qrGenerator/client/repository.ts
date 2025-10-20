@@ -15,6 +15,13 @@ export class QrGeneratorRepository implements IQrGeneratorRepository {
       throw new Error('Invalid QR code data')
     }
 
+    // サイズチェック（75px未満は必ずエラー）
+    if (qrCode.settings.size.value < 75) {
+      throw new Error(
+        `QRコードのサイズが小さすぎます（${qrCode.settings.size.value}px）。75px以上にしてください。`
+      )
+    }
+
     try {
       const canvas = document.createElement('canvas')
       const size = qrCode.settings.size.value

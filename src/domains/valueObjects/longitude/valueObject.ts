@@ -59,8 +59,8 @@ export class Longitude {
     return LongitudeResult.ok(new Longitude(value, language))
   }
 
-  static default(): Longitude {
-    return new Longitude(139.767125, Language.default()) // 東京
+  static default(language: Language = Language.default()): Longitude {
+    return new Longitude(139.767125, language) // 東京
   }
 
   get value(): number {

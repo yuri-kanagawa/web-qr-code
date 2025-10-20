@@ -15,15 +15,15 @@ export const Logo: FC<Props> = ({ language, qr, onChange }) => {
   const locale = language.locale
   const file = qr.settings.logoFile
 
-  // ロゴサイズの警告チェック
-  const qrSize = qr.settings.size.value
-  const logoWidth = qr.settings.logo.width || 0
-  const logoHeight = qr.settings.logo.height || 0
-  const maxRecommendedSize = Math.floor(qrSize * 0.3) // QRコードサイズの30%を推奨最大値とする（実際のテスト結果に基づく）
+  // ロゴサイズの警告チェック（パーセンテージベース）
+  const logoWidthPercent = qr.settings.logo.width || 0
+  const logoHeightPercent = qr.settings.logo.height || 0
+  const maxRecommendedPercent = 30 // 30%を推奨最大値とする
 
   const isLogoTooLarge =
-    logoWidth > maxRecommendedSize || logoHeight > maxRecommendedSize
-  const logoAreaRatio = (logoWidth * logoHeight) / (qrSize * qrSize)
+    logoWidthPercent > maxRecommendedPercent ||
+    logoHeightPercent > maxRecommendedPercent
+  const logoAreaRatio = (logoWidthPercent * logoHeightPercent) / 10000 // パーセンテージの積を10000で割って比率を計算
 
   const updateLogoWidth = (width: number) => {
     const newQr = qr.updateSettings((settings) =>
@@ -48,7 +48,6 @@ export const Logo: FC<Props> = ({ language, qr, onChange }) => {
     )
     onChange(newQr)
   }
-
 
   return (
     <Stack spacing={2}>
@@ -78,12 +77,7 @@ export const Logo: FC<Props> = ({ language, qr, onChange }) => {
         >
           {locale.word.qrSettings.logo}
         </FormLabel>
-        <ImageForm
-          qr={qr}
-          onChange={onChange}
-          max={qr.settings.size.value}
-          language={language}
-        />
+        <ImageForm qr={qr} onChange={onChange} max={30} language={language} />
       </Box>
       {file && isLogoTooLarge && (
         <WarningAlert
@@ -91,19 +85,19 @@ export const Logo: FC<Props> = ({ language, qr, onChange }) => {
           title={language.isEnglish ? 'Logo Size Warning' : 'ロゴサイズ警告'}
           messages={[
             language.isEnglish
-              ? `Logo size is too large (${logoWidth}×${logoHeight}px)`
-              : `ロゴサイズが大きすぎます (${logoWidth}×${logoHeight}px)`,
+              ? `Logo size is too large (${logoWidthPercent}%×${logoHeightPercent}%)`
+              : `ロゴサイズが大きすぎます (${logoWidthPercent}%×${logoHeightPercent}%)`,
             language.isEnglish
-              ? `Covers ${(logoAreaRatio * 100).toFixed(1)}% of QR code area`
-              : `QRコード領域の${(logoAreaRatio * 100).toFixed(1)}%を覆っています`,
+              ? `Covers ${logoAreaRatio.toFixed(1)}% of QR code area`
+              : `QRコード領域の${logoAreaRatio.toFixed(1)}%を覆っています`,
             language.isEnglish
               ? 'Large logos may cover the eye patterns and cause reading failure'
               : '大きなロゴは目の部分を覆い、読み取りに失敗する可能性があります'
           ]}
           recommendedText={
             language.isEnglish
-              ? `Recommended size: ${maxRecommendedSize}px or smaller`
-              : `推奨サイズ: ${maxRecommendedSize}px以下`
+              ? `Recommended size: ${maxRecommendedPercent}% or smaller`
+              : `推奨サイズ: ${maxRecommendedPercent}%以下`
           }
         />
       )}

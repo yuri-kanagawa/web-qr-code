@@ -12,6 +12,18 @@ export class QrScannerRepository implements IQrScannerRepository {
     try {
       console.log('QRスキャン開始:', { imageUrlLength: imageUrl.length })
 
+      // 画像のサイズを事前にチェック
+      const imageSize = await this.getImageSize(imageUrl)
+      console.log('画像サイズ:', imageSize)
+
+      // 明らかに小さすぎる場合は早期にエラーを返す
+      if (imageSize.width < 50 || imageSize.height < 50) {
+        console.warn('画像サイズが小さすぎます:', imageSize)
+        throw new Error(
+          `QRコードのサイズが小さすぎます (${imageSize.width}x${imageSize.height}px)。読み取りに失敗する可能性があります。`
+        )
+      }
+
       // オプションなしでシンプルに実行
       const result = await QrScanner.scanImage(imageUrl)
 
@@ -37,5 +49,23 @@ export class QrScannerRepository implements IQrScannerRepository {
       })
       throw error
     }
+  }
+
+  /**
+   * 画像のサイズを取得する
+   */
+  private async getImageSize(
+    imageUrl: string
+  ): Promise<{ width: number; height: number }> {
+    return new Promise((resolve, reject) => {
+      const img = new Image()
+      img.onload = () => {
+        resolve({ width: img.width, height: img.height })
+      }
+      img.onerror = () => {
+        reject(new Error('画像の読み込みに失敗しました'))
+      }
+      img.src = imageUrl
+    })
   }
 }
