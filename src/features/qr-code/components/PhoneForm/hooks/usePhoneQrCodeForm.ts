@@ -1,9 +1,7 @@
 import { Language, QrCode } from '@/domains'
 import { useQrCode } from '@/hooks'
-import { useClientSearchParams } from '@/hooks/useClientSearchParams'
-import { SearchParamsManager } from '@/lib/browser'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useCallback, useEffect, useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 import { SubmitErrorHandler, useForm } from 'react-hook-form'
 import { RegisterQrCodeUrlSchema } from '../../UrlForm/hooks'
 import { registerQrCodePhoneSchema, RegisterQrCodePhoneSchema } from './zod'
@@ -14,19 +12,13 @@ type Props = {
 }
 
 export const usePhoneQrCodeForm = ({ language, qr }: Props) => {
-  const searchParams = useClientSearchParams()
-  const phoneNumber = searchParams.get('phoneNumber') ?? ''
-  const resetPhoneNumber = useCallback(() => {
-    SearchParamsManager.remove(['phoneNumber'])
-  }, [])
-
   const { ref, onConfirm, onDownload } = useQrCode(Language.default())
 
   const defaultValues: RegisterQrCodePhoneSchema = useMemo(() => {
     return {
-      phoneNumber: qr.data.phoneNumber?.value || phoneNumber
+      phoneNumber: qr.phoneNumber.value
     }
-  }, [qr.data.phoneNumber, phoneNumber])
+  }, [qr.phoneNumber])
   const {
     handleSubmit,
     reset,
@@ -42,12 +34,10 @@ export const usePhoneQrCodeForm = ({ language, qr }: Props) => {
     mode: 'onChange',
     resolver: zodResolver(registerQrCodePhoneSchema)
   })
+
   useEffect(() => {
-    if (phoneNumber) {
-      reset(defaultValues)
-      resetPhoneNumber()
-    }
-  }, [phoneNumber, reset, defaultValues, resetPhoneNumber])
+    reset(defaultValues)
+  }, [defaultValues, reset])
 
   const submitErrorHandler: SubmitErrorHandler<RegisterQrCodeUrlSchema> = (
     errors

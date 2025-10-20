@@ -24,10 +24,10 @@ export const useSmsQrCodeForm = ({ language, qr }: Props) => {
 
   const defaultValues: RegisterQrCodeSmsSchema = useMemo(() => {
     return {
-      phoneNumber: qr.value.phoneNumber,
-      body: qr.value.body
+      phoneNumber: qr.phoneNumber.value,
+      body: qr.body.value
     }
-  }, [qr.value.phoneNumber, qr.value.body])
+  }, [qr.phoneNumber, qr.body])
 
   const schema = useMemo(
     () => createRegisterQrCodeSmsSchema(language),
@@ -49,14 +49,8 @@ export const useSmsQrCodeForm = ({ language, qr }: Props) => {
   })
 
   useEffect(() => {
-    const phoneNumber = qr.value.phoneNumber
-    const body = qr.value.body
-    if (phoneNumber || body) {
-      reset(defaultValues)
-      resetPhoneNumber()
-      resetBody()
-    }
-  }, [defaultValues, reset, resetPhoneNumber, resetBody, qr.value.phoneNumber, qr.value.body])
+    reset(defaultValues)
+  }, [defaultValues, reset])
 
   const submitErrorHandler: SubmitErrorHandler<RegisterQrCodeSmsSchema> = (
     errors

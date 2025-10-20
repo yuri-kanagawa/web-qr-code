@@ -14,20 +14,20 @@ interface Props {
 
 export function useContactQrCodeForm({ language, qr }: Props) {
   const defaultValues: RegisterQrCodeContactSchema = {
-    firstName: qr.value.firstName,
-    lastName: qr.value.lastName,
-    middleName: qr.value.middleName,
-    email: qr.value.email,
-    mobilePhone: qr.value.mobilePhone,
-    homePhone: qr.value.homePhone,
-    homeAddress: qr.value.homeAddress,
-    homeUrl: qr.value.homeUrl,
-    organization: qr.value.organization,
-    post: qr.value.post,
-    workMobile: qr.value.workMobile,
-    workPhone: qr.value.workPhone,
-    workAddress: qr.value.workAddress,
-    workUrl: qr.value.workUrl
+    firstName: qr.firstName.value,
+    lastName: qr.lastName.value,
+    middleName: qr.middleName.value,
+    email: qr.emailContact.value,
+    mobilePhone: qr.mobilePhone.value,
+    homePhone: qr.homePhone.value,
+    homeAddress: qr.homeAddress.value,
+    homeUrl: qr.homeUrl.value,
+    organization: qr.organization.value,
+    post: qr.post.value,
+    workMobile: qr.workMobile.value,
+    workPhone: qr.workPhone.value,
+    workAddress: qr.workAddress.value,
+    workUrl: qr.workUrl.value
   }
 
   const schema = useMemo(

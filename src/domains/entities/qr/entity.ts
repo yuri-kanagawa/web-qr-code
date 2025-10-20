@@ -41,25 +41,7 @@ export class QrCode {
   /**
    * デフォルトのQrを作成
    */
-  static default(): QrCode {
-    const language = Language.default()
-    const settings = QrCodeSettings.default(language)
-    // logoFileを確実にnullにリセット
-    const resetSettings = settings.changeLogoFile(null)
-    return new QrCode(
-      resetSettings,
-      QrCodeData.default(language),
-      undefined,
-      QrCodeType.default(),
-      language,
-      QrCodeValidator.default(language)
-    )
-  }
-
-  /**
-   * 特定の言語でQrを作成
-   */
-  static withLanguage(language: Language): QrCode {
+  static default(language: Language = Language.default()): QrCode {
     const settings = QrCodeSettings.default(language)
     // logoFileを確実にnullにリセット
     const resetSettings = settings.changeLogoFile(null)
@@ -77,7 +59,7 @@ export class QrCode {
    * URLタイプのQrを作成
    */
   static createUrl(language: Language): QrCode {
-    return QrCode.withLanguage(language).updateQrCodeType((qrCodeType) =>
+    return QrCode.default(language).updateQrCodeType((qrCodeType) =>
       qrCodeType.changeToUrl()
     )
   }
@@ -86,7 +68,7 @@ export class QrCode {
    * EmailタイプのQrを作成
    */
   static createEmail(language: Language): QrCode {
-    return QrCode.withLanguage(language).updateQrCodeType((qrCodeType) =>
+    return QrCode.default(language).updateQrCodeType((qrCodeType) =>
       qrCodeType.changeToEmail()
     )
   }
@@ -95,7 +77,7 @@ export class QrCode {
    * TextタイプのQrを作成
    */
   static createText(language: Language): QrCode {
-    return QrCode.withLanguage(language).updateQrCodeType((qrCodeType) =>
+    return QrCode.default(language).updateQrCodeType((qrCodeType) =>
       qrCodeType.changeToText()
     )
   }
@@ -104,7 +86,7 @@ export class QrCode {
    * SMSタイプのQrを作成
    */
   static createSms(language: Language): QrCode {
-    return QrCode.withLanguage(language).updateQrCodeType((qrCodeType) =>
+    return QrCode.default(language).updateQrCodeType((qrCodeType) =>
       qrCodeType.changeToSms()
     )
   }
@@ -113,7 +95,7 @@ export class QrCode {
    * WiFiタイプのQrを作成
    */
   static createWifi(language: Language): QrCode {
-    return QrCode.withLanguage(language).updateQrCodeType((qrCodeType) =>
+    return QrCode.default(language).updateQrCodeType((qrCodeType) =>
       qrCodeType.changeToWifi()
     )
   }
@@ -122,7 +104,7 @@ export class QrCode {
    * ContactタイプのQrを作成
    */
   static createContact(language: Language): QrCode {
-    return QrCode.withLanguage(language).updateQrCodeType((qrCodeType) =>
+    return QrCode.default(language).updateQrCodeType((qrCodeType) =>
       qrCodeType.changeToContact()
     )
   }
@@ -131,7 +113,7 @@ export class QrCode {
    * DeviceタイプのQrを作成
    */
   static createDevice(language: Language): QrCode {
-    return QrCode.withLanguage(language)
+    return QrCode.default(language)
       .updateQrCodeType((qrCodeType) => qrCodeType.changeToDevice())
       .updateDeviceData(DeviceQrCodeData.default(language))
   }
@@ -140,7 +122,7 @@ export class QrCode {
    * MapタイプのQrを作成
    */
   static createMap(language: Language): QrCode {
-    return QrCode.withLanguage(language).updateQrCodeType((qrCodeType) =>
+    return QrCode.default(language).updateQrCodeType((qrCodeType) =>
       qrCodeType.changeToMap()
     )
   }
@@ -149,7 +131,7 @@ export class QrCode {
    * PhoneタイプのQrを作成
    */
   static createPhone(language: Language): QrCode {
-    return QrCode.withLanguage(language).updateQrCodeType((qrCodeType) =>
+    return QrCode.default(language).updateQrCodeType((qrCodeType) =>
       qrCodeType.changeToPhone()
     )
   }
@@ -195,6 +177,102 @@ export class QrCode {
 
   get wifiType() {
     return this._data.wifiType
+  }
+
+  get url() {
+    return this._data.url
+  }
+
+  get email() {
+    return this._data.email
+  }
+
+  get subject() {
+    return this._data.subject
+  }
+
+  get body() {
+    return this._data.body
+  }
+
+  get text() {
+    return this._data.text
+  }
+
+  get phoneNumber() {
+    return this._data.phoneNumber
+  }
+
+  get firstName() {
+    return this._data.firstName
+  }
+
+  get lastName() {
+    return this._data.lastName
+  }
+
+  get middleName() {
+    return this._data.middleName
+  }
+
+  get emailContact() {
+    return this._data.emailContact
+  }
+
+  get mobilePhone() {
+    return this._data.mobilePhone
+  }
+
+  get homePhone() {
+    return this._data.homePhone
+  }
+
+  get homeAddress() {
+    return this._data.homeAddress
+  }
+
+  get homeUrl() {
+    return this._data.homeUrl
+  }
+
+  get organization() {
+    return this._data.organization
+  }
+
+  get post() {
+    return this._data.post
+  }
+
+  get workMobile() {
+    return this._data.workMobile
+  }
+
+  get workPhone() {
+    return this._data.workPhone
+  }
+
+  get workAddress() {
+    return this._data.workAddress
+  }
+
+  get workUrl() {
+    return this._data.workUrl
+  }
+
+  get device() {
+    return this._data.device
+  }
+
+  get os() {
+    return this._data.os
+  }
+
+  get latitude() {
+    return this._data.latitude
+  }
+
+  get longitude() {
+    return this._data.longitude
   }
 
   // QRコードの値を生成

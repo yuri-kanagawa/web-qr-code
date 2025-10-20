@@ -18,8 +18,8 @@ export const useMapQrCodeForm = ({ language, qr }: Props) => {
 
   const defaultValues: RegisterQrCodeMapSchema = useMemo(() => {
     return {
-      latitude: qr.latitude?.value?.toString() || '',
-      longitude: qr.longitude?.value?.toString() || '',
+      latitude: qr.latitude.value?.toString() || '',
+      longitude: qr.longitude.value?.toString() || '',
       language: language.value
     }
   }, [language, qr.latitude, qr.longitude])
