@@ -24,9 +24,9 @@ export const usePhoneQrCodeForm = ({ language, qr }: Props) => {
 
   const defaultValues: RegisterQrCodePhoneSchema = useMemo(() => {
     return {
-      phoneNumber: qr.phoneNumber.value || phoneNumber
+      phoneNumber: qr.data.phoneNumber?.value || phoneNumber
     }
-  }, [qr.phoneNumber, phoneNumber])
+  }, [qr.data.phoneNumber, phoneNumber])
   const {
     handleSubmit,
     reset,

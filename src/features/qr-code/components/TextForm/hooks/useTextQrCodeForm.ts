@@ -13,7 +13,7 @@ interface Props {
 }
 export const useTextQrCodeForm = ({ language, qr }: Props) => {
   const defaultValues: RegisterQrCodeTextSchema = {
-    text: qr.text.value
+    text: qr.data.text?.value || ''
   }
 
   const schema = useMemo(

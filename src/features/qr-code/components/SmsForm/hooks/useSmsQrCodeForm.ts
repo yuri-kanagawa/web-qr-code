@@ -49,12 +49,14 @@ export const useSmsQrCodeForm = ({ language, qr }: Props) => {
   })
 
   useEffect(() => {
+    const phoneNumber = qr.value.phoneNumber
+    const body = qr.value.body
     if (phoneNumber || body) {
       reset(defaultValues)
       resetPhoneNumber()
       resetBody()
     }
-  }, [defaultValues, reset, resetPhoneNumber, resetBody, phoneNumber, body])
+  }, [defaultValues, reset, resetPhoneNumber, resetBody, qr.value.phoneNumber, qr.value.body])
 
   const submitErrorHandler: SubmitErrorHandler<RegisterQrCodeSmsSchema> = (
     errors
