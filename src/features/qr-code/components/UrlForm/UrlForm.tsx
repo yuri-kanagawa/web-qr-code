@@ -9,7 +9,8 @@ import { useUrlQRCodeForm } from './hooks'
 export const UrlForm: FC<QrFormProps> = ({ language, qr, onChange }) => {
   const {
     control,
-    formState: { isValid }
+    formState: { isValid },
+    onConfirm
   } = useUrlQRCodeForm({
     language,
     qr
@@ -21,6 +22,7 @@ export const UrlForm: FC<QrFormProps> = ({ language, qr, onChange }) => {
       qr={qr}
       language={language}
       onChange={onChange}
+      onConfirm={onConfirm}
     >
       <Controller
         control={control}

@@ -16,7 +16,7 @@ type Props = {
 }
 
 export const useUrlQRCodeForm = ({ language, qr }: Props) => {
-  const { ref, onConfirm, onDownload } = useQrCode(language)
+  const { ref, onDownload } = useQrCode(language)
 
   const schema = useMemo(
     () => createRegisterQrCodeUrlSchema(language),
@@ -59,14 +59,29 @@ export const useUrlQRCodeForm = ({ language, qr }: Props) => {
     }
   }
 
-  const handleConfirm = async (): Promise<string | undefined> => {
+  const handleConfirm = async (): Promise<void> => {
     await trigger()
     const { error } = getFieldState('url')
     if (error) {
       setFocus('url')
       return
     }
-    return await onConfirm()
+
+    // URLタイプの場合は、入力されたURLをそのまま使って別タブで開く
+    const currentUrl = watch('url')
+    if (currentUrl && currentUrl.trim() !== '') {
+      // URLが相対パスの場合は、http://を追加
+      let urlToOpen = currentUrl.trim()
+      if (
+        !urlToOpen.startsWith('http://') &&
+        !urlToOpen.startsWith('https://')
+      ) {
+        urlToOpen = `https://${urlToOpen}`
+      }
+
+      window.open(urlToOpen, '_blank')
+      return
+    }
   }
   return {
     control,
