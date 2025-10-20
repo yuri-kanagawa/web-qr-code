@@ -118,12 +118,18 @@ export class QrCodeGenerator {
     data: QrCodeData,
     language: Language
   ): QrValue {
+    // 最低限の入力が必要（名前またはメールアドレス）
     if (data.firstName || data.lastName || data.emailContact) {
       let vcard = 'BEGIN:VCARD\nVERSION:3.0\n'
 
-      if (data.firstName || data.lastName) {
-        vcard += `FN:${data.firstName?.value || ''} ${data.lastName?.value || ''}\n`
-        vcard += `N:${data.lastName?.value || ''};${data.firstName?.value || ''};;;\n`
+      // 名前の処理
+      const firstName = data.firstName?.value || ''
+      const lastName = data.lastName?.value || ''
+      const fullName = `${firstName} ${lastName}`.trim()
+
+      if (fullName) {
+        vcard += `FN:${fullName}\n`
+        vcard += `N:${lastName};${firstName};;;\n`
       }
 
       const contactFields = [
@@ -141,7 +147,7 @@ export class QrCodeGenerator {
       ]
 
       contactFields.forEach(({ field, prefix, suffix = '' }) => {
-        if (field) vcard += `${prefix}${field.value}${suffix}\n`
+        if (field && field.value) vcard += `${prefix}${field.value}${suffix}\n`
       })
 
       vcard += 'END:VCARD'
