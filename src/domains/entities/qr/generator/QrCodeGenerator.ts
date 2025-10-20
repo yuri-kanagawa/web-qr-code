@@ -1,6 +1,9 @@
+import { DeviceOsService } from '@/domains/services/deviceOs'
 import { Language } from '@/domains/valueObjects/language'
 import { Qr as QrValue } from '@/domains/valueObjects/qr'
 import { QrCodeType } from '@/domains/valueObjects/qrCodeType'
+import { PathBuilder } from '@/lib/routing'
+import { DeviceQrCodeData } from '../data/DeviceQrCodeData'
 import { QrCodeData } from '../data/QrCodeData'
 
 /**
@@ -10,7 +13,8 @@ export class QrCodeGenerator {
   static generate(
     qrCodeType: QrCodeType,
     data: QrCodeData,
-    language: Language
+    language: Language,
+    deviceData?: DeviceQrCodeData
   ): QrValue {
     console.log('generateQrValue - qrCodeType.value:', qrCodeType.value)
 
@@ -28,7 +32,7 @@ export class QrCodeGenerator {
       case QrCodeType.CONTACT:
         return this.generateContactQr(data, language)
       case QrCodeType.DEVICE:
-        return this.generateDeviceQr(data, language)
+        return this.generateDeviceQr(data, language, deviceData)
       case QrCodeType.MAP:
         return this.generateMapQr(data, language)
       case QrCodeType.PHONE:
@@ -149,14 +153,40 @@ export class QrCodeGenerator {
 
   private static generateDeviceQr(
     data: QrCodeData,
-    language: Language
+    language: Language,
+    deviceData?: DeviceQrCodeData
   ): QrValue {
-    if (data.device && data.os) {
-      const deviceInfo = `DEVICE:${data.device.value}:${data.os.value}`
-      const result = QrValue.create(deviceInfo, language)
+    if (!deviceData) {
+      return QrValue.default()
+    }
+
+    const pathBuilder = new PathBuilder(language)
+    const redirectPath = pathBuilder.device.redirect
+    const baseUrl = `${typeof window !== 'undefined' ? window.location.origin : ''}${redirectPath}`
+
+    const validDeviceOsUrls = deviceData.getValidDeviceOsUrls()
+
+    if (validDeviceOsUrls.length === 0) {
+      const result = QrValue.create(baseUrl, language)
       return result.qr || QrValue.default()
     }
-    return QrValue.default()
+
+    const deviceOsParams = validDeviceOsUrls
+      .map(({ device, os }) => DeviceOsService.getDeviceOs(device, os))
+      .join(',')
+
+    const urlsParams = validDeviceOsUrls
+      .map(({ url }) => encodeURIComponent(url.value))
+      .join(',')
+
+    if (!deviceOsParams || !urlsParams) {
+      const result = QrValue.create(baseUrl, language)
+      return result.qr || QrValue.default()
+    }
+
+    const redirectUrl = `${baseUrl}?deviceOs=${deviceOsParams}&urls=${urlsParams}`
+    const result = QrValue.create(redirectUrl, language)
+    return result.qr || QrValue.default()
   }
 
   private static generateMapQr(data: QrCodeData, language: Language): QrValue {
