@@ -1,7 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { SubmitErrorHandler, useForm } from 'react-hook-form'
 
-import { useEffect, useMemo } from 'react'
+import { useMemo } from 'react'
 
 import { Language, QrCode } from '@/domains'
 import { useQrCode } from '@/hooks'
@@ -16,20 +16,19 @@ type Props = {
 }
 
 export const useUrlQRCodeForm = ({ language, qr }: Props) => {
-  const defaultLanguage = language || Language.default()
-  const { ref, onConfirm, onDownload } = useQrCode(defaultLanguage)
+  const { ref, onConfirm, onDownload } = useQrCode(language)
 
   const schema = useMemo(
-    () => createRegisterQrCodeUrlSchema(defaultLanguage),
-    [defaultLanguage]
+    () => createRegisterQrCodeUrlSchema(language),
+    [language]
   )
 
   const defaultValues: RegisterQrCodeUrlSchema = useMemo(() => {
     return {
-      url: qr.url?.value || '',
-      language: defaultLanguage.value
+      url: qr.data.url!.value,
+      language: language.value
     }
-  }, [defaultLanguage, qr.url])
+  }, [language.value, qr.data.url])
 
   const {
     handleSubmit,
@@ -48,9 +47,9 @@ export const useUrlQRCodeForm = ({ language, qr }: Props) => {
     defaultValues
   })
 
-  useEffect(() => {
-    reset(defaultValues)
-  }, [defaultValues, reset])
+  // useEffect(() => {
+  //   reset(defaultValues)
+  // }, [defaultValues, reset])
 
   const submitErrorHandler: SubmitErrorHandler<RegisterQrCodeUrlSchema> = (
     errors
