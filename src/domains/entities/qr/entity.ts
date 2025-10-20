@@ -440,6 +440,19 @@ export class QrCode {
     return result
   }
 
+  private downloadVCard(vcardData: string): void {
+    // vCardデータをBlobとして作成してダウンロード
+    const blob = new Blob([vcardData], { type: 'text/vcard' })
+    const url = URL.createObjectURL(blob)
+    const link = document.createElement('a')
+    link.href = url
+    link.download = 'contact.vcf'
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+    URL.revokeObjectURL(url)
+  }
+
   // ドメイン層でのバリデーション
   validate(): ValidationResult {
     return this._validator.validate(this._qrCodeType, this._data)

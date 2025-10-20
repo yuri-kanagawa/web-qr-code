@@ -20,16 +20,59 @@ import {
 import GeneratedQrCode from '../../qrCode/GeneratedQrCode/GeneratedQrCode'
 import { QrConfirmButton, QrDownloadButton } from './internal'
 
+// QRコードの実行処理
+const executeQrCode = (qr: QrCode): void => {
+  const qrValue = qr.qrValue.value
+
+  if (!qrValue || qrValue.trim() === '') {
+    return
+  }
+
+  // vCardの場合は特別処理（vCardファイルをダウンロード）
+  if (qr.qrValue.isVcard) {
+    downloadVCard(qrValue)
+    return
+  }
+
+  // URLの場合は、http://やhttps://が付いていない場合は追加
+  if (
+    qr.qrCodeType.isUrl &&
+    !qrValue.startsWith('http://') &&
+    !qrValue.startsWith('https://')
+  ) {
+    window.open(`https://${qrValue}`, '_blank')
+    return
+  }
+
+  // その他の場合は、QRコードの値をそのままwindow.openで開く
+  // (mailto:, sms:, tel:, geo:, https://など、適切な形式で生成済み)
+  window.open(qrValue, '_blank')
+}
+
+// vCardファイルのダウンロード処理
+const downloadVCard = (vcardData: string): void => {
+  const blob = new Blob([vcardData], { type: 'text/vcard' })
+  const url = URL.createObjectURL(blob)
+  const link = document.createElement('a')
+  link.href = url
+  link.download = 'contact.vcf'
+  document.body.appendChild(link)
+  link.click()
+  document.body.removeChild(link)
+  URL.revokeObjectURL(url)
+}
+
 type Props = {
   children: ReactNode
   language: Language
   qr: QrCode
   onChange: (qr: QrCode) => void
   isValid?: boolean
+  onConfirm?: () => void
 }
 
 export const FormButton = React.forwardRef<HTMLDivElement, Props>(
-  ({ children, language, qr, onChange, isValid = true }, ref) => {
+  ({ children, language, qr, onChange, isValid = true, onConfirm }, ref) => {
     const { height, width, isLessLaptop, isOverLaptop } = useWindowSize()
     const { ref: qrRef } = useQrCode(language)
     const { successNotify, errorNotify, warningNotify } = useNotify()
@@ -255,8 +298,12 @@ export const FormButton = React.forwardRef<HTMLDivElement, Props>(
             </Button>
             <Button
               onClick={() => {
-                if (qr.qrValue.isUrl || qr.qrValue.isMap) {
-                  window.open(qr.qrValue.value)
+                // カスタムのonConfirmが提供されている場合はそれを使用
+                if (onConfirm) {
+                  onConfirm()
+                } else {
+                  // QRコードの実行処理
+                  executeQrCode(qr)
                 }
                 onClose()
               }}

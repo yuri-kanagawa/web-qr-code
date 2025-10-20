@@ -60,6 +60,38 @@ export class QrCodeType {
     return this._value
   }
 
+  get isUrl(): boolean {
+    return this._value === QrCodeType.URL
+  }
+
+  get isEmail(): boolean {
+    return this._value === QrCodeType.EMAIL
+  }
+
+  get isText(): boolean {
+    return this._value === QrCodeType.TEXT
+  }
+
+  get isSms(): boolean {
+    return this._value === QrCodeType.SMS
+  }
+
+  get isWifi(): boolean {
+    return this._value === QrCodeType.WIFI
+  }
+
+  get isContact(): boolean {
+    return this._value === QrCodeType.CONTACT
+  }
+
+  get isDevice(): boolean {
+    return this._value === QrCodeType.DEVICE
+  }
+
+  get isMap(): boolean {
+    return this._value === QrCodeType.MAP
+  }
+
   get isPhone(): boolean {
     return this._value === QrCodeType.PHONE
   }
