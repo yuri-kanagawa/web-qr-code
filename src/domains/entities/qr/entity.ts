@@ -159,6 +159,15 @@ export class QrCode {
     return this._data
   }
 
+  // 便利なプロパティ（よく使われるもの）
+  get colors() {
+    return this._settings.colors
+  }
+
+  get eye() {
+    return this._settings.eye
+  }
+
   get language(): Language {
     return this._language
   }
@@ -301,6 +310,26 @@ export class QrCode {
 
   changeToPhone(): QrCode {
     return this.updateQrCodeType((qrCodeType) => qrCodeType.changeToPhone())
+  }
+
+  // 色設定の変更
+  changeColors(
+    fgColor: string,
+    bgColor: string,
+    eyeColor1: string,
+    eyeColor2: string,
+    eyeColor3: string
+  ): QrCode {
+    return this.updateSettings((settings) =>
+      settings.changeColors(fgColor, bgColor, eyeColor1, eyeColor2, eyeColor3)
+    )
+  }
+
+  // 目の設定の変更
+  changeEye(radius1: number, radius2: number, radius3: number): QrCode {
+    return this.updateSettings((settings) =>
+      settings.changeEye(radius1, radius2, radius3)
+    )
   }
 
   // QRコードの有効性をチェック
