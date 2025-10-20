@@ -23,6 +23,7 @@ type Props = {
   trigger: any
   getHiddenItemsForField: (index: number, selectedOs?: number) => any
   remove: (index: number) => void
+  onDeviceDataChange: () => void
 }
 
 export const SortableDeviceItem: FC<Props> = ({
@@ -36,7 +37,8 @@ export const SortableDeviceItem: FC<Props> = ({
   setValue,
   trigger,
   getHiddenItemsForField,
-  remove
+  remove,
+  onDeviceDataChange
 }) => {
   const {
     attributes,
@@ -73,7 +75,11 @@ export const SortableDeviceItem: FC<Props> = ({
           style={{ position: 'absolute', inset: 0, zIndex: 0 }}
         />
         <IconButton
-          onClick={() => remove(index)}
+          onClick={() => {
+            remove(index)
+            // ドメインのdeviceDataを更新
+            onDeviceDataChange()
+          }}
           color="error"
           disabled={!canDelete}
           size="small"
@@ -120,6 +126,9 @@ export const SortableDeviceItem: FC<Props> = ({
 
                     // フォーム全体を再バリデーション
                     trigger()
+
+                    // ドメインのdeviceDataを更新
+                    onDeviceDataChange()
                   }}
                   language={language}
                   isRequired={true}
@@ -147,6 +156,8 @@ export const SortableDeviceItem: FC<Props> = ({
                     onChange(selectedDevice.value)
                     // フォーム全体を再バリデーション
                     trigger()
+                    // ドメインのdeviceDataを更新
+                    onDeviceDataChange()
                   }}
                   language={language}
                   isRequired={true}
@@ -163,7 +174,11 @@ export const SortableDeviceItem: FC<Props> = ({
             render={({ field: { value, onChange }, fieldState: { error } }) => (
               <UrlTextField
                 value={value}
-                onChange={onChange}
+                onChange={(newValue) => {
+                  onChange(newValue)
+                  // ドメインのdeviceDataを更新
+                  onDeviceDataChange()
+                }}
                 isRequired={true}
                 error={!!error}
                 helperText={error?.message}

@@ -1,8 +1,10 @@
 'use client'
 import { Language, QrCode } from '@/domains'
+import { DeviceQrCodeData } from '@/domains/entities/qr/data/DeviceQrCodeData'
 import { DeviceOsService } from '@/domains/services/deviceOs'
 import { Device } from '@/domains/valueObjects/device'
 import { Os } from '@/domains/valueObjects/os'
+import { Url } from '@/domains/valueObjects/url'
 import { FormButton } from '@/ui/fragments/form/FormButton'
 import {
   closestCenter,
@@ -33,14 +35,10 @@ type Props = {
 export const DeviceForm: FC<Props> = ({ language, qr, onChange }) => {
   const {
     control,
-    onConfirm,
-    onDownload,
-    ref,
-    url,
     formState: { isValid },
     setValue,
     trigger
-  } = useDeviceQrCodeForm({ language })
+  } = useDeviceQrCodeForm({ language, qr })
 
   const { fields, append, remove, move } = useFieldArray({
     control,
@@ -62,11 +60,56 @@ export const DeviceForm: FC<Props> = ({ language, qr, onChange }) => {
       const newIndex = fields.findIndex((field) => field.id === over.id)
 
       move(oldIndex, newIndex)
+      // ドメインのdeviceDataを更新
+      setTimeout(updateDeviceData, 0)
     }
   }
 
   // 現在のフォーム値を監視
   const devices = useWatch({ control, name: 'devices' })
+
+  // ドメインのdeviceDataを更新する関数
+  const updateDeviceData = () => {
+    if (!devices) return
+
+    // 有効な組み合わせのみ抽出
+    const valid = devices.filter(
+      (d) =>
+        typeof d?.device === 'number' &&
+        typeof d?.os === 'number' &&
+        typeof d?.url === 'string'
+    )
+
+    let deviceData = DeviceQrCodeData.default(language)
+
+    if (valid.length > 0) {
+      // 先頭要素を更新
+      const firstDevice = Device.create(valid[0].device, language)
+      const firstOs = Os.create(valid[0].os, language)
+      const firstUrl = Url.create(valid[0].url, language)
+      if (firstDevice.isSuccess && firstOs.isSuccess && firstUrl.isSuccess) {
+        deviceData = deviceData.updateDeviceOsUrl(
+          0,
+          firstDevice.device!,
+          firstOs.os!,
+          firstUrl.url!
+        )
+      }
+
+      // 2件目以降を追加
+      for (let i = 1; i < valid.length; i++) {
+        const dv = Device.create(valid[i].device, language)
+        const ov = Os.create(valid[i].os, language)
+        const uv = Url.create(valid[i].url, language)
+        if (dv.isSuccess && ov.isSuccess && uv.isSuccess) {
+          deviceData = deviceData.addDeviceOsUrl(dv.device!, ov.os!, uv.url!)
+        }
+      }
+    }
+
+    const next = qr.updateDeviceData(deviceData)
+    onChange(next)
+  }
 
   // ValueObjectヘルパー関数
   const createDeviceValueObject = (value: number) => {
@@ -270,12 +313,9 @@ export const DeviceForm: FC<Props> = ({ language, qr, onChange }) => {
 
   return (
     <FormButton
-      onConfirm={onConfirm}
-      onDownload={onDownload}
       language={language}
       qr={qr}
       onChange={onChange}
-      ref={ref}
       isValid={isValid}
     >
       <DndContext
@@ -309,6 +349,7 @@ export const DeviceForm: FC<Props> = ({ language, qr, onChange }) => {
                   trigger={trigger}
                   getHiddenItemsForField={getHiddenItemsForField}
                   remove={remove}
+                  onDeviceDataChange={updateDeviceData}
                 />
               )
             })}
@@ -321,6 +362,8 @@ export const DeviceForm: FC<Props> = ({ language, qr, onChange }) => {
                   device: notSetDevice.value,
                   url: ''
                 })
+                // ドメインのdeviceDataを更新
+                setTimeout(updateDeviceData, 0)
               }}
               variant="outlined"
               disabled={hasIncompleteDevices() || allCombinationsUsed()}
