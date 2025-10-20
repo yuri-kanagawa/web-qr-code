@@ -2,7 +2,7 @@ import { LocaleService } from '@/domains/services/locale'
 import { Language } from '@/domains/valueObjects/language'
 import { PhoneNumber } from '@/ui/cores/PhoneNumber/PhoneNumber'
 import { TextFieldProps } from '@mui/material/TextField/TextField'
-import { FC, useEffect, useState } from 'react'
+import { FC, useEffect, useRef, useState } from 'react'
 
 type Props = {
   value: string
@@ -10,6 +10,7 @@ type Props = {
   language: Language
   label: string
   isRequired?: boolean
+  inputRef?: React.Ref<HTMLInputElement>
 } & Omit<TextFieldProps, 'onChange' | 'value' | 'label'>
 
 /**
@@ -22,39 +23,90 @@ export const BasePhoneTextField: FC<Props> = ({
   language,
   label,
   isRequired = true,
+  inputRef,
   ...rest
 }) => {
   const displayLabel = isRequired ? `*${label}` : label
   const [defaultCountry, setDefaultCountry] = useState<string>('US')
   const [isMounted, setIsMounted] = useState(false)
+  const internalRef = useRef<any>(null)
 
   useEffect(() => {
     setIsMounted(true)
-    // クライアントサイドでのみ国コードを検出してHydration errorを回避
-    try {
-      const country = LocaleService.detectCountry()
-      if (country && country.code) {
-        setDefaultCountry(country.code)
-      }
-    } catch (error) {
-      console.error('Failed to detect country:', error)
-      // エラー時はデフォルトの'US'のまま
+    const country = LocaleService.detectCountry()
+    if (country?.code) {
+      setDefaultCountry(country.code)
     }
   }, [])
 
-  // クライアントサイドマウント後のみ表示
-  if (!isMounted) {
-    return null
+  // refを適切に処理してsetSelectionRangeエラーを防ぐ
+  useEffect(() => {
+    if (inputRef && internalRef.current) {
+      // inputRefが関数の場合
+      if (typeof inputRef === 'function') {
+        inputRef(internalRef.current)
+      } else if (inputRef.current !== undefined) {
+        // inputRefがオブジェクトの場合
+        inputRef.current = internalRef.current
+      }
+    }
+  }, [inputRef])
+
+  if (!isMounted) return null
+
+  const handleChange = (e: any) => {
+    const newValue = typeof e === 'string' ? e : e.target.value
+    // 常に値を更新（バリデーションはZodで行う）
+    onChange(newValue)
   }
+
+  const handleEvent =
+    (eventName: string, handler?: (e: any) => void) => (e: any) => {
+      try {
+        // setSelectionRangeエラーを防ぐための特別な処理
+        if (eventName === 'onKeyDown' || eventName === 'onInput') {
+          // ネイティブinput要素のsetSelectionRangeを安全に呼び出す
+          const inputElement = internalRef.current?.querySelector?.('input')
+          if (
+            inputElement &&
+            typeof inputElement.setSelectionRange === 'function'
+          ) {
+            try {
+              // 入力タイプがsetSelectionRangeをサポートしているかチェック
+              const supportedTypes = ['text', 'search', 'tel', 'url']
+              if (supportedTypes.includes(inputElement.type)) {
+                // カーソル位置を安全に設定
+                const cursorPosition = inputElement.selectionStart || 0
+                inputElement.setSelectionRange(cursorPosition, cursorPosition)
+              }
+            } catch (selectionError) {
+              // setSelectionRangeエラーを無視
+              console.warn('setSelectionRange error ignored:', selectionError)
+            }
+          }
+        }
+        handler?.(e)
+      } catch (error) {
+        console.error(`PhoneNumber ${eventName} error:`, error)
+      }
+    }
 
   return (
     <PhoneNumber
       label={displayLabel}
       defaultCountry={defaultCountry}
-      value={value}
-      onChange={(e) => onChange(typeof e === 'string' ? e : e.target.value)}
+      value={value || ''}
+      onChange={handleChange}
       variant="outlined"
       fullWidth
+      ref={internalRef}
+      disableFormatting={false}
+      preferredCountries={['US', 'JP']}
+      regions={['america', 'asia']}
+      onKeyDown={handleEvent('onKeyDown', rest.onKeyDown)}
+      onInput={handleEvent('onInput', rest.onInput)}
+      onBlur={handleEvent('onBlur', rest.onBlur)}
+      onFocus={handleEvent('onFocus', rest.onFocus)}
       {...rest}
     />
   )

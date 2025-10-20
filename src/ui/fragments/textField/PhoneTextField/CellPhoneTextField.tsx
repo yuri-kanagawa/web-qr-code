@@ -9,12 +9,14 @@ type Props = {
   language: Language
   label?: string
   isRequired?: boolean
+  inputRef?: React.Ref<HTMLInputElement>
 } & Omit<TextFieldProps, 'onChange' | 'value' | 'label' | 'isRequired'>
 
 export const CellPhoneTextField: FC<Props> = ({
   language,
   label,
   isRequired = true,
+  inputRef,
   ...rest
 }) => {
   const locale = language.locale
@@ -25,6 +27,7 @@ export const CellPhoneTextField: FC<Props> = ({
       language={language}
       label={displayLabel}
       isRequired={isRequired}
+      inputRef={inputRef}
     />
   )
 }
