@@ -1,7 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { SubmitErrorHandler, useForm } from 'react-hook-form'
 
-import { useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 
 import { Language, QrCode } from '@/domains'
 import { useQrCode } from '@/hooks'
@@ -47,9 +47,9 @@ export const useUrlQRCodeForm = ({ language, qr }: Props) => {
     defaultValues
   })
 
-  // useEffect(() => {
-  //   reset(defaultValues)
-  // }, [defaultValues, reset])
+  useEffect(() => {
+    reset(defaultValues)
+  }, [defaultValues, reset])
 
   const submitErrorHandler: SubmitErrorHandler<RegisterQrCodeUrlSchema> = (
     errors

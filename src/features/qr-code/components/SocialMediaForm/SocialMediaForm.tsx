@@ -5,8 +5,8 @@ import { LabelTextField, UrlTextField } from '@/ui/fragments/textField'
 import { Button, Stack } from '@mui/material'
 import { FC, useState } from 'react'
 import { Controller, useFieldArray } from 'react-hook-form'
-import { useSocialMediaQrCodeForm } from '../../hooks'
-import type { RegisterSocialMediaQrCodeSchema } from '../../hooks/zod'
+import { useSocialMediaQrCodeForm } from './hooks'
+import type { RegisterSocialMediaQrCodeSchema } from './hooks/zod'
 type Props = {
   language: Language
 }

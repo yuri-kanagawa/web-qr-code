@@ -4,7 +4,7 @@ import { Language } from '@/domains/valueObjects/language'
 import { PageWrapper } from '@/ui/fragments/pageWrapper'
 import { FC, useState } from 'react'
 
-import { PhoneForm } from '@/ui/fragments/form/QrForm'
+import { PhoneForm } from '@/features/qr-code'
 
 interface Props {
   language: Language

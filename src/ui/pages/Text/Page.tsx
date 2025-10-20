@@ -1,7 +1,7 @@
 'use client'
 import { QrCode } from '@/domains'
 import { Language } from '@/domains/valueObjects/language'
-import { TextForm } from '@/ui/fragments'
+import { TextForm } from '@/features/qr-code'
 import { FC, useState } from 'react'
 import { PageWrapper } from '../../fragments/pageWrapper'
 

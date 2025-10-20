@@ -1,4 +1,4 @@
-import { Language } from '@/domains/valueObjects/language'
+import { Language, QrCode } from '@/domains'
 import { SearchParamsManager } from '@/lib/browser'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useCallback, useEffect, useMemo } from 'react'
@@ -10,12 +10,10 @@ import {
 
 interface Props {
   language: Language
-  phoneNumber: string
-  body: string
+  qr: QrCode
 }
 
-export const useSmsQrCodeForm = ({ language, phoneNumber, body }: Props) => {
-
+export const useSmsQrCodeForm = ({ language, qr }: Props) => {
   const resetPhoneNumber = useCallback(() => {
     SearchParamsManager.remove(['phoneNumber'])
   }, [])
@@ -26,10 +24,10 @@ export const useSmsQrCodeForm = ({ language, phoneNumber, body }: Props) => {
 
   const defaultValues: RegisterQrCodeSmsSchema = useMemo(() => {
     return {
-      phoneNumber,
-      body
+      phoneNumber: qr.value.phoneNumber,
+      body: qr.value.body
     }
-  }, [phoneNumber, body])
+  }, [qr.value.phoneNumber, qr.value.body])
 
   const schema = useMemo(
     () => createRegisterQrCodeSmsSchema(language),
@@ -78,13 +76,14 @@ export const useSmsQrCodeForm = ({ language, phoneNumber, body }: Props) => {
       setFocus('phoneNumber')
       return
     }
-    return "qr-generated"
+    return 'qr-generated'
   }
 
   return {
     control,
     onConfirm: handleConfirm,
-    onDownload: () => console.log("Download functionality temporarily disabled"),
+    onDownload: () =>
+      console.log('Download functionality temporarily disabled'),
 
     ...rest
   }

@@ -1,4 +1,4 @@
-import { Language } from '@/domains/valueObjects/language'
+import { Language, QrCode } from '@/domains'
 import { BrowserGeoLocationRepository } from '@/infrastructure/repositories/external/geoLocation/client'
 import { IpApiGeoLocationRepository } from '@/infrastructure/repositories/external/geoLocation/server'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -8,20 +8,21 @@ import { registerQrCodeMapSchema, RegisterQrCodeMapSchema } from './zod'
 
 type Props = {
   language: Language
+  qr: QrCode
 }
 
-export const useMapQrCodeForm = ({ language }: Props) => {
+export const useMapQrCodeForm = ({ language, qr }: Props) => {
   const [isLoadingLocation, setIsLoadingLocation] = useState(true)
   const [isLoadingCurrentPosition, setIsLoadingCurrentPosition] =
     useState(false)
 
   const defaultValues: RegisterQrCodeMapSchema = useMemo(() => {
     return {
-      latitude: '',
-      longitude: '',
+      latitude: qr.latitude?.value?.toString() || '',
+      longitude: qr.longitude?.value?.toString() || '',
       language: language.value
     }
-  }, [language])
+  }, [language, qr.latitude, qr.longitude])
 
   const {
     handleSubmit,

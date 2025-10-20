@@ -1,11 +1,10 @@
-import { Language, QrCode } from '@/domains'
 import { FormButton } from '@/ui/fragments/form/FormButton'
 import { FormCard } from '@/ui/fragments/form/FormCard'
-import { useUrlQRCodeForm } from './hooks'
 import { UrlTextField } from '@/ui/fragments/textField'
 import { FC } from 'react'
 import { Controller } from 'react-hook-form'
 import { QrFormProps } from '../../types'
+import { useUrlQRCodeForm } from './hooks'
 
 export const UrlForm: FC<QrFormProps> = ({ language, qr, onChange }) => {
   const {

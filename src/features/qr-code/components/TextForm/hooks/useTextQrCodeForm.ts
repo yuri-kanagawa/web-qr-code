@@ -1,4 +1,4 @@
-import { Language } from '@/domains/valueObjects/language'
+import { Language, QrCode } from '@/domains'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMemo } from 'react'
 import { SubmitErrorHandler, useForm } from 'react-hook-form'
@@ -8,12 +8,12 @@ import {
 } from './zod'
 
 interface Props {
-  text: string
   language: Language
+  qr: QrCode
 }
-export const useTextQrCodeForm = ({ text, language }: Props) => {
+export const useTextQrCodeForm = ({ language, qr }: Props) => {
   const defaultValues: RegisterQrCodeTextSchema = {
-    text
+    text: qr.text.value
   }
 
   const schema = useMemo(

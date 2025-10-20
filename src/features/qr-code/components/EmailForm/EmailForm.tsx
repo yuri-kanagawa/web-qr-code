@@ -1,4 +1,3 @@
-import { Language, QrCode } from '@/domains'
 import { Stack } from '@/ui/cores'
 import { FormButton, FormCard } from '@/ui/fragments'
 import {
@@ -8,8 +7,8 @@ import {
 } from '@/ui/fragments/textField'
 import { FC } from 'react'
 import { Controller } from 'react-hook-form'
-import { useEmailQRCodeForm } from './hooks'
 import { QrFormProps } from '../../types'
+import { useEmailQRCodeForm } from './hooks'
 
 export const EmailForm: FC<QrFormProps> = ({ language, qr, onChange }) => {
   const {

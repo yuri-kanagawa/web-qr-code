@@ -1,1 +1,0 @@
-export { EmailFormSimple } from './EmailFormSimple'

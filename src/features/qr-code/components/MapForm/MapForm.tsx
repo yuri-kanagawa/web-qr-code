@@ -1,6 +1,4 @@
 'use client'
-import { QrCode } from '@/domains'
-import { Language } from '@/domains/valueObjects/language'
 import { FormButton } from '@/ui/fragments/form/FormButton'
 import { FormCard } from '@/ui/fragments/form/FormCard'
 import { GoogleMap } from '@/ui/fragments/map'
@@ -11,15 +9,10 @@ import {
 import { Button, Stack } from '@mui/material'
 import { FC, useRef } from 'react'
 import { Controller } from 'react-hook-form'
+import { QrFormProps } from '../../types'
 import { useMapQrCodeForm } from './hooks'
 
-type Props = {
-  language: Language
-  qr: QrCode
-  onChange: (qr: QrCode) => void
-}
-
-export const MapForm: FC<Props> = ({ language, qr, onChange }) => {
+export const MapForm: FC<QrFormProps> = ({ language, qr, onChange }) => {
   const ref = useRef<HTMLDivElement>(null)
   const {
     control,
@@ -29,7 +22,7 @@ export const MapForm: FC<Props> = ({ language, qr, onChange }) => {
     onSetCurrentLocation,
     isLoadingLocation,
     formState: { errors, isValid }
-  } = useMapQrCodeForm({ language })
+  } = useMapQrCodeForm({ language, qr })
 
   const values = watch()
   const latitudeIsValid = !errors.latitude

@@ -1,7 +1,7 @@
 import { Language } from '@/domains/valueObjects/language'
 import { useClientSearchParams } from '@/hooks/useClientSearchParams'
 import { SearchParamsManager } from '@/lib/browser'
-import { RegisterQrCodeUrlSchema } from '@/ui/fragments/form/QrForm/UrlForm/hooks'
+import { RegisterQrCodeUrlSchema } from '@/features/qr-code/components/UrlForm/hooks'
 import {
   registerQrCodePhoneSchema,
   RegisterQrCodePhoneSchema

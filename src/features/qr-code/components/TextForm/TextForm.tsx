@@ -1,22 +1,21 @@
-import { Language, QrCode } from '@/domains'
+import { QrCode } from '@/domains'
 import { FormButton } from '@/ui/fragments/form/FormButton'
 import { FormCard } from '@/ui/fragments/form/FormCard'
 import { TextTextField } from '@/ui/fragments/textField/TextTextField'
 import { FC, useState } from 'react'
 import { Controller } from 'react-hook-form'
+import { QrFormProps } from '../../types'
 import { useTextQrCodeForm } from './hooks'
 
-interface Props {
-  language: Language
-  qr: QrCode
-  onChange: (qr: QrCode) => void
-}
-
-export const TextForm: FC<Props> = ({ language, qr, onChange }: Props) => {
+export const TextForm: FC<QrFormProps> = ({
+  language,
+  qr,
+  onChange
+}: QrFormProps) => {
   const [currentQr, setCurrentQr] = useState<QrCode>(qr)
   const { control, watch } = useTextQrCodeForm({
-    text: qr.text?.value || '',
-    language
+    language,
+    qr
   })
 
   return (

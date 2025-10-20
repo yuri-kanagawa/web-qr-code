@@ -1,7 +1,7 @@
 'use client'
 import { QrCode } from '@/domains'
 import { Language } from '@/domains/valueObjects/language'
-import { EmailForm } from '@/ui/fragments'
+import { EmailForm } from '@/features/qr-code'
 import { PageWrapper } from '@/ui/fragments/pageWrapper'
 import { FC, useState } from 'react'
 

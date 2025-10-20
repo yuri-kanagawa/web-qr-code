@@ -1,2 +1,2 @@
-export { ContactForm } from './ContactForm'
+export * from './ContactForm'
 export { useContactQrCodeForm } from './hooks/useContactQrCodeForm'

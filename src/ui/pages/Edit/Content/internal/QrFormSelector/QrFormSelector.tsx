@@ -1,15 +1,15 @@
 import { Language } from '@/domains'
-import { useQr } from '@/stores'
 import {
-  ContactForm,
-  DeviceForm,
-  MapForm,
-  PhoneForm,
-  SmsForm,
-  TextForm,
-  UrlForm,
-  WiFiForm
+    ContactForm,
+    DeviceForm,
+    MapForm,
+    PhoneForm,
+    SmsForm,
+    TextForm,
+    UrlForm,
+    WiFiForm
 } from '@/features/qr-code'
+import { useQr } from '@/stores'
 import { Box, Typography } from '@mui/material'
 import { useRouter } from 'next/navigation'
 import { FC, useEffect, useMemo } from 'react'

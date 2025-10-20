@@ -1,28 +1,30 @@
-import { zodResolver } from '@hookform/resolvers/zod'
-import { SubmitErrorHandler, useForm, useWatch } from 'react-hook-form'
-import { createRegisterQrCodeWiFiSchema, type RegisterQrCodeWiFiSchema } from './zod'
-import { useEffect, useMemo } from 'react'
 import { Language, QrCode } from '@/domains'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useMemo } from 'react'
+import { SubmitErrorHandler, useForm } from 'react-hook-form'
+import {
+  createRegisterQrCodeWiFiSchema,
+  type RegisterQrCodeWiFiSchema
+} from './zod'
 
 interface Props {
   language: Language
   qr: QrCode
 }
 
-export const useWiFiQrCodeForm = ({
-  language,
-  qr
-}: Props) => {
-
+export const useWiFiQrCodeForm = ({ language, qr }: Props) => {
   const defaultValues: RegisterQrCodeWiFiSchema = useMemo(() => {
     return {
-      ssid: qr.wifiSsid?.value || '',
-      password: qr.wifiPassword?.value || '',
-      type: qr.wifiType?.value?.toString() || ''
+      ssid: qr.wifiSsid.value,
+      password: qr.wifiPassword.value,
+      type: qr.wifiType.value?.toString() || ''
     }
   }, [qr.wifiSsid, qr.wifiPassword, qr.wifiType])
 
-  const schema = useMemo(() => createRegisterQrCodeWiFiSchema(language), [language])
+  const schema = useMemo(
+    () => createRegisterQrCodeWiFiSchema(language),
+    [language]
+  )
 
   const {
     handleSubmit,

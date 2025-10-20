@@ -1,6 +1,7 @@
 'use client'
 import { Language, QrCode } from '@/domains'
-import { DeviceForm, PageWrapper } from '@/ui/fragments'
+import { PageWrapper } from '@/ui/fragments'
+import { DeviceForm } from '@/features/qr-code'
 import { useState } from 'react'
 
 interface Props {
