@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react'
+import { ReactNode, FC } from 'react'
 
 import { FormCard, OptionalForm } from '@/ui/fragments'
 
@@ -7,7 +7,7 @@ import { Language } from '@/domains/valueObjects/language'
 import { ConfirmButton, DownloadButton } from '@/features/qr-code'
 import { useQrCode, useWindowSize } from '@/hooks'
 import { Box, Stack } from '@/ui/cores'
-import GeneratedQrCode from '../../qrCode/GeneratedQrCode/GeneratedQrCode'
+import { GeneratedQrCode } from '@/features/qr-code'
 
 type Props = {
   children: ReactNode
@@ -17,87 +17,91 @@ type Props = {
   isValid?: boolean
 }
 
-export const FormButton: FC<Props> = (
-  ({ children, language, qr, onChange, isValid = true }: Props) => {
-    const { height, width, isLessLaptop, isOverLaptop } = useWindowSize()
-    const { ref: qrRef } = useQrCode(language)
+export const FormButton: FC<Props> = ({
+  children,
+  language,
+  qr,
+  onChange,
+  isValid = true
+}: Props) => {
+  const { height, width, isLessLaptop, isOverLaptop } = useWindowSize()
+  const { ref: qrRef } = useQrCode(language)
 
-    // QRコードが生成可能かチェック
-    const canGenerate =
-      isValid &&
-      qr.isValid() &&
-      qr.qrValue.value !== '' &&
-      qr.qrValue.value.trim() !== ''
+  // QRコードが生成可能かチェック
+  const canGenerate =
+    isValid &&
+    qr.isValid() &&
+    qr.qrValue.value !== '' &&
+    qr.qrValue.value.trim() !== ''
 
-    return (
-      <Box
-        sx={{
-          height: '100vh', // 画面全体の高さを固定
-          overflow: 'hidden' // 親要素でスクロールを無効化
-        }}
-      >
-        <Stack direction={'row'} spacing={10}>
-          <Box sx={{ position: 'relative' }}>
-            {/* スクロール可能なコンテンツエリア */}
+  return (
+    <Box
+      sx={{
+        height: '100vh', // 画面全体の高さを固定
+        overflow: 'hidden' // 親要素でスクロールを無効化
+      }}
+    >
+      <Stack direction={'row'} spacing={10}>
+        <Box sx={{ position: 'relative' }}>
+          {/* スクロール可能なコンテンツエリア */}
+          <Stack
+            spacing={4}
+            pt={3}
+            pb={2}
+            px={4}
+            sx={{
+              height: `calc(${height}px - 100px)`, // ボタンエリアの高さ分を引く
+              boxSizing: 'border-box',
+              overflowY: 'auto',
+              width: {
+                lg: 450 // ラップトップ以上の幅
+              }
+            }}
+          >
+            {children}
+            <FormCard cardProps={{ sx: { p: 2 } }}>
+              <OptionalForm language={language} qr={qr} onChange={onChange} />
+            </FormCard>
+          </Stack>
+
+          {/* 固定ボタンエリア */}
+          <Stack
+            sx={{
+              position: 'sticky',
+              bottom: 0,
+              backgroundColor: 'white',
+              zIndex: 1
+            }}
+          >
+            <GeneratedQrCode
+              isValid={canGenerate}
+              showHiddenIcon={true}
+              height={50}
+              width={50}
+              qr={qr}
+            />
             <Stack
-              spacing={4}
-              pt={3}
-              pb={2}
-              px={4}
-              sx={{
-                height: `calc(${height}px - 100px)`, // ボタンエリアの高さ分を引く
-                boxSizing: 'border-box',
-                overflowY: 'auto',
-                width: {
-                  lg: 450 // ラップトップ以上の幅
-                }
-              }}
+              direction={'row'}
+              spacing={2}
+              display={'flex'}
+              justifyContent={'center'}
+              pt={4}
+              pb={isOverLaptop ? 8 : 2}
             >
-              {children}
-              <FormCard cardProps={{ sx: { p: 2 } }}>
-                <OptionalForm language={language} qr={qr} onChange={onChange} />
-              </FormCard>
-            </Stack>
-
-            {/* 固定ボタンエリア */}
-            <Stack
-              sx={{
-                position: 'sticky',
-                bottom: 0,
-                backgroundColor: 'white',
-                zIndex: 1
-              }}
-            >
-              <GeneratedQrCode
-                file={qr.settings.logoFile}
-                isValid={canGenerate}
-                showHiddenIcon={true}
-                height={50}
-                width={50}
+              <ConfirmButton
                 qr={qr}
+                language={language}
+                isValid={canGenerate}
               />
-              <Stack
-                direction={'row'}
-                spacing={2}
-                display={'flex'}
-                justifyContent={'center'}
-                pt={4}
-                pb={isOverLaptop ? 8 : 2}
-              >
-                <ConfirmButton
-                  qr={qr}
-                  language={language}
-                  isValid={canGenerate}
-                />
-                <DownloadButton
-                  qr={qr}
-                  language={language}
-                  isValid={canGenerate}
-                />
-              </Stack>
+              <DownloadButton
+                qr={qr}
+                language={language}
+                isValid={canGenerate}
+              />
             </Stack>
-          </Box>
-          {/* {isOverLaptop && (
+          </Stack>
+        </Box>
+        {/* {isOverLaptop && (
             <Box
               sx={{ p: 2, height: 'calc(100vh - 100px)', overflow: 'hidden' }}
             >
@@ -125,9 +129,7 @@ export const FormButton: FC<Props> = (
               </FormCard>
             </Box>
           )} */}
-        </Stack>
-      </Box>
-    )
-  }
-)
-
+      </Stack>
+    </Box>
+  )
+}
