@@ -3,7 +3,7 @@
 import { QrCode } from '@/domains'
 import { Language } from '@/domains/valueObjects/language'
 import { Box, Button } from '@/ui/cores'
-import GeneratedQrCode from '@/ui/fragments/qrCode/GeneratedQrCode/GeneratedQrCode'
+import { GeneratedQrCode } from '@/features/qr-code'
 import { CircularProgress } from '@mui/material'
 import { FC, useCallback, useRef, useState } from 'react'
 
@@ -101,7 +101,6 @@ export const DownloadButton: FC<Props> = ({
           <GeneratedQrCode
             ref={qrRef}
             qr={qr}
-            file={qr.settings.logoFile}
             isValid={isValid && qr.isValid()}
           />
         )}
