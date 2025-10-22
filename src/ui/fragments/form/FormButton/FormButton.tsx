@@ -1,13 +1,16 @@
-import { ReactNode, FC } from 'react'
+import { FC, ReactNode } from 'react'
 
 import { FormCard, OptionalForm } from '@/ui/fragments'
 
 import { QrCode } from '@/domains'
 import { Language } from '@/domains/valueObjects/language'
-import { ConfirmButton, DownloadButton } from '@/features/qr-code'
+import {
+  ConfirmButton,
+  DownloadButton,
+  GeneratedQrCode
+} from '@/features/qr-code'
 import { useQrCode, useWindowSize } from '@/hooks'
 import { Box, Stack } from '@/ui/cores'
-import { GeneratedQrCode } from '@/features/qr-code'
 
 type Props = {
   children: ReactNode
