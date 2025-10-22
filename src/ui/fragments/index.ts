@@ -1,6 +1,5 @@
 export * from './box'
 export * from './button'
-export * from './floatingActionButton'
 export * from './form'
 export * from './input'
 export * from './loading'
