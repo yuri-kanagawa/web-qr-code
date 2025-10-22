@@ -458,14 +458,6 @@ export class QrCode {
     return this._validator.validate(this._qrCodeType, this._data)
   }
 
-  // 特定フィールドのバリデーション
-  validateField(
-    field: string,
-    value: string | undefined
-  ): ValidationError | null {
-    return this._validator.validateField(field, value, this._qrCodeType)
-  }
-
   // フィールド別のバリデーション結果を取得（ZodのformState.errorsと同等）
   getFieldErrors(): Record<string, ValidationError> {
     const validationResult = this.validate()
@@ -476,18 +468,6 @@ export class QrCode {
     })
 
     return fieldErrors
-  }
-
-  // 特定フィールドのエラーメッセージを取得
-  getFieldErrorMessage(field: string): string | undefined {
-    const fieldErrors = this.getFieldErrors()
-    return fieldErrors[field]?.message
-  }
-
-  // 特定フィールドが有効かどうかを取得
-  isFieldValid(field: string): boolean {
-    const fieldErrors = this.getFieldErrors()
-    return !fieldErrors[field]
   }
 
   // 全体的なバリデーション状態（ZodのisValidと同等）
