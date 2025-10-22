@@ -22,7 +22,7 @@ export const useEmailQRCodeForm = ({ language, qr }: Props) => {
       body: qr.body.value,
       language: language.value
     }
-  }, [language.value, qr.email.value, qr.subject.value, qr.body.value])
+  }, [language.value, qr.email, qr.subject, qr.body])
 
   const schema = useMemo(
     () => createRegisterQrCodeEmailSchema(language),
@@ -39,7 +39,7 @@ export const useEmailQRCodeForm = ({ language, qr }: Props) => {
 
   useEffect(() => {
     reset(defaultValues)
-  }, [defaultValues])
+  }, [defaultValues, reset])
 
   const submitErrorHandler: SubmitErrorHandler<RegisterQrCodeEmailSchema> = (
     errors
