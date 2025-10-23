@@ -1,4 +1,4 @@
 export { Language } from './valueObject'
-export type { LanguageKey } from './valueObject'
-export { LanguageResult } from './result'
+export type { LanguageKey } from '@/locales'
 export { LanguageValueError } from './error'
+export { LanguageResult } from './result'

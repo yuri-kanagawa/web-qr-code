@@ -23,22 +23,12 @@ export const InputFile: FC<Props> = ({
   language,
   ...props
 }) => {
-  console.log('InputFile props:', { file, onChange: typeof onChange, language })
-  console.log('InputFile language:', language)
-  console.log('InputFile language.locale:', language?.locale)
-  
-  if (!language) {
-    console.error('InputFile: language is undefined')
-    return null
-  }
-  
   const locale = language.locale
   const theme = useTheme()
   const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault()
     const droppedFiles = Array.from(event.dataTransfer.files)
     const droppedFile = droppedFiles[0] as File
-    console.log('InputFile: onChange called with droppedFile:', droppedFile)
     onChange(droppedFile)
   }
   const searchParams = useClientSearchParams()
@@ -55,7 +45,6 @@ export const InputFile: FC<Props> = ({
   ) => {
     const selectedFiles = Array.from(event.target.files || [])
     const selectedFile = selectedFiles[0]
-    console.log('InputFile: onChange called with selectedFile:', selectedFile)
     onChange(selectedFile)
   }
   useEffect(() => {
@@ -80,9 +69,7 @@ export const InputFile: FC<Props> = ({
     event.preventDefault()
   }
   const onRemove = () => {
-    console.log('onRemove called, current file:', file)
     if (!file) return
-    console.log('InputFile: onChange called with null (onRemove)')
     onChange(null)
     setImage(undefined)
   }

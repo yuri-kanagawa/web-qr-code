@@ -14,11 +14,7 @@ export const ContactPage: FC<Props> = (props) => {
 
   return (
     <PageWrapper language={currentQr.language}>
-      <ContactForm
-        language={currentQr.language}
-        qr={currentQr}
-        onChange={setCurrentQr}
-      />
+      <ContactForm qr={currentQr} onChange={setCurrentQr} />
     </PageWrapper>
   )
 }

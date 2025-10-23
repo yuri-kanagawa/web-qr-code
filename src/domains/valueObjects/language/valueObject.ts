@@ -36,10 +36,6 @@ export class Language {
     return this._value
   }
 
-  get label(): string {
-    return languages[this._value]
-  }
-
   get flag(): string {
     switch (this._value) {
       case 'en':

@@ -10,10 +10,3 @@ export const languages = {
 } as const
 
 export type LanguageKey = keyof typeof languages
-
-// ロケールマップ
-export const locales: Record<LanguageKey, Locale> = {
-  en: en,
-  ja: ja,
-  fr: en // フランス語はまだ実装されていないので英語を返す
-}

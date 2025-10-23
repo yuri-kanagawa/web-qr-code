@@ -1,18 +1,18 @@
 import { FC } from 'react'
 
-import { Language } from '@/domains/valueObjects/language'
+import { QrCode } from '@/domains'
 import { PageWrapper } from '../../fragments/pageWrapper'
 
 import { SocialMediaForm } from './_internal'
 
 type Props = {
-  language: Language
+  qr: QrCode
 }
 
-export const SocialMediaPage: FC<Props> = ({ language }) => {
+export const SocialMediaPage: FC<Props> = ({ qr }) => {
   return (
-    <PageWrapper language={language}>
-      <SocialMediaForm language={language} />
+    <PageWrapper language={qr.language}>
+      <SocialMediaForm qr={qr} onChange={() => {}} />
     </PageWrapper>
   )
 }

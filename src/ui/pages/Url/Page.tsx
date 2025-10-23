@@ -17,11 +17,7 @@ export const UrlPage = (props: Props) => {
 
   return (
     <PageWrapper language={currentQr.language}>
-      <UrlForm
-        language={currentQr.language}
-        qr={currentQr}
-        onChange={handleQrChange}
-      />
+      <UrlForm qr={currentQr} onChange={handleQrChange} />
     </PageWrapper>
   )
 }

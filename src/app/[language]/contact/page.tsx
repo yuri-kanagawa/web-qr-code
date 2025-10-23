@@ -7,8 +7,10 @@ type Props = {
 }
 
 export default function Page({ params }: Props) {
-  const { getLanguageFromParams } = require('../utils')
-  const language = getLanguageFromParams(params.language)
+  const result = Language.create(params.language)
+  if (language.isFailure) {
+    return notFound()
+  }
 
-  return <ContactPage qr={QrCode.default(language)} />
+  return <ContactPage qr={QrCode.default(result.language)} />
 }

@@ -16,7 +16,6 @@ export const PhonePage: FC<Props> = (props) => {
   return (
     <PageWrapper language={currentQr.language}>
       <PhoneForm
-        language={currentQr.language}
         qr={currentQr}
         onChange={(newQr) => {
           console.log('PhonePage onChange:', newQr.qrValue.value)

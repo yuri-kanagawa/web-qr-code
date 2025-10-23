@@ -4,7 +4,6 @@ import { Box, FormLabel, Stack, TextField } from '@mui/material'
 import { FC } from 'react'
 
 type Props = {
-  
   qr: QrCode
   onChange: (qr: QrCode) => void
 }

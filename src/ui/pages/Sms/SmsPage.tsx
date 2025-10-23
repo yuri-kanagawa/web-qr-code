@@ -1,21 +1,20 @@
 'use client'
-import React, { FC, useState } from 'react'
+import { FC, useState } from 'react'
 
-import { PageWrapper } from '@/ui/fragments'
+import { QrCode } from '@/domains'
 import { SmsForm } from '@/features/qr-code'
-import { Language, QrCode } from '@/domains'
+import { PageWrapper } from '@/ui/fragments'
 
-type Props = {
-  language: Language
+interface Props {
   qr: QrCode
 }
 
 export const SmsPage: FC<Props> = (props) => {
   const [currentQr, setCurrentQr] = useState<QrCode>(props.qr.changeToSms())
-  
+
   return (
-    <PageWrapper language={props.language}>
-      <SmsForm language={props.language} qr={currentQr} onChange={setCurrentQr} />
+    <PageWrapper language={currentQr.language}>
+      <SmsForm qr={currentQr} onChange={setCurrentQr} />
     </PageWrapper>
   )
 }

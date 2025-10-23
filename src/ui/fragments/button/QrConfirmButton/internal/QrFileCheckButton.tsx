@@ -4,20 +4,19 @@ import { useNotify } from '@/hooks'
 
 import { ReadQrFromFileUseCase } from '@/application/usecases'
 import { Language } from '@/domains/valueObjects/language'
-import { Qr as QrValue } from '@/domains/valueObjects/qr'
 import { QrScannerRepository } from '@/infrastructure/repositories'
 import { Button } from '@/ui/cores'
 
 type Props = {
   file: File | null
   setQr: (qr: QrCode) => void
-  language?: Language
+  language: Language
 }
 
 export const QrFileCheckButton: FC<Props> = ({
   file,
   setQr,
-  language = Language.default()
+  language 
 }) => {
   const { errorNotify } = useNotify()
   const locale = language.locale
