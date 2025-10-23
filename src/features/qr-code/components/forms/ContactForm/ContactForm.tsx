@@ -14,9 +14,17 @@ import { FormSection } from '@/ui/fragments/box'
 import { FormCard } from '@/ui/fragments/form'
 import { Controller } from 'react-hook-form'
 
+import { QrCode } from '@/domains'
+import { Language } from '@/domains/valueObjects/language'
 import { useContactQrCodeForm } from './hooks'
 
-export const ContactForm: FC<QrFormProps> = ({ language, qr, onChange }) => {
+interface Props {
+  language: Language
+  qr: QrCode
+  onChange: (qr: QrCode) => void
+}
+
+export const ContactForm: FC<Props> = ({ language, qr, onChange }) => {
   const locale = language.locale
   const {
     control,

@@ -1,14 +1,20 @@
 'use client'
 import { QrCode } from '@/domains'
+import { Language } from '@/domains/valueObjects/language'
 import { FormButton } from '@/features/qr-code'
 import { FormCard } from '@/ui/fragments/form/FormCard'
 import { CellPhoneTextField } from '@/ui/fragments/textField/PhoneTextField'
 import { FC, useState } from 'react'
 import { Controller } from 'react-hook-form'
-import { QrFormProps } from '../../types'
 import { usePhoneQrCodeForm } from './hooks/usePhoneQrCodeForm'
 
-export const PhoneForm: FC<QrFormProps> = ({ language, qr, onChange }) => {
+interface Props {
+  language: Language
+  qr: QrCode
+  onChange: (qr: QrCode) => void
+}
+
+export const PhoneForm: FC<Props> = ({ language, qr, onChange }) => {
   const [currentQr, setCurrentQr] = useState<QrCode>(qr)
   const { control, watch } = usePhoneQrCodeForm({ language, qr })
 

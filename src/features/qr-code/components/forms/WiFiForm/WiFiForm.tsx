@@ -6,11 +6,18 @@ import { EncryptionSelect, FormButton, SSIDTextField } from '@/features/qr-code'
 import { FormCard } from '@/ui/fragments/form/FormCard'
 import { PasswordTextField } from '@/ui/fragments/textField'
 
+import { QrCode } from '@/domains'
+import { Language } from '@/domains/valueObjects/language'
 import { WiFiType } from '@/domains/valueObjects/wifiType'
-import { QrFormProps } from '../../types'
 import { useWiFiQrCodeForm } from './hooks'
 
-export const WiFiForm = forwardRef<HTMLDivElement, QrFormProps>(
+interface Props {
+  language: Language
+  qr: QrCode
+  onChange: (qr: QrCode) => void
+}
+
+export const WiFiForm = forwardRef<HTMLDivElement, Props>(
   ({ language, qr, onChange }, ref) => {
     const {
       control,

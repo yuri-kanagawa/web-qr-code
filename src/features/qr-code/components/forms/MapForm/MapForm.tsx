@@ -1,4 +1,6 @@
 'use client'
+import { QrCode } from '@/domains'
+import { Language } from '@/domains/valueObjects/language'
 import { FormButton } from '@/features/qr-code'
 import { FormCard } from '@/ui/fragments/form/FormCard'
 import { GoogleMap } from '@/ui/fragments/map'
@@ -9,10 +11,15 @@ import {
 import { Button, Stack } from '@mui/material'
 import { FC, useRef } from 'react'
 import { Controller } from 'react-hook-form'
-import { QrFormProps } from '../../types'
 import { useMapQrCodeForm } from './hooks'
 
-export const MapForm: FC<QrFormProps> = ({ language, qr, onChange }) => {
+interface Props {
+  language: Language
+  qr: QrCode
+  onChange: (qr: QrCode) => void
+}
+
+export const MapForm: FC<Props> = ({ language, qr, onChange }) => {
   const ref = useRef<HTMLDivElement>(null)
   const {
     control,

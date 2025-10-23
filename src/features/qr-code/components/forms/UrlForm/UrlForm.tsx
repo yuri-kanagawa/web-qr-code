@@ -3,14 +3,21 @@ import { FormCard } from '@/ui/fragments/form/FormCard'
 import { UrlTextField } from '@/ui/fragments/textField'
 import { FC } from 'react'
 import { Controller } from 'react-hook-form'
-import { QrFormProps } from '../../types'
+
+import { QrCode } from '@/domains'
+import { Language } from '@/domains/valueObjects/language'
 import { useUrlQRCodeForm } from './hooks'
 
-export const UrlForm: FC<QrFormProps> = ({ language, qr, onChange }) => {
+interface Props {
+  language: Language
+  qr: QrCode
+  onChange: (qr: QrCode) => void
+}
+
+export const UrlForm: FC<Props> = ({ language, qr, onChange }) => {
   const {
     control,
-    formState: { isValid },
-    onConfirm
+    formState: { isValid }
   } = useUrlQRCodeForm({
     language,
     qr
@@ -22,7 +29,6 @@ export const UrlForm: FC<QrFormProps> = ({ language, qr, onChange }) => {
       qr={qr}
       language={language}
       onChange={onChange}
-      onConfirm={onConfirm}
     >
       <Controller
         control={control}

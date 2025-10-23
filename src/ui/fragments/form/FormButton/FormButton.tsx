@@ -1,7 +1,6 @@
 import { FC, ReactNode } from 'react'
 
-import { OptionalForm } from '@/features/qr-code'
-import { FormCard } from '@/ui/fragments'
+import { FormCard, OptionalForm } from '@/ui/fragments'
 
 import { QrCode } from '@/domains'
 import { Language } from '@/domains/valueObjects/language'

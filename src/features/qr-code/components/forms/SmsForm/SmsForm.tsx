@@ -1,3 +1,5 @@
+import { QrCode } from '@/domains'
+import { Language } from '@/domains/valueObjects/language'
 import { FormButton } from '@/features/qr-code'
 import { FormCard } from '@/ui/fragments/form'
 import { BodyTextField } from '@/ui/fragments/textField'
@@ -5,10 +7,15 @@ import { CellPhoneTextField } from '@/ui/fragments/textField/PhoneTextField'
 import { Stack } from '@mui/material'
 import { FC } from 'react'
 import { Controller } from 'react-hook-form'
-import { QrFormProps } from '../../types'
 import { useSmsQrCodeForm } from './hooks/useSmsQrCodeForm'
 
-export const SmsForm: FC<QrFormProps> = ({ language, qr, onChange }) => {
+interface Props {
+  language: Language
+  qr: QrCode
+  onChange: (qr: QrCode) => void
+}
+
+export const SmsForm: FC<Props> = ({ language, qr, onChange }) => {
   const {
     control,
     ref,

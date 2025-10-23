@@ -1,4 +1,3 @@
-'use client'
 import { QrCode } from '@/domains'
 import { Language } from '@/domains/valueObjects/language'
 import { PageWrapper } from '@/ui/fragments/pageWrapper'
@@ -12,9 +11,7 @@ interface Props {
 }
 
 export const PhonePage: FC<Props> = (props) => {
-  const [currentQr, setCurrentQr] = useState<QrCode>(
-    props.qr.changeToPhone()
-  )
+  const [currentQr, setCurrentQr] = useState<QrCode>(props.qr.changeToPhone())
 
   console.log('PhonePage currentQr:', currentQr.qrValue.value)
 

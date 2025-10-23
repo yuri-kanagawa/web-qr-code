@@ -1,6 +1,4 @@
 export * from './useClientSearchParams'
-export * from './useComponentSize'
 export * from './useDisclosure'
 export * from './useNotify'
-export * from './useQrCode'
 export * from './useWindowSize'

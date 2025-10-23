@@ -1,3 +1,5 @@
+import { QrCode } from '@/domains'
+import { Language } from '@/domains/valueObjects/language'
 import { FormButton } from '@/features/qr-code'
 import { Stack } from '@/ui/cores'
 import { FormCard } from '@/ui/fragments'
@@ -8,10 +10,15 @@ import {
 } from '@/ui/fragments/textField'
 import { FC } from 'react'
 import { Controller } from 'react-hook-form'
-import { QrFormProps } from '../../types'
 import { useEmailQRCodeForm } from './hooks'
 
-export const EmailForm: FC<QrFormProps> = ({ language, qr, onChange }) => {
+interface Props {
+  language: Language
+  qr: QrCode
+  onChange: (qr: QrCode) => void
+}
+
+export const EmailForm: FC<Props> = ({ language, qr, onChange }) => {
   const {
     control,
     onDownload,
