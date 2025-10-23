@@ -5,21 +5,18 @@ import { FC } from 'react'
 import { Controller } from 'react-hook-form'
 
 import { QrCode } from '@/domains'
-import { Language } from '@/domains/valueObjects/language'
 import { useUrlQRCodeForm } from './hooks'
 
 interface Props {
-  language: Language
   qr: QrCode
   onChange: (qr: QrCode) => void
 }
 
-export const UrlForm: FC<Props> = ({ language, qr, onChange }) => {
+export const UrlForm: FC<Props> = ({ qr, onChange }) => {
   const {
     control,
     formState: { isValid }
   } = useUrlQRCodeForm({
-    language,
     qr
   })
 
@@ -27,7 +24,6 @@ export const UrlForm: FC<Props> = ({ language, qr, onChange }) => {
     <FormButton
       isValid={isValid}
       qr={qr}
-      language={language}
       onChange={onChange}
     >
       <Controller

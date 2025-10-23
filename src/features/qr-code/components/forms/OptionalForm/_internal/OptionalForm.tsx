@@ -1,5 +1,4 @@
 import { QrCode } from '@/domains'
-import { Language } from '@/domains/valueObjects/language'
 import { Stack } from '@/ui/cores'
 import { FormSection } from '@/ui/fragments/box'
 import { FormControlLabel, Switch } from '@mui/material'
@@ -16,12 +15,12 @@ import { Opacity } from './Opacity'
 import { Size } from './Size'
 
 type Props = {
-  language: Language
+  
   qr: QrCode
   onChange: (qr: QrCode) => void
 }
-export const OptionalForm: FC<Props> = ({ language, qr, onChange }) => {
-  const locale = language.locale
+export const OptionalForm: FC<Props> = ({ qr, onChange }) => {
+  const locale = qr.qr.language.locale
   const [individualEyeSettings, setIndividualEyeSettings] = useState(false)
   const file = qr.settings.logoFile
 
@@ -68,7 +67,7 @@ export const OptionalForm: FC<Props> = ({ language, qr, onChange }) => {
 
       {/* 目の個別設定スイッチ */}
       <FormSection
-        label={language.isEnglish ? 'Eye Configuration' : '目の設定方法'}
+        label={qr.language.isEnglish ? 'Eye Configuration' : '目の設定方法'}
       >
         <FormControlLabel
           control={
@@ -77,7 +76,7 @@ export const OptionalForm: FC<Props> = ({ language, qr, onChange }) => {
               onChange={(e) => handleToggle(e.target.checked)}
             />
           }
-          label={language.isEnglish ? 'Individual Settings' : '個別設定'}
+          label={qr.language.isEnglish ? 'Individual Settings' : '個別設定'}
         />
       </FormSection>
 

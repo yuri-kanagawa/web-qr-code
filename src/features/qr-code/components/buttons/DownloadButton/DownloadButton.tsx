@@ -1,7 +1,6 @@
 'use client'
 
 import { QrCode } from '@/domains'
-import { Language } from '@/domains/valueObjects/language'
 import { Box, Button } from '@/ui/cores'
 import { GeneratedQrCode } from '@/features/qr-code'
 import { CircularProgress } from '@mui/material'
@@ -24,7 +23,7 @@ export const DownloadButton: FC<Props> = ({
 }) => {
   const [internalLoading, setInternalLoading] = useState(false)
   const loading = isLoading || internalLoading
-  const locale = language.locale
+  const locale = qr.qr.language.locale
   const qrRef = useRef<HTMLDivElement>(null)
 
   const generateFileName = (): string => {
@@ -113,7 +112,7 @@ export const DownloadButton: FC<Props> = ({
         {loading ? (
           <>
             <CircularProgress size={20} sx={{ mr: 1, color: 'white' }} />
-            {language.isEnglish ? 'Downloading...' : 'ダウンロード中...'}
+            {qr.language.isEnglish ? 'Downloading...' : 'ダウンロード中...'}
           </>
         ) : (
           locale.word.buttons.download

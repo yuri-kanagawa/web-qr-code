@@ -3,21 +3,20 @@ import { SubmitErrorHandler, useForm } from 'react-hook-form'
 
 import { useEffect, useMemo } from 'react'
 
-import { Language, QrCode } from '@/domains'
+import { QrCode } from '@/domains'
 import {
   createRegisterQrCodeUrlSchema,
   type RegisterQrCodeUrlSchema
 } from './zod'
 
 type Props = {
-  language: Language
   qr: QrCode
 }
 
-export const useUrlQRCodeForm = ({ language, qr }: Props) => {
+export const useUrlQRCodeForm = ({ qr }: Props) => {
   const schema = useMemo(
-    () => createRegisterQrCodeUrlSchema(language),
-    [language]
+    () => createRegisterQrCodeUrlSchema(qr.language),
+    [qr.language]
   )
 
   const defaultValues: RegisterQrCodeUrlSchema = useMemo(() => {

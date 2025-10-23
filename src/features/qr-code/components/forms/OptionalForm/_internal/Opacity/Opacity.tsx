@@ -1,19 +1,18 @@
 import { QrCode } from '@/domains'
-import { Language } from '@/domains/valueObjects/language'
 import { Step01Slider } from '@/ui/fragments/slider'
 import { Box, FormLabel, Stack, TextField } from '@mui/material'
 import { FC } from 'react'
 
 type Props = {
-  language: Language
+  
   qr: QrCode
   onChange: (qr: QrCode) => void
 }
 
-export const Opacity: FC<Props> = ({ language, qr, onChange }) => {
+export const Opacity: FC<Props> = ({ qr, onChange }) => {
   const file = qr.settings.logoFile
   const isRelationFileDisabled = file == null
-  const locale = language.locale
+  const locale = qr.qr.language.locale
 
   const updateLogoOpacity = (opacity: number) => {
     const newQr = qr.updateSettings((settings) =>
@@ -63,7 +62,7 @@ export const Opacity: FC<Props> = ({ language, qr, onChange }) => {
       </FormLabel>
       <Stack spacing={3}>
         <TextField
-          label={language.isEnglish ? 'Current Opacity' : '現在の透明度'}
+          label={qr.language.isEnglish ? 'Current Opacity' : '現在の透明度'}
           type="number"
           size="small"
           value={qr.settings.logo.opacity ?? 1}

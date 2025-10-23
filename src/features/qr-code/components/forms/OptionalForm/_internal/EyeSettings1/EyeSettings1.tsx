@@ -1,5 +1,4 @@
 import { QrCode } from '@/domains'
-import { Language } from '@/domains/valueObjects/language'
 import { EyeRadius as EyeRadiusClass } from '@/domains/valueObjects/qrSettings'
 import { useWindowSize } from '@/hooks'
 import { ColorInput } from '@/ui/cores/input'
@@ -13,20 +12,18 @@ import { Box, Slider, Stack, TextField } from '@mui/material'
 import { FC } from 'react'
 
 type Props = {
-  language: Language
   isUnified?: boolean
   qr: QrCode
   onChange: (qr: QrCode) => void
 }
 
 export const EyeSettings1: FC<Props> = ({
-  language,
   isUnified = false,
   qr,
   onChange
 }) => {
   const { isOverLaptop } = useWindowSize()
-  const locale = language.locale
+  const locale = qr.qr.language.locale
 
   const handleRadiusChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const numValue = Number(event.target.value)
@@ -98,10 +95,10 @@ export const EyeSettings1: FC<Props> = ({
   }
 
   const label = isUnified
-    ? language.isEnglish
+    ? qr.language.isEnglish
       ? 'Eye Settings'
       : '目の設定'
-    : language.isEnglish
+    : qr.language.isEnglish
       ? 'Eye (Top Left)'
       : '目（左上）'
 
@@ -114,7 +111,7 @@ export const EyeSettings1: FC<Props> = ({
         <ColorInput
           format="hex"
           value={qr.settings.colors.eyeColor1.value}
-          label={language.isEnglish ? 'Color' : '色'}
+          label={qr.language.isEnglish ? 'Color' : '色'}
           onChange={handleColorChange}
           isAlphaHidden={true}
         />
@@ -136,7 +133,7 @@ export const EyeSettings1: FC<Props> = ({
           </Box>
         )}
         <TextField
-          label={language.isEnglish ? 'Corner Radius' : '角の丸み'}
+          label={qr.language.isEnglish ? 'Corner Radius' : '角の丸み'}
           type="number"
           size="small"
           value={qr.settings.eye.radius1}
@@ -168,11 +165,11 @@ export const EyeSettings1: FC<Props> = ({
         />
         {contrastInfo.hasLowContrast && (
           <WarningAlert
-            language={language}
-            title={language.isEnglish ? 'Eye Color Warning' : '目の色警告'}
+            language={qr.language}
+            title={qr.language.isEnglish ? 'Eye Color Warning' : '目の色警告'}
             messages={contrastInfo.warningMessages}
             recommendedText={
-              language.isEnglish
+              qr.language.isEnglish
                 ? 'Recommended contrast ratio: 3.0:1 or higher'
                 : '推奨コントラスト比: 3.0:1以上'
             }

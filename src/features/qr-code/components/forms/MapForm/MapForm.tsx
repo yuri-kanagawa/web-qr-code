@@ -1,6 +1,5 @@
 'use client'
 import { QrCode } from '@/domains'
-import { Language } from '@/domains/valueObjects/language'
 import { FormButton } from '@/features/qr-code'
 import { FormCard } from '@/ui/fragments/form/FormCard'
 import { GoogleMap } from '@/ui/fragments/map'
@@ -14,12 +13,11 @@ import { Controller } from 'react-hook-form'
 import { useMapQrCodeForm } from './hooks'
 
 interface Props {
-  language: Language
   qr: QrCode
   onChange: (qr: QrCode) => void
 }
 
-export const MapForm: FC<Props> = ({ language, qr, onChange }) => {
+export const MapForm: FC<Props> = ({ qr, onChange }) => {
   const ref = useRef<HTMLDivElement>(null)
   const {
     control,
@@ -29,7 +27,7 @@ export const MapForm: FC<Props> = ({ language, qr, onChange }) => {
     onSetCurrentLocation,
     isLoadingLocation,
     formState: { errors, isValid }
-  } = useMapQrCodeForm({ language, qr })
+  } = useMapQrCodeForm({ qr })
 
   const values = watch()
   const latitudeIsValid = !errors.latitude
@@ -50,7 +48,6 @@ export const MapForm: FC<Props> = ({ language, qr, onChange }) => {
       onConfirm={onConfirm}
       onDownload={onDownload}
       isValid={latitudeIsValid && longitudeIsValid}
-      language={language}
       qr={qr}
       onChange={onChange}
       ref={ref}
@@ -63,7 +60,7 @@ export const MapForm: FC<Props> = ({ language, qr, onChange }) => {
             fullWidth
             disabled={isLoadingLocation}
           >
-            {language.locale.message.common.buttons.getCurrentLocation}
+            {qr.language.locale.message.common.buttons.getCurrentLocation}
           </Button>
           <Controller
             control={control}

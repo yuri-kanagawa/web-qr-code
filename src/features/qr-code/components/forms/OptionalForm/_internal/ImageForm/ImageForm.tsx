@@ -2,7 +2,6 @@ import { InputFile } from '@/ui/fragments/input/InputFile/InputFile'
 import { FC } from 'react'
 
 import { QrCode } from '@/domains'
-import { Language } from '@/domains/valueObjects/language'
 import { HeightSlider, WidthSlider } from '@/ui/fragments/slider'
 import { Box, Stack, TextField } from '@mui/material'
 import { memo } from 'react'
@@ -151,7 +150,7 @@ export const ImageForm: FC<Props> = memo(
         {/* 数値入力欄（パーセンテージ） */}
         <Stack direction="row" spacing={2}>
           <TextField
-            label={language.isEnglish ? 'Width (%)' : '幅 (%)'}
+            label={qr.language.isEnglish ? 'Width (%)' : '幅 (%)'}
             type="number"
             size="small"
             value={qr.settings.logo.width || ''}
@@ -177,7 +176,7 @@ export const ImageForm: FC<Props> = memo(
             sx={{ flex: 1 }}
           />
           <TextField
-            label={language.isEnglish ? 'Height (%)' : '高さ (%)'}
+            label={qr.language.isEnglish ? 'Height (%)' : '高さ (%)'}
             type="number"
             size="small"
             value={qr.settings.logo.height || ''}

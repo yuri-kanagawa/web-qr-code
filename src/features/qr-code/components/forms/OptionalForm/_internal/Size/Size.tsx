@@ -1,19 +1,18 @@
 import { QrCode } from '@/domains'
-import { Language } from '@/domains/valueObjects/language'
 import { useWindowSize } from '@/hooks'
 import { WarningAlert } from '@/ui/fragments/box'
 import { Box, FormLabel, Slider, Stack, TextField } from '@mui/material'
 import { FC, useEffect, useMemo, useState } from 'react'
 
 type Props = {
-  language: Language
+  
   qr: QrCode
   onChange: (qr: QrCode) => void
 }
 
-export const Size: FC<Props> = ({ language, qr, onChange }) => {
+export const Size: FC<Props> = ({ qr, onChange }) => {
   const { height, width } = useWindowSize()
-  const locale = language.locale
+  const locale = qr.qr.language.locale
   const [savedMaxSize, setSavedMaxSize] = useState<number | null>(null)
 
   // 画面サイズから計算される推奨最大値
@@ -108,7 +107,7 @@ export const Size: FC<Props> = ({ language, qr, onChange }) => {
       </FormLabel>
       <Stack spacing={3}>
         <TextField
-          label={language.isEnglish ? 'Current Size' : '現在のサイズ'}
+          label={qr.language.isEnglish ? 'Current Size' : '現在のサイズ'}
           type="number"
           size="small"
           value={qr.settings.size.value}
@@ -138,7 +137,7 @@ export const Size: FC<Props> = ({ language, qr, onChange }) => {
             sx={{ flex: 1 }}
           />
           <TextField
-            label={language.isEnglish ? 'Max' : '最大値'}
+            label={qr.language.isEnglish ? 'Max' : '最大値'}
             type="number"
             size="small"
             value={currentMaxSize}
@@ -151,10 +150,10 @@ export const Size: FC<Props> = ({ language, qr, onChange }) => {
           <WarningAlert
             language={language}
             title={
-              language.isEnglish ? 'Size Display Warning' : 'サイズ表示警告'
+              qr.language.isEnglish ? 'Size Display Warning' : 'サイズ表示警告'
             }
             messages={[
-              language.isEnglish
+              qr.language.isEnglish
                 ? 'Actual size may be larger than displayed'
                 : '実際のサイズは表示より大きくなります'
             ]}
@@ -164,15 +163,15 @@ export const Size: FC<Props> = ({ language, qr, onChange }) => {
           <WarningAlert
             language={language}
             title={
-              language.isEnglish ? 'QR Code Size Warning' : 'QRコードサイズ警告'
+              qr.language.isEnglish ? 'QR Code Size Warning' : 'QRコードサイズ警告'
             }
             messages={[
-              language.isEnglish
+              qr.language.isEnglish
                 ? 'Size less than 75 may cause reading failure'
                 : '75未満だと読み込みに失敗します'
             ]}
             recommendedText={
-              language.isEnglish
+              qr.language.isEnglish
                 ? 'Recommended size: 75 or higher'
                 : '推奨サイズ: 75以上'
             }

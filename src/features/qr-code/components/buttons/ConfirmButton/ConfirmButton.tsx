@@ -12,7 +12,6 @@ import {
 import { FC, useCallback, useMemo } from 'react'
 
 import { QrCode } from '@/domains'
-import { Language } from '@/domains/valueObjects/language'
 import { useDisclosure } from '@/hooks/useDisclosure'
 
 type Props = {
@@ -31,7 +30,7 @@ export const ConfirmButton: FC<Props> = ({
   isLoading = false
 }) => {
   const { onOpen, onClose, isOpen } = useDisclosure()
-  const locale = language.locale
+  const locale = qr.qr.language.locale
 
   const onConfirm = async () => {
     console.log('=== ConfirmButton onConfirm 開始 ===')
@@ -109,7 +108,7 @@ export const ConfirmButton: FC<Props> = ({
         {isLoading ? (
           <>
             <CircularProgress size={20} sx={{ mr: 1, color: 'white' }} />
-            {language.isEnglish ? 'Processing...' : '処理中...'}
+            {qr.language.isEnglish ? 'Processing...' : '処理中...'}
           </>
         ) : (
           locale.word.buttons.confirm

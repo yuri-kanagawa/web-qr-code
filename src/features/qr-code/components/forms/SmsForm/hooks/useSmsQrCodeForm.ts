@@ -1,7 +1,6 @@
-import { Language, QrCode } from '@/domains'
-import { SearchParamsManager } from '@/lib/browser'
+import { QrCode } from '@/domains'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useCallback, useEffect, useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 import { SubmitErrorHandler, useForm } from 'react-hook-form'
 import {
   createRegisterQrCodeSmsSchema,
@@ -9,19 +8,10 @@ import {
 } from './zod'
 
 interface Props {
-  language: Language
   qr: QrCode
 }
 
-export const useSmsQrCodeForm = ({ language, qr }: Props) => {
-  const resetPhoneNumber = useCallback(() => {
-    SearchParamsManager.remove(['phoneNumber'])
-  }, [])
-
-  const resetBody = useCallback(() => {
-    SearchParamsManager.remove(['body'])
-  }, [])
-
+export const useSmsQrCodeForm = ({ qr }: Props) => {
   const defaultValues: RegisterQrCodeSmsSchema = useMemo(() => {
     return {
       phoneNumber: qr.phoneNumber.value,
@@ -30,8 +20,8 @@ export const useSmsQrCodeForm = ({ language, qr }: Props) => {
   }, [qr.phoneNumber, qr.body])
 
   const schema = useMemo(
-    () => createRegisterQrCodeSmsSchema(language),
-    [language]
+    () => createRegisterQrCodeSmsSchema(qr.language),
+    [qr.language]
   )
 
   const {

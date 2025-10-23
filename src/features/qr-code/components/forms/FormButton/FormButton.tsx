@@ -4,7 +4,6 @@ import { OptionalForm } from '@/features/qr-code'
 import { FormCard } from '@/ui/fragments'
 
 import { QrCode } from '@/domains'
-import { Language } from '@/domains/valueObjects/language'
 import {
   ConfirmButton,
   DownloadButton,
@@ -15,7 +14,6 @@ import { Box, Stack } from '@/ui/cores'
 
 type Props = {
   children: ReactNode
-  language: Language
   qr: QrCode
   onChange: (qr: QrCode) => void
   isValid?: boolean
@@ -23,7 +21,6 @@ type Props = {
 
 export const FormButton: FC<Props> = ({
   children,
-  language,
   qr,
   onChange,
   isValid = true
@@ -63,7 +60,7 @@ export const FormButton: FC<Props> = ({
           >
             {children}
             <FormCard cardProps={{ sx: { p: 2 } }}>
-              <OptionalForm language={language} qr={qr} onChange={onChange} />
+              <OptionalForm qr={qr} onChange={onChange} />
             </FormCard>
           </Stack>
 
@@ -93,12 +90,12 @@ export const FormButton: FC<Props> = ({
             >
               <ConfirmButton
                 qr={qr}
-                language={language}
+                language={qr.language}
                 isValid={canGenerate}
               />
               <DownloadButton
                 qr={qr}
-                language={language}
+                language={qr.language}
                 isValid={canGenerate}
               />
             </Stack>

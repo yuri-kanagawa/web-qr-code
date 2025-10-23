@@ -1,16 +1,15 @@
 import { QrCode } from '@/domains'
-import { Language } from '@/domains/valueObjects/language'
 import { LogoPaddingStyleSelect } from '@/features/qr-code'
 import { FC } from 'react'
 
 type Props = {
-  language: Language
+  
   qr: QrCode
   onChange: (qr: QrCode) => void
 }
 
-export const LogoPadding: FC<Props> = ({ language, qr, onChange }) => {
-  const locale = language.locale
+export const LogoPadding: FC<Props> = ({ qr, onChange }) => {
+  const locale = qr.qr.language.locale
   const file = qr.settings.logoFile
   const isDisabled = file === null
 

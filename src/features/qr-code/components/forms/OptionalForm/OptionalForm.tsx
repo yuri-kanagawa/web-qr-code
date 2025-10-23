@@ -1,5 +1,4 @@
 import { QrCode } from '@/domains'
-import { Language } from '@/domains/valueObjects/language'
 import { Stack } from '@/ui/cores'
 import { FormSection } from '@/ui/fragments/box'
 import { FormControlLabel, Switch } from '@mui/material'
@@ -16,12 +15,11 @@ import { Opacity } from './_internal/Opacity'
 import { Size } from './_internal/Size'
 
 type Props = {
-  language: Language
   qr: QrCode
   onChange: (qr: QrCode) => void
 }
-export const OptionalForm: FC<Props> = ({ language, qr, onChange }) => {
-  const locale = language.locale
+export const OptionalForm: FC<Props> = ({ qr, onChange }) => {
+  const locale = qr.language.locale
   const [individualEyeSettings, setIndividualEyeSettings] = useState(false)
   const file = qr.settings.logoFile
 
@@ -56,11 +54,11 @@ export const OptionalForm: FC<Props> = ({ language, qr, onChange }) => {
 
   return (
     <Stack spacing={4}>
-      <Size language={language} qr={qr} onChange={onChange} />
-      <BgColor language={language} qr={qr} onChange={onChange} />
-      <FgColor language={language} qr={qr} onChange={onChange} />
+      <Size language={qr.language} qr={qr} onChange={onChange} />
+      <BgColor language={qr.language} qr={qr} onChange={onChange} />
+      <FgColor language={qr.language} qr={qr} onChange={onChange} />
       <EcLevel
-        language={language}
+        language={qr.language}
         qr={qr}
         hasLogo={!!file}
         onChange={onChange}
@@ -68,7 +66,7 @@ export const OptionalForm: FC<Props> = ({ language, qr, onChange }) => {
 
       {/* 目の個別設定スイッチ */}
       <FormSection
-        label={language.isEnglish ? 'Eye Configuration' : '目の設定方法'}
+        label={qr.language.isEnglish ? 'Eye Configuration' : '目の設定方法'}
       >
         <FormControlLabel
           control={
@@ -77,33 +75,33 @@ export const OptionalForm: FC<Props> = ({ language, qr, onChange }) => {
               onChange={(e) => handleToggle(e.target.checked)}
             />
           }
-          label={language.isEnglish ? 'Individual Settings' : '個別設定'}
+          label={qr.language.isEnglish ? 'Individual Settings' : '個別設定'}
         />
       </FormSection>
 
       {individualEyeSettings ? (
         <>
           <EyeSettings1
-            language={language}
+            language={qr.language}
             isUnified={false}
             qr={qr}
             onChange={onChange}
           />
-          <EyeSettings2 language={language} qr={qr} onChange={onChange} />
-          <EyeSettings3 language={language} qr={qr} onChange={onChange} />
+          <EyeSettings2 language={qr.language} qr={qr} onChange={onChange} />
+          <EyeSettings3 language={qr.language} qr={qr} onChange={onChange} />
         </>
       ) : (
         <EyeSettings1
-          language={language}
+          language={qr.language}
           isUnified={true}
           qr={qr}
           onChange={onChange}
         />
       )}
 
-      <Logo language={language} qr={qr} onChange={onChange} />
-      <Opacity language={language} qr={qr} onChange={onChange} />
-      <LogoPadding language={language} qr={qr} onChange={onChange} />
+      <Logo language={qr.language} qr={qr} onChange={onChange} />
+      <Opacity language={qr.language} qr={qr} onChange={onChange} />
+      <LogoPadding language={qr.language} qr={qr} onChange={onChange} />
     </Stack>
   )
 }

@@ -1,4 +1,4 @@
-import { Language, QrCode } from '@/domains'
+import { QrCode } from '@/domains'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMemo } from 'react'
 import { SubmitErrorHandler, useForm } from 'react-hook-form'
@@ -8,11 +8,10 @@ import {
 } from './zod'
 
 interface Props {
-  language: Language
   qr: QrCode
 }
 
-export function useContactQrCodeForm({ language, qr }: Props) {
+export function useContactQrCodeForm({ qr }: Props) {
   const defaultValues: RegisterQrCodeContactSchema = {
     firstName: qr.firstName.value,
     lastName: qr.lastName.value,
@@ -31,8 +30,8 @@ export function useContactQrCodeForm({ language, qr }: Props) {
   }
 
   const schema = useMemo(
-    () => createRegisterQrCodeContactSchema(language),
-    [language]
+    () => createRegisterQrCodeContactSchema(qr.language),
+    [qr.language]
   )
 
   const { handleSubmit, setFocus, getFieldState, ...rest } =

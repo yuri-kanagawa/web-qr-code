@@ -1,18 +1,17 @@
 import { QrCode } from '@/domains'
-import { Language } from '@/domains/valueObjects/language'
 import { WarningAlert } from '@/ui/fragments/box'
 import { Box, FormLabel, Stack } from '@mui/material'
 import { FC } from 'react'
 import { ImageForm } from '../ImageForm/ImageForm'
 
 type Props = {
-  language: Language
+  
   qr: QrCode
   onChange: (qr: QrCode) => void
 }
 
-export const Logo: FC<Props> = ({ language, qr, onChange }) => {
-  const locale = language.locale
+export const Logo: FC<Props> = ({ qr, onChange }) => {
+  const locale = qr.qr.language.locale
   const file = qr.settings.logoFile
 
   // ロゴサイズの警告チェック（パーセンテージベース）
@@ -82,20 +81,20 @@ export const Logo: FC<Props> = ({ language, qr, onChange }) => {
       {file && isLogoTooLarge && (
         <WarningAlert
           language={language}
-          title={language.isEnglish ? 'Logo Size Warning' : 'ロゴサイズ警告'}
+          title={qr.language.isEnglish ? 'Logo Size Warning' : 'ロゴサイズ警告'}
           messages={[
-            language.isEnglish
+            qr.language.isEnglish
               ? `Logo size is too large (${logoWidthPercent}%×${logoHeightPercent}%)`
               : `ロゴサイズが大きすぎます (${logoWidthPercent}%×${logoHeightPercent}%)`,
-            language.isEnglish
+            qr.language.isEnglish
               ? `Covers ${logoAreaRatio.toFixed(1)}% of QR code area`
               : `QRコード領域の${logoAreaRatio.toFixed(1)}%を覆っています`,
-            language.isEnglish
+            qr.language.isEnglish
               ? 'Large logos may cover the eye patterns and cause reading failure'
               : '大きなロゴは目の部分を覆い、読み取りに失敗する可能性があります'
           ]}
           recommendedText={
-            language.isEnglish
+            qr.language.isEnglish
               ? `Recommended size: ${maxRecommendedPercent}% or smaller`
               : `推奨サイズ: ${maxRecommendedPercent}%以下`
           }

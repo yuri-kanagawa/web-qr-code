@@ -1,4 +1,4 @@
-import { Language, QrCode } from '@/domains'
+import { QrCode } from '@/domains'
 import { BrowserGeoLocationRepository } from '@/infrastructure/repositories/external/geoLocation/client'
 import { IpApiGeoLocationRepository } from '@/infrastructure/repositories/external/geoLocation/server'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -7,11 +7,10 @@ import { SubmitErrorHandler, useForm } from 'react-hook-form'
 import { registerQrCodeMapSchema, RegisterQrCodeMapSchema } from './zod'
 
 type Props = {
-  language: Language
   qr: QrCode
 }
 
-export const useMapQrCodeForm = ({ language, qr }: Props) => {
+export const useMapQrCodeForm = ({ qr }: Props) => {
   const [isLoadingLocation, setIsLoadingLocation] = useState(true)
   const [isLoadingCurrentPosition, setIsLoadingCurrentPosition] =
     useState(false)

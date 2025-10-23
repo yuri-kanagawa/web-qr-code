@@ -15,30 +15,26 @@ import { FormCard } from '@/ui/fragments/form'
 import { Controller } from 'react-hook-form'
 
 import { QrCode } from '@/domains'
-import { Language } from '@/domains/valueObjects/language'
 import { useContactQrCodeForm } from './hooks'
 
 interface Props {
-  language: Language
   qr: QrCode
   onChange: (qr: QrCode) => void
 }
 
-export const ContactForm: FC<Props> = ({ language, qr, onChange }) => {
-  const locale = language.locale
+export const ContactForm: FC<Props> = ({ qr, onChange }) => {
+  const locale = qr.language.locale
   const {
     control,
 
     watch,
     formState: { isValid }
   } = useContactQrCodeForm({
-    language,
     qr
   })
 
   return (
     <FormButton
-      language={language}
       isValid={isValid}
       qr={qr}
       onChange={onChange}
@@ -47,7 +43,7 @@ export const ContactForm: FC<Props> = ({ language, qr, onChange }) => {
         <Stack spacing={3}>
           {/* 基本情報 */}
           <FormSection
-            label={language.isEnglish ? 'Basic Information' : '基本情報'}
+            label={qr.language.isEnglish ? 'Basic Information' : '基本情報'}
           >
             <Stack spacing={2}>
               <Controller
@@ -189,7 +185,7 @@ export const ContactForm: FC<Props> = ({ language, qr, onChange }) => {
 
           {/* ビジネス情報 */}
           <FormSection
-            label={language.isEnglish ? 'Business Information' : 'ビジネス情報'}
+            label={qr.language.isEnglish ? 'Business Information' : 'ビジネス情報'}
           >
             <Stack spacing={2}>
               <Controller

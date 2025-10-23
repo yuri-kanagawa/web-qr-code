@@ -55,8 +55,8 @@ export const SocialMediaForm: FC<Props> = ({ language }) => {
                       onChange(selectedSocialMedia.value)
                     }
                     isOptional={true}
-                    language={language}
-                    label={language.locale.word.select.socialMedia}
+                    language={qr.language}
+                    label={qr.language.locale.word.select.socialMedia}
                   />
                 )
               }}

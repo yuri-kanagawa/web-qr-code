@@ -1,18 +1,17 @@
 import { QrCode } from '@/domains'
-import { Language } from '@/domains/valueObjects/language'
 import { WarningAlert } from '@/ui/fragments/box'
 import { Stack } from '@mui/material'
 import { MuiColorInput } from 'mui-color-input'
 import { FC } from 'react'
 
 type Props = {
-  language: Language
+  
   qr: QrCode
   onChange: (qr: QrCode) => void
 }
 
-export const FgColor: FC<Props> = ({ language, qr, onChange }) => {
-  const locale = language.locale
+export const FgColor: FC<Props> = ({ qr, onChange }) => {
+  const locale = qr.qr.language.locale
 
   // 前景色と背景色のコントラスト比チェック
   const fgBgContrast = qr.settings.colors.getContrastRatio(
@@ -44,14 +43,14 @@ export const FgColor: FC<Props> = ({ language, qr, onChange }) => {
       {hasLowContrast && (
         <WarningAlert
           language={language}
-          title={language.isEnglish ? 'Foreground Color Warning' : '前景色警告'}
+          title={qr.language.isEnglish ? 'Foreground Color Warning' : '前景色警告'}
           messages={[
-            language.isEnglish
+            qr.language.isEnglish
               ? `Low contrast with background color (${fgBgContrast.toFixed(1)}:1)`
               : `背景色とのコントラスト比が低いです (${fgBgContrast.toFixed(1)}:1)`
           ]}
           recommendedText={
-            language.isEnglish
+            qr.language.isEnglish
               ? 'Recommended contrast ratio: 3.0:1 or higher'
               : '推奨コントラスト比: 3.0:1以上'
           }

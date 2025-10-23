@@ -1,5 +1,4 @@
 import { QrCode } from '@/domains'
-import { Language } from '@/domains/valueObjects/language'
 import { FormButton } from '@/features/qr-code'
 import { Stack } from '@/ui/cores'
 import { FormCard } from '@/ui/fragments'
@@ -13,12 +12,11 @@ import { Controller } from 'react-hook-form'
 import { useEmailQRCodeForm } from './hooks'
 
 interface Props {
-  language: Language
   qr: QrCode
   onChange: (qr: QrCode) => void
 }
 
-export const EmailForm: FC<Props> = ({ language, qr, onChange }) => {
+export const EmailForm: FC<Props> = ({ qr, onChange }) => {
   const {
     control,
     onDownload,
@@ -26,7 +24,6 @@ export const EmailForm: FC<Props> = ({ language, qr, onChange }) => {
     watch,
     formState: { isValid }
   } = useEmailQRCodeForm({
-    language,
     qr
   })
 
@@ -35,7 +32,6 @@ export const EmailForm: FC<Props> = ({ language, qr, onChange }) => {
       onConfirm={onConfirm}
       onDownload={onDownload}
       isValid={isValid}
-      language={language}
       qr={qr}
       onChange={onChange}
     >
