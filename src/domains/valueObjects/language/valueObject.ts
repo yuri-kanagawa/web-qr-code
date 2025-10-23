@@ -2,8 +2,6 @@ import { LanguageKey, languages, Locale, locales } from '@/locales'
 import { LanguageValueError } from './error'
 import { LanguageResult } from './result'
 
-export type { LanguageKey }
-
 export class Language {
   private readonly _value: LanguageKey
 
@@ -72,7 +70,10 @@ export class Language {
   get locale(): Locale {
     const locale = locales[this._value]
     if (!locale) {
-      console.error('Language.locale: locale is undefined for value:', this._value)
+      console.error(
+        'Language.locale: locale is undefined for value:',
+        this._value
+      )
       console.error('Language.locale: locales:', locales)
     }
     return locale
