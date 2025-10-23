@@ -10,5 +10,5 @@ export default function Page({ params }: Props) {
   const { getLanguageFromParams } = require('../utils')
   const language = getLanguageFromParams(params.language)
 
-  return <WiFiPage language={language} qr={QrCode.default(language)} />
+  return <WiFiPage qr={QrCode.default(language)} />
 }

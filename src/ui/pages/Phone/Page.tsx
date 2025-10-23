@@ -1,12 +1,10 @@
 import { QrCode } from '@/domains'
-import { Language } from '@/domains/valueObjects/language'
 import { PageWrapper } from '@/ui/fragments/pageWrapper'
 import { FC, useState } from 'react'
 
 import { PhoneForm } from '@/features/qr-code'
 
 interface Props {
-  language: Language
   qr: QrCode
 }
 
@@ -16,9 +14,9 @@ export const PhonePage: FC<Props> = (props) => {
   console.log('PhonePage currentQr:', currentQr.qrValue.value)
 
   return (
-    <PageWrapper language={props.language}>
+    <PageWrapper language={currentQr.language}>
       <PhoneForm
-        language={props.language}
+        language={currentQr.language}
         qr={currentQr}
         onChange={(newQr) => {
           console.log('PhonePage onChange:', newQr.qrValue.value)

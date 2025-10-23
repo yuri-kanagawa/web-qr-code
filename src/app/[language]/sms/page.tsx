@@ -1,5 +1,5 @@
 'use client'
-import { Language, QrCode } from '@/domains'
+import { QrCode } from '@/domains'
 import { SmsPage } from '@/ui/pages/Sms'
 
 type Props = {
@@ -10,5 +10,5 @@ export default function Page({ params }: Props) {
   const { getLanguageFromParams } = require('../utils')
   const language = getLanguageFromParams(params.language)
 
-  return <SmsPage language={language} qr={QrCode.default(language)} />
+  return <SmsPage qr={QrCode.default(language)} />
 }
