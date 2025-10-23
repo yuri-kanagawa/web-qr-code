@@ -1,22 +1,11 @@
-import { PhoneNumber } from '@/domains/valueObjects/phoneNumber'
+import { createPhoneNumberZodSchema } from '@/domains/valueObjects/phoneNumber/zod'
 import { z } from 'zod'
 
-export const phoneNumber = z.string().refine(
-  (data) => {
-    // 空文字列は許可
-    if (data.trim().length === 0) {
-      return true
-    }
-    return PhoneNumber.isValidFormat(data)
-  },
-  {
-    message: 'Invalid phone number format'
-  }
-)
+export const createRegisterQrCodePhoneSchema = (language: any) =>
+  z.object({
+    phoneNumber: createPhoneNumberZodSchema(language)
+  })
 
-export const registerQrCodePhoneSchema = z.object({
-  phoneNumber
-})
 export type RegisterQrCodePhoneSchema = z.infer<
-  typeof registerQrCodePhoneSchema
+  ReturnType<typeof createRegisterQrCodePhoneSchema>
 >

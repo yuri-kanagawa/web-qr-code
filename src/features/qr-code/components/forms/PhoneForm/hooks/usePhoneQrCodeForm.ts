@@ -2,7 +2,7 @@ import { QrCode } from '@/domains'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useEffect, useMemo } from 'react'
 import { useForm } from 'react-hook-form'
-import { registerQrCodePhoneSchema, RegisterQrCodePhoneSchema } from './zod'
+import { createRegisterQrCodePhoneSchema, RegisterQrCodePhoneSchema } from './zod'
 
 type Props = {
   qr: QrCode
@@ -19,7 +19,7 @@ export const usePhoneQrCodeForm = ({ qr }: Props) => {
     {
       defaultValues,
       mode: 'onChange',
-      resolver: zodResolver(registerQrCodePhoneSchema)
+      resolver: zodResolver(createRegisterQrCodePhoneSchema(qr.language))
     }
   )
 

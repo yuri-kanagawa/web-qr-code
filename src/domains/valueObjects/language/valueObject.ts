@@ -74,6 +74,11 @@ export class Language {
   }
 
   get locale(): Locale {
-    return locales[this._value]
+    const locale = locales[this._value]
+    if (!locale) {
+      console.error('Language.locale: locale is undefined for value:', this._value)
+      console.error('Language.locale: locales:', locales)
+    }
+    return locale
   }
 }

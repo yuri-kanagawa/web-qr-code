@@ -4,7 +4,7 @@ import { IpApiGeoLocationRepository } from '@/infrastructure/repositories/extern
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useEffect, useMemo, useState } from 'react'
 import { SubmitErrorHandler, useForm } from 'react-hook-form'
-import { registerQrCodeMapSchema, RegisterQrCodeMapSchema } from './zod'
+import { createRegisterQrCodeMapSchema, RegisterQrCodeMapSchema } from './zod'
 
 type Props = {
   qr: QrCode
@@ -35,7 +35,7 @@ export const useMapQrCodeForm = ({ qr }: Props) => {
     formState,
     ...rest
   } = useForm<RegisterQrCodeMapSchema>({
-    resolver: zodResolver(registerQrCodeMapSchema),
+    resolver: zodResolver(createRegisterQrCodeMapSchema(qr.language)),
     mode: 'onChange',
     reValidateMode: 'onSubmit',
     defaultValues
