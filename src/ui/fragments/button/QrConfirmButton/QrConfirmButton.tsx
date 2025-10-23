@@ -1,8 +1,8 @@
 import { Language } from '@/domains/valueObjects/language'
 import { Qr as QrValue } from '@/domains/valueObjects/qr'
+import { QrInformationDialog } from '@/features/qr-code'
 import { FC, useState } from 'react'
 import { QrFileCheckButton } from './internal'
-import { QrInformationDialog } from './internal/QrInformationDialog'
 
 type Props = {
   file: File | null
