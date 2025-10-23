@@ -54,11 +54,10 @@ export const OptionalForm: FC<Props> = ({ qr, onChange }) => {
 
   return (
     <Stack spacing={4}>
-      <Size language={qr.language} qr={qr} onChange={onChange} />
-      <BgColor language={qr.language} qr={qr} onChange={onChange} />
-      <FgColor language={qr.language} qr={qr} onChange={onChange} />
+      <Size qr={qr} onChange={onChange} />
+      <BgColor qr={qr} onChange={onChange} />
+      <FgColor qr={qr} onChange={onChange} />
       <EcLevel
-        language={qr.language}
         qr={qr}
         hasLogo={!!file}
         onChange={onChange}
@@ -82,26 +81,24 @@ export const OptionalForm: FC<Props> = ({ qr, onChange }) => {
       {individualEyeSettings ? (
         <>
           <EyeSettings1
-            language={qr.language}
             isUnified={false}
             qr={qr}
             onChange={onChange}
           />
-          <EyeSettings2 language={qr.language} qr={qr} onChange={onChange} />
-          <EyeSettings3 language={qr.language} qr={qr} onChange={onChange} />
+          <EyeSettings2 qr={qr} onChange={onChange} />
+          <EyeSettings3 qr={qr} onChange={onChange} />
         </>
       ) : (
         <EyeSettings1
-          language={qr.language}
           isUnified={true}
           qr={qr}
           onChange={onChange}
         />
       )}
 
-      <Logo language={qr.language} qr={qr} onChange={onChange} />
-      <Opacity language={qr.language} qr={qr} onChange={onChange} />
-      <LogoPadding language={qr.language} qr={qr} onChange={onChange} />
+      <Logo qr={qr} onChange={onChange} />
+      <Opacity qr={qr} onChange={onChange} />
+      <LogoPadding qr={qr} onChange={onChange} />
     </Stack>
   )
 }
