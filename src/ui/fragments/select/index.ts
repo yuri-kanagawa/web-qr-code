@@ -1,7 +1,0 @@
-export * from './DeviceSelect'
-export * from './EcLevelSelect'
-export * from './EncryptionSelect'
-export * from './LogoPaddingStyleSelect'
-export * from './OsSelect'
-export * from './SocialMediaSelect'
-export * from './LanguageSelect'

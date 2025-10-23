@@ -1,6 +1,6 @@
 import { QrCode } from '@/domains'
 import { Language } from '@/domains/valueObjects/language'
-import { LogoPaddingStyleSelect } from '@/ui/fragments/select'
+import { LogoPaddingStyleSelect } from '@/features/qr-code'
 import { FC } from 'react'
 
 type Props = {

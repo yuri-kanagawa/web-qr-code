@@ -27,8 +27,8 @@ export class Qr {
     return new Qr('', language)
   }
 
-  static default(): Qr {
-    return new Qr('', Language.default())
+  static default(language: Language): Qr {
+    return new Qr('', language)
   }
 
   get value(): string {

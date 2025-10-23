@@ -2,15 +2,13 @@ import { Stack } from '@mui/material'
 import { forwardRef } from 'react'
 import { Controller } from 'react-hook-form'
 
-import { FormButton } from '@/ui/fragments/form/FormButton'
+import { EncryptionSelect, FormButton, SSIDTextField } from '@/features/qr-code'
 import { FormCard } from '@/ui/fragments/form/FormCard'
-import { EncryptionSelect } from '@/ui/fragments/select'
-import { PasswordTextField, SSIDTextField } from '@/ui/fragments/textField'
+import { PasswordTextField } from '@/ui/fragments/textField'
 
-import { Language, QrCode } from '@/domains'
 import { WiFiType } from '@/domains/valueObjects/wifiType'
-import { useWiFiQrCodeForm } from './hooks'
 import { QrFormProps } from '../../types'
+import { useWiFiQrCodeForm } from './hooks'
 
 export const WiFiForm = forwardRef<HTMLDivElement, QrFormProps>(
   ({ language, qr, onChange }, ref) => {

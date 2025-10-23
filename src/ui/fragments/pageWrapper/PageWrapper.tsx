@@ -2,7 +2,6 @@
 
 import { Backdrop, Box } from '@mui/material'
 
-import { useComponentSize } from '@/hooks/useComponentSize'
 import React from 'react'
 
 import { Language } from '@/domains/valueObjects/language'

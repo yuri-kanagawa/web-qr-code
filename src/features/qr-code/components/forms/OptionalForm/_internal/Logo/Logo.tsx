@@ -1,9 +1,9 @@
 import { QrCode } from '@/domains'
 import { Language } from '@/domains/valueObjects/language'
 import { WarningAlert } from '@/ui/fragments/box'
-import { ImageForm } from '@/ui/fragments/form/OptionalForm/ImageForm/ImageForm'
 import { Box, FormLabel, Stack } from '@mui/material'
 import { FC } from 'react'
+import { ImageForm } from '../ImageForm/ImageForm'
 
 type Props = {
   language: Language

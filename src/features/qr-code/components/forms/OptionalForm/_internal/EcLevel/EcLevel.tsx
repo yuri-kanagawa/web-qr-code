@@ -1,7 +1,7 @@
 import { QrCode } from '@/domains'
 import { Language } from '@/domains/valueObjects/language'
+import { EcLevelSelect } from '@/features/qr-code'
 import { WarningAlert } from '@/ui/fragments/box'
-import { EcLevelSelect } from '@/ui/fragments/select'
 import { Stack } from '@mui/material'
 import { FC } from 'react'
 

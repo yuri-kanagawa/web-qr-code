@@ -8,21 +8,19 @@ import {
 import { CellPhoneTextField } from '@/ui/fragments/textField/PhoneTextField'
 import { FC } from 'react'
 
-import { QrCode } from '@/domains'
-import { Language } from '@/domains/valueObjects/language'
+import { FormButton } from '@/features/qr-code'
 import { Stack, TextField } from '@/ui/cores'
 import { FormSection } from '@/ui/fragments/box'
-import { FormButton, FormCard } from '@/ui/fragments/form'
+import { FormCard } from '@/ui/fragments/form'
 import { Controller } from 'react-hook-form'
+
 import { useContactQrCodeForm } from './hooks'
-import { QrFormProps } from '../../types'
 
 export const ContactForm: FC<QrFormProps> = ({ language, qr, onChange }) => {
   const locale = language.locale
   const {
     control,
-    onConfirm,
-    onDownload,
+
     watch,
     formState: { isValid }
   } = useContactQrCodeForm({
@@ -32,8 +30,6 @@ export const ContactForm: FC<QrFormProps> = ({ language, qr, onChange }) => {
 
   return (
     <FormButton
-      onConfirm={onConfirm}
-      onDownload={onDownload}
       language={language}
       isValid={isValid}
       qr={qr}

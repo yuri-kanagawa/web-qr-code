@@ -5,7 +5,7 @@ import { DeviceOsService } from '@/domains/services/deviceOs'
 import { Device } from '@/domains/valueObjects/device'
 import { Os } from '@/domains/valueObjects/os'
 import { Url } from '@/domains/valueObjects/url'
-import { FormButton } from '@/ui/fragments/form/FormButton'
+import { FormButton } from '@/features/qr-code'
 import {
   closestCenter,
   DndContext,

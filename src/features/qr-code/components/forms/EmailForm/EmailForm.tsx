@@ -1,5 +1,6 @@
+import { FormButton } from '@/features/qr-code'
 import { Stack } from '@/ui/cores'
-import { FormButton, FormCard } from '@/ui/fragments'
+import { FormCard } from '@/ui/fragments'
 import {
   BodyTextField,
   EmailTextField,

@@ -86,7 +86,6 @@ export const InputFile: FC<Props> = ({
           height={props.height}
           sx={{ position: 'relative' }}
         >
-          {console.log('InputFile render:', { file, showFileSelect: !file })}
           {!file && (
             <div onDrop={handleDrop} onDragOver={handleDragOver}>
               <Box

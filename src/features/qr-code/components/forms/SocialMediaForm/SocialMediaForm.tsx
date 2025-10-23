@@ -1,6 +1,5 @@
 import { Language, QrCode, SocialMedia } from '@/domains'
-import { FormButton } from '@/ui/fragments/form/FormButton'
-import { SocialMediaSelect } from '@/ui/fragments/select'
+import { FormButton, SocialMediaSelect } from '@/features/qr-code'
 import { LabelTextField, UrlTextField } from '@/ui/fragments/textField'
 import { Button, Stack } from '@mui/material'
 import { FC, useState } from 'react'

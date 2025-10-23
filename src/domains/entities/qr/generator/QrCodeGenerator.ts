@@ -38,7 +38,7 @@ export class QrCodeGenerator {
       case QrCodeType.PHONE:
         return this.generatePhoneQr(data, language)
       default:
-        return QrValue.default()
+        return QrValue.default(language)
     }
   }
 
@@ -53,10 +53,10 @@ export class QrCodeGenerator {
       console.log('generateQrValue URL case - _url.value:', data.url.value)
       const result = QrValue.create(data.url.value, language)
       console.log('generateQrValue URL case - QrValue.create result:', result)
-      return result.qr || QrValue.default()
+      return result.qr || QrValue.default(language)
     }
     console.log('generateQrValue URL case - returning default')
-    return QrValue.default()
+    return QrValue.default(language)
   }
 
   private static generateEmailQr(
@@ -74,17 +74,17 @@ export class QrCodeGenerator {
         `mailto:${data.email.value}${subject}${body}`,
         language
       )
-      return result.qr || QrValue.default()
+      return result.qr || QrValue.default(language)
     }
-    return QrValue.default()
+    return QrValue.default(language)
   }
 
   private static generateTextQr(data: QrCodeData, language: Language): QrValue {
     if (data.text && !data.text.isEmpty) {
       const result = QrValue.create(data.text.value, language)
-      return result.qr || QrValue.default()
+      return result.qr || QrValue.default(language)
     }
-    return QrValue.default()
+    return QrValue.default(language)
   }
 
   private static generateSmsQr(data: QrCodeData, language: Language): QrValue {
@@ -96,9 +96,9 @@ export class QrCodeGenerator {
         `sms:${data.phoneNumber.value}${body}`,
         language
       )
-      return result.qr || QrValue.default()
+      return result.qr || QrValue.default(language)
     }
-    return QrValue.default()
+    return QrValue.default(language)
   }
 
   private static generateWifiQr(data: QrCodeData, language: Language): QrValue {
@@ -109,9 +109,9 @@ export class QrCodeGenerator {
         `WIFI:S:${data.wifiSsid.value}${password}${type};H:false;;`,
         language
       )
-      return result.qr || QrValue.default()
+      return result.qr || QrValue.default(language)
     }
-    return QrValue.default()
+    return QrValue.default(language)
   }
 
   private static generateContactQr(
@@ -152,9 +152,9 @@ export class QrCodeGenerator {
 
       vcard += 'END:VCARD'
       const result = QrValue.create(vcard, language)
-      return result.qr || QrValue.default()
+      return result.qr || QrValue.default(language)
     }
-    return QrValue.default()
+    return QrValue.default(language)
   }
 
   private static generateDeviceQr(
@@ -163,7 +163,7 @@ export class QrCodeGenerator {
     deviceData?: DeviceQrCodeData
   ): QrValue {
     if (!deviceData) {
-      return QrValue.default()
+      return QrValue.default(language)
     }
 
     const pathBuilder = new PathBuilder(language)
@@ -174,7 +174,7 @@ export class QrCodeGenerator {
 
     if (validDeviceOsUrls.length === 0) {
       const result = QrValue.create(baseUrl, language)
-      return result.qr || QrValue.default()
+      return result.qr || QrValue.default(language)
     }
 
     const deviceOsParams = validDeviceOsUrls
@@ -187,12 +187,12 @@ export class QrCodeGenerator {
 
     if (!deviceOsParams || !urlsParams) {
       const result = QrValue.create(baseUrl, language)
-      return result.qr || QrValue.default()
+      return result.qr || QrValue.default(language)
     }
 
     const redirectUrl = `${baseUrl}?deviceOs=${deviceOsParams}&urls=${urlsParams}`
     const result = QrValue.create(redirectUrl, language)
-    return result.qr || QrValue.default()
+    return result.qr || QrValue.default(language)
   }
 
   private static generateMapQr(data: QrCodeData, language: Language): QrValue {
@@ -201,9 +201,9 @@ export class QrCodeGenerator {
         `geo:${data.latitude.value},${data.longitude.value}`,
         language
       )
-      return result.qr || QrValue.default()
+      return result.qr || QrValue.default(language)
     }
-    return QrValue.default()
+    return QrValue.default(language)
   }
 
   private static generatePhoneQr(
@@ -215,9 +215,9 @@ export class QrCodeGenerator {
       const telValue = `tel:${data.phoneNumber.value}`
       console.log('generateQrValue phone telValue:', telValue)
       const result = QrValue.create(telValue, language)
-      return result.qr || QrValue.default()
+      return result.qr || QrValue.default(language)
     }
     console.log('generateQrValue phone case, _phoneNumber is undefined')
-    return QrValue.default()
+    return QrValue.default(language)
   }
 }

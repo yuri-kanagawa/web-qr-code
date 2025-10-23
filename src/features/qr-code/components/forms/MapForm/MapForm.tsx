@@ -1,5 +1,5 @@
 'use client'
-import { FormButton } from '@/ui/fragments/form/FormButton'
+import { FormButton } from '@/features/qr-code'
 import { FormCard } from '@/ui/fragments/form/FormCard'
 import { GoogleMap } from '@/ui/fragments/map'
 import {

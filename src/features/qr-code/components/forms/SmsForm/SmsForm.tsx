@@ -1,4 +1,5 @@
-import { FormButton, FormCard } from '@/ui/fragments/form'
+import { FormButton } from '@/features/qr-code'
+import { FormCard } from '@/ui/fragments/form'
 import { BodyTextField } from '@/ui/fragments/textField'
 import { CellPhoneTextField } from '@/ui/fragments/textField/PhoneTextField'
 import { Stack } from '@mui/material'

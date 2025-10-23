@@ -1,6 +1,6 @@
 'use client'
 import { QrCode } from '@/domains'
-import { FormButton } from '@/ui/fragments/form/FormButton'
+import { FormButton } from '@/features/qr-code'
 import { FormCard } from '@/ui/fragments/form/FormCard'
 import { CellPhoneTextField } from '@/ui/fragments/textField/PhoneTextField'
 import { FC, useState } from 'react'

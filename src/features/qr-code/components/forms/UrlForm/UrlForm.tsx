@@ -1,4 +1,4 @@
-import { FormButton } from '@/ui/fragments/form/FormButton'
+import { FormButton } from '@/features/qr-code'
 import { FormCard } from '@/ui/fragments/form/FormCard'
 import { UrlTextField } from '@/ui/fragments/textField'
 import { FC } from 'react'
