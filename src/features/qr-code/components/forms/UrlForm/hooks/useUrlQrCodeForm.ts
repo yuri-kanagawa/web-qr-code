@@ -22,9 +22,9 @@ export const useUrlQRCodeForm = ({ qr }: Props) => {
   const defaultValues: RegisterQrCodeUrlSchema = useMemo(() => {
     return {
       url: qr.url.value,
-      language: language.value
+      language: qr.language.value
     }
-  }, [language.value, qr.url])
+  }, [qr.language.value, qr.url])
 
   const {
     handleSubmit,

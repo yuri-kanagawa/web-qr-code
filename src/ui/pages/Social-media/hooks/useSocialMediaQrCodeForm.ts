@@ -1,4 +1,4 @@
-import { Language } from '@/domains'
+import { QrCode } from '@/domains'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { SubmitErrorHandler, useForm } from 'react-hook-form'
 import {
@@ -7,9 +7,9 @@ import {
 } from './zod'
 
 type Props = {
-  language: Language
+  qr: QrCode
 }
-export const useSocialMediaQrCodeForm = ({ language }: Props) => {
+export const useSocialMediaQrCodeForm = ({ qr }: Props) => {
   const defaultValues: RegisterSocialMediaQrCodeSchema = {
     socialMedia: [
       {
@@ -18,7 +18,7 @@ export const useSocialMediaQrCodeForm = ({ language }: Props) => {
         url: ''
       }
     ],
-    language: language.value
+    language: qr.language.value
   }
   const { handleSubmit, control, ...rest } =
     useForm<RegisterSocialMediaQrCodeSchema>({
@@ -34,13 +34,14 @@ export const useSocialMediaQrCodeForm = ({ language }: Props) => {
   }
 
   const handleConfirm = async (): Promise<string | undefined> => {
-    return "qr-generated"
+    return 'qr-generated'
   }
 
   return {
     control,
     onConfirm: handleConfirm,
-    onDownload: () => console.log("Download functionality temporarily disabled"),
+    onDownload: () =>
+      console.log('Download functionality temporarily disabled'),
     ...rest
   }
 }

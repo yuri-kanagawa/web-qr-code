@@ -5,13 +5,12 @@ import { FC } from 'react'
 import { ImageForm } from '../ImageForm/ImageForm'
 
 type Props = {
-  
   qr: QrCode
   onChange: (qr: QrCode) => void
 }
 
 export const Logo: FC<Props> = ({ qr, onChange }) => {
-  const locale = qr.qr.language.locale
+  const locale = qr.language.locale
   const file = qr.settings.logoFile
 
   // ロゴサイズの警告チェック（パーセンテージベース）
@@ -76,11 +75,11 @@ export const Logo: FC<Props> = ({ qr, onChange }) => {
         >
           {locale.word.qrSettings.logo}
         </FormLabel>
-        <ImageForm qr={qr} onChange={onChange} max={30} language={language} />
+        <ImageForm qr={qr} onChange={onChange} max={30} />
       </Box>
       {file && isLogoTooLarge && (
         <WarningAlert
-          language={language}
+          language={qr.language}
           title={qr.language.isEnglish ? 'Logo Size Warning' : 'ロゴサイズ警告'}
           messages={[
             qr.language.isEnglish

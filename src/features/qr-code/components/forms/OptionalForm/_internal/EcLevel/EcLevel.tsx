@@ -17,7 +17,7 @@ export const EcLevel: FC<Props> = ({
   hasLogo = false,
   onChange
 }) => {
-  const locale = qr.qr.language.locale
+  const locale = qr.language.locale
 
   // ロゴ使用時のエラー訂正レベル警告
   const isLowEcLevel =
@@ -38,13 +38,13 @@ export const EcLevel: FC<Props> = ({
         label={locale.word.qrSettings.ecLevel}
       />
       {shouldShowWarning && (
-        <WarningAlert
-          language={language}
-          title={
-            qr.language.isEnglish
-              ? 'Error Correction Level Warning'
-              : 'エラー訂正レベル警告'
-          }
+          <WarningAlert
+            language={qr.language}
+            title={
+              qr.language.isEnglish
+                ? 'Error Correction Level Warning'
+                : 'エラー訂正レベル警告'
+            }
           messages={[
             qr.language.isEnglish
               ? `Low error correction level (${qr.settings.ecLevel.value}) with logo may cause reading failure`

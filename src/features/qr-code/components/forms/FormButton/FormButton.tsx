@@ -88,16 +88,8 @@ export const FormButton: FC<Props> = ({
               pt={4}
               pb={isOverLaptop ? 8 : 2}
             >
-              <ConfirmButton
-                qr={qr}
-                language={qr.language}
-                isValid={canGenerate}
-              />
-              <DownloadButton
-                qr={qr}
-                language={qr.language}
-                isValid={canGenerate}
-              />
+              <ConfirmButton qr={qr} isValid={canGenerate} />
+              <DownloadButton qr={qr} isValid={canGenerate} />
             </Stack>
           </Stack>
         </Box>

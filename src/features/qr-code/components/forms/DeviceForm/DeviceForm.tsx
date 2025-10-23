@@ -1,5 +1,5 @@
 'use client'
-import { Language, QrCode } from '@/domains'
+import { QrCode } from '@/domains'
 import { DeviceQrCodeData } from '@/domains/entities/qr/data/DeviceQrCodeData'
 import { DeviceOsService } from '@/domains/services/deviceOs'
 import { Device } from '@/domains/valueObjects/device'
@@ -28,17 +28,16 @@ import { SortableDeviceItem } from './_internal'
 import { useDeviceQrCodeForm } from './hooks'
 
 type Props = {
-  language: Language
   qr: QrCode
   onChange: (qr: QrCode) => void
 }
-export const DeviceForm: FC<Props> = ({ language, qr, onChange }) => {
+export const DeviceForm: FC<Props> = ({ qr, onChange }) => {
   const {
     control,
     formState: { isValid },
     setValue,
     trigger
-  } = useDeviceQrCodeForm({ language, qr })
+  } = useDeviceQrCodeForm({ qr })
 
   const { fields, append, remove, move } = useFieldArray({
     control,
@@ -80,13 +79,13 @@ export const DeviceForm: FC<Props> = ({ language, qr, onChange }) => {
         typeof d?.url === 'string'
     )
 
-    let deviceData = DeviceQrCodeData.default(language)
+    let deviceData = DeviceQrCodeData.default(qr.language)
 
     if (valid.length > 0) {
       // 先頭要素を更新
-      const firstDevice = Device.create(valid[0].device, language)
-      const firstOs = Os.create(valid[0].os, language)
-      const firstUrl = Url.create(valid[0].url, language)
+      const firstDevice = Device.create(valid[0].device, qr.language)
+      const firstOs = Os.create(valid[0].os, qr.language)
+      const firstUrl = Url.create(valid[0].url, qr.language)
       if (firstDevice.isSuccess && firstOs.isSuccess && firstUrl.isSuccess) {
         deviceData = deviceData.updateDeviceOsUrl(
           0,
@@ -98,9 +97,9 @@ export const DeviceForm: FC<Props> = ({ language, qr, onChange }) => {
 
       // 2件目以降を追加
       for (let i = 1; i < valid.length; i++) {
-        const dv = Device.create(valid[i].device, language)
-        const ov = Os.create(valid[i].os, language)
-        const uv = Url.create(valid[i].url, language)
+        const dv = Device.create(valid[i].device, qr.language)
+        const ov = Os.create(valid[i].os, qr.language)
+        const uv = Url.create(valid[i].url, qr.language)
         if (dv.isSuccess && ov.isSuccess && uv.isSuccess) {
           deviceData = deviceData.addDeviceOsUrl(dv.device!, ov.os!, uv.url!)
         }
@@ -113,12 +112,12 @@ export const DeviceForm: FC<Props> = ({ language, qr, onChange }) => {
 
   // ValueObjectヘルパー関数
   const createDeviceValueObject = (value: number) => {
-    const result = Device.create(value, language)
+    const result = Device.create(value, qr.language)
     return result.isSuccess ? result.device! : null
   }
 
   const createOsValueObject = (value: number) => {
-    const result = Os.create(value, language)
+    const result = Os.create(value, qr.language)
     return result.isSuccess ? result.os! : null
   }
 
@@ -184,8 +183,8 @@ export const DeviceForm: FC<Props> = ({ language, qr, onChange }) => {
 
   // 各フィールドの非表示項目を計算
   const getHiddenItemsForField = (index: number, selectedOs?: number) => {
-    const notSetDevice = Device.notSet(language)
-    const notSetOs = Os.notSet(language)
+    const notSetDevice = Device.notSet(qr.language)
+    const notSetOs = Os.notSet(qr.language)
 
     const currentDevice = devices?.[index]?.device ?? notSetDevice.value
     // selectedOsが渡された場合はそれを使用（OS選択直後の計算用）
@@ -278,7 +277,7 @@ export const DeviceForm: FC<Props> = ({ language, qr, onChange }) => {
         const usedDeviceObj = createDeviceValueObject(device)
         if (os === currentOs && usedDeviceObj && usedDeviceObj.isAll) {
           // 同じOSでallが選択されている場合、そのOSのallは非表示にする
-          const allDevice = Device.all(language)
+          const allDevice = Device.all(qr.language)
           hiddenDeviceItems.push(allDevice.value)
         }
       })
@@ -299,7 +298,7 @@ export const DeviceForm: FC<Props> = ({ language, qr, onChange }) => {
         // 他のフィールドでall以外のデバイスが選択されている場合
         if (currentOs === os) {
           // 同じOSの場合、allは非表示にする
-          const allDevice = Device.all(language)
+          const allDevice = Device.all(qr.language)
           hiddenDeviceItems.push(allDevice.value)
         }
       }
@@ -312,12 +311,7 @@ export const DeviceForm: FC<Props> = ({ language, qr, onChange }) => {
   }
 
   return (
-    <FormButton
-      language={language}
-      qr={qr}
-      onChange={onChange}
-      isValid={isValid}
-    >
+    <FormButton qr={qr} onChange={onChange} isValid={isValid}>
       <DndContext
         sensors={sensors}
         collisionDetection={closestCenter}
@@ -340,7 +334,7 @@ export const DeviceForm: FC<Props> = ({ language, qr, onChange }) => {
                   key={field.id}
                   id={field.id}
                   index={index}
-                  language={language}
+                  language={qr.language}
                   hiddenOsItems={hiddenOsItems}
                   hiddenDeviceItems={hiddenDeviceItems}
                   canDelete={canDelete}
@@ -355,8 +349,8 @@ export const DeviceForm: FC<Props> = ({ language, qr, onChange }) => {
             })}
             <Button
               onClick={() => {
-                const notSetDevice = Device.notSet(language)
-                const notSetOs = Os.notSet(language)
+                const notSetDevice = Device.notSet(qr.language)
+                const notSetOs = Os.notSet(qr.language)
                 append({
                   os: notSetOs.value,
                   device: notSetDevice.value,

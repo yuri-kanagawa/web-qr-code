@@ -13,17 +13,25 @@ type Props = {
   file: File | null
   onChange: (file: File | null) => void
   message?: string
-  language?: Language
+  language: Language
 } & Omit<BoxProps, 'onChange'>
 
 export const InputFile: FC<Props> = ({
   file,
   onChange,
   message,
-  language = Language.default(),
+  language,
   ...props
 }) => {
-  console.log('InputFile props:', { file, onChange: typeof onChange })
+  console.log('InputFile props:', { file, onChange: typeof onChange, language })
+  console.log('InputFile language:', language)
+  console.log('InputFile language.locale:', language?.locale)
+  
+  if (!language) {
+    console.error('InputFile: language is undefined')
+    return null
+  }
+  
   const locale = language.locale
   const theme = useTheme()
   const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
@@ -54,7 +62,7 @@ export const InputFile: FC<Props> = ({
     const processFile = async () => {
       if (file) {
         try {
-          const imageFileResult = ImageFile.create(file, Language.default())
+          const imageFileResult = ImageFile.create(file, language)
           if (imageFileResult.isSuccess && imageFileResult.imageFile) {
             const base64 = await imageFileResult.imageFile.toBase64()
             setImage(base64.value)

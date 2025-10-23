@@ -23,7 +23,7 @@ export const EyeSettings1: FC<Props> = ({
   onChange
 }) => {
   const { isOverLaptop } = useWindowSize()
-  const locale = qr.qr.language.locale
+  const locale = qr.language.locale
 
   const handleRadiusChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const numValue = Number(event.target.value)

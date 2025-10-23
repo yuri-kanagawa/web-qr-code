@@ -34,11 +34,7 @@ export const ContactForm: FC<Props> = ({ qr, onChange }) => {
   })
 
   return (
-    <FormButton
-      isValid={isValid}
-      qr={qr}
-      onChange={onChange}
-    >
+    <FormButton isValid={isValid} qr={qr} onChange={onChange}>
       <FormCard cardProps={{ sx: { p: 2 } }}>
         <Stack spacing={3}>
           {/* 基本情報 */}
@@ -74,7 +70,7 @@ export const ContactForm: FC<Props> = ({ qr, onChange }) => {
                             firstName={{ ...firstNameField }}
                             lastName={{ ...lastNameField }}
                             middleName={{ ...middleNameField }}
-                            language={language}
+                            language={qr.language}
                           />
                         )}
                       />
@@ -93,7 +89,7 @@ export const ContactForm: FC<Props> = ({ qr, onChange }) => {
                   <EmailTextField
                     value={value}
                     onChange={onChange}
-                    language={language}
+                    language={qr.language}
                     inputRef={inputRef}
                     error={!!error}
                     helperText={error?.message}
@@ -115,7 +111,7 @@ export const ContactForm: FC<Props> = ({ qr, onChange }) => {
                     error={!!error}
                     helperText={error?.message}
                     inputRef={inputRef}
-                    language={language}
+                    language={qr.language}
                     label={locale.word.form.mobilePhone}
                     isRequired={false}
                   />
@@ -135,7 +131,7 @@ export const ContactForm: FC<Props> = ({ qr, onChange }) => {
                     error={!!error}
                     helperText={error?.message}
                     inputRef={inputRef}
-                    language={language}
+                    language={qr.language}
                     label={locale.word.form.homePhone}
                     isRequired={false}
                   />
@@ -185,7 +181,9 @@ export const ContactForm: FC<Props> = ({ qr, onChange }) => {
 
           {/* ビジネス情報 */}
           <FormSection
-            label={qr.language.isEnglish ? 'Business Information' : 'ビジネス情報'}
+            label={
+              qr.language.isEnglish ? 'Business Information' : 'ビジネス情報'
+            }
           >
             <Stack spacing={2}>
               <Controller
@@ -199,7 +197,7 @@ export const ContactForm: FC<Props> = ({ qr, onChange }) => {
                   <OrganizationForm
                     value={value}
                     onChange={onChange}
-                    language={language}
+                    language={qr.language}
                     inputRef={inputRef}
                     error={!!error}
                     helperText={error?.message}
@@ -240,7 +238,7 @@ export const ContactForm: FC<Props> = ({ qr, onChange }) => {
                     error={!!error}
                     helperText={error?.message}
                     inputRef={inputRef}
-                    language={language}
+                    language={qr.language}
                     label={locale.word.form.workMobile}
                     isRequired={false}
                   />
@@ -260,7 +258,7 @@ export const ContactForm: FC<Props> = ({ qr, onChange }) => {
                     error={!!error}
                     helperText={error?.message}
                     inputRef={inputRef}
-                    language={language}
+                    language={qr.language}
                     label={locale.word.form.workPhone}
                     isRequired={false}
                   />

@@ -41,7 +41,7 @@ export class QrCode {
   /**
    * デフォルトのQrを作成
    */
-  static default(language: Language = Language.default()): QrCode {
+  static default(language: Language): QrCode {
     const settings = QrCodeSettings.default(language)
     // logoFileを確実にnullにリセット
     const resetSettings = settings.changeLogoFile(null)

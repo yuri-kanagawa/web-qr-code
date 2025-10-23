@@ -55,7 +55,7 @@ export const EmailForm: FC<Props> = ({ qr, onChange }) => {
                 inputRef={inputRef}
                 error={!!error}
                 helperText={error?.message}
-                language={language}
+                language={qr.language}
               />
             )}
           />
@@ -77,7 +77,7 @@ export const EmailForm: FC<Props> = ({ qr, onChange }) => {
                 inputRef={inputRef}
                 error={!!error}
                 helperText={error?.message}
-                language={language}
+                language={qr.language}
               />
             )}
           />
@@ -99,7 +99,7 @@ export const EmailForm: FC<Props> = ({ qr, onChange }) => {
                 inputRef={inputRef}
                 error={!!error}
                 helperText={error?.message}
-                language={language}
+                language={qr.language}
               />
             )}
           />

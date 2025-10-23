@@ -12,7 +12,7 @@ type Props = {
 export const Opacity: FC<Props> = ({ qr, onChange }) => {
   const file = qr.settings.logoFile
   const isRelationFileDisabled = file == null
-  const locale = qr.qr.language.locale
+  const locale = qr.language.locale
 
   const updateLogoOpacity = (opacity: number) => {
     const newQr = qr.updateSettings((settings) =>

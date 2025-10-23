@@ -43,7 +43,7 @@ export const TextForm: FC<Props> = ({ qr, onChange }: Props) => {
                 setCurrentQr(newQr) // ローカル状態を更新
                 onChange(newQr) // 親コンポーネントに新しいQrCodeを渡す
               }}
-              language={language}
+              language={qr.language}
               isRequired={true}
             />
           </FormCard>

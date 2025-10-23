@@ -11,7 +11,7 @@ type Props = {
 }
 
 export const FgColor: FC<Props> = ({ qr, onChange }) => {
-  const locale = qr.qr.language.locale
+  const locale = qr.language.locale
 
   // 前景色と背景色のコントラスト比チェック
   const fgBgContrast = qr.settings.colors.getContrastRatio(
@@ -42,7 +42,7 @@ export const FgColor: FC<Props> = ({ qr, onChange }) => {
       />
       {hasLowContrast && (
         <WarningAlert
-          language={language}
+          language={qr.language}
           title={qr.language.isEnglish ? 'Foreground Color Warning' : '前景色警告'}
           messages={[
             qr.language.isEnglish

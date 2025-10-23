@@ -26,11 +26,7 @@ export const WiFiForm = forwardRef<HTMLDivElement, Props>(
     })
 
     return (
-      <FormButton
-        qr={qr}
-        onChange={onChange}
-        isValid={isValid}
-      >
+      <FormButton qr={qr} onChange={onChange} isValid={isValid}>
         <FormCard cardProps={{ sx: { p: 2 } }}>
           <Stack spacing={3}>
             <Controller
@@ -60,11 +56,11 @@ export const WiFiForm = forwardRef<HTMLDivElement, Props>(
                 field: { value: type, onChange: typeOnChange },
                 fieldState: { error }
               }) => {
-                const wifiTypeResult = WiFiType.create(type, language)
+                const wifiTypeResult = WiFiType.create(type, qr.language)
                 const wifiType =
                   wifiTypeResult.isSuccess && wifiTypeResult.wifiType
                     ? wifiTypeResult.wifiType
-                    : WiFiType.wpa(language)
+                    : WiFiType.wpa(qr.language)
 
                 return (
                   <>
@@ -94,7 +90,9 @@ export const WiFiForm = forwardRef<HTMLDivElement, Props>(
                               }
                             }}
                             language={qr.language}
-                            label={qr.language.locale.word.select.encryptionType}
+                            label={
+                              qr.language.locale.word.select.encryptionType
+                            }
                           />
                           {!wifiType.isNoPassword && (
                             <PasswordTextField

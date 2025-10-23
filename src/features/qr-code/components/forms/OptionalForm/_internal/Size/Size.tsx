@@ -12,7 +12,7 @@ type Props = {
 
 export const Size: FC<Props> = ({ qr, onChange }) => {
   const { height, width } = useWindowSize()
-  const locale = qr.qr.language.locale
+  const locale = qr.language.locale
   const [savedMaxSize, setSavedMaxSize] = useState<number | null>(null)
 
   // 画面サイズから計算される推奨最大値
@@ -148,7 +148,7 @@ export const Size: FC<Props> = ({ qr, onChange }) => {
         </Stack>
         {currentMaxSize > calculatedMaxSize && (
           <WarningAlert
-            language={language}
+            language={qr.language}
             title={
               qr.language.isEnglish ? 'Size Display Warning' : 'サイズ表示警告'
             }
@@ -161,7 +161,7 @@ export const Size: FC<Props> = ({ qr, onChange }) => {
         )}
         {qr.settings.size.value < 75 && (
           <WarningAlert
-            language={language}
+            language={qr.language}
             title={
               qr.language.isEnglish ? 'QR Code Size Warning' : 'QRコードサイズ警告'
             }

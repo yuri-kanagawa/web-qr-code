@@ -1,4 +1,4 @@
-import { Language, QrCode, SocialMedia } from '@/domains'
+import { QrCode, SocialMedia } from '@/domains'
 import { FormButton, SocialMediaSelect } from '@/features/qr-code'
 import { LabelTextField, UrlTextField } from '@/ui/fragments/textField'
 import { Button, Stack } from '@mui/material'
@@ -7,11 +7,12 @@ import { Controller, useFieldArray } from 'react-hook-form'
 import { useSocialMediaQrCodeForm } from '../../hooks'
 import type { RegisterSocialMediaQrCodeSchema } from '../../hooks/zod'
 type Props = {
-  language: Language
+  qr: QrCode
+  onChange: (qr: QrCode) => void
 }
 
-export const SocialMediaForm: FC<Props> = ({ language }) => {
-  const [settings, setSettings] = useState<QrCode>(QrCode.default())
+export const SocialMediaForm: FC<Props> = ({ qr, onChange }) => {
+  const [settings, setSettings] = useState<QrCode>(qr)
 
   const {
     control,
@@ -19,7 +20,7 @@ export const SocialMediaForm: FC<Props> = ({ language }) => {
     onDownload,
     formState: { isValid }
   } = useSocialMediaQrCodeForm({
-    language
+    qr
   })
   const { fields, append } = useFieldArray<RegisterSocialMediaQrCodeSchema>({
     control,
@@ -31,7 +32,6 @@ export const SocialMediaForm: FC<Props> = ({ language }) => {
       onConfirm={onConfirm}
       onDownload={onDownload}
       value=""
-      language={language}
       qr={settings}
       isValid={isValid}
     >
@@ -42,11 +42,11 @@ export const SocialMediaForm: FC<Props> = ({ language }) => {
               control={control}
               name={`socialMedia.${index}.socialMedia`}
               render={({ field: { value, onChange } }) => {
-                const socialMediaResult = SocialMedia.create(value, language)
+                const socialMediaResult = SocialMedia.create(value, qr.language)
                 const socialMedia =
                   socialMediaResult.isSuccess && socialMediaResult.socialMedia
                     ? socialMediaResult.socialMedia
-                    : SocialMedia.notSet(language)
+                    : SocialMedia.notSet(qr.language)
 
                 return (
                   <SocialMediaSelect
@@ -55,8 +55,8 @@ export const SocialMediaForm: FC<Props> = ({ language }) => {
                       onChange(selectedSocialMedia.value)
                     }
                     isOptional={true}
-                    language={language}
-                    label={language.locale.word.select.socialMedia}
+                    language={qr.language}
+                    label={qr.language.locale.word.select.socialMedia}
                   />
                 )
               }}

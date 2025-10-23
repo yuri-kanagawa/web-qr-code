@@ -9,7 +9,7 @@ type Props = {
 }
 
 export const LogoPadding: FC<Props> = ({ qr, onChange }) => {
-  const locale = qr.qr.language.locale
+  const locale = qr.language.locale
   const file = qr.settings.logoFile
   const isDisabled = file === null
 

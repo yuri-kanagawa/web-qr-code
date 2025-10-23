@@ -21,11 +21,7 @@ export const UrlForm: FC<Props> = ({ qr, onChange }) => {
   })
 
   return (
-    <FormButton
-      isValid={isValid}
-      qr={qr}
-      onChange={onChange}
-    >
+    <FormButton isValid={isValid} qr={qr} onChange={onChange}>
       <Controller
         control={control}
         name="url"

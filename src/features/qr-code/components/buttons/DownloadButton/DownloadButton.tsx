@@ -1,29 +1,27 @@
 'use client'
 
 import { QrCode } from '@/domains'
-import { Box, Button } from '@/ui/cores'
 import { GeneratedQrCode } from '@/features/qr-code'
+import { Box, Button } from '@/ui/cores'
 import { CircularProgress } from '@mui/material'
 import { FC, useCallback, useRef, useState } from 'react'
 
 type Props = {
   onClick?: () => void
   isValid?: boolean
-  language?: Language
-  qr?: QrCode
+  qr: QrCode
   isLoading?: boolean
 }
 
 export const DownloadButton: FC<Props> = ({
   onClick,
   isValid = true,
-  language = Language.default(),
   qr,
   isLoading = false
 }) => {
   const [internalLoading, setInternalLoading] = useState(false)
   const loading = isLoading || internalLoading
-  const locale = qr.qr.language.locale
+  const locale = qr.language.locale
   const qrRef = useRef<HTMLDivElement>(null)
 
   const generateFileName = (): string => {
@@ -121,6 +119,3 @@ export const DownloadButton: FC<Props> = ({
     </>
   )
 }
-
-
-

@@ -19,9 +19,9 @@ export const useMapQrCodeForm = ({ qr }: Props) => {
     return {
       latitude: qr.latitude.value?.toString() || '',
       longitude: qr.longitude.value?.toString() || '',
-      language: language.value
+      language: qr.language.value
     }
-  }, [language, qr.latitude, qr.longitude])
+  }, [qr.language, qr.latitude, qr.longitude])
 
   const {
     handleSubmit,
@@ -46,12 +46,12 @@ export const useMapQrCodeForm = ({ qr }: Props) => {
     const fetchInitialLocation = async () => {
       try {
         setIsLoadingLocation(true)
-        const repository = new IpApiGeoLocationRepository(language)
+        const repository = new IpApiGeoLocationRepository(qr.language)
         const location = await repository.getLocationFromIpAddress()
         const initialValues: RegisterQrCodeMapSchema = {
           latitude: location.latitude.toString(),
           longitude: location.longitude.toString(),
-          language: language.value
+          language: qr.language.value
         }
         reset(initialValues)
         console.log('Initial location set from IP:', location)
@@ -64,7 +64,7 @@ export const useMapQrCodeForm = ({ qr }: Props) => {
     }
 
     fetchInitialLocation()
-  }, [defaultValues, reset, language])
+  }, [defaultValues, reset, qr.language])
 
   const submitErrorHandler: SubmitErrorHandler<RegisterQrCodeMapSchema> = (
     errors
@@ -98,7 +98,7 @@ export const useMapQrCodeForm = ({ qr }: Props) => {
     try {
       console.log('Getting current position...')
       setIsLoadingCurrentPosition(true)
-      const repository = new BrowserGeoLocationRepository(language)
+      const repository = new BrowserGeoLocationRepository(qr.language)
       const location = await repository.getCurrentPosition()
       console.log('Current position acquired:', location)
       setValue('latitude', location.latitude.toString())

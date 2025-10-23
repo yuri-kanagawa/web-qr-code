@@ -19,7 +19,7 @@ type Props = {
 
 export const EyeSettings3: FC<Props> = ({ qr, onChange }) => {
   const { isOverLaptop } = useWindowSize()
-  const locale = qr.qr.language.locale
+  const locale = qr.language.locale
 
   const handleRadiusChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const numValue = Number(event.target.value)
@@ -108,7 +108,7 @@ export const EyeSettings3: FC<Props> = ({ qr, onChange }) => {
         />
         {contrastInfo.hasLowContrast && (
           <WarningAlert
-            language={language}
+            language={qr.language}
             title={qr.language.isEnglish ? 'Eye Color Warning' : '目の色警告'}
             messages={contrastInfo.warningMessages}
             recommendedText={

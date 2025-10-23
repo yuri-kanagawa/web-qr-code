@@ -54,7 +54,7 @@ export const SmsForm: FC<Props> = ({ qr, onChange }) => {
                 error={!!error}
                 helperText={error?.message}
                 inputRef={inputRef}
-                language={language}
+                language={qr.language}
                 isRequired={false}
               />
             )}
@@ -77,7 +77,7 @@ export const SmsForm: FC<Props> = ({ qr, onChange }) => {
                 inputRef={inputRef}
                 helperText={error?.message}
                 error={!!error}
-                language={language}
+                language={qr.language}
               />
             )}
           />

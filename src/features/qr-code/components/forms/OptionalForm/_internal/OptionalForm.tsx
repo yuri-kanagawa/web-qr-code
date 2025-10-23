@@ -20,7 +20,7 @@ type Props = {
   onChange: (qr: QrCode) => void
 }
 export const OptionalForm: FC<Props> = ({ qr, onChange }) => {
-  const locale = qr.qr.language.locale
+  const locale = qr.language.locale
   const [individualEyeSettings, setIndividualEyeSettings] = useState(false)
   const file = qr.settings.logoFile
 

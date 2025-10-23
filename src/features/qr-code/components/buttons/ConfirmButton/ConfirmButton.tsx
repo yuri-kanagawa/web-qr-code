@@ -1,5 +1,4 @@
 'use client'
-
 import {
   Button,
   CircularProgress,
@@ -17,20 +16,18 @@ import { useDisclosure } from '@/hooks/useDisclosure'
 type Props = {
   onClick?: () => Promise<string | undefined>
   isValid?: boolean
-  language?: Language
-  qr?: QrCode
+  qr: QrCode
   isLoading?: boolean
 }
 
 export const ConfirmButton: FC<Props> = ({
   onClick,
   isValid = true,
-  language = Language.default(),
   qr,
   isLoading = false
 }) => {
   const { onOpen, onClose, isOpen } = useDisclosure()
-  const locale = qr.qr.language.locale
+  const locale = qr.language.locale
 
   const onConfirm = async () => {
     console.log('=== ConfirmButton onConfirm 開始 ===')
@@ -134,6 +131,3 @@ export const ConfirmButton: FC<Props> = ({
     </>
   )
 }
-
-
-

@@ -12,11 +12,10 @@ export const WiFiPage: FC<Props> = (props) => {
 
   return (
     <PageWrapper language={currentQr.language}>
-      <WiFiForm
-        language={currentQr.language}
-        qr={currentQr}
-        onChange={setCurrentQr}
-      />
+             <WiFiForm
+               qr={currentQr}
+               onChange={setCurrentQr}
+             />
     </PageWrapper>
   )
 }

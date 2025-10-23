@@ -1,7 +1,7 @@
 'use client'
-import { Language, QrCode } from '@/domains'
+import { QrCode, Language } from '@/domains'
 import { WiFiPage } from '@/ui/pages/WiFi'
 
 export default function Page() {
-  return <WiFiPage language={Language.default()} qr={QrCode.default()} />
+  return <WiFiPage qr={QrCode.default(Language.default())} />
 }

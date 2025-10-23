@@ -47,8 +47,8 @@ export const PhoneForm: FC<Props> = ({ qr, onChange }) => {
               error={!!error}
               helperText={error?.message}
               inputRef={inputRef}
-              language={language}
-              label={language.locale.word.form.phoneNumber}
+              language={qr.language}
+              label={qr.language.locale.word.form.phoneNumber}
               isRequired={false}
             />
           </FormCard>

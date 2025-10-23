@@ -11,7 +11,7 @@ type Props = {
 }
 
 export const SocialMediaForm: FC<Props> = ({ language }) => {
-  const [settings, setSettings] = useState<QrCode>(QrCode.default())
+  const [settings, setSettings] = useState<QrCode>(QrCode.default(language))
 
   const {
     control,
@@ -55,8 +55,8 @@ export const SocialMediaForm: FC<Props> = ({ language }) => {
                       onChange(selectedSocialMedia.value)
                     }
                     isOptional={true}
-                    language={qr.language}
-                    label={qr.language.locale.word.select.socialMedia}
+                    language={language}
+                    label={language.locale.word.select.socialMedia}
                   />
                 )
               }}
