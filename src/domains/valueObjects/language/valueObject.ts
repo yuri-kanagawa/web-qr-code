@@ -1,4 +1,4 @@
-import { LanguageKey, languages, Locale, locales } from '@/locales'
+import { LanguageKey, languages, Locale } from '@/locales'
 import { LanguageValueError } from './error'
 import { LanguageResult } from './result'
 
@@ -68,14 +68,16 @@ export class Language {
   }
 
   get locale(): Locale {
-    const locale = locales[this._value]
-    if (!locale) {
-      console.error(
-        'Language.locale: locale is undefined for value:',
-        this._value
-      )
-      console.error('Language.locale: locales:', locales)
+    // 直接ロケールを取得して循環依存を回避
+    switch (this._value) {
+      case 'en':
+        return require('@/locales/en').en
+      case 'ja':
+        return require('@/locales/ja').ja
+      case 'fr':
+        return require('@/locales/en').en // フランス語はまだ実装されていないので英語を返す
+      default:
+        return require('@/locales/en').en
     }
-    return locale
   }
 }

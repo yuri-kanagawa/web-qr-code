@@ -11,8 +11,8 @@ type Props = {
 
 export default function Terms({ params }: Props) {
   const languageResult = Language.create(params.language)
-  const language = languageResult.isSuccess
-    ? languageResult.language!
+  const language = languageResult.isSuccess && languageResult.language
+    ? languageResult.language
     : Language.default()
 
   return (

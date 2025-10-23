@@ -9,7 +9,7 @@ type Props = {
 
 export default function Page({ params }: Props) {
   const result = Language.create(params.language)
-  if (result.isFailure) {
+  if (result.isFailure || !result.language) {
     return notFound()
   }
 
