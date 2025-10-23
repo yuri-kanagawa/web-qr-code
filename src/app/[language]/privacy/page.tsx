@@ -1,23 +1,23 @@
 'use client'
-import { Language } from '@/domains'
 import { PageWrapper } from '@/ui/fragments/pageWrapper/PageWrapper'
 import { PrivacyPolicyPage } from '@/ui/pages/Privacy'
 
+import { Language } from '@/domains'
+import { notFound } from 'next/navigation'
+
 type Props = {
-  params: {
-    language: string
-  }
+  params: { language: string }
 }
 
-export default function Privacy({ params }: Props) {
-  const languageResult = Language.create(params.language)
-  const language = languageResult.isSuccess && languageResult.language
-    ? languageResult.language
-    : Language.default()
+export default function Page({ params }: Props) {
+  const result = Language.create(params.language)
+  if (result.isFailure || !result.language) {
+    return notFound()
+  }
 
   return (
-    <PageWrapper language={language}>
-      <PrivacyPolicyPage language={language} />
+    <PageWrapper language={result.language}>
+      <PrivacyPolicyPage language={result.language} />
     </PageWrapper>
   )
 }

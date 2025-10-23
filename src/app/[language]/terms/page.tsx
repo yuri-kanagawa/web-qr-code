@@ -2,22 +2,21 @@
 import { Language } from '@/domains'
 import { PageWrapper } from '@/ui/fragments/pageWrapper/PageWrapper'
 import { TermsOfServicePage } from '@/ui/pages/Terms'
+import { notFound } from 'next/navigation'
 
 type Props = {
-  params: {
-    language: string
-  }
+  params: { language: string }
 }
 
-export default function Terms({ params }: Props) {
-  const languageResult = Language.create(params.language)
-  const language = languageResult.isSuccess && languageResult.language
-    ? languageResult.language
-    : Language.default()
+export default function Page({ params }: Props) {
+  const result = Language.create(params.language)
+  if (result.isFailure || !result.language) {
+    return notFound()
+  }
 
   return (
-    <PageWrapper language={language}>
-      <TermsOfServicePage language={language} />
+    <PageWrapper language={result.language}>
+      <TermsOfServicePage language={result.language} />
     </PageWrapper>
   )
 }

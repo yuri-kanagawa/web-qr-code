@@ -1,14 +1,18 @@
 'use client'
 
+import { Language } from '@/domains'
 import { DeviceRedirectPage } from '@/ui/pages/Device/Redirect'
+import { notFound } from 'next/navigation'
 
 type Props = {
   params: { language: string }
 }
 
 export default function Page({ params }: Props) {
-  const { getLanguageFromParams } = require('../../utils')
-  const language = getLanguageFromParams(params.language)
+  const result = Language.create(params.language)
+  if (result.isFailure || !result.language) {
+    return notFound()
+  }
 
-  return <DeviceRedirectPage language={language} />
+  return <DeviceRedirectPage language={result.language} />
 }

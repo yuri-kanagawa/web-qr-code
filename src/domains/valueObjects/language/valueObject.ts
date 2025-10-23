@@ -1,7 +1,6 @@
-import { LanguageKey, languages, Locale } from '@/locales'
+import { en, ja, LanguageKey, languages, Locale } from '@/locales'
 import { LanguageValueError } from './error'
 import { LanguageResult } from './result'
-
 export class Language {
   private readonly _value: LanguageKey
 
@@ -71,13 +70,13 @@ export class Language {
     // 直接ロケールを取得して循環依存を回避
     switch (this._value) {
       case 'en':
-        return require('@/locales/en').en
+        return en
       case 'ja':
-        return require('@/locales/ja').ja
+        return ja
       case 'fr':
-        return require('@/locales/en').en // フランス語はまだ実装されていないので英語を返す
+        return en // フランス語はまだ実装されていないので英語を返す
       default:
-        return require('@/locales/en').en
+        return en
     }
   }
 }

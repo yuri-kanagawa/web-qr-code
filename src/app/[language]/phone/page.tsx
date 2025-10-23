@@ -1,14 +1,18 @@
 'use client'
-import { QrCode } from '@/domains'
+
+import { Language, QrCode } from '@/domains'
 import { PhonePage } from '@/ui/pages/Phone'
+import { notFound } from 'next/navigation'
 
 type Props = {
   params: { language: string }
 }
 
 export default function Page({ params }: Props) {
-  const { getLanguageFromParams } = require('../utils')
-  const language = getLanguageFromParams(params.language)
+  const result = Language.create(params.language)
+  if (result.isFailure || !result.language) {
+    return notFound()
+  }
 
-  return <PhonePage qr={QrCode.default(language)} />
+  return <PhonePage qr={QrCode.default(result.language)} />
 }
