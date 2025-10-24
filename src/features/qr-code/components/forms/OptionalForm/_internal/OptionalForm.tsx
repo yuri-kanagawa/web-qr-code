@@ -15,7 +15,6 @@ import { Opacity } from './Opacity'
 import { Size } from './Size'
 
 type Props = {
-  
   qr: QrCode
   onChange: (qr: QrCode) => void
 }
@@ -55,11 +54,11 @@ export const OptionalForm: FC<Props> = ({ qr, onChange }) => {
 
   return (
     <Stack spacing={4}>
-      <Size language={language} qr={qr} onChange={onChange} />
-      <BgColor language={language} qr={qr} onChange={onChange} />
-      <FgColor language={language} qr={qr} onChange={onChange} />
+      <Size language={qr.language} qr={qr} onChange={onChange} />
+      <BgColor language={qr.language} qr={qr} onChange={onChange} />
+      <FgColor language={qr.language} qr={qr} onChange={onChange} />
       <EcLevel
-        language={language}
+        language={qr.language}
         qr={qr}
         hasLogo={!!file}
         onChange={onChange}
@@ -83,26 +82,26 @@ export const OptionalForm: FC<Props> = ({ qr, onChange }) => {
       {individualEyeSettings ? (
         <>
           <EyeSettings1
-            language={language}
+            language={qr.language}
             isUnified={false}
             qr={qr}
             onChange={onChange}
           />
-          <EyeSettings2 language={language} qr={qr} onChange={onChange} />
-          <EyeSettings3 language={language} qr={qr} onChange={onChange} />
+          <EyeSettings2 language={qr.language} qr={qr} onChange={onChange} />
+          <EyeSettings3 language={qr.language} qr={qr} onChange={onChange} />
         </>
       ) : (
         <EyeSettings1
-          language={language}
+          language={qr.language}
           isUnified={true}
           qr={qr}
           onChange={onChange}
         />
       )}
 
-      <Logo language={language} qr={qr} onChange={onChange} />
-      <Opacity language={language} qr={qr} onChange={onChange} />
-      <LogoPadding language={language} qr={qr} onChange={onChange} />
+      <Logo language={qr.language} qr={qr} onChange={onChange} />
+      <Opacity language={qr.language} qr={qr} onChange={onChange} />
+      <LogoPadding language={qr.language} qr={qr} onChange={onChange} />
     </Stack>
   )
 }

@@ -3,7 +3,6 @@ import { LogoPaddingStyleSelect } from '@/features/qr-code'
 import { FC } from 'react'
 
 type Props = {
-  
   qr: QrCode
   onChange: (qr: QrCode) => void
 }
@@ -29,7 +28,7 @@ export const LogoPadding: FC<Props> = ({ qr, onChange }) => {
     <LogoPaddingStyleSelect
       value={qr.settings.logo.paddingStyle}
       onChange={updateLogoPaddingStyle}
-      language={language}
+      language={qr.language}
       label={locale.word.qrSettings.logoPadding}
       disabled={isDisabled}
     />

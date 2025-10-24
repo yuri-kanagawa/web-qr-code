@@ -34,7 +34,7 @@ export const EcLevel: FC<Props> = ({
           )
           onChange(newQr)
         }}
-        language={language}
+        language={qr.language}
         label={locale.word.qrSettings.ecLevel}
       />
       {shouldShowWarning && (

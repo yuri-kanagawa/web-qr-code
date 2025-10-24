@@ -1,5 +1,5 @@
 import { z } from 'zod'
-const language = z.string()
+const languageSchema = z.string()
 const socialMedia = z.number()
 const url = z.string()
 const label = z.string()
@@ -11,7 +11,7 @@ export const registerSocialMediaQrCodeSchema = z.object({
       label
     })
   ),
-  language
+  language: languageSchema
 })
 
 export type RegisterSocialMediaQrCodeSchema = z.infer<

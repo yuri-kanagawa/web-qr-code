@@ -24,8 +24,8 @@ export const useDeviceQrCodeForm = ({ qr }: Props) => {
       return qr.deviceData.value
     }
 
-    const notSetDevice = Device.notSet(language)
-    const notSetOs = Os.notSet(language)
+    const notSetDevice = Device.notSet(qr.language)
+    const notSetOs = Os.notSet(qr.language)
     return {
       devices: [
         {
@@ -35,7 +35,7 @@ export const useDeviceQrCodeForm = ({ qr }: Props) => {
         }
       ]
     }
-  }, [language, qr.deviceData])
+  }, [qr.language, qr.deviceData])
 
   const { control, trigger, ...rest } = useForm<RegisterDeviceQrCodeSchema>({
     defaultValues,
