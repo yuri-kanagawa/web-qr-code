@@ -1,4 +1,5 @@
 'use client'
+
 import { Language } from '@/domains'
 import { ReaderPage } from '@/ui/pages/Reader'
 import { notFound } from 'next/navigation'
