@@ -19,11 +19,8 @@ export class WiFiPassword {
 
     // 長さチェック（WPA2は8～63文字）
     if (value.length < 8 || value.length > 63) {
-      const errorMessage = language.isJapanese
-        ? 'パスワードは8～63文字で入力してください'
-        : language.isFrench
-          ? 'Le mot de passe doit contenir entre 8 et 63 caractères'
-          : 'Password must be between 8 and 63 characters'
+      const errorMessage =
+        language.locale.message.validation.wifi.password.wrongLength
       return new WiFiPasswordResult(
         null,
         new WiFiPasswordValueError(errorMessage)

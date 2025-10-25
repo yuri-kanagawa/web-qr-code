@@ -15,10 +15,6 @@ export const createPhoneNumberZodSchema = (language: Language) =>
       return result.isSuccess
     },
     {
-      message: language.isJapanese
-        ? '有効な電話番号の形式で入力してください（例: +1-555-123-4567, 03-1234-5678）'
-        : language.isFrench
-          ? 'Veuillez saisir un numéro de téléphone dans un format valide (ex: +1-555-123-4567, 03-1234-5678)'
-          : 'Please enter a valid phone number format (e.g., +1-555-123-4567, 03-1234-5678)'
+      message: language.locale.message.validation.phone.pleaseEnterValid
     }
   )

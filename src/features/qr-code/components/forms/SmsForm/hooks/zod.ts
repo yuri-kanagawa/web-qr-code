@@ -14,11 +14,7 @@ export const createRegisterQrCodeSmsSchema = (language: Language) =>
           return PhoneNumber.isValidFormat(value)
         },
         {
-          message: language.isJapanese
-            ? '有効な電話番号の形式で入力してください'
-            : language.isFrench
-              ? 'Veuillez saisir un numéro de téléphone dans un format valide'
-              : 'Please enter a valid phone number format'
+          message: language.locale.message.validation.phone.pleaseEnterValid
         }
       ),
       body: z.string()

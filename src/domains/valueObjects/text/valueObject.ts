@@ -15,11 +15,8 @@ export class Text {
     // 長さチェック（QRコードの最大容量を考慮）
     const maxLength = 4296 // QRコードの最大文字数（バージョン40、Lレベル）
     if (value.length > maxLength) {
-      const errorMessage = language.isJapanese
-        ? `テキストが長すぎます（最大${maxLength}文字）`
-        : language.isFrench
-          ? `Le texte est trop long (${maxLength} caractères maximum)`
-          : `Text is too long (maximum ${maxLength} characters)`
+      const errorMessage =
+        language.locale.message.validation.text.tooLong(maxLength)
       return new TextResult(null, new TextValueError(errorMessage))
     }
 

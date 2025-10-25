@@ -28,11 +28,8 @@ export class PhoneNumber {
     // 基本的な文字チェック（数字、+、-、()、スペース、ドットのみ許可）
     const basicPhoneRegex = /^[0-9+\-().\s]+$/
     if (!basicPhoneRegex.test(value)) {
-      const errorMessage = language.isJapanese
-        ? '電話番号には数字、+、-、()、スペース、ドットのみ使用できます'
-        : language.isFrench
-          ? 'Le numéro de téléphone ne peut contenir que des chiffres, +, -, (), espaces et points'
-          : 'Phone number can only contain digits, +, -, (), spaces, and dots'
+      const errorMessage =
+        language.locale.message.validation.phone.invalidCharacters
       return new PhoneNumberResult(
         null,
         new PhoneNumberValueError(errorMessage)
@@ -41,11 +38,8 @@ export class PhoneNumber {
 
     // より厳密な電話番号フォーマットチェック
     if (!PhoneNumber.isValidFormat(value)) {
-      const errorMessage = language.isJapanese
-        ? '有効な電話番号の形式で入力してください（例: +1-555-123-4567, 03-1234-5678）'
-        : language.isFrench
-          ? 'Veuillez saisir un numéro de téléphone dans un format valide (ex: +1-555-123-4567, 03-1234-5678)'
-          : 'Please enter a valid phone number format (e.g., +1-555-123-4567, 03-1234-5678)'
+      const errorMessage =
+        language.locale.message.validation.phone.pleaseEnterValid
       return new PhoneNumberResult(
         null,
         new PhoneNumberValueError(errorMessage)

@@ -33,11 +33,7 @@ export class Os {
 
   static create(value: number, language: Language): OsResult {
     if (!Os.list.includes(value as any)) {
-      const errorMessage = language.isJapanese
-        ? '無効なOSタイプです'
-        : language.isFrench
-          ? "Type de système d'exploitation invalide"
-          : 'Invalid OS type'
+      const errorMessage = language.locale.message.validation.os.invalidType
       return new OsResult(null, new OsValueError(errorMessage))
     }
     return new OsResult(new Os(value, language), null)

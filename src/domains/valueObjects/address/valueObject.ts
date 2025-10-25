@@ -14,11 +14,8 @@ export class Address {
   static create(value: string, language: Language): AddressResult {
     // 長さチェック
     if (value.length > 500) {
-      const errorMessage = language.isJapanese
-        ? '住所が長すぎます（最大500文字）'
-        : language.isFrench
-          ? "L'adresse est trop longue (500 caractères maximum)"
-          : 'Address is too long (maximum 500 characters)'
+      const errorMessage =
+        language.locale.message.validation.address.tooLong(500)
       return new AddressResult(null, new AddressValueError(errorMessage))
     }
 

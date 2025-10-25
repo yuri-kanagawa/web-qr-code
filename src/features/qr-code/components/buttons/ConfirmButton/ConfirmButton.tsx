@@ -105,7 +105,7 @@ export const ConfirmButton: FC<Props> = ({
         {isLoading ? (
           <>
             <CircularProgress size={20} sx={{ mr: 1, color: 'white' }} />
-            {qr.language.isEnglish ? 'Processing...' : '処理中...'}
+            {locale.word.loading.processing}
           </>
         ) : (
           locale.word.buttons.confirm

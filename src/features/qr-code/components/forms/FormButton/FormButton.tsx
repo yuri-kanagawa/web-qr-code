@@ -35,6 +35,7 @@ export const FormButton: FC<Props> = ({
     qr.qrValue.value !== '' &&
     qr.qrValue.value.trim() !== ''
 
+  const locale = qr.language.locale
   return (
     <Box
       sx={{
@@ -113,7 +114,7 @@ export const FormButton: FC<Props> = ({
                   zIndex: 2
                 }}
               >
-                {qr.language.isEnglish ? 'Optional Settings' : 'オプション設定'}
+                {locale.word.formSections.optionalSettings}
               </Box>
               <FormCard
                 cardProps={{

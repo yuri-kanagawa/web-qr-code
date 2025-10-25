@@ -14,30 +14,42 @@ export const message = {
     email: {
       invalid: 'Invalid email',
       required: 'Email is required',
-      atLeastOneField: 'Please enter at least one of email, subject, or body'
+      atLeastOneField: 'Please enter at least one of email, subject, or body',
+      pleaseEnterValid: 'Please enter a valid email address',
+      tooLong: (max: number) =>
+        `Email address is too long (maximum ${max} characters)`
     },
 
     // URL validation
     url: {
       invalid: 'Invalid URL',
-      required: 'URL is required'
+      required: 'URL is required',
+      pleaseEnterValid: 'Please enter a valid URL'
     },
 
     // Phone validation
     phone: {
       invalid: 'Invalid phone number',
-      required: 'Phone number is required'
+      required: 'Phone number is required',
+      pleaseEnterValid:
+        'Please enter a valid phone number format (e.g., +1-555-123-4567, 03-1234-5678)',
+      invalidCharacters:
+        'Phone number can only contain digits, +, -, (), spaces, and dots'
     },
 
     // Map coordinates validation
     map: {
       latitude: {
         required: 'Latitude is required',
-        range: 'Latitude must be between -90 and 90'
+        range: 'Latitude must be between -90 and 90',
+        pleaseEnterValid: (min: number, max: number) =>
+          `Latitude must be between ${min} and ${max}`
       },
       longitude: {
         required: 'Longitude is required',
-        range: 'Longitude must be between -180 and 180'
+        range: 'Longitude must be between -180 and 180',
+        pleaseEnterValid: (min: number, max: number) =>
+          `Longitude must be between ${min} and ${max}`
       }
     },
 
@@ -48,7 +60,8 @@ export const message = {
 
     // Text validation
     text: {
-      required: 'Text is required'
+      required: 'Text is required',
+      tooLong: (max: number) => `Text is too long (maximum ${max} characters)`
     },
 
     // Device validation
@@ -56,7 +69,102 @@ export const message = {
       minSelection: 'At least one selection is required',
       notSelected: 'Not selected',
       atLeastOneCompleteSet:
-        'At least one complete set (Device + OS + URL) is required'
+        'At least one complete set (Device + OS + URL) is required',
+      invalidType: 'Invalid device type'
+    },
+
+    // WiFi validation
+    wifi: {
+      ssid: {
+        tooLong: 'SSID is too long (maximum 32 characters)'
+      },
+      password: {
+        wrongLength: 'Password must be between 8 and 63 characters'
+      }
+    },
+
+    // Address validation
+    address: {
+      tooLong: (max: number) =>
+        `Address is too long (maximum ${max} characters)`
+    },
+
+    // Image file validation
+    imageFile: {
+      notSpecified: 'No file specified',
+      unsupportedFormat: (type: string) => `Unsupported image format: ${type}`,
+      tooLarge: (max: string) => `File size too large (max: ${max}MB)`
+    },
+
+    // Latitude validation
+    latitude: {
+      pleaseEnterValid: 'Please enter a valid latitude'
+    },
+
+    // Longitude validation
+    longitude: {
+      pleaseEnterValid: 'Please enter a valid longitude'
+    },
+
+    // OS validation
+    os: {
+      pleaseEnterValid: 'Please enter a valid OS name',
+      invalidType: 'Invalid OS type'
+    },
+
+    // Country validation
+    country: {
+      pleaseEnterValid: 'Please enter a valid country name',
+      invalidCode: 'Invalid country code'
+    },
+
+    // Name validation
+    name: {
+      pleaseEnterValid: 'Please enter a valid name',
+      tooLong: (max: number) => `Name is too long (maximum ${max} characters)`
+    },
+
+    // Subject validation
+    subject: {
+      pleaseEnterValid: 'Please enter a valid subject'
+    },
+
+    // Body validation
+    body: {
+      pleaseEnterValid: 'Please enter a valid body'
+    },
+
+    // Social media validation
+    socialMedia: {
+      pleaseEnterValid: 'Please enter a valid social media URL'
+    },
+
+    // Base64 validation
+    base64: {
+      pleaseEnterValid: 'Please enter a valid base64 string',
+      tooLarge: (max: string) => `File size too large (max: ${max}MB)`,
+      invalidFileType: 'Invalid file type'
+    },
+
+    // QR style validation
+    qrStyle: {
+      pleaseEnterValid: 'Please enter a valid QR style'
+    },
+
+    // Eye radius validation
+    eyeRadius: {
+      pleaseEnterValid: 'Please enter a valid eye radius',
+      outOfRange: 'Eye radius is out of range'
+    },
+
+    // QR color validation
+    qrColor: {
+      pleaseEnterValid: 'Please enter a valid color'
+    },
+
+    // EC level validation
+    ecLevel: {
+      pleaseEnterValid: 'Please enter a valid error correction level'
     }
   },
 

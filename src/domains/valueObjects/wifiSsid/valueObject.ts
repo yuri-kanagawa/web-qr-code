@@ -19,11 +19,7 @@ export class WiFiSsid {
 
     // 長さチェック（SSIDは最大32文字）
     if (value.length > 32) {
-      const errorMessage = language.isJapanese
-        ? 'SSIDが長すぎます（最大32文字）'
-        : language.isFrench
-          ? 'Le SSID est trop long (32 caractères maximum)'
-          : 'SSID is too long (maximum 32 characters)'
+      const errorMessage = language.locale.message.validation.wifi.ssid.tooLong
       return new WiFiSsidResult(null, new WiFiSsidValueError(errorMessage))
     }
 

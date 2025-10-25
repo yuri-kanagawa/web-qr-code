@@ -228,5 +228,62 @@ export const word = {
       title: 'Lecteur de QR Code',
       description: 'Scanner et lire des QR codes avec votre appareil'
     }
+  },
+
+  // Contact form sections
+  contact: {
+    basicInformation: 'Informations de base',
+    businessInformation: 'Informations professionnelles'
+  },
+
+  // Footer links
+  footer: {
+    privacyPolicy: 'Politique de confidentialité',
+    termsOfService: "Conditions d'utilisation"
+  },
+
+  // Form sections
+  formSections: {
+    optionalSettings: 'Paramètres optionnels',
+    eyeConfiguration: "Configuration de l'œil",
+    individualSettings: 'Paramètres individuels'
+  },
+
+  // Loading states
+  loading: {
+    processing: 'Traitement...',
+    downloading: 'Téléchargement...'
+  },
+
+  // Warning titles
+  warnings: {
+    errorCorrectionLevel: "Avertissement niveau de correction d'erreur",
+    foregroundColor: 'Avertissement couleur avant-plan',
+    backgroundColor: 'Avertissement couleur de fond',
+    eyeColor: "Avertissement couleur de l'œil",
+    logoSize: 'Avertissement taille du logo',
+    sizeDisplay: 'Avertissement affichage de la taille',
+    qrCodeSize: 'Avertissement taille du QR Code'
+  },
+
+  // Warning messages
+  warningMessages: {
+    lowEcLevelWithLogo: (level: string) =>
+      `Un faible niveau de correction d'erreur (${level}) avec logo peut provoquer un échec de lecture`,
+    recommendedEcLevel:
+      "Recommandé : Utiliser le niveau Q ou H lors de l'utilisation de logos"
+  },
+
+  // QR settings labels
+  qrSettingsLabels: {
+    width: 'Largeur (%)',
+    height: 'Hauteur (%)',
+    currentOpacity: 'Opacité actuelle',
+    currentSize: 'Taille actuelle',
+    max: 'Max',
+    color: 'Couleur',
+    cornerRadius: 'Rayon du coin',
+    eyeTopRight: 'Œil (haut-droite)',
+    eyeBottomLeft: 'Œil (bas-gauche)'
   }
 }

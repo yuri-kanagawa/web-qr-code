@@ -226,5 +226,61 @@ export const word = {
       title: 'QRコード読み取り',
       description: 'デバイスでQRコードをスキャンして読み取り'
     }
+  },
+
+  // Contact form sections
+  contact: {
+    basicInformation: '基本情報',
+    businessInformation: 'ビジネス情報'
+  },
+
+  // Footer links
+  footer: {
+    privacyPolicy: 'プライバシーポリシー',
+    termsOfService: '利用規約'
+  },
+
+  // Form sections
+  formSections: {
+    optionalSettings: 'オプション設定',
+    eyeConfiguration: '目の設定方法',
+    individualSettings: '個別設定'
+  },
+
+  // Loading states
+  loading: {
+    processing: '処理中...',
+    downloading: 'ダウンロード中...'
+  },
+
+  // Warning titles
+  warnings: {
+    errorCorrectionLevel: 'エラー訂正レベル警告',
+    foregroundColor: '前景色警告',
+    backgroundColor: '背景色警告',
+    eyeColor: '目の色警告',
+    logoSize: 'ロゴサイズ警告',
+    sizeDisplay: 'サイズ表示警告',
+    qrCodeSize: 'QRコードサイズ警告'
+  },
+
+  // Warning messages
+  warningMessages: {
+    lowEcLevelWithLogo: (level: string) =>
+      `低いエラー訂正レベル（${level}）とロゴの組み合わせは読み取りに失敗する可能性があります`,
+    recommendedEcLevel: '推奨: ロゴ使用時はQまたはHレベルを使用'
+  },
+
+  // QR settings labels
+  qrSettingsLabels: {
+    width: '幅 (%)',
+    height: '高さ (%)',
+    currentOpacity: '現在の透明度',
+    currentSize: '現在のサイズ',
+    max: '最大値',
+    color: '色',
+    cornerRadius: '角の丸み',
+    eyeTopRight: '目（右上）',
+    eyeBottomLeft: '目（左下）'
   }
 }

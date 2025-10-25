@@ -22,21 +22,16 @@ export class Email {
   static create(value: string, language: Language): EmailResult {
     // 基本的なメールアドレスの形式チェック
     if (!Email.isValidFormat(value)) {
-      const errorMessage = language.isJapanese
-        ? '有効なメールアドレスを入力してください'
-        : language.isFrench
-          ? 'Veuillez saisir une adresse e-mail valide'
-          : 'Please enter a valid email address'
+      const errorMessage =
+        language.locale.message.validation.email.pleaseEnterValid
       return new EmailResult(null, new EmailValueError(errorMessage))
     }
 
     // 長さチェック
     if (value.length > Email.MAX_LENGTH) {
-      const errorMessage = language.isJapanese
-        ? 'メールアドレスが長すぎます（最大254文字）'
-        : language.isFrench
-          ? "L'adresse e-mail est trop longue (254 caractères maximum)"
-          : 'Email address is too long (maximum 254 characters)'
+      const errorMessage = language.locale.message.validation.email.tooLong(
+        Email.MAX_LENGTH
+      )
       return new EmailResult(null, new EmailValueError(errorMessage))
     }
 

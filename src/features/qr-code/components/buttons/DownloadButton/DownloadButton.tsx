@@ -110,7 +110,7 @@ export const DownloadButton: FC<Props> = ({
         {loading ? (
           <>
             <CircularProgress size={20} sx={{ mr: 1, color: 'white' }} />
-            {qr.language.isEnglish ? 'Downloading...' : 'ダウンロード中...'}
+            {locale.word.loading.downloading}
           </>
         ) : (
           locale.word.buttons.download

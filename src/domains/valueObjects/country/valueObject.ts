@@ -32,11 +32,8 @@ export class Country {
   static create(code: string, language: Language): CountryResult {
     // 簡易的なバリデーション（2文字の小文字）
     if (!/^[a-z]{2}$/.test(code)) {
-      const errorMessage = language.isJapanese
-        ? '無効な国コードです'
-        : language.isFrench
-          ? 'Code pays invalide'
-          : 'Invalid country code'
+      const errorMessage =
+        language.locale.message.validation.country.invalidCode
       return new CountryResult(null, new CountryValueError(errorMessage))
     }
     return new CountryResult(new Country(code, language), null)

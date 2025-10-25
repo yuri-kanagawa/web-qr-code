@@ -13,42 +13,58 @@ export const message = {
     // Email validation
     email: {
       invalid: 'E-mail invalide',
-      required: 'L\'e-mail est requis',
-      atLeastOneField: 'Veuillez saisir au moins un parmi e-mail, objet ou corps'
+      required: "L'e-mail est requis",
+      atLeastOneField:
+        'Veuillez saisir au moins un parmi e-mail, objet ou corps',
+      pleaseEnterValid: 'Veuillez saisir une adresse e-mail valide',
+      tooLong: (max: number) =>
+        `L'adresse e-mail est trop longue (${max} caractères maximum)`
     },
 
     // URL validation
     url: {
       invalid: 'URL invalide',
-      required: 'L\'URL est requise'
+      required: "L'URL est requise",
+      pleaseEnterValid: 'Veuillez saisir une URL valide'
     },
 
     // Phone validation
     phone: {
       invalid: 'Numéro de téléphone invalide',
-      required: 'Le numéro de téléphone est requis'
+      required: 'Le numéro de téléphone est requis',
+      pleaseEnterValid:
+        'Veuillez saisir un numéro de téléphone dans un format valide (ex: +1-555-123-4567, 03-1234-5678)',
+      invalidCharacters:
+        'Le numéro de téléphone ne peut contenir que des chiffres, +, -, (), espaces et points'
     },
 
     // Map coordinates validation
     map: {
       latitude: {
         required: 'La latitude est requise',
-        range: 'La latitude doit être entre -90 et 90'
+        range: 'La latitude doit être entre -90 et 90',
+        pleaseEnterValid: (min: number, max: number) =>
+          `La latitude doit être entre ${min} et ${max}`
       },
       longitude: {
         required: 'La longitude est requise',
-        range: 'La longitude doit être entre -180 et 180'
+        range: 'La longitude doit être entre -180 et 180',
+        pleaseEnterValid: (min: number, max: number) =>
+          `La longitude doit être entre ${min} et ${max}`
       }
     },
 
     // SMS validation
     sms: {
-      bothEmpty: 'Le numéro de téléphone et le message ne peuvent pas être vides'
+      bothEmpty:
+        'Le numéro de téléphone et le message ne peuvent pas être vides'
     },
 
     // Text validation
     text: {
-      required: 'Le texte est requis'
+      required: 'Le texte est requis',
+      tooLong: (max: number) =>
+        `Le texte est trop long (${max} caractères maximum)`
     },
 
     // Device validation
@@ -56,7 +72,105 @@ export const message = {
       minSelection: 'Au moins une sélection est requise',
       notSelected: 'Non sélectionné',
       atLeastOneCompleteSet:
-        'Au moins un ensemble complet (Appareil + OS + URL) est requis'
+        'Au moins un ensemble complet (Appareil + OS + URL) est requis',
+      invalidType: "Type d'appareil invalide"
+    },
+
+    // WiFi validation
+    wifi: {
+      ssid: {
+        tooLong: 'Le SSID est trop long (32 caractères maximum)'
+      },
+      password: {
+        wrongLength: 'Le mot de passe doit contenir entre 8 et 63 caractères'
+      }
+    },
+
+    // Address validation
+    address: {
+      tooLong: (max: number) =>
+        `L'adresse est trop longue (${max} caractères maximum)`
+    },
+
+    // Image file validation
+    imageFile: {
+      notSpecified: 'Aucun fichier spécifié',
+      unsupportedFormat: (type: string) =>
+        `Format d'image non pris en charge: ${type}`,
+      tooLarge: (max: string) => `Fichier trop volumineux (max: ${max}MB)`
+    },
+
+    // Latitude validation
+    latitude: {
+      pleaseEnterValid: 'Veuillez saisir une latitude valide'
+    },
+
+    // Longitude validation
+    longitude: {
+      pleaseEnterValid: 'Veuillez saisir une longitude valide'
+    },
+
+    // OS validation
+    os: {
+      pleaseEnterValid: "Veuillez saisir un nom d'OS valide",
+      invalidType: "Type de système d'exploitation invalide"
+    },
+
+    // Country validation
+    country: {
+      pleaseEnterValid: 'Veuillez saisir un nom de pays valide',
+      invalidCode: 'Code pays invalide'
+    },
+
+    // Name validation
+    name: {
+      pleaseEnterValid: 'Veuillez saisir un nom valide',
+      tooLong: (max: number) =>
+        `Le nom est trop long (${max} caractères maximum)`
+    },
+
+    // Subject validation
+    subject: {
+      pleaseEnterValid: 'Veuillez saisir un objet valide'
+    },
+
+    // Body validation
+    body: {
+      pleaseEnterValid: 'Veuillez saisir un corps valide'
+    },
+
+    // Social media validation
+    socialMedia: {
+      pleaseEnterValid: 'Veuillez saisir une URL de réseau social valide'
+    },
+
+    // Base64 validation
+    base64: {
+      pleaseEnterValid: 'Veuillez saisir une chaîne base64 valide',
+      tooLarge: (max: string) => `Fichier trop volumineux (max: ${max}MB)`,
+      invalidFileType: 'Type de fichier invalide'
+    },
+
+    // QR style validation
+    qrStyle: {
+      pleaseEnterValid: 'Veuillez saisir un style QR valide'
+    },
+
+    // Eye radius validation
+    eyeRadius: {
+      pleaseEnterValid: "Veuillez saisir un rayon d'œil valide",
+      outOfRange: "Le rayon de l'œil est hors limites"
+    },
+
+    // QR color validation
+    qrColor: {
+      pleaseEnterValid: 'Veuillez saisir une couleur valide'
+    },
+
+    // EC level validation
+    ecLevel: {
+      pleaseEnterValid:
+        "Veuillez saisir un niveau de correction d'erreur valide"
     }
   },
 
@@ -97,14 +211,15 @@ export const message = {
     // Error messages
     error: {
       title: 'Erreur',
-      general: 'Une erreur s\'est produite',
+      general: "Une erreur s'est produite",
       network: 'Erreur réseau',
       validation: 'Veuillez vérifier votre saisie',
       fileTooLarge: 'La taille du fichier est trop grande',
       unsupportedFormat: 'Format non pris en charge',
       qrCodeReadFailed: 'Échec de la lecture du QR code',
-      noDeviceDestination: 'Aucune destination trouvée pour cet appareil ou OS.',
-      invalidUrlFormat: 'L\'URL de destination est invalide.',
+      noDeviceDestination:
+        'Aucune destination trouvée pour cet appareil ou OS.',
+      invalidUrlFormat: "L'URL de destination est invalide.",
       qrValueCannotBeEmpty: 'Veuillez saisir la valeur QR'
     },
 
@@ -119,7 +234,7 @@ export const message = {
     // QR Information Dialog
     qrInformationDialog: {
       titles: {
-        deviceRedirect: 'QR Code de redirection d\'appareil',
+        deviceRedirect: "QR Code de redirection d'appareil",
         sms: 'SMS',
         map: 'Localisation carte',
         url: 'URL',
@@ -136,7 +251,7 @@ export const message = {
       buttons: {
         viewDetails: 'Voir les détails',
         openMap: 'Ouvrir la carte',
-        openUrl: 'Ouvrir l\'URL',
+        openUrl: "Ouvrir l'URL",
         call: 'Appeler',
         sendSms: 'Envoyer SMS'
       }
@@ -150,7 +265,7 @@ export const message = {
       lastUpdated: 'Dernière mise à jour : ',
       sections: {
         informationCollection: {
-          title: '1. Collecte d\'informations',
+          title: "1. Collecte d'informations",
           content:
             'Ce générateur de QR code fonctionne entièrement dans votre navigateur. Nous ne collectons, ne stockons ni ne transmettons aucune information personnelle ou contenu de QR code à nos serveurs. Toute génération de QR code est effectuée localement sur votre appareil.'
         },
@@ -162,7 +277,7 @@ export const message = {
         thirdParty: {
           title: '3. Services tiers',
           content:
-            'Ce site Web peut utiliser des services tiers pour l\'analyse ou l\'hébergement. Ces services peuvent collecter des informations telles que décrites dans leurs politiques de confidentialité respectives.'
+            "Ce site Web peut utiliser des services tiers pour l'analyse ou l'hébergement. Ces services peuvent collecter des informations telles que décrites dans leurs politiques de confidentialité respectives."
         },
         dataSecurity: {
           title: '4. Sécurité des données',
@@ -182,13 +297,13 @@ export const message = {
       }
     },
     terms: {
-      title: 'Conditions d\'utilisation',
+      title: "Conditions d'utilisation",
       lastUpdated: 'Dernière mise à jour : ',
       sections: {
         acceptance: {
           title: '1. Acceptation des conditions',
           content:
-            'En accédant et en utilisant ce service de générateur de QR code, vous acceptez et convenez d\'être lié par les termes et dispositions de cet accord.'
+            "En accédant et en utilisant ce service de générateur de QR code, vous acceptez et convenez d'être lié par les termes et dispositions de cet accord."
         },
         useOfService: {
           title: '2. Utilisation du service',
@@ -208,7 +323,7 @@ export const message = {
         liability: {
           title: '5. Limitation de responsabilité',
           content:
-            'Nous ne serons pas responsables de tout dommage direct, indirect, accessoire, spécial ou consécutif résultant de l\'utilisation ou de l\'impossibilité d\'utiliser ce service.'
+            "Nous ne serons pas responsables de tout dommage direct, indirect, accessoire, spécial ou consécutif résultant de l'utilisation ou de l'impossibilité d'utiliser ce service."
         },
         intellectual: {
           title: '6. Propriété intellectuelle',
@@ -229,4 +344,3 @@ export const message = {
     }
   }
 }
-

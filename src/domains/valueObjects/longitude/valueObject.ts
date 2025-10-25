@@ -50,9 +50,11 @@ export class Longitude {
 
   static create(value: number, language: Language): LongitudeResult {
     if (value < Longitude.MIN || value > Longitude.MAX) {
-      const errorMessage = language.isJapanese
-        ? `経度は${Longitude.MIN}から${Longitude.MAX}の範囲で指定してください`
-        : `Longitude must be between ${Longitude.MIN} and ${Longitude.MAX}`
+      const errorMessage =
+        language.locale.message.validation.map.longitude.pleaseEnterValid(
+          Longitude.MIN,
+          Longitude.MAX
+        )
       return LongitudeResult.fail(new LongitudeError(errorMessage))
     }
 

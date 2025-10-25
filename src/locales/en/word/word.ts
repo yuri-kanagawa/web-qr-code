@@ -226,5 +226,61 @@ export const word = {
       title: 'QR Code Reader',
       description: 'Scan and read QR codes with your device'
     }
+  },
+
+  // Contact form sections
+  contact: {
+    basicInformation: 'Basic Information',
+    businessInformation: 'Business Information'
+  },
+
+  // Footer links
+  footer: {
+    privacyPolicy: 'Privacy Policy',
+    termsOfService: 'Terms of Service'
+  },
+
+  // Form sections
+  formSections: {
+    optionalSettings: 'Optional Settings',
+    eyeConfiguration: 'Eye Configuration',
+    individualSettings: 'Individual Settings'
+  },
+
+  // Loading states
+  loading: {
+    processing: 'Processing...',
+    downloading: 'Downloading...'
+  },
+
+  // Warning titles
+  warnings: {
+    errorCorrectionLevel: 'Error Correction Level Warning',
+    foregroundColor: 'Foreground Color Warning',
+    backgroundColor: 'Background Color Warning',
+    eyeColor: 'Eye Color Warning',
+    logoSize: 'Logo Size Warning',
+    sizeDisplay: 'Size Display Warning',
+    qrCodeSize: 'QR Code Size Warning'
+  },
+
+  // Warning messages
+  warningMessages: {
+    lowEcLevelWithLogo: (level: string) =>
+      `Low error correction level (${level}) with logo may cause reading failure`,
+    recommendedEcLevel: 'Recommended: Use Q or H level when using logos'
+  },
+
+  // QR settings labels
+  qrSettingsLabels: {
+    width: 'Width (%)',
+    height: 'Height (%)',
+    currentOpacity: 'Current Opacity',
+    currentSize: 'Current Size',
+    max: 'Max',
+    color: 'Color',
+    cornerRadius: 'Corner Radius',
+    eyeTopRight: 'Eye (Top Right)',
+    eyeBottomLeft: 'Eye (Bottom Left)'
   }
 }

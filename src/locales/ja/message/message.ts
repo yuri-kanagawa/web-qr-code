@@ -16,30 +16,41 @@ export const message = {
       invalid: 'メールが無効',
       required: 'メールアドレスを入力してください',
       atLeastOneField:
-        'メールアドレス、件名、本文のいずれか1つは入力してください'
+        'メールアドレス、件名、本文のいずれか1つは入力してください',
+      pleaseEnterValid: '有効なメールアドレスを入力してください',
+      tooLong: (max: number) => `メールアドレスが長すぎます（最大${max}文字）`
     },
 
     // URL validation
     url: {
       invalid: 'URLが無効です',
-      required: 'URLを入力してください'
+      required: 'URLを入力してください',
+      pleaseEnterValid: '有効なURLを入力してください'
     },
 
     // Phone validation
     phone: {
       invalid: '電話番号が無効です',
-      required: '電話番号を入力してください'
+      required: '電話番号を入力してください',
+      pleaseEnterValid:
+        '有効な電話番号の形式で入力してください（例: +1-555-123-4567, 03-1234-5678）',
+      invalidCharacters:
+        '電話番号には数字、+、-、()、スペース、ドットのみ使用できます'
     },
 
     // Map coordinates validation
     map: {
       latitude: {
         required: '緯度を入力してください',
-        range: '緯度は-90から90の範囲で入力してください'
+        range: '緯度は-90から90の範囲で入力してください',
+        pleaseEnterValid: (min: number, max: number) =>
+          `緯度は${min}から${max}の範囲で指定してください`
       },
       longitude: {
         required: '経度を入力してください',
-        range: '経度は-180から180の範囲で入力してください'
+        range: '経度は-180から180の範囲で入力してください',
+        pleaseEnterValid: (min: number, max: number) =>
+          `経度は${min}から${max}の範囲で指定してください`
       }
     },
 
@@ -50,7 +61,8 @@ export const message = {
 
     // Text validation
     text: {
-      required: '入力してください'
+      required: '入力してください',
+      tooLong: (max: number) => `テキストが長すぎます（最大${max}文字）`
     },
 
     // Device validation
@@ -58,7 +70,104 @@ export const message = {
       minSelection: '一つ以上選択しないと',
       notSelected: '未選択です',
       atLeastOneCompleteSet:
-        '少なくとも1つの完全なセット（デバイス + OS + URL）が必要です'
+        '少なくとも1つの完全なセット（デバイス + OS + URL）が必要です',
+      invalidType: '無効なデバイスタイプです'
+    },
+
+    // WiFi validation
+    wifi: {
+      ssid: {
+        tooLong: 'SSIDが長すぎます（最大32文字）'
+      },
+      password: {
+        wrongLength: 'パスワードは8～63文字で入力してください'
+      }
+    },
+
+    // Address validation
+    address: {
+      tooLong: (max: number) => `住所が長すぎます（最大${max}文字）`
+    },
+
+    // Image file validation
+    imageFile: {
+      notSpecified: 'ファイルが指定されていません',
+      unsupportedFormat: (type: string) =>
+        `サポートされていない画像形式です: ${type}`,
+      tooLarge: (max: string) =>
+        `ファイルサイズが大きすぎます（最大: ${max}MB）`
+    },
+
+    // Latitude validation
+    latitude: {
+      pleaseEnterValid: '有効な緯度を入力してください'
+    },
+
+    // Longitude validation
+    longitude: {
+      pleaseEnterValid: '有効な経度を入力してください'
+    },
+
+    // OS validation
+    os: {
+      pleaseEnterValid: '有効なOS名を入力してください',
+      invalidType: '無効なOSタイプです'
+    },
+
+    // Country validation
+    country: {
+      pleaseEnterValid: '有効な国名を入力してください',
+      invalidCode: '無効な国コードです'
+    },
+
+    // Name validation
+    name: {
+      pleaseEnterValid: '有効な名前を入力してください',
+      tooLong: (max: number) => `名前が長すぎます（最大${max}文字）`
+    },
+
+    // Subject validation
+    subject: {
+      pleaseEnterValid: '有効な件名を入力してください'
+    },
+
+    // Body validation
+    body: {
+      pleaseEnterValid: '有効な本文を入力してください'
+    },
+
+    // Social media validation
+    socialMedia: {
+      pleaseEnterValid: '有効なソーシャルメディアURLを入力してください'
+    },
+
+    // Base64 validation
+    base64: {
+      pleaseEnterValid: '有効なbase64文字列を入力してください',
+      tooLarge: (max: string) =>
+        `ファイルサイズが大きすぎます（最大: ${max}MB）`,
+      invalidFileType: '無効なファイルタイプです'
+    },
+
+    // QR style validation
+    qrStyle: {
+      pleaseEnterValid: '有効なQRスタイルを入力してください'
+    },
+
+    // Eye radius validation
+    eyeRadius: {
+      pleaseEnterValid: '有効な目の半径を入力してください',
+      outOfRange: '目の半径が範囲外です'
+    },
+
+    // QR color validation
+    qrColor: {
+      pleaseEnterValid: '有効な色を入力してください'
+    },
+
+    // EC level validation
+    ecLevel: {
+      pleaseEnterValid: '有効なエラー訂正レベルを入力してください'
     }
   },
 

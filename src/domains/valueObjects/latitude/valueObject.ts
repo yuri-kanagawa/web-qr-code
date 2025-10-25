@@ -50,9 +50,11 @@ export class Latitude {
 
   static create(value: number, language: Language): LatitudeResult {
     if (value < Latitude.MIN || value > Latitude.MAX) {
-      const errorMessage = language.isJapanese
-        ? `緯度は${Latitude.MIN}から${Latitude.MAX}の範囲で指定してください`
-        : `Latitude must be between ${Latitude.MIN} and ${Latitude.MAX}`
+      const errorMessage =
+        language.locale.message.validation.map.latitude.pleaseEnterValid(
+          Latitude.MIN,
+          Latitude.MAX
+        )
       return LatitudeResult.fail(new LatitudeError(errorMessage))
     }
 

@@ -1,5 +1,5 @@
-import { Language } from '@/domains/valueObjects/language'
 import { Base64 } from '@/domains/valueObjects/base64'
+import { Language } from '@/domains/valueObjects/language'
 import { ImageFileError } from './error'
 import { ImageFileResult } from './result'
 
@@ -37,32 +37,25 @@ export class ImageFile {
   ): ImageFileResult {
     // ファイルの存在チェック
     if (!file) {
-      const errorMessage = language.isJapanese
-        ? 'ファイルが指定されていません'
-        : language.isFrench
-          ? 'Aucun fichier spécifié'
-          : 'No file specified'
+      const errorMessage =
+        language.locale.message.validation.imageFile.notSpecified
       return new ImageFileResult(null, new ImageFileError(errorMessage))
     }
 
     // MIMEタイプのチェック
     if (!ImageFile.ALLOWED_MIME_TYPES.includes(file.type as any)) {
-      const errorMessage = language.isJapanese
-        ? `サポートされていない画像形式です: ${file.type}`
-        : language.isFrench
-          ? `Format d'image non pris en charge: ${file.type}`
-          : `Unsupported image format: ${file.type}`
+      const errorMessage =
+        language.locale.message.validation.imageFile.unsupportedFormat(
+          file.type
+        )
       return new ImageFileResult(null, new ImageFileError(errorMessage))
     }
 
     // ファイルサイズのチェック
     if (file.size > maxSize) {
       const maxSizeMB = (maxSize / (1024 * 1024)).toFixed(1)
-      const errorMessage = language.isJapanese
-        ? `ファイルサイズが大きすぎます（最大: ${maxSizeMB}MB）`
-        : language.isFrench
-          ? `Fichier trop volumineux (max: ${maxSizeMB}MB)`
-          : `File size too large (max: ${maxSizeMB}MB)`
+      const errorMessage =
+        language.locale.message.validation.imageFile.tooLarge(maxSizeMB)
       return new ImageFileResult(null, new ImageFileError(errorMessage))
     }
 

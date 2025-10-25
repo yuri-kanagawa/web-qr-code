@@ -14,11 +14,7 @@ export class Name {
   static create(value: string, language: Language): NameResult {
     // 長さチェック
     if (value.length > 100) {
-      const errorMessage = language.isJapanese
-        ? '名前が長すぎます（最大100文字）'
-        : language.isFrench
-          ? 'Le nom est trop long (100 caractères maximum)'
-          : 'Name is too long (maximum 100 characters)'
+      const errorMessage = language.locale.message.validation.name.tooLong(100)
       return new NameResult(null, new NameValueError(errorMessage))
     }
 

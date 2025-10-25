@@ -59,9 +59,7 @@ export const ContactForm: FC<Props> = ({ qr, onChange }) => {
         <FormCard cardProps={{ sx: { p: 2 } }}>
           <Stack spacing={3}>
             {/* 基本情報 */}
-            <FormSection
-              label={qr.language.isEnglish ? 'Basic Information' : '基本情報'}
-            >
+            <FormSection label={locale.word.contact.basicInformation}>
               <Stack spacing={2}>
                 <Controller
                   control={control}
@@ -201,11 +199,7 @@ export const ContactForm: FC<Props> = ({ qr, onChange }) => {
             </FormSection>
 
             {/* ビジネス情報 */}
-            <FormSection
-              label={
-                qr.language.isEnglish ? 'Business Information' : 'ビジネス情報'
-              }
-            >
+            <FormSection label={locale.word.contact.businessInformation}>
               <Stack spacing={2}>
                 <Controller
                   control={control}

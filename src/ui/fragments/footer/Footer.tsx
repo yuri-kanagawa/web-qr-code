@@ -76,7 +76,7 @@ export const Footer = ({
             underline="hover"
             variant="body2"
           >
-            {language.isEnglish ? 'Privacy Policy' : 'プライバシーポリシー'}
+            {locale.word.footer.privacyPolicy}
           </Link>
           <Link
             href={pathBuilder.terms}
@@ -84,7 +84,7 @@ export const Footer = ({
             underline="hover"
             variant="body2"
           >
-            {language.isEnglish ? 'Terms of Service' : '利用規約'}
+            {locale.word.footer.termsOfService}
           </Link>
         </Box>
       </Box>

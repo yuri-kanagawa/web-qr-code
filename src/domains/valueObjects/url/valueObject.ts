@@ -15,11 +15,8 @@ export class Url {
     try {
       new URL(value)
     } catch {
-      const errorMessage = language.isJapanese
-        ? '有効なURLを入力してください'
-        : language.isFrench
-          ? 'Veuillez saisir une URL valide'
-          : 'Please enter a valid URL'
+      const errorMessage =
+        language.locale.message.validation.url.pleaseEnterValid
       return new UrlResult(null, new UrlValueError(errorMessage))
     }
 

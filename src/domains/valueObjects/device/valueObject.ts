@@ -29,11 +29,7 @@ export class Device {
 
   static create(value: number, language: Language): DeviceResult {
     if (!Device.list.includes(value as any)) {
-      const errorMessage = language.isJapanese
-        ? '無効なデバイスタイプです'
-        : language.isFrench
-          ? "Type d'appareil invalide"
-          : 'Invalid device type'
+      const errorMessage = language.locale.message.validation.device.invalidType
       return new DeviceResult(null, new DeviceValueError(errorMessage))
     }
     return new DeviceResult(new Device(value, language), null)
