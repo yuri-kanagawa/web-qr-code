@@ -1,4 +1,7 @@
+import { QrCode } from '@/domains'
+import { IQrScannerRepository } from '@/domains/repositories/external/qrScanner'
 import { Language } from '@/domains/valueObjects/language'
+import { Qr as QrValue } from '@/domains/valueObjects/qr'
 import { ReadQrFromFileUseCaseResult } from './result'
 
 /**
@@ -23,16 +26,19 @@ export class ReadQrFromFileUseCase {
       // QRコードをスキャン（外部リポジトリ使用）
       const result = await this.qrScannerRepository.scanFromImageUrl(objectUrl)
 
-      // QRコードのバリューオブジェクトを作成
-      const qrResult = Qr.create(result.data, this.language)
+      // QrValueを作成
+      const qrValueResult = QrValue.create(result.data, this.language)
 
-      if (qrResult.isFailure || !qrResult.qr) {
+      if (qrValueResult.isFailure || !qrValueResult.qr) {
         return ReadQrFromFileUseCaseResult.fail(
-          new Error(qrResult.error?.message || 'Invalid QR code')
+          new Error(qrValueResult.error?.message || 'Invalid QR code')
         )
       }
 
-      return ReadQrFromFileUseCaseResult.ok(qrResult.qr)
+      // QrValueからQrCodeを作成
+      const qrCode = this.createQrCodeFromQrValue(qrValueResult.qr)
+
+      return ReadQrFromFileUseCaseResult.ok(qrCode)
     } catch (error) {
       // スキャンエラーをキャッチして結果オブジェクトに変換
       const errorMessage =
@@ -42,5 +48,134 @@ export class ReadQrFromFileUseCase {
       // ObjectURLを解放
       URL.revokeObjectURL(objectUrl)
     }
+  }
+
+  /**
+   * QrValueからQrCodeを作成
+   */
+  private createQrCodeFromQrValue(qrValue: QrValue): QrCode {
+    // WiFiの場合
+    if (qrValue.value.startsWith('WIFI:')) {
+      return this.parseWifiQr(qrValue)
+    }
+
+    // Contact（vCard）の場合
+    if (qrValue.isVcard) {
+      return this.parseVCardQr(qrValue)
+    }
+
+    // DeviceリダイレクトURLの場合
+    if (qrValue.isDeviceRedirectUrl) {
+      const qrCode = QrCode.createDevice(this.language)
+      return qrCode.updateData((qrData) => qrData.changeUrl(qrValue.value))
+    }
+
+    // Mapの場合
+    if (qrValue.isMap) {
+      const qrCode = QrCode.createMap(this.language)
+      return qrCode.updateData((qrData) => qrData.changeUrl(qrValue.value))
+    }
+
+    // メールの場合
+    if (qrValue.isEmail) {
+      return this.parseEmailQr(qrValue)
+    }
+
+    // SMSの場合
+    if (qrValue.isSms) {
+      return this.parseSmsQr(qrValue)
+    }
+
+    // 電話番号の場合
+    if (qrValue.isTel) {
+      const qrCode = QrCode.createPhone(this.language)
+      const phoneNumber = qrValue.value.replace('tel:', '')
+      return qrCode.updateData((qrData) =>
+        qrData.changePhoneNumber(phoneNumber)
+      )
+    }
+
+    // URLの場合
+    if (qrValue.isUrl) {
+      const qrCode = QrCode.createUrl(this.language)
+      return qrCode.updateData((qrData) => qrData.changeUrl(qrValue.value))
+    }
+
+    // テキストの場合（デフォルト）
+    const qrCode = QrCode.createText(this.language)
+    return qrCode.updateData((qrData) => qrData.changeText(qrValue.value))
+  }
+
+  /**
+   * WiFi QRコードをパース
+   */
+  private parseWifiQr(qrValue: QrValue): QrCode {
+    const qrCode = QrCode.createWifi(this.language)
+    const wifiData = qrValue.parseWifi()
+
+    return qrCode.updateData((qrData) => {
+      let data = qrData
+      if (wifiData.ssid) {
+        data = data.changeWifiSsid(wifiData.ssid)
+      }
+      if (wifiData.password) {
+        data = data.changeWifiPassword(wifiData.password)
+      }
+      if (wifiData.type !== undefined) {
+        data = data.changeWifiType(wifiData.type)
+      }
+      return data
+    })
+  }
+
+  /**
+   * Email QRコードをパース
+   */
+  private parseEmailQr(qrValue: QrValue): QrCode {
+    const qrCode = QrCode.createEmail(this.language)
+    const emailData = qrValue.parseEmail()
+
+    return qrCode.updateData((qrData) => {
+      let data = qrData
+      if (emailData.email) {
+        data = data.changeEmail(emailData.email)
+      }
+      if (emailData.subject) {
+        data = data.changeSubject(emailData.subject)
+      }
+      if (emailData.body) {
+        data = data.changeBody(emailData.body)
+      }
+      return data
+    })
+  }
+
+  /**
+   * SMS QRコードをパース
+   */
+  private parseSmsQr(qrValue: QrValue): QrCode {
+    const qrCode = QrCode.createSms(this.language)
+    const smsData = qrValue.parseSms()
+
+    return qrCode.updateData((qrData) => {
+      let data = qrData
+      if (smsData.phoneNumber) {
+        data = data.changePhoneNumber(smsData.phoneNumber)
+      }
+      if (smsData.body) {
+        data = data.changeBody(smsData.body)
+      }
+      return data
+    })
+  }
+
+  /**
+   * vCard QRコードをパース
+   * TODO: QrCodeDataに適切なメソッドを追加してから実装
+   */
+  private parseVCardQr(qrValue: QrValue): QrCode {
+    // 現時点では**vCardパースをスキップ**してテキストとして扱う
+    const qrCode = QrCode.createContact(this.language)
+    return qrCode.updateData((qrData) => qrData.changeText(qrValue.value))
   }
 }

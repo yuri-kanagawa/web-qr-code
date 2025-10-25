@@ -18,7 +18,7 @@ export const QrFileCheckButton: FC<Props> = ({ file, language }) => {
   const { errorNotify } = useNotify()
   const { push } = useRouter()
   const { setQr } = useQr()
-  const { pathBuilder } = useNavigation(language)
+  const { navigateToEditContent } = useNavigation(language)
   const locale = language.locale
   const readQrFromFileUseCase = useMemo(
     () => new ReadQrFromFileUseCase(new QrScannerRepository(), language),
@@ -35,7 +35,7 @@ export const QrFileCheckButton: FC<Props> = ({ file, language }) => {
       setQr(result.qr)
 
       // 編集画面に遷移
-      push(pathBuilder.edit.content)
+      navigateToEditContent()
     } else {
       errorNotify(
         result.errorMessage || locale.message.common.error.qrCodeReadFailed
@@ -47,7 +47,7 @@ export const QrFileCheckButton: FC<Props> = ({ file, language }) => {
     locale,
     readQrFromFileUseCase,
     push,
-    pathBuilder,
+    navigateToEditContent,
     setQr
   ])
 

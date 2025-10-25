@@ -1,13 +1,14 @@
 import { Language } from '@/domains'
 import {
-    ContactForm,
-    DeviceForm,
-    MapForm,
-    PhoneForm,
-    SmsForm,
-    TextForm,
-    UrlForm,
-    WiFiForm
+  ContactForm,
+  DeviceForm,
+  EmailForm,
+  MapForm,
+  PhoneForm,
+  SmsForm,
+  TextForm,
+  UrlForm,
+  WiFiForm
 } from '@/features/qr-code'
 import { useQr } from '@/stores'
 import { Box, Typography } from '@mui/material'
@@ -19,7 +20,7 @@ interface Props {
 }
 
 export const QrFormSelector: FC<Props> = ({ language }) => {
-  const { qr } = useQr()
+  const { qr, setQr } = useQr()
   const router = useRouter()
 
   // QRデータがない場合は編集ページにリダイレクト
@@ -50,102 +51,42 @@ export const QrFormSelector: FC<Props> = ({ language }) => {
       )
     }
 
-    // URLかどうか判定（デバイス振り分けURLを除く）
-    const isDeviceRedirectUrl = qr.value.includes('/device/redirect')
-
-    // SMS
-    if (qr.isSms) {
-      const smsMatch = qr.value.match(/^smsto:([^:?]+)(?::(.*))?/)
-      const phoneNumber = smsMatch ? smsMatch[1] : ''
-      const body =
-        smsMatch && smsMatch[2] ? decodeURIComponent(smsMatch[2]) : ''
-
-      return (
-        <SmsForm language={language} phoneNumber={phoneNumber} body={body} />
-      )
+    // QRコードの種類に応じてフォームを返す
+    if (qr.qrCodeType.isEmail) {
+      return <EmailForm qr={qr} onChange={setQr} />
     }
 
-    // 電話
-    if (qr.isTel) {
-      const phoneMatch = qr.value.match(/^tel:(.+)/)
-      const phoneNumber = phoneMatch ? phoneMatch[1] : ''
-
-      return <PhoneForm language={language} phoneNumber={phoneNumber} />
+    if (qr.qrCodeType.isSms) {
+      return <SmsForm qr={qr} onChange={setQr} />
     }
 
-    // 地図
-    if (qr.isMap) {
-      // Google Maps URLから緯度経度を抽出
-      const coordsMatch = qr.value.match(/q=([-\d.]+),([-\d.]+)/)
-      const latitude = coordsMatch ? coordsMatch[1] : ''
-      const longitude = coordsMatch ? coordsMatch[2] : ''
-
-      return (
-        <MapForm
-          language={language}
-          latitude={latitude}
-          longitude={longitude}
-        />
-      )
+    if (qr.qrCodeType.isPhone) {
+      return <PhoneForm qr={qr} onChange={setQr} />
     }
 
-    // WiFi (WIFI:の形式)
-    if (qr.value.startsWith('WIFI:')) {
-      const ssidMatch = qr.value.match(/S:([^;]+)/)
-      const passwordMatch = qr.value.match(/P:([^;]+)/)
-      const typeMatch = qr.value.match(/T:([^;]+)/)
-
-      const ssid = ssidMatch ? ssidMatch[1] : ''
-      const password = passwordMatch ? passwordMatch[1] : ''
-      const encryptionType = typeMatch ? typeMatch[1] : 'WPA'
-
-      return (
-        <WiFiForm
-          language={language}
-          ssid={ssid}
-          password={password}
-          type={encryptionType}
-        />
-      )
+    if (qr.qrCodeType.isMap) {
+      return <MapForm qr={qr} onChange={setQr} />
     }
 
-    // vCard (連絡先)
-    if (qr.value.startsWith('BEGIN:VCARD')) {
-      // vCardの解析は複雑なので、デフォルト値でフォームを表示
-      return (
-        <ContactForm
-          language={language}
-          firstName=""
-          lastName=""
-          middleName=""
-          email=""
-          mobilePhone=""
-          homePhone=""
-          homeAddress=""
-          homeUrl=""
-          organization=""
-          post=""
-          workMobile=""
-          workPhone=""
-          workAddress=""
-          workUrl=""
-        />
-      )
+    if (qr.qrCodeType.isWifi) {
+      return <WiFiForm qr={qr} onChange={setQr} />
     }
 
-    // デバイス振り分けURL
-    if (isDeviceRedirectUrl) {
-      return <DeviceForm language={language} />
+    if (qr.qrCodeType.isContact) {
+      return <ContactForm qr={qr} onChange={setQr} />
     }
 
-    // 通常のURL
-    if (qr.isUrl) {
-      return <UrlForm language={language} url={qr.value} />
+    if (qr.qrCodeType.isDevice) {
+      return <DeviceForm qr={qr} onChange={setQr} />
+    }
+
+    if (qr.qrCodeType.isUrl) {
+      return <UrlForm qr={qr} onChange={setQr} />
     }
 
     // その他のテキスト
-    return <TextForm language={language} text={qr.value} />
-  }, [qr, language])
+    return <TextForm qr={qr} onChange={setQr} />
+  }, [qr, setQr])
 
   return <>{formContent}</>
 }

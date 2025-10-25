@@ -86,4 +86,64 @@ export class Qr {
     const redirectPath = pathBuilder.device.redirect
     return this._value.includes(redirectPath)
   }
+
+  /**
+   * WiFi情報をパース
+   * フォーマット: WIFI:S:SSID;P:password;T:WPA;H:false;;
+   */
+  parseWifi(): { ssid?: string; password?: string; type?: number } {
+    const wifiData = this._value.replace('WIFI:', '')
+    const ssidMatch = wifiData.match(/S:([^;]+)/)
+    const passwordMatch = wifiData.match(/P:([^;]+)/)
+    const typeMatch = wifiData.match(/T:([^;]+)/)
+
+    return {
+      ssid: ssidMatch ? ssidMatch[1] : undefined,
+      password: passwordMatch ? passwordMatch[1] : undefined,
+      type: typeMatch ? this.parseWifiTypeValue(typeMatch[1]) : undefined
+    }
+  }
+
+  /**
+   * Email情報をパース
+   * フォーマット: mailto:email@example.com?subject=Subject&body=Body
+   */
+  parseEmail(): { email?: string; subject?: string; body?: string } {
+    const emailMatch = this._value.match(/mailto:([^?]+)/)
+    const subjectMatch = this._value.match(/subject=([^&]+)/)
+    const bodyMatch = this._value.match(/body=(.+)$/)
+
+    return {
+      email: emailMatch ? decodeURIComponent(emailMatch[1]) : undefined,
+      subject: subjectMatch ? decodeURIComponent(subjectMatch[1]) : undefined,
+      body: bodyMatch ? decodeURIComponent(bodyMatch[1]) : undefined
+    }
+  }
+
+  /**
+   * SMS情報をパース
+   * フォーマット: sms:+1234567890?body=message
+   */
+  parseSms(): { phoneNumber?: string; body?: string } {
+    const phoneMatch = this._value.match(/sms:([^?]+)/)
+    const bodyMatch = this._value.match(/body=(.+)$/)
+
+    return {
+      phoneNumber: phoneMatch ? phoneMatch[1] : undefined,
+      body: bodyMatch ? decodeURIComponent(bodyMatch[1]) : undefined
+    }
+  }
+
+  /**
+   * WiFiタイプ文字列を数値に変換
+   */
+  private parseWifiTypeValue(typeStr: string): number | undefined {
+    const typeMap: Record<string, number> = {
+      WPA: 1,
+      WPA2: 1,
+      WEP: 2,
+      nopass: 3
+    }
+    return typeMap[typeStr.toUpperCase()]
+  }
 }

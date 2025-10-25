@@ -54,6 +54,9 @@ export const useNavigation = (language: Language) => {
   const navigateToEdit = () => {
     router.push(pathBuilder.edit.index)
   }
+  const navigateToEditContent = () => {
+    router.push(pathBuilder.edit.content)
+  }
 
   const navigateToPrivacy = () => {
     router.push(pathBuilder.privacy)
@@ -77,6 +80,7 @@ export const useNavigation = (language: Language) => {
     navigateToWifi,
     navigateToReader,
     navigateToEdit,
+    navigateToEditContent,
     navigateToPrivacy,
     navigateToTerms
   }

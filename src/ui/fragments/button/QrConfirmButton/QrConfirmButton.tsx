@@ -1,5 +1,5 @@
+import { QrCode } from '@/domains'
 import { Language } from '@/domains/valueObjects/language'
-import { Qr as QrValue } from '@/domains/valueObjects/qr'
 import { QrInformationDialog } from '@/features/qr-code'
 import { FC, useState } from 'react'
 import { QrFileCheckButton } from './internal'
@@ -10,10 +10,10 @@ type Props = {
   isValid?: boolean
 }
 export const QrConfirmButton: FC<Props> = ({ file, language, isValid }) => {
-  const [qr, setQr] = useState<QrValue>(QrValue.default(language))
+  const [qr, setQr] = useState<QrCode>(QrCode.default(language))
   const [isDialogOpen, setIsDialogOpen] = useState(false)
 
-  const handleSetQr = (newQr: QrValue) => {
+  const handleSetQr = (newQr: QrCode) => {
     setQr(newQr)
     setIsDialogOpen(true)
   }

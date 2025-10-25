@@ -3,6 +3,7 @@ import { FC, useCallback, useMemo } from 'react'
 import { useNotify } from '@/hooks'
 
 import { ReadQrFromFileUseCase } from '@/application/usecases'
+import { QrCode } from '@/domains'
 import { Language } from '@/domains/valueObjects/language'
 import { QrScannerRepository } from '@/infrastructure/repositories'
 import { Button } from '@/ui/cores'
@@ -13,11 +14,7 @@ type Props = {
   language: Language
 }
 
-export const QrFileCheckButton: FC<Props> = ({
-  file,
-  setQr,
-  language 
-}) => {
+export const QrFileCheckButton: FC<Props> = ({ file, setQr, language }) => {
   const { errorNotify } = useNotify()
   const locale = language.locale
   const readQrFromFileUseCase = useMemo(
