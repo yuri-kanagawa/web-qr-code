@@ -61,7 +61,7 @@ export const Opacity: FC<Props> = ({ qr, onChange }) => {
       </FormLabel>
       <Stack spacing={3}>
         <TextField
-          label={qr.language.isEnglish ? 'Current Opacity' : '現在の透明度'}
+          label={locale.word.qrSettingsLabels.currentOpacity}
           type="number"
           size="small"
           value={qr.settings.logo.opacity ?? 1}

@@ -5,7 +5,6 @@ import { Box, FormLabel, Slider, Stack, TextField } from '@mui/material'
 import { FC, useEffect, useMemo, useState } from 'react'
 
 type Props = {
-  
   qr: QrCode
   onChange: (qr: QrCode) => void
 }
@@ -107,7 +106,7 @@ export const Size: FC<Props> = ({ qr, onChange }) => {
       </FormLabel>
       <Stack spacing={3}>
         <TextField
-          label={qr.language.isEnglish ? 'Current Size' : '現在のサイズ'}
+          label={locale.word.qrSettingsLabels.currentSize}
           type="number"
           size="small"
           value={qr.settings.size.value}
@@ -137,7 +136,7 @@ export const Size: FC<Props> = ({ qr, onChange }) => {
             sx={{ flex: 1 }}
           />
           <TextField
-            label={qr.language.isEnglish ? 'Max' : '最大値'}
+            label={locale.word.qrSettingsLabels.max}
             type="number"
             size="small"
             value={currentMaxSize}
@@ -149,31 +148,17 @@ export const Size: FC<Props> = ({ qr, onChange }) => {
         {currentMaxSize > calculatedMaxSize && (
           <WarningAlert
             language={qr.language}
-            title={
-              qr.language.isEnglish ? 'Size Display Warning' : 'サイズ表示警告'
-            }
-            messages={[
-              qr.language.isEnglish
-                ? 'Actual size may be larger than displayed'
-                : '実際のサイズは表示より大きくなります'
-            ]}
+            title={locale.word.warnings.sizeDisplay}
+            messages={[locale.word.warningMessages.actualSizeMayBeLarger]}
           />
         )}
         {qr.settings.size.value < 75 && (
           <WarningAlert
             language={qr.language}
-            title={
-              qr.language.isEnglish ? 'QR Code Size Warning' : 'QRコードサイズ警告'
-            }
-            messages={[
-              qr.language.isEnglish
-                ? 'Size less than 75 may cause reading failure'
-                : '75未満だと読み込みに失敗します'
-            ]}
+            title={locale.word.warnings.qrCodeSize}
+            messages={[locale.word.warningMessages.sizeLessThan75MayFail]}
             recommendedText={
-              qr.language.isEnglish
-                ? 'Recommended size: 75 or higher'
-                : '推奨サイズ: 75以上'
+              locale.word.warningMessages.recommendedSize75OrHigher
             }
           />
         )}

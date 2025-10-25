@@ -14,6 +14,7 @@ type Props = {
 export const ImageForm: FC<Props> = memo(({ qr, onChange, max }) => {
   const file = qr.settings.logoFile
   const isRelationFileDisabled = file == null
+  const locale = qr.language.locale
 
   console.log('ImageForm render:', { file, isRelationFileDisabled })
 
@@ -142,7 +143,7 @@ export const ImageForm: FC<Props> = memo(({ qr, onChange, max }) => {
       {/* 数値入力欄（パーセンテージ） */}
       <Stack direction="row" spacing={2}>
         <TextField
-          label={qr.language.isEnglish ? 'Width (%)' : '幅 (%)'}
+          label={locale.word.qrSettingsLabels.width}
           type="number"
           size="small"
           value={qr.settings.logo.width || ''}
@@ -168,7 +169,7 @@ export const ImageForm: FC<Props> = memo(({ qr, onChange, max }) => {
           sx={{ flex: 1 }}
         />
         <TextField
-          label={qr.language.isEnglish ? 'Height (%)' : '高さ (%)'}
+          label={locale.word.qrSettingsLabels.height}
           type="number"
           size="small"
           value={qr.settings.logo.height || ''}

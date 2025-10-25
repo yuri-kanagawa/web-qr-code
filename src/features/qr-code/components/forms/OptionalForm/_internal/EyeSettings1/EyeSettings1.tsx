@@ -95,12 +95,8 @@ export const EyeSettings1: FC<Props> = ({
   }
 
   const label = isUnified
-    ? qr.language.isEnglish
-      ? 'Eye Settings'
-      : '目の設定'
-    : qr.language.isEnglish
-      ? 'Eye (Top Left)'
-      : '目（左上）'
+    ? locale.word.formSections.eyeSettings
+    : locale.word.formSections.eyeTopLeft
 
   // 目の色のコントラスト比チェック
   const contrastInfo = qr.getLeftTopEyeContrastInfo()
@@ -111,7 +107,7 @@ export const EyeSettings1: FC<Props> = ({
         <ColorInput
           format="hex"
           value={qr.settings.colors.eyeColor1.value}
-          label={qr.language.isEnglish ? 'Color' : '色'}
+          label={locale.word.qrSettingsLabels.color}
           onChange={handleColorChange}
           isAlphaHidden={true}
         />
@@ -133,7 +129,7 @@ export const EyeSettings1: FC<Props> = ({
           </Box>
         )}
         <TextField
-          label={qr.language.isEnglish ? 'Corner Radius' : '角の丸み'}
+          label={locale.word.qrSettingsLabels.cornerRadius}
           type="number"
           size="small"
           value={qr.settings.eye.radius1}
@@ -166,12 +162,10 @@ export const EyeSettings1: FC<Props> = ({
         {contrastInfo.hasLowContrast && (
           <WarningAlert
             language={qr.language}
-            title={qr.language.isEnglish ? 'Eye Color Warning' : '目の色警告'}
+            title={locale.word.warnings.eyeColor}
             messages={contrastInfo.warningMessages}
             recommendedText={
-              qr.language.isEnglish
-                ? 'Recommended contrast ratio: 3.0:1 or higher'
-                : '推奨コントラスト比: 3.0:1以上'
+              locale.word.warningMessages.recommendedContrastRatio
             }
           />
         )}

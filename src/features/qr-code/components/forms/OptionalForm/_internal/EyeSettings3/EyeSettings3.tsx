@@ -12,7 +12,6 @@ import { Box, Slider, Stack, TextField } from '@mui/material'
 import { FC } from 'react'
 
 type Props = {
-  
   qr: QrCode
   onChange: (qr: QrCode) => void
 }
@@ -33,7 +32,7 @@ export const EyeSettings3: FC<Props> = ({ qr, onChange }) => {
     }
   }
 
-  const label = qr.language.isEnglish ? 'Eye (Bottom Left)' : '目（左下）'
+  const label = locale.word.qrSettingsLabels.eyeBottomLeft
 
   // 目の色のコントラスト比チェック
   const contrastInfo = qr.getLeftBottomEyeContrastInfo()
@@ -44,7 +43,7 @@ export const EyeSettings3: FC<Props> = ({ qr, onChange }) => {
         <ColorInput
           format="hex"
           value={qr.colors.eyeColor3.value}
-          label={qr.language.isEnglish ? 'Color' : '色'}
+          label={locale.word.qrSettingsLabels.color}
           onChange={(value) => {
             const newQr = qr.changeColors(
               qr.colors.fgColor.value,
@@ -72,7 +71,7 @@ export const EyeSettings3: FC<Props> = ({ qr, onChange }) => {
           </Box>
         )}
         <TextField
-          label={qr.language.isEnglish ? 'Corner Radius' : '角の丸み'}
+          label={locale.word.qrSettingsLabels.cornerRadius}
           type="number"
           size="small"
           value={qr.eye.radius3}
@@ -109,12 +108,10 @@ export const EyeSettings3: FC<Props> = ({ qr, onChange }) => {
         {contrastInfo.hasLowContrast && (
           <WarningAlert
             language={qr.language}
-            title={qr.language.isEnglish ? 'Eye Color Warning' : '目の色警告'}
+            title={locale.word.warnings.eyeColor}
             messages={contrastInfo.warningMessages}
             recommendedText={
-              qr.language.isEnglish
-                ? 'Recommended contrast ratio: 3.0:1 or higher'
-                : '推奨コントラスト比: 3.0:1以上'
+              locale.word.warningMessages.recommendedContrastRatio
             }
           />
         )}

@@ -42,17 +42,11 @@ export const BgColor: FC<Props> = ({ qr, onChange }) => {
       {hasLowContrast && (
         <WarningAlert
           language={qr.language}
-          title={qr.language.isEnglish ? 'Background Color Warning' : '背景色警告'}
+          title={locale.word.warnings.backgroundColor}
           messages={[
-            qr.language.isEnglish
-              ? `Low contrast with foreground color (${fgBgContrast.toFixed(1)}:1)`
-              : `前景色とのコントラスト比が低いです (${fgBgContrast.toFixed(1)}:1)`
+            locale.word.warningMessages.bgFgContrast(fgBgContrast.toFixed(1))
           ]}
-          recommendedText={
-            qr.language.isEnglish
-              ? 'Recommended contrast ratio: 3.0:1 or higher'
-              : '推奨コントラスト比: 3.0:1以上'
-          }
+          recommendedText={locale.word.warningMessages.recommendedContrastRatio}
         />
       )}
     </Stack>

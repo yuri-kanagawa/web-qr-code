@@ -12,7 +12,6 @@ import { FC } from 'react'
 import { QRCode } from 'react-qrcode-logo'
 
 type Props = {
-  
   qr: QrCode
   onChange: (qr: QrCode) => void
 }
@@ -33,7 +32,7 @@ export const EyeSettings2: FC<Props> = ({ qr, onChange }) => {
     }
   }
 
-  const label = qr.language.isEnglish ? 'Eye (Top Right)' : '目（右上）'
+  const label = locale.word.qrSettingsLabels.eyeTopRight
 
   // 目の色のコントラスト比チェック
   const contrastInfo = qr.getRightTopEyeContrastInfo()
@@ -44,7 +43,7 @@ export const EyeSettings2: FC<Props> = ({ qr, onChange }) => {
         <ColorInput
           format="hex"
           value={qr.colors.eyeColor2.value}
-          label={qr.language.isEnglish ? 'Color' : '色'}
+          label={locale.word.qrSettingsLabels.color}
           onChange={(value) => {
             const newQr = qr.changeColors(
               qr.colors.fgColor.value,
@@ -72,7 +71,7 @@ export const EyeSettings2: FC<Props> = ({ qr, onChange }) => {
           </Box>
         )}
         <TextField
-          label={qr.language.isEnglish ? 'Corner Radius' : '角の丸み'}
+          label={locale.word.qrSettingsLabels.cornerRadius}
           type="number"
           size="small"
           value={qr.eye.radius2}
@@ -109,12 +108,10 @@ export const EyeSettings2: FC<Props> = ({ qr, onChange }) => {
         {contrastInfo.hasLowContrast && (
           <WarningAlert
             language={qr.language}
-            title={qr.language.isEnglish ? 'Eye Color Warning' : '目の色警告'}
+            title={locale.word.warnings.eyeColor}
             messages={contrastInfo.warningMessages}
             recommendedText={
-              qr.language.isEnglish
-                ? 'Recommended contrast ratio: 3.0:1 or higher'
-                : '推奨コントラスト比: 3.0:1以上'
+              locale.word.warningMessages.recommendedContrastRatio
             }
           />
         )}

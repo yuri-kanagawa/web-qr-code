@@ -246,7 +246,9 @@ export const word = {
   formSections: {
     optionalSettings: 'Paramètres optionnels',
     eyeConfiguration: "Configuration de l'œil",
-    individualSettings: 'Paramètres individuels'
+    individualSettings: 'Paramètres individuels',
+    eyeSettings: "Paramètres de l'œil",
+    eyeTopLeft: 'Œil (haut-gauche)'
   },
 
   // Loading states
@@ -271,7 +273,21 @@ export const word = {
     lowEcLevelWithLogo: (level: string) =>
       `Un faible niveau de correction d'erreur (${level}) avec logo peut provoquer un échec de lecture`,
     recommendedEcLevel:
-      "Recommandé : Utiliser le niveau Q ou H lors de l'utilisation de logos"
+      "Recommandé : Utiliser le niveau Q ou H lors de l'utilisation de logos",
+    actualSizeMayBeLarger:
+      'La taille réelle peut être plus grande que celle affichée',
+    sizeLessThan75MayFail:
+      'Une taille inférieure à 75 peut provoquer un échec de lecture',
+    recommendedSize75OrHigher: 'Taille recommandée : 75 ou plus',
+    eyeBgContrast: (ratio: string) =>
+      `La couleur de l'œil a un faible contraste avec le fond (${ratio}:1)`,
+    eyeFgContrast: (ratio: string) =>
+      `La couleur de l'œil a un faible contraste avec l'avant-plan (${ratio}:1)`,
+    fgBgContrast: (ratio: string) =>
+      `Faible contraste avec la couleur de fond (${ratio}:1)`,
+    bgFgContrast: (ratio: string) =>
+      `Faible contraste avec la couleur avant-plan (${ratio}:1)`,
+    recommendedContrastRatio: 'Rapport de contraste recommandé : 3.0:1 ou plus'
   },
 
   // QR settings labels

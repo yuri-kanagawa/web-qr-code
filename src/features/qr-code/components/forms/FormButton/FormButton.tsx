@@ -97,7 +97,7 @@ export const FormButton: FC<Props> = ({
             sx={{
               flex: '0 0 400px',
               height: '100%',
-              overflow: 'hidden'
+              overflow: 'visible'
             }}
           >
             <Box sx={{ position: 'relative', height: '100%', pt: 2 }}>
@@ -121,13 +121,14 @@ export const FormButton: FC<Props> = ({
                   sx: {
                     pt: 4,
                     pb: 2,
-                    px: 2,
+                    px: 0,
                     overflowY: 'auto',
                     height: 'calc(100vh - 200px)',
                     position: 'relative',
                     bgcolor: 'background.paper',
                     boxShadow: 2,
                     borderRadius: 2,
+                    overflowX: 'visible',
                     '&::-webkit-scrollbar': {
                       width: '8px'
                     },
@@ -144,7 +145,9 @@ export const FormButton: FC<Props> = ({
                   }
                 }}
               >
-                <OptionalForm qr={qr} onChange={onChange} />
+                <Box sx={{ px: 2 }}>
+                  <OptionalForm qr={qr} onChange={onChange} />
+                </Box>
               </FormCard>
             </Box>
           </Box>

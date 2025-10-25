@@ -80,7 +80,7 @@ export const Logo: FC<Props> = ({ qr, onChange }) => {
       {file && isLogoTooLarge && (
         <WarningAlert
           language={qr.language}
-          title={qr.language.isEnglish ? 'Logo Size Warning' : 'ロゴサイズ警告'}
+          title={locale.word.warnings.logoSize}
           messages={[
             qr.language.isEnglish
               ? `Logo size is too large (${logoWidthPercent}%×${logoHeightPercent}%)`

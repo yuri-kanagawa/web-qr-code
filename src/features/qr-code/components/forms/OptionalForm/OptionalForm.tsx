@@ -53,20 +53,14 @@ export const OptionalForm: FC<Props> = ({ qr, onChange }) => {
   }
 
   return (
-    <Stack spacing={4}>
+    <Stack spacing={4} sx={{ overflowX: 'visible' }}>
       <Size qr={qr} onChange={onChange} />
       <BgColor qr={qr} onChange={onChange} />
       <FgColor qr={qr} onChange={onChange} />
-      <EcLevel
-        qr={qr}
-        hasLogo={!!file}
-        onChange={onChange}
-      />
+      <EcLevel qr={qr} hasLogo={!!file} onChange={onChange} />
 
       {/* 目の個別設定スイッチ */}
-      <FormSection
-        label={qr.language.isEnglish ? 'Eye Configuration' : '目の設定方法'}
-      >
+      <FormSection label={locale.word.formSections.eyeConfiguration}>
         <FormControlLabel
           control={
             <Switch
@@ -74,26 +68,18 @@ export const OptionalForm: FC<Props> = ({ qr, onChange }) => {
               onChange={(e) => handleToggle(e.target.checked)}
             />
           }
-          label={qr.language.isEnglish ? 'Individual Settings' : '個別設定'}
+          label={locale.word.formSections.individualSettings}
         />
       </FormSection>
 
       {individualEyeSettings ? (
         <>
-          <EyeSettings1
-            isUnified={false}
-            qr={qr}
-            onChange={onChange}
-          />
+          <EyeSettings1 isUnified={false} qr={qr} onChange={onChange} />
           <EyeSettings2 qr={qr} onChange={onChange} />
           <EyeSettings3 qr={qr} onChange={onChange} />
         </>
       ) : (
-        <EyeSettings1
-          isUnified={true}
-          qr={qr}
-          onChange={onChange}
-        />
+        <EyeSettings1 isUnified={true} qr={qr} onChange={onChange} />
       )}
 
       <Logo qr={qr} onChange={onChange} />

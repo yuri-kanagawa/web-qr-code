@@ -5,18 +5,12 @@ import { Stack } from '@mui/material'
 import { FC } from 'react'
 
 type Props = {
-  
   qr: QrCode
   hasLogo?: boolean
   onChange: (qr: QrCode) => void
 }
 
-export const EcLevel: FC<Props> = ({
-  
-  qr,
-  hasLogo = false,
-  onChange
-}) => {
+export const EcLevel: FC<Props> = ({ qr, hasLogo = false, onChange }) => {
   const locale = qr.language.locale
 
   // ロゴ使用時のエラー訂正レベル警告
@@ -38,23 +32,15 @@ export const EcLevel: FC<Props> = ({
         label={locale.word.qrSettings.ecLevel}
       />
       {shouldShowWarning && (
-          <WarningAlert
-            language={qr.language}
-            title={
-              qr.language.isEnglish
-                ? 'Error Correction Level Warning'
-                : 'エラー訂正レベル警告'
-            }
+        <WarningAlert
+          language={qr.language}
+          title={locale.word.warnings.errorCorrectionLevel}
           messages={[
-            qr.language.isEnglish
-              ? `Low error correction level (${qr.settings.ecLevel.value}) with logo may cause reading failure`
-              : `低いエラー訂正レベル（${qr.settings.ecLevel.value}）とロゴの組み合わせは読み取りに失敗する可能性があります`
+            locale.word.warningMessages.lowEcLevelWithLogo(
+              qr.settings.ecLevel.value
+            )
           ]}
-          recommendedText={
-            qr.language.isEnglish
-              ? 'Recommended: Use Q or H level when using logos'
-              : '推奨: ロゴ使用時はQまたはHレベルを使用'
-          }
+          recommendedText={locale.word.warningMessages.recommendedEcLevel}
         />
       )}
     </Stack>

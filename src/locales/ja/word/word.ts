@@ -244,7 +244,9 @@ export const word = {
   formSections: {
     optionalSettings: 'オプション設定',
     eyeConfiguration: '目の設定方法',
-    individualSettings: '個別設定'
+    individualSettings: '個別設定',
+    eyeSettings: '目の設定',
+    eyeTopLeft: '目（左上）'
   },
 
   // Loading states
@@ -268,7 +270,19 @@ export const word = {
   warningMessages: {
     lowEcLevelWithLogo: (level: string) =>
       `低いエラー訂正レベル（${level}）とロゴの組み合わせは読み取りに失敗する可能性があります`,
-    recommendedEcLevel: '推奨: ロゴ使用時はQまたはHレベルを使用'
+    recommendedEcLevel: '推奨: ロゴ使用時はQまたはHレベルを使用',
+    actualSizeMayBeLarger: '実際のサイズは表示より大きくなります',
+    sizeLessThan75MayFail: '75未満だと読み込みに失敗します',
+    recommendedSize75OrHigher: '推奨サイズ: 75以上',
+    eyeBgContrast: (ratio: string) =>
+      `目の色と背景色のコントラスト比が低いです (${ratio}:1)`,
+    eyeFgContrast: (ratio: string) =>
+      `目の色と前景色のコントラスト比が低いです (${ratio}:1)`,
+    fgBgContrast: (ratio: string) =>
+      `背景色とのコントラスト比が低いです (${ratio}:1)`,
+    bgFgContrast: (ratio: string) =>
+      `前景色とのコントラスト比が低いです (${ratio}:1)`,
+    recommendedContrastRatio: '推奨コントラスト比: 3.0:1以上'
   },
 
   // QR settings labels

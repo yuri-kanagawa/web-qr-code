@@ -5,7 +5,6 @@ import { MuiColorInput } from 'mui-color-input'
 import { FC } from 'react'
 
 type Props = {
-  
   qr: QrCode
   onChange: (qr: QrCode) => void
 }
@@ -43,17 +42,11 @@ export const FgColor: FC<Props> = ({ qr, onChange }) => {
       {hasLowContrast && (
         <WarningAlert
           language={qr.language}
-          title={qr.language.isEnglish ? 'Foreground Color Warning' : '前景色警告'}
+          title={locale.word.warnings.foregroundColor}
           messages={[
-            qr.language.isEnglish
-              ? `Low contrast with background color (${fgBgContrast.toFixed(1)}:1)`
-              : `背景色とのコントラスト比が低いです (${fgBgContrast.toFixed(1)}:1)`
+            locale.word.warningMessages.fgBgContrast(fgBgContrast.toFixed(1))
           ]}
-          recommendedText={
-            qr.language.isEnglish
-              ? 'Recommended contrast ratio: 3.0:1 or higher'
-              : '推奨コントラスト比: 3.0:1以上'
-          }
+          recommendedText={locale.word.warningMessages.recommendedContrastRatio}
         />
       )}
     </Stack>

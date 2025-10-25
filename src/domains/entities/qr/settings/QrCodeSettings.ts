@@ -274,13 +274,13 @@ export class QrCodeSettings {
     )
     const hasLowContrast = eyeBgContrast < 3.0 || eyeFgContrast < 3.0
 
-    const eyeBgContrastText = this._language.isEnglish
-      ? `Eye color has low contrast with background (${eyeBgContrast.toFixed(1)}:1)`
-      : `目の色と背景色のコントラスト比が低いです (${eyeBgContrast.toFixed(1)}:1)`
-
-    const eyeFgContrastText = this._language.isEnglish
-      ? `Eye color has low contrast with foreground (${eyeFgContrast.toFixed(1)}:1)`
-      : `目の色と前景色のコントラスト比が低いです (${eyeFgContrast.toFixed(1)}:1)`
+    const locale = this._language.locale
+    const eyeBgContrastText = locale.word.warningMessages.eyeBgContrast(
+      eyeBgContrast.toFixed(1)
+    )
+    const eyeFgContrastText = locale.word.warningMessages.eyeFgContrast(
+      eyeFgContrast.toFixed(1)
+    )
 
     const warningMessages = [
       ...(eyeBgContrast < 3.0 ? [eyeBgContrastText] : []),

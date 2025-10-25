@@ -244,7 +244,9 @@ export const word = {
   formSections: {
     optionalSettings: 'Optional Settings',
     eyeConfiguration: 'Eye Configuration',
-    individualSettings: 'Individual Settings'
+    individualSettings: 'Individual Settings',
+    eyeSettings: 'Eye Settings',
+    eyeTopLeft: 'Eye (Top Left)'
   },
 
   // Loading states
@@ -268,7 +270,19 @@ export const word = {
   warningMessages: {
     lowEcLevelWithLogo: (level: string) =>
       `Low error correction level (${level}) with logo may cause reading failure`,
-    recommendedEcLevel: 'Recommended: Use Q or H level when using logos'
+    recommendedEcLevel: 'Recommended: Use Q or H level when using logos',
+    actualSizeMayBeLarger: 'Actual size may be larger than displayed',
+    sizeLessThan75MayFail: 'Size less than 75 may cause reading failure',
+    recommendedSize75OrHigher: 'Recommended size: 75 or higher',
+    eyeBgContrast: (ratio: string) =>
+      `Eye color has low contrast with background (${ratio}:1)`,
+    eyeFgContrast: (ratio: string) =>
+      `Eye color has low contrast with foreground (${ratio}:1)`,
+    fgBgContrast: (ratio: string) =>
+      `Low contrast with background color (${ratio}:1)`,
+    bgFgContrast: (ratio: string) =>
+      `Low contrast with foreground color (${ratio}:1)`,
+    recommendedContrastRatio: 'Recommended contrast ratio: 3.0:1 or higher'
   },
 
   // QR settings labels
