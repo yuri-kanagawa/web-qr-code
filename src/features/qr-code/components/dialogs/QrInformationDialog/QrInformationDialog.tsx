@@ -1,6 +1,7 @@
 import { FC, useMemo } from 'react'
 
-import { PathBuilder } from '@/lib/routing'
+import { QrCode } from '@/domains'
+import { useNavigation } from '@/hooks'
 import { useQr } from '@/stores'
 import {
   Button,
@@ -20,7 +21,7 @@ interface Props {
 }
 
 export const QrInformationDialog: FC<Props> = ({ qr, onClose }) => {
-  const qrValue = qr.value
+  const qrValue = qr.qrValue?.value || ''
   const locale = qr.language.locale
 
   // Device Redirect URLかどうかを判定
@@ -54,25 +55,24 @@ export const QrInformationDialog: FC<Props> = ({ qr, onClose }) => {
 
   const title = useMemo(() => {
     if (isDeviceRedirectUrl) {
-      return qr.language.isEnglish
-        ? 'Device Redirect QR Code'
-        : 'デバイス振り分けQRコード'
+      return locale.message.common.qrInformationDialog.titles.deviceRedirect
     }
-    if (qr.isSms) {
-      return 'SMS'
+    if (qr.qrCodeType.isSms) {
+      return locale.message.common.qrInformationDialog.titles.sms
     }
-    if (qr.isMap) {
-      return qr.language.isEnglish ? 'Map Location' : '地図'
+    if (qr.qrCodeType.isMap) {
+      return locale.message.common.qrInformationDialog.titles.map
     }
-    if (qr.isUrl) {
-      return 'URL'
+    if (qr.qrCodeType.isUrl) {
+      return locale.message.common.qrInformationDialog.titles.url
     }
-    if (qr.isTel) {
-      return locale.word.navigation.phone
+    if (qr.qrCodeType.isPhone) {
+      return locale.message.common.qrInformationDialog.titles.phone
     }
     return ''
   }, [qr, locale, isDeviceRedirectUrl])
 
+  const { pathBuilder } = useNavigation(qr.language)
   const { push } = useRouter()
   const { setQr } = useQr()
 
@@ -82,21 +82,20 @@ export const QrInformationDialog: FC<Props> = ({ qr, onClose }) => {
     onClose()
 
     // 共通の編集画面に遷移
-    const pathBuilder = new PathBuilder(qr.language)
     push(pathBuilder.edit.content)
   }
 
   const handleOpen = () => {
-    if (qr.isMap) {
+    if (qr.qrCodeType.isMap) {
       // 地図URLを新しいタブで開く
       window.open(qrValue, '_blank')
-    } else if (qr.isUrl) {
+    } else if (qr.qrCodeType.isUrl) {
       // 通常のURLを新しいタブで開く
       window.open(qrValue, '_blank')
-    } else if (qr.isTel) {
+    } else if (qr.qrCodeType.isPhone) {
       // 電話番号リンク
       window.location.href = qrValue
-    } else if (qr.isSms) {
+    } else if (qr.qrCodeType.isSms) {
       // SMSリンク
       window.location.href = qrValue
     }
@@ -105,34 +104,31 @@ export const QrInformationDialog: FC<Props> = ({ qr, onClose }) => {
 
   const contentMessage = useMemo(() => {
     if (isDeviceRedirectUrl && deviceRedirectInfo) {
-      const message = qr.language.isEnglish
-        ? `This QR code redirects to ${deviceRedirectInfo.count} different URL(s) based on device/OS.`
-        : `このQRコードは、デバイス/OSに応じて${deviceRedirectInfo.count}種類のURLにリダイレクトします。`
-      return message
+      return locale.message.common.qrInformationDialog.messages.deviceRedirect(
+        deviceRedirectInfo.count
+      )
     }
-    return qr.language.isEnglish
-      ? `This QR code contains: ${qrValue}`
-      : `このQRコードには次の内容が含まれています: ${qrValue}`
-  }, [qr.language, qrValue, isDeviceRedirectUrl, deviceRedirectInfo])
+    return locale.message.common.qrInformationDialog.messages.contains(qrValue)
+  }, [locale, qrValue, isDeviceRedirectUrl, deviceRedirectInfo])
 
   const actionButtonLabel = useMemo(() => {
     if (isDeviceRedirectUrl) {
-      return qr.language.isEnglish ? 'View Details' : '詳細を見る'
+      return locale.message.common.qrInformationDialog.buttons.viewDetails
     }
-    if (qr.isMap) {
-      return qr.language.isEnglish ? 'Open Map' : '地図を開く'
+    if (qr.qrCodeType.isMap) {
+      return locale.message.common.qrInformationDialog.buttons.openMap
     }
-    if (qr.isUrl) {
-      return qr.language.isEnglish ? 'Open URL' : 'URLを開く'
+    if (qr.qrCodeType.isUrl) {
+      return locale.message.common.qrInformationDialog.buttons.openUrl
     }
-    if (qr.isTel) {
-      return qr.language.isEnglish ? 'Call' : '電話をかける'
+    if (qr.qrCodeType.isPhone) {
+      return locale.message.common.qrInformationDialog.buttons.call
     }
-    if (qr.isSms) {
-      return qr.language.isEnglish ? 'Send SMS' : 'SMSを送る'
+    if (qr.qrCodeType.isSms) {
+      return locale.message.common.qrInformationDialog.buttons.sendSms
     }
     return null
-  }, [qr, isDeviceRedirectUrl])
+  }, [qr, locale, isDeviceRedirectUrl])
 
   return (
     <Dialog
@@ -152,9 +148,7 @@ export const QrInformationDialog: FC<Props> = ({ qr, onClose }) => {
           {isDeviceRedirectUrl && deviceRedirectInfo && (
             <Stack spacing={1} sx={{ mt: 2 }}>
               <Typography variant="subtitle2" color="text.secondary">
-                {qr.language.isEnglish
-                  ? 'Redirect URLs:'
-                  : 'リダイレクト先URL:'}
+                {locale.message.common.qrInformationDialog.labels.redirectUrls}
               </Typography>
               {deviceRedirectInfo.urls.map((url, index) => (
                 <Typography

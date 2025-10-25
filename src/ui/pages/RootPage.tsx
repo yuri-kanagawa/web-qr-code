@@ -1,13 +1,13 @@
 'use client'
 import { Language } from '@/domains/valueObjects/language'
-import { PathBuilder } from '@/lib/routing'
+import { useNavigation } from '@/hooks'
 import { Box, Container, Grid, Typography } from '@/ui/cores'
 import EditIcon from '@mui/icons-material/Edit'
 import LinkIcon from '@mui/icons-material/Link'
 import PhoneIcon from '@mui/icons-material/Phone'
 import QrCodeScannerIcon from '@mui/icons-material/QrCodeScanner'
 import SmartphoneIcon from '@mui/icons-material/Smartphone'
-import { FC, useMemo } from 'react'
+import { FC } from 'react'
 import { FaCommentSms, FaWifi } from 'react-icons/fa6'
 import { MdLocationOn, MdPermContactCalendar } from 'react-icons/md'
 import { RiMailFill } from 'react-icons/ri'
@@ -21,7 +21,7 @@ export const Page: FC<Props> = ({ language }) => {
   const locale = language.locale
   const word = locale.word
 
-  const pathBuilder = useMemo(() => new PathBuilder(language), [language])
+  const { pathBuilder } = useNavigation(language)
 
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
@@ -74,7 +74,7 @@ export const Page: FC<Props> = ({ language }) => {
         <Grid item xs={12} sm={6} md={4}>
           <FeatureCard
             icon={<PhoneIcon />}
-            path={pathBuilder.phone.index()}
+            path={pathBuilder.phone.index}
             title={word.features.phone.title}
             description={word.features.phone.description}
           />

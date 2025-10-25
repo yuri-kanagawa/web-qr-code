@@ -1,6 +1,7 @@
 'use client'
 
 import { Language } from '@/domains/valueObjects/language'
+import { useNavigation } from '@/hooks'
 import {
   Dialog,
   DialogActions,
@@ -9,7 +10,6 @@ import {
   DialogTitle
 } from '@/ui/cores'
 import { Button } from '@mui/material'
-import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
 type ErrorType = 'noDestination' | 'invalidUrl' | null
@@ -20,7 +20,7 @@ type Props = {
 
 export const DeviceRedirectPage = ({ language }: Props) => {
   const [errorType, setErrorType] = useState<ErrorType>(null)
-  const router = useRouter()
+  const { navigateToRoot } = useNavigation(language)
   const locale = language.locale
 
   useEffect(() => {
@@ -31,8 +31,7 @@ export const DeviceRedirectPage = ({ language }: Props) => {
   const handleClose = () => {
     setErrorType(null)
     // トップページに遷移
-    const topPath = language.isEnglish ? '/' : `/${language.value}`
-    router.push(topPath)
+    navigateToRoot()
   }
 
   const errorMessage =

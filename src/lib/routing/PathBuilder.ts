@@ -112,12 +112,7 @@ export class PathBuilder {
 
   get phone() {
     return {
-      index: (queryParameter?: { phoneNumber: string }) => {
-        const queryString = queryParameter?.phoneNumber
-          ? `?phoneNumber=${queryParameter.phoneNumber}`
-          : ''
-        return this.buildPath(`${PathBuilder.PATHS.PHONE}${queryString}`)
-      }
+      index: this.buildPath(PathBuilder.PATHS.PHONE)
     }
   }
 
@@ -137,5 +132,12 @@ export class PathBuilder {
 
   get terms() {
     return this.buildPath(PathBuilder.PATHS.TERMS)
+  }
+
+  get root() {
+    if (this._language.isEnglish) {
+      return '/'
+    }
+    return `/${this._language.value}`
   }
 }

@@ -1,6 +1,6 @@
 import { Language } from '@/domains/valueObjects/language'
 import { LanguageSelect } from '@/features/qr-code'
-import { PathBuilder } from '@/lib/routing'
+import { useNavigation } from '@/hooks'
 import { useSidebar } from '@/stores'
 import { DrawerItemIcon } from '@/ui/fragments/pageWrapper/internal/drawer/internal/DrawerItems/DrawerItemIcon/DrawerItemIcon'
 import { OpenButton } from '@/ui/fragments/pageWrapper/internal/drawer/internal/DrawerItems/OpenButton/OpenButton'
@@ -11,7 +11,7 @@ import QrCodeScannerIcon from '@mui/icons-material/QrCodeScanner'
 import SmartphoneIcon from '@mui/icons-material/Smartphone'
 import { Box, Stack } from '@mui/material'
 import { usePathname, useRouter } from 'next/navigation'
-import { forwardRef, useMemo } from 'react'
+import { forwardRef } from 'react'
 import { FaCommentSms, FaWifi } from 'react-icons/fa6'
 import { MdLocationOn, MdPermContactCalendar } from 'react-icons/md'
 import { RiMailFill, RiText } from 'react-icons/ri'
@@ -24,7 +24,7 @@ export const DrawerItems = forwardRef<HTMLDivElement, Props>(
     const { isSidebarOpen, toggleSidebar, setIsSidebarOpen } = useSidebar()
     const router = useRouter()
     const pathname = usePathname()
-    const pathBuilder = useMemo(() => new PathBuilder(language), [language])
+    const { pathBuilder } = useNavigation(language)
     const locale = language.locale
     const word = locale.word
 
@@ -102,7 +102,7 @@ export const DrawerItems = forwardRef<HTMLDivElement, Props>(
           <DrawerItemIcon
             label={word.navigation.phone}
             icon={<PhoneIcon sx={{ fontSize: 24 }} />}
-            path={pathBuilder.phone.index()}
+            path={pathBuilder.phone.index}
           />
           <DrawerItemIcon
             label={word.navigation.email}

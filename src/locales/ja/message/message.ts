@@ -116,6 +116,33 @@ export const message = {
       optional: '任意',
       select: '選択してください',
       enter: '入力してください'
+    },
+
+    // QR Information Dialog
+    qrInformationDialog: {
+      titles: {
+        deviceRedirect: 'デバイス振り分けQRコード',
+        sms: 'SMS',
+        map: '地図',
+        url: 'URL',
+        phone: '電話'
+      },
+      messages: {
+        deviceRedirect: (count: number) =>
+          `このQRコードは、デバイス/OSに応じて${count}種類のURLにリダイレクトします。`,
+        contains: (value: string) =>
+          `このQRコードには次の内容が含まれています: ${value}`
+      },
+      labels: {
+        redirectUrls: 'リダイレクト先URL:'
+      },
+      buttons: {
+        viewDetails: '詳細を見る',
+        openMap: '地図を開く',
+        openUrl: 'URLを開く',
+        call: '電話をかける',
+        sendSms: 'SMSを送る'
+      }
     }
   },
 

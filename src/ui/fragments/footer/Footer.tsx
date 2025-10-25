@@ -1,7 +1,7 @@
 'use client'
 
 import { Language } from '@/domains/valueObjects/language'
-import { PathBuilder } from '@/lib/routing'
+import { useNavigation } from '@/hooks'
 import { Box, Link, Typography } from '@mui/material'
 
 type Props = {
@@ -17,7 +17,7 @@ export const Footer = ({
 }: Props) => {
   const locale = language.locale
   const currentYear = new Date().getFullYear()
-  const pathBuilder = new PathBuilder(language)
+  const { pathBuilder } = useNavigation(language)
 
   return (
     <Box

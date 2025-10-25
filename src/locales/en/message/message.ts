@@ -113,6 +113,32 @@ export const message = {
       optional: 'Optional',
       select: 'Please select',
       enter: 'Please enter'
+    },
+
+    // QR Information Dialog
+    qrInformationDialog: {
+      titles: {
+        deviceRedirect: 'Device Redirect QR Code',
+        sms: 'SMS',
+        map: 'Map Location',
+        url: 'URL',
+        phone: 'Phone'
+      },
+      messages: {
+        deviceRedirect: (count: number) =>
+          `This QR code redirects to ${count} different URL(s) based on device/OS.`,
+        contains: (value: string) => `This QR code contains: ${value}`
+      },
+      labels: {
+        redirectUrls: 'Redirect URLs:'
+      },
+      buttons: {
+        viewDetails: 'View Details',
+        openMap: 'Open Map',
+        openUrl: 'Open URL',
+        call: 'Call',
+        sendSms: 'Send SMS'
+      }
     }
   },
 
