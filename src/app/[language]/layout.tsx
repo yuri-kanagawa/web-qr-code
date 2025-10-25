@@ -1,3 +1,4 @@
+import { Language } from '@/domains'
 import { Metadata } from 'next'
 import { ReactNode } from 'react'
 
@@ -8,7 +9,7 @@ type Props = {
 
 // 静的パスを生成
 export function generateStaticParams() {
-  return [{ language: 'en' }, { language: 'ja' }]
+  return Language.getPageLanguages().map((lang) => ({ language: lang.key }))
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {

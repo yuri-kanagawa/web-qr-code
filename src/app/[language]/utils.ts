@@ -1,5 +1,4 @@
-import { Language } from '@/domains/valueObjects/language'
-import { LanguageKey } from '@/locales'
+import { Language, LanguageKey } from '@/domains'
 
 /**
  * paramsからLanguage ValueObjectを生成

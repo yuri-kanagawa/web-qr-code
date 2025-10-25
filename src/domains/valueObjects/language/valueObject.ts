@@ -1,15 +1,27 @@
-import { LanguageKey, languages, Locale } from '@/locales'
+import { Locale } from '@/locales'
 import { LanguageValueError } from './error'
 import { LanguageResult } from './result'
+
+// サポートされる言語の定義
+const LANGUAGES = {
+  en: 'English',
+  ja: '日本語',
+  fr: 'Français'
+} as const
+
+export type LanguageKey = keyof typeof LANGUAGES
+
 export class Language {
   private readonly _value: LanguageKey
+
+  static readonly LANGUAGES = LANGUAGES
 
   private constructor(value: LanguageKey) {
     this._value = value
   }
 
   static create(value: string): LanguageResult {
-    if (!Object.keys(languages).includes(value)) {
+    if (!Object.keys(Language.LANGUAGES).includes(value)) {
       return new LanguageResult(
         null,
         new LanguageValueError(`Invalid language value: ${value}`)
@@ -23,10 +35,26 @@ export class Language {
   }
 
   static getAllLanguages(): ReadonlyArray<{ key: LanguageKey; label: string }> {
-    return Object.entries(languages).map(([key, label]) => ({
+    return Object.entries(Language.LANGUAGES).map(([key, label]) => ({
       key: key as LanguageKey,
       label
     }))
+  }
+
+  /**
+   * ページ生成用の言語リストを取得（英語を除く）
+   * 英語はデフォルトパスでアクセスするため、[language]ルートの生成には不要
+   */
+  static getPageLanguages(): ReadonlyArray<{
+    key: LanguageKey
+    label: string
+  }> {
+    return Object.entries(Language.LANGUAGES)
+      .filter(([key]) => key !== 'en')
+      .map(([key, label]) => ({
+        key: key as LanguageKey,
+        label
+      }))
   }
 
   get value(): LanguageKey {
@@ -74,7 +102,7 @@ export class Language {
       case 'ja':
         return require('@/locales/ja').ja
       case 'fr':
-        return require('@/locales/en').en // フランス語はまだ実装されていないので英語を返す
+        return require('@/locales/fr').fr
       default:
         return require('@/locales/en').en
     }

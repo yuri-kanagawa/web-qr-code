@@ -1,4 +1,4 @@
-import { Language, LanguageKey } from '@/domains/valueObjects/language'
+import { Language, LanguageKey } from '@/domains'
 import {
   Autocomplete,
   IconButton,
