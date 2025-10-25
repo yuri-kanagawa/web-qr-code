@@ -272,7 +272,10 @@ export class QrCodeSettings {
       eyeColor,
       this._colors.fgColor
     )
-    const hasLowContrast = eyeBgContrast < 3.0 || eyeFgContrast < 3.0
+    
+    // 目の色が前景色と同じ場合は、前景色とのコントラスト警告を出さない
+    const isEyeColorSameAsFgColor = eyeColor.equals(this._colors.fgColor)
+    const hasLowContrast = eyeBgContrast < 3.0 || (!isEyeColorSameAsFgColor && eyeFgContrast < 3.0)
 
     const locale = this._language.locale
     const eyeBgContrastText = locale.word.warningMessages.eyeBgContrast(
@@ -284,7 +287,7 @@ export class QrCodeSettings {
 
     const warningMessages = [
       ...(eyeBgContrast < 3.0 ? [eyeBgContrastText] : []),
-      ...(eyeFgContrast < 3.0 ? [eyeFgContrastText] : [])
+      ...(!isEyeColorSameAsFgColor && eyeFgContrast < 3.0 ? [eyeFgContrastText] : [])
     ]
 
     return {
