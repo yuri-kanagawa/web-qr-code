@@ -38,20 +38,15 @@ const GeneratedQrCode = React.forwardRef<HTMLDivElement, Props>(
         return Math.min(propHeight, propWidth) - 50
       }
 
-      // laptop以上の場合は固定値を使用
-      if (isOverLaptop) {
-        return Math.min(
-          QrCode.LAPTOP_DISPLAY_SIZE.maxWidth,
-          QrCode.LAPTOP_DISPLAY_SIZE.maxHeight
-        )
-      }
+      // デバイスに応じた最大表示サイズを取得
+      const maxDisplaySize: number = isOverLaptop
+        ? QrCode.LAPTOP_DISPLAY_SIZE
+        : QrCode.MOBILE_DISPLAY_SIZE
 
-      // モバイルの場合は固定値を使用
-      return Math.min(
-        QrCode.MOBILE_DISPLAY_SIZE.maxWidth,
-        QrCode.MOBILE_DISPLAY_SIZE.maxHeight
-      )
-    }, [height, width, propHeight, propWidth, isOverLaptop])
+      // QRコードのサイズと最大表示サイズの小さい方を返す
+      // これにより、設定サイズが上限を超えても上限値までしか表示されない
+      return Math.min(safeQr.size, maxDisplaySize)
+    }, [height, width, propHeight, propWidth, isOverLaptop, safeQr.size])
 
     const [logoImage, setLogoImage] = useState<string | undefined>(undefined)
 
@@ -115,7 +110,7 @@ const GeneratedQrCode = React.forwardRef<HTMLDivElement, Props>(
                           <QRCode
                             key={logoImage ? 'with-logo' : 'without-logo'}
                             value={qr.qrValue.value}
-                            size={safeQr.settings.size.value}
+                            size={maxSize}
                             bgColor={safeQr.settings.colors.bgColor.value}
                             fgColor={safeQr.settings.colors.fgColor.value}
                             ecLevel={

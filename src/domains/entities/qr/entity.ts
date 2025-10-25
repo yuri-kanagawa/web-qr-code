@@ -30,15 +30,8 @@ export interface ValidationError {
  */
 export class QrCode {
   // 表示サイズの固定値
-  static readonly MOBILE_DISPLAY_SIZE = {
-    maxWidth: 250,
-    maxHeight: 250
-  } as const
-
-  static readonly LAPTOP_DISPLAY_SIZE = {
-    maxWidth: 300,
-    maxHeight: 300
-  } as const
+  static readonly MOBILE_DISPLAY_SIZE = 250
+  static readonly LAPTOP_DISPLAY_SIZE = 300
 
   private constructor(
     private _settings: QrCodeSettings,
@@ -171,6 +164,13 @@ export class QrCode {
 
   get language(): Language {
     return this._language
+  }
+
+  /**
+   * QRコードのサイズを取得
+   */
+  get size(): number {
+    return this._settings.size.value
   }
 
   get qrCodeType(): QrCodeType {

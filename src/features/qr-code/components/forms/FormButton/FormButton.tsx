@@ -67,9 +67,22 @@ export const FormButton: FC<Props> = ({
             sx={{
               height: isOverLaptop ? '100%' : 'auto',
               boxSizing: 'border-box',
-              overflowY: isOverLaptop ? 'hidden' : 'visible',
+              overflowY: isOverLaptop ? 'auto' : 'visible',
               width: {
                 lg: 400
+              },
+              '&::-webkit-scrollbar': {
+                width: '8px'
+              },
+              '&::-webkit-scrollbar-track': {
+                backgroundColor: 'rgba(0, 0, 0, 0.05)'
+              },
+              '&::-webkit-scrollbar-thumb': {
+                backgroundColor: 'rgba(0, 0, 0, 0.2)',
+                borderRadius: '4px',
+                '&:hover': {
+                  backgroundColor: 'rgba(0, 0, 0, 0.3)'
+                }
               }
             }}
           >
@@ -204,32 +217,40 @@ export const FormButton: FC<Props> = ({
             <FormCard
               cardProps={{
                 sx: {
-                  height: '300px',
                   width: '300px',
                   p: 2,
                   display: 'flex',
+                  flexDirection: 'column',
                   alignItems: 'center',
-                  justifyContent: 'center',
-                  flex: 1
+                  gap: 2
                 },
                 elevation: 4
               }}
             >
-              <GeneratedQrCode
-                ref={qrRef}
-                qr={qr}
-                file={qr.settings.logoFile}
-                isValid={canGenerate}
-                height={250}
-                width={250}
-              />
-            </FormCard>
+              <Box
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  minHeight: '250px'
+                }}
+              >
+                <GeneratedQrCode
+                  ref={qrRef}
+                  qr={qr}
+                  file={qr.settings.logoFile}
+                  isValid={canGenerate}
+                  height={250}
+                  width={250}
+                />
+              </Box>
 
-            {/* アクションボタンエリア */}
-            <Stack direction={'column'} spacing={2} sx={{ width: '300px' }}>
-              <ConfirmButton qr={qr} isValid={canGenerate} />
-              <DownloadButton qr={qr} isValid={canGenerate} />
-            </Stack>
+              {/* アクションボタンエリア */}
+              <Stack direction={'column'} spacing={2} sx={{ width: '100%' }}>
+                <ConfirmButton qr={qr} isValid={canGenerate} />
+                <DownloadButton qr={qr} isValid={canGenerate} />
+              </Stack>
+            </FormCard>
           </Box>
         )}
       </Stack>
