@@ -1,5 +1,3 @@
-import { QrCode } from '@/domains/entities/qr'
-
 /**
  * SVG処理を担当するクラス
  */

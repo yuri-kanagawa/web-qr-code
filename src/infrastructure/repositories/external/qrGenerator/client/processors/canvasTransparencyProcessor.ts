@@ -8,10 +8,7 @@ export class CanvasTransparencyProcessor {
   /**
    * Canvasの透過処理を実行
    */
-  static processTransparency(
-    canvas: HTMLCanvasElement,
-    qrCode: QrCode
-  ): void {
+  static processTransparency(canvas: HTMLCanvasElement, qrCode: QrCode): void {
     if (!qrCode.settings.colors.bgColor.isTransparent()) {
       return
     }
@@ -48,10 +45,7 @@ export class CanvasTransparencyProcessor {
       const b = data[i + 2]
 
       // 白い背景かどうかをチェック
-      const isWhiteBackground = ColorUtils.isSameColor(
-        { r, g, b },
-        bgColor
-      )
+      const isWhiteBackground = ColorUtils.isSameColor({ r, g, b }, bgColor)
 
       // 前景色と一致するピクセルかどうかをチェック
       const isForegroundColor =

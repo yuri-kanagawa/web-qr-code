@@ -4,8 +4,8 @@ import React from 'react'
 import { createRoot } from 'react-dom/client'
 import { QRCode } from 'react-qrcode-logo'
 import { CanvasTransparencyProcessor } from './processors/canvasTransparencyProcessor'
-import { SvgProcessor } from './processors/svgProcessor'
 import { LogoProcessor } from './processors/logoProcessor'
+import { SvgProcessor } from './processors/svgProcessor'
 
 /**
  * QRコード生成リポジトリの実装（クライアントサイド）
@@ -318,5 +318,4 @@ export class QrGeneratorRepository implements IQrGeneratorRepository {
       setTimeout(checkForSvg, 500)
     })
   }
-
 }
