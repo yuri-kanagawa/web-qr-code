@@ -13,8 +13,12 @@ export function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { getMeta } = await import('./utils')
-  return (await getMeta(params.language)).root
+  const language =
+    Language.create(params.language).isSuccess &&
+    Language.create(params.language).language
+      ? Language.create(params.language).language!
+      : Language.default()
+  return language.locale.meta.root
 }
 
 export default function Layout({ children }: Props) {
