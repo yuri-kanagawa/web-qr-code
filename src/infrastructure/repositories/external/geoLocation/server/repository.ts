@@ -9,7 +9,7 @@ export class IpApiGeoLocationRepository implements IGeoLocationRepository {
   private readonly apiUrl = 'https://ipapi.co/json/'
   private readonly language: Language
 
-  constructor(language: Language = Language.default()) {
+  constructor(language: Language) {
     this.language = language
   }
 

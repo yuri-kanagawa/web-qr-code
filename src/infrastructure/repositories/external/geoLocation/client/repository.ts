@@ -8,14 +8,15 @@ import { Language } from '@/domains/valueObjects/language'
 export class BrowserGeoLocationRepository implements IGeoLocationRepository {
   private readonly language: Language
 
-  constructor(language: Language = Language.default()) {
+  constructor(language: Language) {
     this.language = language
   }
 
   async getLocationFromIpAddress(): Promise<GeoLocation> {
-    throw new Error(
-      'BrowserGeoLocationRepository does not support IP-based location'
-    )
+    const errorMessage = this.language.isJapanese
+      ? 'BrowserGeoLocationRepositoryはIPベースの位置情報をサポートしていません'
+      : 'BrowserGeoLocationRepository does not support IP-based location'
+    throw new Error(errorMessage)
   }
 
   async getCurrentPosition(): Promise<GeoLocation> {
@@ -40,7 +41,10 @@ export class BrowserGeoLocationRepository implements IGeoLocationRepository {
           if (geoLocation) {
             resolve(geoLocation)
           } else {
-            reject(new Error('Failed to create GeoLocation'))
+            const errorMessage = this.language.isJapanese
+              ? 'GeoLocationの作成に失敗しました'
+              : 'Failed to create GeoLocation'
+            reject(new Error(errorMessage))
           }
         },
         (error) => {

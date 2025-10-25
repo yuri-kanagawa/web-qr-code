@@ -213,7 +213,20 @@ export const message = {
       qrCodeReadFailed: 'Failed to read QR code',
       noDeviceDestination: 'No destination found for this device or OS.',
       invalidUrlFormat: 'The destination URL is invalid.',
-      qrValueCannotBeEmpty: 'QR value cannot be empty'
+      qrValueCannotBeEmpty: 'QR value cannot be empty',
+      geolocation: {
+        notSupported: 'Geolocation is not supported by this browser.',
+        failedToGet: 'Failed to get current position.',
+        failedToCreate: 'Failed to create GeoLocation',
+        ipNotSupported:
+          'BrowserGeoLocationRepository does not support IP-based location'
+      },
+      qrScanner: {
+        imageTooSmall: (width: number, height: number) =>
+          `QR code size is too small (${width}x${height}px). Reading may fail.`,
+        invalidResultStructure: 'Invalid QR scan result structure',
+        failedToLoadImage: 'Failed to load image'
+      }
     },
 
     // Form labels

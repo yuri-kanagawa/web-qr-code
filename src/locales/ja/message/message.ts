@@ -217,7 +217,20 @@ export const message = {
       noDeviceDestination:
         'このデバイスもしくはOSと一致する遷移先が存在しませんでした',
       invalidUrlFormat: '遷移先のURLが無効です。',
-      qrValueCannotBeEmpty: 'QR値を入力してください'
+      qrValueCannotBeEmpty: 'QR値を入力してください',
+      geolocation: {
+        notSupported: 'このブラウザでは位置情報がサポートされていません。',
+        failedToGet: '位置情報の取得に失敗しました。',
+        failedToCreate: 'GeoLocationの作成に失敗しました',
+        ipNotSupported:
+          'BrowserGeoLocationRepositoryはIPベースの位置情報をサポートしていません'
+      },
+      qrScanner: {
+        imageTooSmall: (width: number, height: number) =>
+          `QRコードのサイズが小さすぎます (${width}x${height}px)。読み取りに失敗する可能性があります。`,
+        invalidResultStructure: '無効なQRスキャン結果構造です',
+        failedToLoadImage: '画像の読み込みに失敗しました'
+      }
     },
 
     // Form labels

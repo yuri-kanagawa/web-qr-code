@@ -220,7 +220,21 @@ export const message = {
       noDeviceDestination:
         'Aucune destination trouvée pour cet appareil ou OS.',
       invalidUrlFormat: "L'URL de destination est invalide.",
-      qrValueCannotBeEmpty: 'Veuillez saisir la valeur QR'
+      qrValueCannotBeEmpty: 'Veuillez saisir la valeur QR',
+      geolocation: {
+        notSupported:
+          "La géolocalisation n'est pas prise en charge par ce navigateur.",
+        failedToGet: "Échec de l'obtention de la position actuelle.",
+        failedToCreate: 'Échec de la création de GeoLocation',
+        ipNotSupported:
+          'BrowserGeoLocationRepository ne prend pas en charge la géolocalisation basée sur IP'
+      },
+      qrScanner: {
+        imageTooSmall: (width: number, height: number) =>
+          `La taille du QR code est trop petite (${width}x${height}px). La lecture peut échouer.`,
+        invalidResultStructure: 'Structure de résultat de scan QR invalide',
+        failedToLoadImage: "Échec du chargement de l'image"
+      }
     },
 
     // Form labels

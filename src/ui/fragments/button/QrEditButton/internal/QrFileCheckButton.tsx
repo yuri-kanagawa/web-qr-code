@@ -21,7 +21,8 @@ export const QrFileCheckButton: FC<Props> = ({ file, language }) => {
   const { navigateToEditContent } = useNavigation(language)
   const locale = language.locale
   const readQrFromFileUseCase = useMemo(
-    () => new ReadQrFromFileUseCase(new QrScannerRepository(), language),
+    () =>
+      new ReadQrFromFileUseCase(new QrScannerRepository(language), language),
     [language]
   )
 
