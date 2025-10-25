@@ -26,15 +26,7 @@ export const FgColor: FC<Props> = ({ qr, onChange }) => {
         value={qr.settings.colors.fgColor.value}
         label={locale.word.qrSettings.fgColor}
         onChange={(value) => {
-          const newQr = qr.updateSettings((settings) =>
-            settings.changeColors(
-              value,
-              settings.colors.bgColor.value,
-              settings.colors.eyeColor1.value,
-              settings.colors.eyeColor2.value,
-              settings.colors.eyeColor3.value
-            )
-          )
+          const newQr = qr.changeFgColor(value)
           onChange(newQr)
         }}
         isAlphaHidden={true}

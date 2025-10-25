@@ -59,6 +59,30 @@ describe('QrColor', () => {
       expect(result.isFailure).toBe(true)
       expect(result.errorMessage).toContain('16進数')
     })
+
+    it('透過色として空文字列を作成できる', () => {
+      const result = QrColor.create('', defaultLanguage)
+
+      expect(result.isSuccess).toBe(true)
+      expect(result.qrColor?.value).toBe('')
+      expect(result.qrColor?.isTransparent()).toBe(true)
+    })
+
+    it('透過色として"transparent"を作成できる', () => {
+      const result = QrColor.create('transparent', defaultLanguage)
+
+      expect(result.isSuccess).toBe(true)
+      expect(result.qrColor?.value).toBe('')
+      expect(result.qrColor?.isTransparent()).toBe(true)
+    })
+
+    it('透過色として"rgba(0,0,0,0)"を作成できる', () => {
+      const result = QrColor.create('rgba(0,0,0,0)', defaultLanguage)
+
+      expect(result.isSuccess).toBe(true)
+      expect(result.qrColor?.value).toBe('')
+      expect(result.qrColor?.isTransparent()).toBe(true)
+    })
   })
 
   describe('ファクトリメソッド', () => {
@@ -75,6 +99,12 @@ describe('QrColor', () => {
     it('default()で黒色を作成できる', () => {
       const color = QrColor.default()
       expect(color.value).toBe('#000000')
+    })
+
+    it('transparent()で透過色を作成できる', () => {
+      const color = QrColor.transparent()
+      expect(color.value).toBe('')
+      expect(color.isTransparent()).toBe(true)
     })
   })
 
@@ -98,6 +128,32 @@ describe('QrColor', () => {
       const color2 = QrColor.create('#000000', defaultLanguage).qrColor!
 
       expect(color1.equals(color2)).toBe(false)
+    })
+
+    it('透過色同士の場合はtrueを返す', () => {
+      const color1 = QrColor.create('', defaultLanguage).qrColor!
+      const color2 = QrColor.create('transparent', defaultLanguage).qrColor!
+
+      expect(color1.equals(color2)).toBe(true)
+    })
+
+    it('透過色と通常色の場合はfalseを返す', () => {
+      const color1 = QrColor.create('', defaultLanguage).qrColor!
+      const color2 = QrColor.create('#000000', defaultLanguage).qrColor!
+
+      expect(color1.equals(color2)).toBe(false)
+    })
+  })
+
+  describe('isTransparent', () => {
+    it('透過色の場合はtrueを返す', () => {
+      const color = QrColor.create('', defaultLanguage).qrColor!
+      expect(color.isTransparent()).toBe(true)
+    })
+
+    it('通常色の場合はfalseを返す', () => {
+      const color = QrColor.create('#FF5733', defaultLanguage).qrColor!
+      expect(color.isTransparent()).toBe(false)
     })
   })
 })

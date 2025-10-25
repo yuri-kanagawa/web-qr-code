@@ -89,17 +89,26 @@ export class QrGeneratorRepository implements IQrGeneratorRepository {
     const root = createRoot(container)
 
     return new Promise<void>((resolve, reject) => {
+      // 透過色の場合は'transparent'に変換（react-qrcode-logo対応）
       const eyeColorArray = [
-        qrCode.settings.colors.eyeColor1.value,
-        qrCode.settings.colors.eyeColor2.value,
-        qrCode.settings.colors.eyeColor3.value
+        qrCode.settings.colors.eyeColor1.isTransparent()
+          ? 'transparent'
+          : qrCode.settings.colors.eyeColor1.value,
+        qrCode.settings.colors.eyeColor2.isTransparent()
+          ? 'transparent'
+          : qrCode.settings.colors.eyeColor2.value,
+        qrCode.settings.colors.eyeColor3.isTransparent()
+          ? 'transparent'
+          : qrCode.settings.colors.eyeColor3.value
       ]
 
       console.log('=== QRCodeコンポーネントに渡すプロパティ ===')
       console.log({
         value: qrCode.qrValue.value,
         size: size,
-        bgColor: qrCode.settings.colors.bgColor.value,
+        bgColor: qrCode.settings.colors.bgColor.isTransparent()
+          ? 'transparent'
+          : qrCode.settings.colors.bgColor.value,
         fgColor: qrCode.settings.colors.fgColor.value,
         eyeColor: eyeColorArray,
         eyeRadius: [
@@ -116,12 +125,18 @@ export class QrGeneratorRepository implements IQrGeneratorRepository {
 
       let qrComponent
       try {
-        qrComponent = React.createElement(QRCode, {
+        // bgColorが透過色の場合は'transparent'に設定（Canvas透過対応）
+        const bgColor = qrCode.settings.colors.bgColor.isTransparent()
+          ? 'transparent'
+          : qrCode.settings.colors.bgColor.value
+
+        // 透過背景の場合はSVG生成を強制する
+        const qrProps: any = {
           value: qrCode.qrValue.value,
           size: size,
-          bgColor: qrCode.settings.colors.bgColor.value,
+          bgColor: bgColor,
           fgColor: qrCode.settings.colors.fgColor.value,
-          eyeColor: eyeColorArray,
+          eyeColor: eyeColorArray as [string, string, string],
           eyeRadius: [
             qrCode.settings.eye.radius1,
             qrCode.settings.eye.radius2,
@@ -129,7 +144,17 @@ export class QrGeneratorRepository implements IQrGeneratorRepository {
           ],
           ecLevel: qrCode.settings.ecLevel.value as 'L' | 'M' | 'Q' | 'H',
           quietZone: quietZone
-        })
+        }
+
+        // 透過背景の場合はSVGを強制生成（includeMarginをfalseにするとSVGになる場合がある）
+        if (qrCode.settings.colors.bgColor.isTransparent()) {
+          qrProps.includeMargin = false
+          qrProps.enableCORS = false
+          console.log('透過背景のためSVG生成を強制')
+          console.log('QRCode props:', qrProps)
+        }
+
+        qrComponent = React.createElement(QRCode, qrProps)
         console.log('=== React.createElement 実行後 ===')
       } catch (error) {
         console.error('=== React.createElement エラー ===')
@@ -168,6 +193,7 @@ export class QrGeneratorRepository implements IQrGeneratorRepository {
           'container.children.length:',
           container.children.length
         )
+        console.log('container HTML:', container.innerHTML)
 
         // Canvasが生成されているか確認
         const canvasElement = container.querySelector('canvas')
@@ -176,8 +202,89 @@ export class QrGeneratorRepository implements IQrGeneratorRepository {
           try {
             const ctx = canvas.getContext('2d')
             if (ctx) {
+              // CanvasからCanvasへのコピー
               ctx.clearRect(0, 0, canvas.width, canvas.height)
               ctx.drawImage(canvasElement, 0, 0, canvas.width, canvas.height)
+
+              // 透過処理（背景色のみ）
+              const isBgTransparent =
+                qrCode.settings.colors.bgColor.isTransparent()
+
+              if (isBgTransparent) {
+                console.log('Canvas透過処理開始 - 背景色透過')
+
+                const imageData = ctx.getImageData(
+                  0,
+                  0,
+                  canvas.width,
+                  canvas.height
+                )
+                const data = imageData.data
+
+                // 前景色を取得（前景色と一致するピクセルは透過しない）
+                const fgColorHex = qrCode.settings.colors.fgColor.value
+                const fgColorRgb = this.hexToRgb(fgColorHex)
+
+                // 目の色を取得
+                const eyeColor1Rgb = this.hexToRgb(
+                  qrCode.settings.colors.eyeColor1.value
+                )
+                const eyeColor2Rgb = this.hexToRgb(
+                  qrCode.settings.colors.eyeColor2.value
+                )
+                const eyeColor3Rgb = this.hexToRgb(
+                  qrCode.settings.colors.eyeColor3.value
+                )
+
+                // react-qrcode-logoが透過背景の場合、実際には白(#ffffff)で描画される
+                const bgColor = { r: 255, g: 255, b: 255 }
+
+                // 全てのピクセルをチェック
+                for (let i = 0; i < data.length; i += 4) {
+                  const r = data[i]
+                  const g = data[i + 1]
+                  const b = data[i + 2]
+
+                  // 白い背景かどうかをチェック
+                  const isWhiteBackground =
+                    Math.abs(r - bgColor.r) < 10 &&
+                    Math.abs(g - bgColor.g) < 10 &&
+                    Math.abs(b - bgColor.b) < 10
+
+                  // 前景色と一致するピクセルかどうかをチェック
+                  const isForegroundColor =
+                    fgColorRgb &&
+                    Math.abs(r - fgColorRgb.r) < 10 &&
+                    Math.abs(g - fgColorRgb.g) < 10 &&
+                    Math.abs(b - fgColorRgb.b) < 10
+
+                  // 目の色と一致するピクセルかどうかをチェック
+                  const isEyeColor =
+                    (eyeColor1Rgb &&
+                      Math.abs(r - eyeColor1Rgb.r) < 10 &&
+                      Math.abs(g - eyeColor1Rgb.g) < 10 &&
+                      Math.abs(b - eyeColor1Rgb.b) < 10) ||
+                    (eyeColor2Rgb &&
+                      Math.abs(r - eyeColor2Rgb.r) < 10 &&
+                      Math.abs(g - eyeColor2Rgb.g) < 10 &&
+                      Math.abs(b - eyeColor2Rgb.b) < 10) ||
+                    (eyeColor3Rgb &&
+                      Math.abs(r - eyeColor3Rgb.r) < 10 &&
+                      Math.abs(g - eyeColor3Rgb.g) < 10 &&
+                      Math.abs(b - eyeColor3Rgb.b) < 10)
+
+                  // 白い背景であり、前景色でも目の色でもない場合のみ透過にする
+                  if (isWhiteBackground && !isForegroundColor && !isEyeColor) {
+                    // 白い部分を透過にする
+                    data[i + 3] = 0 // アルファチャンネルを0に設定（透過）
+                  }
+                  // 白以外の色（黒や他の色）は全て残す
+                }
+
+                ctx.putImageData(imageData, 0, 0)
+                console.log('Canvas透過処理完了 - 白い背景のみ透過')
+              }
+
               document.body.removeChild(container)
               root.unmount()
               resolve()
@@ -200,6 +307,19 @@ export class QrGeneratorRepository implements IQrGeneratorRepository {
 
             // SVGのスタイルを確認・修正
             this.fixSvgEyeColors(svgElement, qrCode.settings.colors)
+
+            // 透過背景の処理
+            console.log('透過色チェック:', {
+              bgColorValue: qrCode.settings.colors.bgColor.value,
+              isTransparent: qrCode.settings.colors.bgColor.isTransparent(),
+              bgColorClass: qrCode.settings.colors.bgColor.constructor.name
+            })
+            if (qrCode.settings.colors.bgColor.isTransparent()) {
+              console.log('透過背景処理を実行')
+              this.fixSvgTransparentBackground(svgElement)
+            } else {
+              console.log('透過背景処理をスキップ - isTransparent()がfalse')
+            }
 
             const svgData = new XMLSerializer().serializeToString(svgElement)
 
@@ -230,7 +350,15 @@ export class QrGeneratorRepository implements IQrGeneratorRepository {
             img.onload = () => {
               const ctx = canvas.getContext('2d')
               if (ctx) {
-                ctx.clearRect(0, 0, canvas.width, canvas.height)
+                // 透過背景の場合は全ピクセルを透過にクリア
+                if (qrCode.settings.colors.bgColor.isTransparent()) {
+                  // Canvas全体を完全にクリア（透過にする）
+                  ctx.clearRect(0, 0, canvas.width, canvas.height)
+                } else {
+                  // 通常の背景色でクリア
+                  ctx.fillStyle = qrCode.settings.colors.bgColor.value
+                  ctx.fillRect(0, 0, canvas.width, canvas.height)
+                }
                 ctx.drawImage(img, 0, 0, canvas.width, canvas.height)
                 document.body.removeChild(container)
                 root.unmount()
@@ -269,6 +397,65 @@ export class QrGeneratorRepository implements IQrGeneratorRepository {
       // 少し待ってからSVGの存在をチェック
       setTimeout(checkForSvg, 500)
     })
+  }
+
+  /**
+   * SVGの背景を透過にする
+   */
+  private fixSvgTransparentBackground(svgElement: SVGElement): void {
+    try {
+      console.log('=== SVG透過背景修正開始 ===')
+
+      // SVGの全てのrect要素を取得
+      const allRects = svgElement.querySelectorAll('rect')
+      console.log('SVGのrect要素数:', allRects.length)
+
+      const width = svgElement.getAttribute('width')
+      const height = svgElement.getAttribute('height')
+      console.log('SVGサイズ:', width, 'x', height)
+
+      // 背景rectを探して削除
+      allRects.forEach((rect, index) => {
+        const x = rect.getAttribute('x')
+        const y = rect.getAttribute('y')
+        const rectWidth = rect.getAttribute('width')
+        const rectHeight = rect.getAttribute('height')
+        const fill = rect.getAttribute('fill')
+
+        console.log(`Rect ${index}:`, {
+          x,
+          y,
+          width: rectWidth,
+          height: rectHeight,
+          fill
+        })
+
+        // 背景rectが全画面をカバーしている場合
+        // ただし、前景色と同じ色のrectは削除しない（QRコードのパターン部分）
+        if (
+          x === '0' &&
+          y === '0' &&
+          rectWidth === width &&
+          rectHeight === height
+        ) {
+          console.log('背景rectを削除:', {
+            x,
+            y,
+            width: rectWidth,
+            height: rectHeight,
+            fill
+          })
+          // rectを削除する代わりに、fillをnoneに設定
+          rect.setAttribute('fill', 'none')
+        }
+      })
+
+      // SVGの背景色を透過に設定
+      svgElement.setAttribute('style', 'background: transparent')
+      console.log('=== SVG透過背景修正完了 ===')
+    } catch (error) {
+      console.warn('SVG transparent background修正エラー:', error)
+    }
   }
 
   /**
@@ -392,8 +579,8 @@ export class QrGeneratorRepository implements IQrGeneratorRepository {
         }
       )
 
-      const logoWidth = qrCode.settings.logo.width
-      const logoHeight = qrCode.settings.logo.height
+      const logoWidth = qrCode.settings.logo.width!
+      const logoHeight = qrCode.settings.logo.height!
       const logoX = (canvasSize - logoWidth) / 2
       const logoY = (canvasSize - logoHeight) / 2
 
@@ -418,5 +605,36 @@ export class QrGeneratorRepository implements IQrGeneratorRepository {
         error instanceof Error ? error.message : 'Unknown error'
       throw new Error(`Failed to add logo to canvas: ${errorMessage}`)
     }
+  }
+
+  /**
+   * 16進数カラーコードをRGBに変換
+   */
+  private hexToRgb(hex: string): { r: number; g: number; b: number } | null {
+    if (!hex || hex === '') return null
+
+    // 透過色の場合はnullを返す
+    if (['transparent', 'rgba(0,0,0,0)'].includes(hex.toLowerCase())) {
+      return null
+    }
+
+    // #を除去
+    const cleanHex = hex.replace('#', '')
+
+    // 3桁の場合は6桁に展開
+    const fullHex =
+      cleanHex.length === 3
+        ? cleanHex
+            .split('')
+            .map((char) => char + char)
+            .join('')
+        : cleanHex
+
+    // RGBに変換
+    const r = parseInt(fullHex.substring(0, 2), 16)
+    const g = parseInt(fullHex.substring(2, 4), 16)
+    const b = parseInt(fullHex.substring(4, 6), 16)
+
+    return { r, g, b }
   }
 }

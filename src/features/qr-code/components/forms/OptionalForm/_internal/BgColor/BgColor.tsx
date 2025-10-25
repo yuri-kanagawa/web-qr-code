@@ -1,7 +1,7 @@
 import { QrCode } from '@/domains'
 import { WarningAlert } from '@/ui/fragments/box'
+import { ColorInputWithTransparency } from '@/ui/fragments/input'
 import { Stack } from '@mui/material'
-import { MuiColorInput } from 'mui-color-input'
 import { FC } from 'react'
 
 type Props = {
@@ -19,25 +19,34 @@ export const BgColor: FC<Props> = ({ qr, onChange }) => {
   )
   const hasLowContrast = fgBgContrast < 3.0
 
+  // 前景色が透過の場合、背景色は透過できない
+  const isFgTransparent = qr.settings.colors.fgColor.isTransparent()
+
   return (
     <Stack spacing={2}>
-      <MuiColorInput
+      <ColorInputWithTransparency
         format="hex"
         value={qr.settings.colors.bgColor.value}
         label={locale.word.qrSettings.bgColor}
         onChange={(value) => {
-          const newQr = qr.updateSettings((settings) =>
-            settings.changeColors(
-              settings.colors.fgColor.value,
-              value,
-              settings.colors.eyeColor1.value,
-              settings.colors.eyeColor2.value,
-              settings.colors.eyeColor3.value
-            )
-          )
+          console.log('BgColor onChange called with value:', value)
+          const newQr = qr.changeBgColor(value)
+          console.log('BgColor newQr bgColor:', {
+            value: newQr.settings.colors.bgColor.value,
+            isTransparent: newQr.settings.colors.bgColor.isTransparent()
+          })
           onChange(newQr)
         }}
         isAlphaHidden={true}
+        showTransparency={!isFgTransparent}
+        transparencyLabel={
+          (locale.word.qrSettings as any).transparent || 'Transparent'
+        }
+        transparentHelpText={
+          isFgTransparent
+            ? '(前景色が透過のため、背景色は透過できません)'
+            : (locale.word.qrSettings as any).transparentHelpText
+        }
       />
       {hasLowContrast && (
         <WarningAlert

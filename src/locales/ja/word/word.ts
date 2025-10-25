@@ -58,7 +58,8 @@ export const word = {
     logoPadding: 'ロゴパディングスタイル',
     eyeColor1: '目の色（左上）',
     eyeColor2: '目の色（右上）',
-    eyeColor3: '目の色（左下）'
+    eyeColor3: '目の色（左下）',
+    transparent: '透過'
   },
 
   // Select labels

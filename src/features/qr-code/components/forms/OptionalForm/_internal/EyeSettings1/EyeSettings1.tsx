@@ -24,6 +24,7 @@ export const EyeSettings1: FC<Props> = ({
 }) => {
   const { isOverLaptop } = useWindowSize()
   const locale = qr.language.locale
+  const isBgTransparent = qr.settings.colors.bgColor.isTransparent()
 
   const handleRadiusChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const numValue = Number(event.target.value)
@@ -110,6 +111,7 @@ export const EyeSettings1: FC<Props> = ({
           label={locale.word.qrSettingsLabels.color}
           onChange={handleColorChange}
           isAlphaHidden={true}
+          disabled={isBgTransparent}
         />
         {isOverLaptop && (
           <Box sx={{ display: 'flex', justifyContent: 'center' }}>

@@ -37,6 +37,33 @@ export const DownloadButton: FC<Props> = ({
     setInternalLoading(true)
     try {
       console.log('=== ダウンロード処理開始 ===')
+      console.log('背景色デバッグ:', {
+        bgColorValue: qr.settings.colors.bgColor.value,
+        isTransparent: qr.settings.colors.bgColor.isTransparent(),
+        bgColorClass: qr.settings.colors.bgColor.constructor.name
+      })
+
+      // 透過背景の場合は、QrGeneratorRepositoryを使って新しくCanvasを生成
+      if (qr.settings.colors.bgColor.isTransparent()) {
+        console.log('透過背景のため、新しいCanvasを生成')
+        const { QrGeneratorRepository } = await import(
+          '@/infrastructure/repositories/external/qrGenerator/client/repository'
+        )
+        const repository = new QrGeneratorRepository()
+        const canvas = await repository.generateCanvas(qr)
+        const dataUrl = canvas.toDataURL('image/png')
+
+        const link = document.createElement('a')
+        link.download = generateFileName()
+        link.href = dataUrl
+        document.body.appendChild(link)
+        link.click()
+        document.body.removeChild(link)
+        console.log('ダウンロード完了')
+        return
+      }
+
+      // 通常の場合はプレビューCanvasを使用
       console.log('qrRef.current:', qrRef.current)
       console.log('qrRef.currentのHTML:', qrRef.current?.innerHTML)
 

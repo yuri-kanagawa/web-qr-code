@@ -111,7 +111,11 @@ const GeneratedQrCode = React.forwardRef<HTMLDivElement, Props>(
                             key={logoImage ? 'with-logo' : 'without-logo'}
                             value={qr.qrValue.value}
                             size={maxSize}
-                            bgColor={safeQr.settings.colors.bgColor.value}
+                            bgColor={
+                              safeQr.settings.colors.bgColor.isTransparent()
+                                ? 'transparent'
+                                : safeQr.settings.colors.bgColor.value
+                            }
                             fgColor={safeQr.settings.colors.fgColor.value}
                             ecLevel={
                               safeQr.settings.ecLevel.value as
@@ -127,9 +131,15 @@ const GeneratedQrCode = React.forwardRef<HTMLDivElement, Props>(
                               safeQr.settings.eye.radius3
                             ]}
                             eyeColor={[
-                              safeQr.settings.colors.eyeColor1.value,
-                              safeQr.settings.colors.eyeColor2.value,
-                              safeQr.settings.colors.eyeColor3.value
+                              safeQr.settings.colors.eyeColor1.isTransparent()
+                                ? 'transparent'
+                                : safeQr.settings.colors.eyeColor1.value,
+                              safeQr.settings.colors.eyeColor2.isTransparent()
+                                ? 'transparent'
+                                : safeQr.settings.colors.eyeColor2.value,
+                              safeQr.settings.colors.eyeColor3.isTransparent()
+                                ? 'transparent'
+                                : safeQr.settings.colors.eyeColor3.value
                             ]}
                             enableCORS={safeQr.settings.enableCORS || false}
                           />

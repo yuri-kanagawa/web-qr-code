@@ -437,6 +437,16 @@ export class QrCode {
     )
   }
 
+  // 前景色の変更（背景が透過の場合は目の色も自動的に変更）
+  changeFgColor(fgColor: string): QrCode {
+    return this.updateSettings((settings) => settings.changeFgColor(fgColor))
+  }
+
+  // 背景色の変更（透過の場合は目の色も自動的に変更）
+  changeBgColor(bgColor: string): QrCode {
+    return this.updateSettings((settings) => settings.changeBgColor(bgColor))
+  }
+
   // 目の設定の変更
   changeEye(radius1: number, radius2: number, radius3: number): QrCode {
     return this.updateSettings((settings) =>

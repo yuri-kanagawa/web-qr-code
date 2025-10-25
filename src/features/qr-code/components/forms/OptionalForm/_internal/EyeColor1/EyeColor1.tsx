@@ -3,20 +3,25 @@ import { ColorInput } from '@/ui/cores/input'
 import { FC } from 'react'
 
 type Props = {
-  
   qr: QrCode
   onChange: (qr: QrCode) => void
   label: string
 }
 
 export const EyeColor1: FC<Props> = ({ qr, onChange, label }) => {
+  const isBgTransparent = qr.colors.bgColor.isTransparent()
+
   const updateEyeColor1 = (value: string) => {
+    // 背景が透過の場合、全ての目の色を左上の目の色に合わせる
+    const eyeColor2 = isBgTransparent ? value : qr.colors.eyeColor2.value
+    const eyeColor3 = isBgTransparent ? value : qr.colors.eyeColor3.value
+
     const newQr = qr.changeColors(
       qr.colors.fgColor.value,
       qr.colors.bgColor.value,
       value,
-      qr.colors.eyeColor2.value,
-      qr.colors.eyeColor3.value
+      eyeColor2,
+      eyeColor3
     )
     onChange(newQr)
   }

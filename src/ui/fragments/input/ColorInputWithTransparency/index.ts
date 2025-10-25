@@ -1,2 +1,1 @@
 export * from './ColorInputWithTransparency'
-export * from './InputFile'

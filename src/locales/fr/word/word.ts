@@ -58,7 +58,8 @@ export const word = {
     logoPadding: 'Style de remplissage du logo',
     eyeColor1: "Couleur de l'œil (haut-gauche)",
     eyeColor2: "Couleur de l'œil (haut-droite)",
-    eyeColor3: "Couleur de l'œil (bas-gauche)"
+    eyeColor3: "Couleur de l'œil (bas-gauche)",
+    transparent: 'Transparent'
   },
 
   // Select labels

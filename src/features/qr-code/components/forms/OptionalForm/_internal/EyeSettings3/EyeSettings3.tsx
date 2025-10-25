@@ -19,6 +19,7 @@ type Props = {
 export const EyeSettings3: FC<Props> = ({ qr, onChange }) => {
   const { isOverLaptop } = useWindowSize()
   const locale = qr.language.locale
+  const isBgTransparent = qr.settings.colors.bgColor.isTransparent()
 
   const handleRadiusChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const numValue = Number(event.target.value)
@@ -55,6 +56,7 @@ export const EyeSettings3: FC<Props> = ({ qr, onChange }) => {
             onChange(newQr)
           }}
           isAlphaHidden={true}
+          disabled={isBgTransparent}
         />
         {isOverLaptop && (
           <Box sx={{ display: 'flex', justifyContent: 'center' }}>

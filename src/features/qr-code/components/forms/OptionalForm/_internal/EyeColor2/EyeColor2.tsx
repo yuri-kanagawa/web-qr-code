@@ -3,13 +3,14 @@ import { ColorInput } from '@/ui/cores/input'
 import { FC } from 'react'
 
 type Props = {
-  
   qr: QrCode
   onChange: (qr: QrCode) => void
   label: string
 }
 
 export const EyeColor2: FC<Props> = ({ qr, onChange, label }) => {
+  const isBgTransparent = qr.colors.bgColor.isTransparent()
+
   const updateEyeColor2 = (value: string) => {
     const newQr = qr.changeColors(
       qr.colors.fgColor.value,
@@ -28,6 +29,7 @@ export const EyeColor2: FC<Props> = ({ qr, onChange, label }) => {
       label={label}
       onChange={updateEyeColor2}
       isAlphaHidden={true}
+      disabled={isBgTransparent}
     />
   )
 }

@@ -58,7 +58,8 @@ export const word = {
     logoPadding: 'Logo Padding Style',
     eyeColor1: 'Eye Color (Top-Left)',
     eyeColor2: 'Eye Color (Top-Right)',
-    eyeColor3: 'Eye Color (Bottom-Left)'
+    eyeColor3: 'Eye Color (Bottom-Left)',
+    transparent: 'Transparent'
   },
 
   // Select labels

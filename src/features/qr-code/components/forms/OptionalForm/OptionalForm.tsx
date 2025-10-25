@@ -22,6 +22,7 @@ export const OptionalForm: FC<Props> = ({ qr, onChange }) => {
   const locale = qr.language.locale
   const [individualEyeSettings, setIndividualEyeSettings] = useState(false)
   const file = qr.settings.logoFile
+  const isBgTransparent = qr.settings.colors.bgColor.isTransparent()
 
   const handleToggle = (checked: boolean) => {
     setIndividualEyeSettings(checked)
@@ -66,6 +67,7 @@ export const OptionalForm: FC<Props> = ({ qr, onChange }) => {
             <Switch
               checked={individualEyeSettings}
               onChange={(e) => handleToggle(e.target.checked)}
+              disabled={isBgTransparent}
             />
           }
           label={locale.word.formSections.individualSettings}

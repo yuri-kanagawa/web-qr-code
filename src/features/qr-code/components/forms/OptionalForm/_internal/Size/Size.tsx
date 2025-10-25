@@ -1,7 +1,8 @@
 import { QrCode } from '@/domains'
 import { useWindowSize } from '@/hooks'
 import { WarningAlert } from '@/ui/fragments/box'
-import { Box, FormLabel, Slider, Stack, TextField } from '@mui/material'
+import { LabeledBox } from '@/ui/fragments/form'
+import { Slider, Stack, TextField } from '@mui/material'
 import { FC, useEffect, useMemo, useState } from 'react'
 
 type Props = {
@@ -78,32 +79,7 @@ export const Size: FC<Props> = ({ qr, onChange }) => {
   }
 
   return (
-    <Box
-      sx={{
-        border: '1px solid',
-        borderColor: 'rgba(0, 0, 0, 0.23)',
-        borderRadius: 1,
-        position: 'relative',
-        px: 2,
-        pt: 3,
-        pb: 4,
-        '&:hover': {
-          borderColor: 'rgba(0, 0, 0, 0.87)'
-        }
-      }}
-    >
-      <FormLabel
-        sx={{
-          position: 'absolute',
-          top: -10,
-          left: 10,
-          px: 0.5,
-          bgcolor: 'background.paper',
-          fontSize: '0.75rem'
-        }}
-      >
-        {locale.word.qrSettings.size}
-      </FormLabel>
+    <LabeledBox label={locale.word.qrSettings.size}>
       <Stack spacing={3}>
         <TextField
           label={locale.word.qrSettingsLabels.currentSize}
@@ -163,6 +139,6 @@ export const Size: FC<Props> = ({ qr, onChange }) => {
           />
         )}
       </Stack>
-    </Box>
+    </LabeledBox>
   )
 }

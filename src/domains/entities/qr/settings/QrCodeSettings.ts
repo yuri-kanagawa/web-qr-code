@@ -148,6 +148,63 @@ export class QrCodeSettings {
     return this.copy({ colors })
   }
 
+  changeFgColor(fgColor: string): QrCodeSettings {
+    const isBgTransparent = this._colors.bgColor.isTransparent()
+
+    // 背景が透過の場合、全ての目の色を前景色に合わせる
+    const eyeColor1 = isBgTransparent ? fgColor : this._colors.eyeColor1.value
+    const eyeColor2 = isBgTransparent ? fgColor : this._colors.eyeColor2.value
+    const eyeColor3 = isBgTransparent ? fgColor : this._colors.eyeColor3.value
+
+    const newSettings = this.changeColors(
+      fgColor,
+      this._colors.bgColor.value,
+      eyeColor1,
+      eyeColor2,
+      eyeColor3
+    )
+
+    // 背景が透過の場合、全ての目のradiusを左上のradiusに合わせる
+    if (isBgTransparent) {
+      return newSettings.changeEye(
+        this._eye.radius1,
+        this._eye.radius1,
+        this._eye.radius1
+      )
+    }
+
+    return newSettings
+  }
+
+  changeBgColor(bgColor: string): QrCodeSettings {
+    const isTransparent = bgColor === '' || bgColor === 'transparent'
+
+    // 背景色が透過の場合、全ての目の色を前景色に合わせる
+    const fgColor = this._colors.fgColor.value
+    const eyeColor1 = isTransparent ? fgColor : this._colors.eyeColor1.value
+    const eyeColor2 = isTransparent ? fgColor : this._colors.eyeColor2.value
+    const eyeColor3 = isTransparent ? fgColor : this._colors.eyeColor3.value
+
+    const newSettings = this.changeColors(
+      fgColor,
+      bgColor,
+      eyeColor1,
+      eyeColor2,
+      eyeColor3
+    )
+
+    // 背景色が透過の場合、全ての目のradiusを左上のradiusに合わせる
+    if (isTransparent) {
+      return newSettings.changeEye(
+        this._eye.radius1,
+        this._eye.radius1,
+        this._eye.radius1
+      )
+    }
+
+    return newSettings
+  }
+
   changeLogo(
     width: number,
     height: number,
@@ -272,10 +329,11 @@ export class QrCodeSettings {
       eyeColor,
       this._colors.fgColor
     )
-    
+
     // 目の色が前景色と同じ場合は、前景色とのコントラスト警告を出さない
     const isEyeColorSameAsFgColor = eyeColor.equals(this._colors.fgColor)
-    const hasLowContrast = eyeBgContrast < 3.0 || (!isEyeColorSameAsFgColor && eyeFgContrast < 3.0)
+    const hasLowContrast =
+      eyeBgContrast < 3.0 || (!isEyeColorSameAsFgColor && eyeFgContrast < 3.0)
 
     const locale = this._language.locale
     const eyeBgContrastText = locale.word.warningMessages.eyeBgContrast(
@@ -287,7 +345,9 @@ export class QrCodeSettings {
 
     const warningMessages = [
       ...(eyeBgContrast < 3.0 ? [eyeBgContrastText] : []),
-      ...(!isEyeColorSameAsFgColor && eyeFgContrast < 3.0 ? [eyeFgContrastText] : [])
+      ...(!isEyeColorSameAsFgColor && eyeFgContrast < 3.0
+        ? [eyeFgContrastText]
+        : [])
     ]
 
     return {
@@ -326,7 +386,7 @@ export class QrCodeSettings {
       updates.quietZone ?? this._quietZone,
       updates.individualEyeSettings ?? this._individualEyeSettings,
       updates.fileType ?? this._fileType,
-      'logoFile' in updates ? updates.logoFile : this._logoFile,
+      'logoFile' in updates ? updates.logoFile ?? null : this._logoFile,
       this._language
     )
   }
