@@ -107,7 +107,8 @@ export const message = {
       qrCodeReadFailed: 'QRコードの読み込みに失敗しました',
       noDeviceDestination:
         'このデバイスもしくはOSと一致する遷移先が存在しませんでした',
-      invalidUrlFormat: '遷移先のURLが無効です。'
+      invalidUrlFormat: '遷移先のURLが無効です。',
+      qrValueCannotBeEmpty: 'QR値を入力してください'
     },
 
     // Form labels

@@ -26,8 +26,8 @@ export const QrInformationDialog: FC<Props> = ({ qr, onClose }) => {
 
   // Device Redirect URLかどうかを判定
   const isDeviceRedirectUrl = useMemo(() => {
-    return qrValue.includes('/device/redirect')
-  }, [qrValue])
+    return qr.qrValue?.isDeviceRedirectUrl || false
+  }, [qr.qrValue])
 
   // Device Redirect URLの場合、詳細を解析
   const deviceRedirectInfo = useMemo(() => {

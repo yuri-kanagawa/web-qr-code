@@ -1,4 +1,5 @@
 import { Language } from '@/domains/valueObjects/language'
+import { PathBuilder } from '@/lib/routing'
 import { QrValueError } from './error'
 import { QrResult } from './result'
 
@@ -13,11 +14,8 @@ export class Qr {
 
   static create(value: string, language: Language): QrResult {
     if (!value || value.trim() === '') {
-      const errorMessage = language.isJapanese
-        ? 'QR値を入力してください'
-        : language.isFrench
-          ? 'Veuillez saisir la valeur QR'
-          : 'QR value cannot be empty'
+      const errorMessage =
+        language.locale.message.common.error.qrValueCannotBeEmpty
       return new QrResult(null, new QrValueError(errorMessage))
     }
     return new QrResult(new Qr(value, language), null)
@@ -81,5 +79,11 @@ export class Qr {
       !this.isVcard &&
       !this.isMap
     )
+  }
+
+  get isDeviceRedirectUrl(): boolean {
+    const pathBuilder = new PathBuilder(this._language)
+    const redirectPath = pathBuilder.device.redirect
+    return this._value.includes(redirectPath)
   }
 }

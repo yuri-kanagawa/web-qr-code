@@ -104,7 +104,8 @@ export const message = {
       unsupportedFormat: 'Unsupported format',
       qrCodeReadFailed: 'Failed to read QR code',
       noDeviceDestination: 'No destination found for this device or OS.',
-      invalidUrlFormat: 'The destination URL is invalid.'
+      invalidUrlFormat: 'The destination URL is invalid.',
+      qrValueCannotBeEmpty: 'QR value cannot be empty'
     },
 
     // Form labels
