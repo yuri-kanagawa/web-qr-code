@@ -12,12 +12,6 @@ export class Url {
   }
 
   static create(value: string, language: Language): UrlResult {
-    // 空文字の場合はそのまま許可（初期値として）
-    if (value.trim().length === 0) {
-      return new UrlResult(new Url('', language), null)
-    }
-
-    // URL形式のバリデーション
     try {
       new URL(value)
     } catch {

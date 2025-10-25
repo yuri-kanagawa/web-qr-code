@@ -29,6 +29,17 @@ export interface ValidationError {
  * 大幅に簡素化されたバージョン
  */
 export class QrCode {
+  // 表示サイズの固定値
+  static readonly MOBILE_DISPLAY_SIZE = {
+    maxWidth: 250,
+    maxHeight: 250
+  } as const
+
+  static readonly LAPTOP_DISPLAY_SIZE = {
+    maxWidth: 300,
+    maxHeight: 300
+  } as const
+
   private constructor(
     private _settings: QrCodeSettings,
     private _data: QrCodeData,
@@ -340,7 +351,7 @@ export class QrCode {
   }
 
   // 便利メソッド（よく使われるもののみ）
-  changeUrl(url: string | undefined): QrCode {
+  changeUrl(url: string): QrCode {
     return this.updateData((data) => data.changeUrl(url))
   }
 

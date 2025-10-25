@@ -27,7 +27,7 @@ const GeneratedQrCode = React.forwardRef<HTMLDivElement, Props>(
     },
     ref
   ) => {
-    const { height, width } = useWindowSize()
+    const { height, width, isOverLaptop } = useWindowSize()
 
     // qrがundefinedの場合のフォールバック
     const safeQr = qr || QrCode.default(Language.default())
@@ -37,12 +37,21 @@ const GeneratedQrCode = React.forwardRef<HTMLDivElement, Props>(
       if (propHeight && propWidth) {
         return Math.min(propHeight, propWidth) - 50
       }
-      // 従来の計算ロジック
-      if (height < width) {
-        return height - 150
+
+      // laptop以上の場合は固定値を使用
+      if (isOverLaptop) {
+        return Math.min(
+          QrCode.LAPTOP_DISPLAY_SIZE.maxWidth,
+          QrCode.LAPTOP_DISPLAY_SIZE.maxHeight
+        )
       }
-      return width - 500
-    }, [height, width, propHeight, propWidth])
+
+      // モバイルの場合は固定値を使用
+      return Math.min(
+        QrCode.MOBILE_DISPLAY_SIZE.maxWidth,
+        QrCode.MOBILE_DISPLAY_SIZE.maxHeight
+      )
+    }, [height, width, propHeight, propWidth, isOverLaptop])
 
     const [logoImage, setLogoImage] = useState<string | undefined>(undefined)
 

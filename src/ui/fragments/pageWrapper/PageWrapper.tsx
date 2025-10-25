@@ -30,7 +30,7 @@ export const PageWrapper = ({ language, children }: Props) => {
     <>
       {/* モバイル版のヘッダー */}
       {isLessLaptop && <Header language={language} />}
-      
+
       {/* モバイル版のサイドバーバックドロップ */}
       {isSidebarOpen && isLessTablet && (
         <Backdrop
@@ -46,7 +46,7 @@ export const PageWrapper = ({ language, children }: Props) => {
           }}
         />
       )}
-      
+
       <Box display={'flex'} minHeight="100vh">
         {/* サイドバー - 全デバイスで表示 */}
         <LeftDrawer language={language} />
@@ -58,11 +58,23 @@ export const PageWrapper = ({ language, children }: Props) => {
           sx={{
             ml: isLessLaptop ? 0 : `${leftMargin}px`,
             pt: isLessLaptop ? '64px' : 0, // ヘッダーの高さ分のパディング
-            transition: isLessLaptop ? 'none' : 'margin-left 200ms cubic-bezier(0.4, 0, 0.2, 1)',
-            pb: isFooterFixed ? '50px' : 0
+            transition: isLessLaptop
+              ? 'none'
+              : 'margin-left 200ms cubic-bezier(0.4, 0, 0.2, 1)',
+            pb: isFooterFixed ? '50px' : 0,
+            height: isOverLaptop ? '100vh' : 'auto',
+            overflow: isOverLaptop ? 'hidden' : 'visible',
+            boxSizing: 'border-box'
           }}
         >
-          <Box flex={1}>
+          <Box
+            flex={1}
+            sx={{
+              overflow: isOverLaptop ? 'hidden' : 'visible',
+              height: isOverLaptop ? 'calc(100vh - 50px)' : 'auto',
+              boxSizing: 'border-box'
+            }}
+          >
             <>{children}</>
           </Box>
           <Footer
