@@ -1,4 +1,5 @@
-import { TextField, TextFieldProps } from '@/ui/cores'
+import { AlphanumericSymbolTextField } from '@/features/strings/components'
+import { TextFieldProps } from '@/ui/cores'
 import { FC } from 'react'
 
 type Props = {
@@ -13,13 +14,13 @@ export const PasswordTextField: FC<Props> = ({
   ...rest
 }) => {
   return (
-    <TextField
+    <AlphanumericSymbolTextField
       {...rest}
       value={value}
-      onChange={(e) => onChange(e.currentTarget.value)}
+      onChange={(e) => onChange(e)}
       label="Password"
     >
       {children}
-    </TextField>
+    </AlphanumericSymbolTextField>
   )
 }

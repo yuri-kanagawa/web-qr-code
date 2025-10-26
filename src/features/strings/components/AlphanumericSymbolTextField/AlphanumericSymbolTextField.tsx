@@ -1,44 +1,25 @@
 import { AlphanumericSymbol } from '@/domains'
-import { TextField } from '@/ui/cores/TextField'
+import { TextField, TextFieldProps } from '@/ui/cores/TextField'
 import { ChangeEvent, FC } from 'react'
-import { AlphanumericSymbolTextFieldProps } from './types'
 
-export const AlphanumericSymbolTextField: FC<
-  AlphanumericSymbolTextFieldProps
-> = ({
+interface Props extends Omit<TextFieldProps, 'value' | 'onChange'> {
+  value: string
+  onChange: (value: string) => void
+}
+
+export const AlphanumericSymbolTextField: FC<Props> = ({
   value,
   onChange,
-  language,
-  label,
-  error,
-  helperText,
-  placeholder,
-  multiline = false,
-  rows = 1,
-  disabled = false,
-  required = false
+  ...rest
 }) => {
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const inputValue = event.target.value
     const result = AlphanumericSymbol.create(inputValue)
 
     if (result.isSuccess && result.alphanumericSymbol) {
-      onChange(result.alphanumericSymbol)
+      onChange(result.alphanumericSymbol.value)
     }
   }
 
-  return (
-    <TextField
-      value={value}
-      onChange={handleChange}
-      label={label}
-      error={error}
-      helperText={helperText}
-      placeholder={placeholder}
-      multiline={multiline}
-      rows={rows}
-      disabled={disabled}
-      required={required}
-    />
-  )
+  return <TextField value={value} onChange={handleChange} {...rest} />
 }

@@ -9,13 +9,6 @@ export class AlphanumericSymbol {
   }
 
   static create(value: string): AlphanumericSymbolResult {
-    if (!value || value.trim() === '') {
-      return new AlphanumericSymbolResult(
-        null,
-        new AlphanumericSymbolValueError('Alphanumeric symbol cannot be empty')
-      )
-    }
-
     // アルファベット、数字、記号のみを許可
     const alphanumericSymbolRegex =
       /^[a-zA-Z0-9\s\-_.,!?@#$%^&*()+=\[\]{}|;':"\\,.<>\/?`~]*$/
