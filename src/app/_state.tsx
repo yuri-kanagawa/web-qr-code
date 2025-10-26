@@ -76,7 +76,7 @@ export const theme = createTheme({
   shape: {
     borderRadius: 8
   },
-  // アニメーションの最適化
+  // アニメーションの最適化（適度な速度に調整）
   transitions: {
     duration: {
       shortest: 150,

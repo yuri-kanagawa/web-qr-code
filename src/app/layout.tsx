@@ -161,8 +161,8 @@ export default function RootLayout({
             .MuiBox-root {
               box-sizing: border-box;
             }
-            /* アニメーション最適化 */
-            * {
+            /* アニメーション最適化（初期レンダリング時のみ制限） */
+            .initial-load * {
               transition: none !important;
               animation: none !important;
             }
@@ -239,12 +239,26 @@ export default function RootLayout({
                 
                 // 即座にクリティカルリソースをプリロード
                 preloadCriticalResources();
+                
+                // 初期読み込み後にアニメーションを有効化
+                const enableAnimations = function() {
+                  document.body.classList.remove('initial-load');
+                };
+                
+                // ページ読み込み完了後にアニメーションを有効化
+                if (document.readyState === 'loading') {
+                  document.addEventListener('DOMContentLoaded', function() {
+                    setTimeout(enableAnimations, 100);
+                  });
+                } else {
+                  setTimeout(enableAnimations, 100);
+                }
               })();
             `
           }}
         />
       </head>
-      <body className={inter.className}>
+      <body className={`${inter.className} initial-load`}>
         <StateWrap>{children}</StateWrap>
       </body>
     </html>
