@@ -21,15 +21,16 @@ export const FileEditor: FC<Props> = ({ language }) => {
         width: '100%'
       }}
     >
-      <Box sx={{ maxWidth: 600, width: '100%' }}>
+      <Box sx={{ maxWidth: 600, width: '100%', px: 2 }}>
         <FormCard cardProps={{ sx: { p: 3 } }}>
           <Stack spacing={3} alignItems="center">
             <InputFile
               file={file}
               onChange={setFile}
               language={language}
-              width={400}
+              width="100%"
               height={300}
+              sx={{ maxWidth: 400 }}
             />
             <QrEditButton file={file} language={language} />
           </Stack>

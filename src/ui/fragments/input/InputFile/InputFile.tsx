@@ -74,10 +74,10 @@ export const InputFile: FC<Props> = ({
     setImage(undefined)
   }
   return (
-    <Box>
-      <CornerHighlightBox width={props.width} height={props.height}>
+    <Box sx={{ width: '100%', maxWidth: props.width }}>
+      <CornerHighlightBox width="100%" height={props.height}>
         <Stack
-          width={props.width}
+          width="100%"
           height={props.height}
           sx={{ position: 'relative' }}
         >
@@ -99,7 +99,7 @@ export const InputFile: FC<Props> = ({
                 }}
                 onClick={onClickFileSelect}
               >
-                <Stack alignItems="center" spacing={2} py={4}>
+                <Stack alignItems="center" spacing={2} py={4} px={2}>
                   <IoCloudUploadOutline
                     size={80}
                     color={theme.palette.primary.main}
@@ -112,7 +112,14 @@ export const InputFile: FC<Props> = ({
                     inputProps={{ accept: '.jpg, .jpeg, .png' }}
                     onChange={handleFileChange}
                   ></Input>
-                  <Button variant="contained" size="large">
+                  <Button 
+                    variant="contained" 
+                    size="large"
+                    sx={{ 
+                      width: { xs: '100%', sm: 'auto' },
+                      minWidth: { xs: 'auto', sm: 120 }
+                    }}
+                  >
                     {locale.word.buttons.selectFile}
                   </Button>
                 </Stack>
