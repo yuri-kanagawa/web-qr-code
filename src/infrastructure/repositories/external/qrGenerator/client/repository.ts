@@ -1,5 +1,6 @@
 import { QrCode } from '@/domains/entities/qr'
 import { IQrGeneratorRepository } from '@/domains/repositories/external/qrGenerator'
+import { Language } from '@/domains/valueObjects/language'
 import React from 'react'
 import { createRoot } from 'react-dom/client'
 import { QRCode } from 'react-qrcode-logo'
@@ -11,6 +12,11 @@ import { SvgProcessor } from './processors/svgProcessor'
  * QRコード生成リポジトリの実装（クライアントサイド）
  */
 export class QrGeneratorRepository implements IQrGeneratorRepository {
+  private readonly language: Language
+
+  constructor(language: Language) {
+    this.language = language
+  }
   async generateCanvas(qrCode: QrCode): Promise<HTMLCanvasElement> {
     console.log('=== QrGeneratorRepository.generateCanvas 開始 ===')
 
@@ -19,13 +25,17 @@ export class QrGeneratorRepository implements IQrGeneratorRepository {
       qrCode.qrValue.value === '' ||
       qrCode.qrValue.value.trim() === ''
     ) {
-      throw new Error('Invalid QR code data')
+      throw new Error(
+        this.language.locale.message.common.error.qrGenerator.invalidQrData
+      )
     }
 
     // サイズチェック（75px未満は必ずエラー）
     if (qrCode.settings.size.value < 75) {
       throw new Error(
-        `QRコードのサイズが小さすぎます（${qrCode.settings.size.value}px）。75px以上にしてください。`
+        this.language.locale.message.common.error.qrGenerator.sizeTooSmall(
+          qrCode.settings.size.value
+        )
       )
     }
 
@@ -65,7 +75,9 @@ export class QrGeneratorRepository implements IQrGeneratorRepository {
       console.error('QRコード生成エラー:', error)
       const errorMessage =
         error instanceof Error ? error.message : 'Unknown error'
-      throw new Error(`Failed to generate QR code canvas: ${errorMessage}`)
+      throw new Error(
+        `${this.language.locale.message.common.error.qrGenerator.generationFailed}: ${errorMessage}`
+      )
     }
   }
 
@@ -216,7 +228,11 @@ export class QrGeneratorRepository implements IQrGeneratorRepository {
               root.unmount()
               resolve()
             } else {
-              reject(new Error('Failed to get canvas context'))
+              reject(
+                new Error(
+                  this.language.locale.message.common.error.qrGenerator.canvasContextFailed
+                )
+              )
             }
           } catch (error) {
             console.error('Canvas processing error:', error)
@@ -284,14 +300,22 @@ export class QrGeneratorRepository implements IQrGeneratorRepository {
                 root.unmount()
                 resolve()
               } else {
-                reject(new Error('Failed to get canvas context'))
+                reject(
+                  new Error(
+                    this.language.locale.message.common.error.qrGenerator.canvasContextFailed
+                  )
+                )
               }
             }
             img.onerror = (error) => {
               console.error('Image load error:', error)
               document.body.removeChild(container)
               root.unmount()
-              reject(new Error('Failed to load SVG image'))
+              reject(
+                new Error(
+                  this.language.locale.message.common.error.qrGenerator.svgLoadFailed
+                )
+              )
             }
             img.src = 'data:image/svg+xml;base64,' + btoa(svgData)
           } catch (error) {
@@ -306,7 +330,11 @@ export class QrGeneratorRepository implements IQrGeneratorRepository {
             console.error('SVG generation timeout after', attempts, 'attempts')
             document.body.removeChild(container)
             root.unmount()
-            reject(new Error('SVG generation timeout'))
+            reject(
+              new Error(
+                this.language.locale.message.common.error.qrGenerator.svgGenerationTimeout
+              )
+            )
           } else {
             // SVGがまだ生成されていない場合は少し待って再試行
             setTimeout(checkForSvg, 100)

@@ -49,7 +49,7 @@ export const DownloadButton: FC<Props> = ({
         const { QrGeneratorRepository } = await import(
           '@/infrastructure/repositories/external/qrGenerator/client/repository'
         )
-        const repository = new QrGeneratorRepository()
+        const repository = new QrGeneratorRepository(qr.language)
         const canvas = await repository.generateCanvas(qr)
         const dataUrl = canvas.toDataURL('image/png')
 

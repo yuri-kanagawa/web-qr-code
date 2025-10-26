@@ -226,6 +226,15 @@ export const message = {
           `QR code size is too small (${width}x${height}px). Reading may fail.`,
         invalidResultStructure: 'Invalid QR scan result structure',
         failedToLoadImage: 'Failed to load image'
+      },
+      qrGenerator: {
+        invalidQrData: 'Invalid QR code data',
+        sizeTooSmall: (size: number) =>
+          `QR code size is too small (${size}px). Please set it to 75px or more.`,
+        generationFailed: 'Failed to generate QR code canvas',
+        canvasContextFailed: 'Failed to get canvas context',
+        svgGenerationTimeout: 'SVG generation timeout',
+        svgLoadFailed: 'Failed to load SVG image'
       }
     },
 

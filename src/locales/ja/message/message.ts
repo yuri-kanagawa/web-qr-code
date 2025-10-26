@@ -230,6 +230,15 @@ export const message = {
           `QRコードのサイズが小さすぎます (${width}x${height}px)。読み取りに失敗する可能性があります。`,
         invalidResultStructure: '無効なQRスキャン結果構造です',
         failedToLoadImage: '画像の読み込みに失敗しました'
+      },
+      qrGenerator: {
+        invalidQrData: '無効なQRコードデータです',
+        sizeTooSmall: (size: number) =>
+          `QRコードのサイズが小さすぎます（${size}px）。75px以上にしてください。`,
+        generationFailed: 'QRコードキャンバスの生成に失敗しました',
+        canvasContextFailed: 'キャンバスコンテキストの取得に失敗しました',
+        svgGenerationTimeout: 'SVG生成がタイムアウトしました',
+        svgLoadFailed: 'SVG画像の読み込みに失敗しました'
       }
     },
 
