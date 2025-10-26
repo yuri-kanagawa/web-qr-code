@@ -1,3 +1,5 @@
+import { Country } from '@/domains/valueObjects/country'
+import { LANGUAGE_TO_COUNTRY } from '@/domains/valueObjects/country/constants'
 import { Locale } from '@/locales'
 import { LanguageValueError } from './error'
 import { LanguageResult } from './result'
@@ -64,7 +66,7 @@ export class Language {
   get flag(): string {
     switch (this._value) {
       case 'en':
-        return '🇺🇸'
+        return '🇬🇧'
       case 'ja':
         return '🇯🇵'
       case 'fr':
@@ -106,5 +108,14 @@ export class Language {
       default:
         return require('@/locales/en').en
     }
+  }
+
+  get country(): Country {
+    const countryCode = LANGUAGE_TO_COUNTRY[this._value] || 'us'
+    const result = Country.create(countryCode, this)
+
+    return result.isSuccess && result.country
+      ? result.country
+      : Country.default()
   }
 }

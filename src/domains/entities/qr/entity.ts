@@ -355,23 +355,23 @@ export class QrCode {
     return this.updateData((data) => data.changeUrl(url))
   }
 
-  changeEmail(email: string | undefined): QrCode {
+  changeEmail(email: string): QrCode {
     return this.updateData((data) => data.changeEmail(email))
   }
 
-  changeSubject(subject: string | undefined): QrCode {
+  changeSubject(subject: string): QrCode {
     return this.updateData((data) => data.changeSubject(subject))
   }
 
-  changeBody(body: string | undefined): QrCode {
+  changeBody(body: string): QrCode {
     return this.updateData((data) => data.changeBody(body))
   }
 
-  changeText(text: string | undefined): QrCode {
+  changeText(text: string): QrCode {
     return this.updateData((data) => data.changeText(text))
   }
 
-  changePhoneNumber(phoneNumber: string | undefined): QrCode {
+  changePhoneNumber(phoneNumber: string): QrCode {
     return this.updateData((data) => data.changePhoneNumber(phoneNumber))
   }
 
@@ -380,15 +380,15 @@ export class QrCode {
   }
 
   // WiFi関連のメソッド
-  changeWifiSsid(wifiSsid: string | undefined): QrCode {
+  changeWifiSsid(wifiSsid: string): QrCode {
     return this.updateData((data) => data.changeWifiSsid(wifiSsid))
   }
 
-  changeWifiPassword(wifiPassword: string | undefined): QrCode {
+  changeWifiPassword(wifiPassword: string): QrCode {
     return this.updateData((data) => data.changeWifiPassword(wifiPassword))
   }
 
-  changeWifiType(wifiType: number | undefined): QrCode {
+  changeWifiType(wifiType: string): QrCode {
     return this.updateData((data) => data.changeWifiType(wifiType))
   }
 

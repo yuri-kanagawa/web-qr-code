@@ -13,9 +13,6 @@ export class WiFiSsid {
 
   static create(value: string, language: Language): WiFiSsidResult {
     // 空文字チェック
-    if (value.trim().length === 0) {
-      return new WiFiSsidResult(new WiFiSsid('', language), null)
-    }
 
     // 長さチェック（SSIDは最大32文字）
     if (value.length > 32) {

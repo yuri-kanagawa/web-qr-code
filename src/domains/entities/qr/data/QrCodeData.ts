@@ -178,112 +178,76 @@ export class QrCodeData {
   }
 
   // よく使われる変更メソッドのみ
-  changeUrl(url: string | undefined): QrCodeData {
-    let urlValueObject: Url | undefined = undefined
-    if (url !== undefined && url.trim() !== '') {
-      const result = Url.create(url, this._language)
-      console.log('changeUrl - input:', url, 'result:', result)
-      if (result.isSuccess && result.url) {
-        urlValueObject = result.url
-        console.log('changeUrl - urlValueObject set:', urlValueObject.value)
-      } else {
-        console.log('changeUrl - Url.create failed:', result.error)
-      }
+  changeUrl(url: string): QrCodeData {
+    const result = Url.create(url, this._language)
+    if (result.isFailure || !result.url) {
+      return this
     }
-    return this.copy({ url: urlValueObject })
+    return this.copy({ url: result.url })
   }
 
-  changeEmail(email: string | undefined): QrCodeData {
-    let emailValueObject: Email | undefined = undefined
-    if (email !== undefined && email.trim() !== '') {
-      const result = Email.create(email, this._language)
-      if (result.isSuccess && result.email) {
-        emailValueObject = result.email
-      }
+  changeEmail(email: string): QrCodeData {
+    const result = Email.create(email, this._language)
+    if (result.isFailure || !result.email) {
+      return this
     }
-    return this.copy({ email: emailValueObject })
+    return this.copy({ email: result.email })
   }
 
-  changeSubject(subject: string | undefined): QrCodeData {
-    let subjectValueObject: Subject | undefined = undefined
-    if (subject !== undefined && subject.trim() !== '') {
-      const result = Subject.create(subject, this._language)
-      if (result.isSuccess && result.subject) {
-        subjectValueObject = result.subject
-      }
+  changeSubject(subject: string): QrCodeData {
+    const result = Subject.create(subject, this._language)
+    if (result.isFailure || !result.subject) {
+      return this
     }
-    return this.copy({ subject: subjectValueObject })
+    return this.copy({ subject: result.subject })
   }
 
-  changeBody(body: string | undefined): QrCodeData {
-    let bodyValueObject: Body | undefined = undefined
-    if (body !== undefined && body.trim() !== '') {
-      const result = Body.create(body, this._language)
-      if (result.isSuccess && result.body) {
-        bodyValueObject = result.body
-      }
+  changeBody(body: string): QrCodeData {
+    const result = Body.create(body, this._language)
+    if (result.isFailure || !result.body) {
+      return this
     }
-    return this.copy({ body: bodyValueObject })
+    return this.copy({ body: result.body })
   }
 
-  changeText(text: string | undefined): QrCodeData {
-    let textValueObject: Text | undefined = undefined
-    if (text !== undefined && text.trim() !== '') {
-      const result = Text.create(text, this._language)
-      if (result.isSuccess && result.text) {
-        textValueObject = result.text
-      }
+  changeText(text: string): QrCodeData {
+    const result = Text.create(text, this._language)
+    if (result.isFailure || !result.text) {
+      return this
     }
-    return this.copy({ text: textValueObject })
+    return this.copy({ text: result.text })
   }
 
-  changeWifiSsid(wifiSsid: string | undefined): QrCodeData {
-    let wifiSsidValueObject: WiFiSsid | undefined = undefined
-    if (wifiSsid !== undefined && wifiSsid.trim() !== '') {
-      const result = WiFiSsid.create(wifiSsid, this._language)
-      if (result.isSuccess && result.wifiSsid) {
-        wifiSsidValueObject = result.wifiSsid
-      }
+  changeWifiSsid(wifiSsid: string): QrCodeData {
+    const result = WiFiSsid.create(wifiSsid, this._language)
+    if (result.isFailure || !result.wifiSsid) {
+      return this
     }
-    return this.copy({ wifiSsid: wifiSsidValueObject })
+    return this.copy({ wifiSsid: result.wifiSsid })
   }
 
-  changeWifiPassword(wifiPassword: string | undefined): QrCodeData {
-    let wifiPasswordValueObject: WiFiPassword | undefined = undefined
-    if (wifiPassword !== undefined && wifiPassword.trim() !== '') {
-      const result = WiFiPassword.create(wifiPassword, this._language)
-      if (result.isSuccess && result.wifiPassword) {
-        wifiPasswordValueObject = result.wifiPassword
-      }
+  changeWifiPassword(wifiPassword: string): QrCodeData {
+    const result = WiFiPassword.create(wifiPassword, this._language)
+    if (result.isFailure || !result.wifiPassword) {
+      return this
     }
-    return this.copy({ wifiPassword: wifiPasswordValueObject })
+    return this.copy({ wifiPassword: result.wifiPassword })
   }
 
-  changeWifiType(wifiType: number | undefined): QrCodeData {
-    let wifiTypeValueObject: WiFiType | undefined = undefined
-    if (wifiType !== undefined) {
-      const result = WiFiType.create(wifiType.toString(), this._language)
-      if (result.isSuccess && result.wifiType) {
-        wifiTypeValueObject = result.wifiType
-      }
+  changeWifiType(wifiType: string): QrCodeData {
+    const result = WiFiType.create(wifiType, this._language)
+    if (result.isFailure || !result.wifiType) {
+      return this
     }
-    return this.copy({ wifiType: wifiTypeValueObject })
+    return this.copy({ wifiType: result.wifiType })
   }
 
-  changePhoneNumber(phoneNumber: string | undefined): QrCodeData {
-    let phoneNumberValueObject: PhoneNumber | undefined = undefined
-    if (phoneNumber !== undefined && phoneNumber.trim() !== '') {
-      console.log('changePhoneNumber input:', phoneNumber)
-      const result = PhoneNumber.create(phoneNumber, this._language)
-      console.log('PhoneNumber.create result:', result)
-      if (result.isSuccess && result.phoneNumber) {
-        phoneNumberValueObject = result.phoneNumber
-        console.log('phoneNumberValueObject set:', phoneNumberValueObject.value)
-      } else {
-        console.log('PhoneNumber.create failed:', result.error)
-      }
+  changePhoneNumber(phoneNumber: string): QrCodeData {
+    const result = PhoneNumber.create(phoneNumber, this._language)
+    if (result.isFailure || !result.phoneNumber) {
+      return this
     }
-    return this.copy({ phoneNumber: phoneNumberValueObject })
+    return this.copy({ phoneNumber: result.phoneNumber })
   }
 
   // フォームの値のオブジェクト形式でのアクセス

@@ -1,4 +1,3 @@
-import { LocaleService } from '@/domains/services/locale'
 import { Language } from '@/domains/valueObjects/language'
 import { PhoneNumber } from '@/ui/cores/PhoneNumber/PhoneNumber'
 import { TextFieldProps } from '@mui/material/TextField/TextField'
@@ -33,11 +32,11 @@ export const BasePhoneTextField: FC<Props> = ({
 
   useEffect(() => {
     setIsMounted(true)
-    const country = LocaleService.detectCountry()
+    const country = language.country
     if (country?.code) {
       setDefaultCountry(country.code)
     }
-  }, [])
+  }, [language])
 
   // refを適切に処理してsetSelectionRangeエラーを防ぐ
   useEffect(() => {
