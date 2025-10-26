@@ -1,4 +1,5 @@
 export * from './address'
+export * from './alphanumericSymbol'
 export * from './base64'
 export * from './body'
 export * from './country'
