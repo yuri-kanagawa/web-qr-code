@@ -8,7 +8,7 @@ export const createSubjectZodSchema = (language: Language) =>
     if (value.trim().length === 0) {
       return Subject.empty(language)
     }
-    
+
     const result = Subject.create(value, language)
     if (result.isFailure) {
       ctx.addIssue({

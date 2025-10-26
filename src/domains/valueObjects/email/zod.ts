@@ -8,7 +8,7 @@ export const createEmailZodSchema = (language: Language) =>
     if (value.trim().length === 0) {
       return Email.empty(language)
     }
-    
+
     const result = Email.create(value, language)
     if (result.isFailure) {
       ctx.addIssue({

@@ -5,6 +5,7 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 このプロジェクトはClean Architectureの原則に従い、関心の分離を明確に行っています。
 
 ### `/src/domains`
+
 **ドメイン層** - コアビジネスロジックとエンティティ
 
 - **エンティティ**: コアビジネスオブジェクト（例: `QrCode`, `GeoLocation`, `Device`）
@@ -13,11 +14,13 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 - **サービス**: ビジネスロジックをカプセル化するドメインサービス
 
 **主な特徴:**
+
 - フレームワークに依存しない純粋なTypeScript
 - ビジネスロジックのみを含む
 - 他のレイヤーへの依存がない
 
 ### `/src/application`
+
 **アプリケーション層** - ドメインロジックを調整するユースケース
 
 - **ユースケース**: アプリケーション固有のワークフロー（例: `ConfirmQrCodeUseCase`, `DownloadQrCodeUseCase`）
@@ -25,11 +28,13 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 - **DTO**: レイヤー間でデータを渡すためのデータ転送オブジェクト
 
 **主な特徴:**
+
 - ドメインロジックを調整
 - リポジトリインターフェースを使用（実装は使用しない）
 - ユーザーインタラクションを表現するユースケースを実装
 
 ### `/src/infrastructure`
+
 **インフラストラクチャ層** - 技術的な実装と外部サービス
 
 - **リポジトリ**: リポジトリインターフェースの具体的な実装
@@ -40,16 +45,19 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 - **プロセッサー**: 処理を行うヘルパークラス（例: キャンバス透過処理、ロゴ処理）
 
 **主な特徴:**
+
 - 技術的な詳細を含む
 - ドメイン層のリポジトリインターフェースを実装
 - プラットフォーム固有の懸念事項を処理（ブラウザAPIなど）
 
 ### `/src/features`
+
 **機能** - 機能ベースのコンポーネントとビジネスロジック
 
 機能に特化したドメイン固有の実装で、UIコンポーネントとビジネスロジックを組み合わせます。
 
 ### `/src/ui`
+
 **UI層** - プレゼンテーションコンポーネント
 
 - **ページ**: Next.jsのページコンポーネント
@@ -58,11 +66,13 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 - **ストーリー**: コンポーネントドキュメント用のStorybookストーリー
 
 **主な特徴:**
+
 - プレゼンテーションロジックのみ
 - ビジネスロジックを直接含まない
 - ユーザーインタラクションにはユースケースを使用
 
 ### `/src/locales`
+
 **国際化** - 多言語サポート
 
 - 英語（`en`）、日本語（`ja`）、フランス語（`fr`）のサポート
@@ -70,12 +80,15 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 - 複数言語でのSEO用メタタグ
 
 ### `/src/stores`
+
 **状態管理** - React Hooksを使用した状態管理
 
 ### `/src/hooks`
+
 **カスタムフック** - 再利用可能なReactフック
 
 ### `/src/lib`
+
 **ユーティリティ** - 共有ユーティリティ関数とヘルパー
 
 ## アーキテクチャの原則

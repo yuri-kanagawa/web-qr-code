@@ -7,7 +7,11 @@ import { QrColorResult } from './result'
  */
 export class QrColor {
   private static readonly HEX_COLOR_PATTERN = /^#[0-9A-Fa-f]{6}$/
-  private static readonly TRANSPARENT_VALUES = ['', 'transparent', 'rgba(0,0,0,0)']
+  private static readonly TRANSPARENT_VALUES = [
+    '',
+    'transparent',
+    'rgba(0,0,0,0)'
+  ]
 
   private readonly _value: string
   private readonly _language: Language
@@ -63,7 +67,10 @@ export class QrColor {
    * 透過色かどうかを判定
    */
   isTransparent(): boolean {
-    return this._value === '' || QrColor.TRANSPARENT_VALUES.includes(this._value.toLowerCase())
+    return (
+      this._value === '' ||
+      QrColor.TRANSPARENT_VALUES.includes(this._value.toLowerCase())
+    )
   }
 
   equals(other: QrColor): boolean {

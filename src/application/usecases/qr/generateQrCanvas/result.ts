@@ -22,4 +22,3 @@ export class GenerateQrCanvasUseCaseResult {
     return new GenerateQrCanvasUseCaseResult(false, undefined, error)
   }
 }
-

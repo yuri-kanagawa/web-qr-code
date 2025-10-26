@@ -1,2 +1,1 @@
 export { QrGeneratorRepository } from './repository'
-

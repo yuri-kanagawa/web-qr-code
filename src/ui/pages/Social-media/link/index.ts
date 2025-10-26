@@ -1,2 +1,1 @@
-export { SocialMediaLinkPage } from './Page';
-
+export { SocialMediaLinkPage } from './Page'

@@ -76,11 +76,7 @@ export const InputFile: FC<Props> = ({
   return (
     <Box sx={{ width: '100%', maxWidth: props.width }}>
       <CornerHighlightBox width="100%" height={props.height}>
-        <Stack
-          width="100%"
-          height={props.height}
-          sx={{ position: 'relative' }}
-        >
+        <Stack width="100%" height={props.height} sx={{ position: 'relative' }}>
           {!file && (
             <div onDrop={handleDrop} onDragOver={handleDragOver}>
               <Box
@@ -112,10 +108,10 @@ export const InputFile: FC<Props> = ({
                     inputProps={{ accept: '.jpg, .jpeg, .png' }}
                     onChange={handleFileChange}
                   ></Input>
-                  <Button 
-                    variant="contained" 
+                  <Button
+                    variant="contained"
                     size="large"
-                    sx={{ 
+                    sx={{
                       width: { xs: '100%', sm: 'auto' },
                       minWidth: { xs: 'auto', sm: 120 }
                     }}

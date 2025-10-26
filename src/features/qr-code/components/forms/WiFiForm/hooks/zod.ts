@@ -1,6 +1,6 @@
-import { 
-  Language, 
-  createWiFiSsidZodSchema, 
+import {
+  Language,
+  createWiFiSsidZodSchema,
   createWiFiPasswordZodSchema,
   createWiFiTypeZodSchema
 } from '@/domains'

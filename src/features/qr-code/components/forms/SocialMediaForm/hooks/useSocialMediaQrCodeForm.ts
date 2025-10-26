@@ -4,7 +4,10 @@ import { SubmitErrorHandler, useForm } from 'react-hook-form'
 import { useEffect, useMemo } from 'react'
 
 import { Language, QrCode } from '@/domains'
-import { createRegisterQrCodeUrlSchema, type RegisterQrCodeUrlSchema } from './zod'
+import {
+  createRegisterQrCodeUrlSchema,
+  type RegisterQrCodeUrlSchema
+} from './zod'
 
 type Props = {
   language: Language
@@ -59,14 +62,15 @@ export const useSocialMediaQrCodeForm = ({ language, qr }: Props) => {
       setFocus('url')
       return
     }
-    return "qr-generated"
+    return 'qr-generated'
   }
-  
+
   return {
     control,
     watch,
     onConfirm: handleConfirm,
-    onDownload: () => console.log("Download functionality temporarily disabled"),
+    onDownload: () =>
+      console.log('Download functionality temporarily disabled'),
     ...rest
   }
 }

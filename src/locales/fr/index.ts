@@ -11,4 +11,3 @@ export const fr = {
 export * from './word'
 export * from './message'
 export * from './metas'
-

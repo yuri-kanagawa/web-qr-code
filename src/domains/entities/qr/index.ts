@@ -1,2 +1,1 @@
-export { QrCode } from './entity';
-
+export { QrCode } from './entity'

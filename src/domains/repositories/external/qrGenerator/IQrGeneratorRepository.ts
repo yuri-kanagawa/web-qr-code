@@ -13,4 +13,3 @@ export interface IQrGeneratorRepository {
    */
   generateCanvas(qrCode: QrCode): Promise<HTMLCanvasElement>
 }
-

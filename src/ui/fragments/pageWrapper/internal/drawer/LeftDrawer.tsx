@@ -17,18 +17,22 @@ export const LeftDrawer = forwardRef<HTMLDivElement, Props>(
   ({ language, children }, ref) => {
     const { isSidebarOpen, toggleSidebar, setIsSidebarOpen } = useSidebar()
     const { isLessLaptop } = useWindowSize()
-    
+
     return (
       <Box
         component="nav"
         sx={{
           position: 'fixed',
-          top: isLessLaptop ? '64px' : 0,  // モバイル版ではヘッダーの高さ分下げる
+          top: isLessLaptop ? '64px' : 0, // モバイル版ではヘッダーの高さ分下げる
           left: 0,
-          width: isLessLaptop 
-            ? (isSidebarOpen ? '280px' : 0)
-            : (isSidebarOpen ? '210px' : '70px'),
-          height: isLessLaptop ? 'calc(100vh - 64px)' : '100vh',  // モバイル版ではヘッダー分を引く
+          width: isLessLaptop
+            ? isSidebarOpen
+              ? '280px'
+              : 0
+            : isSidebarOpen
+              ? '210px'
+              : '70px',
+          height: isLessLaptop ? 'calc(100vh - 64px)' : '100vh', // モバイル版ではヘッダー分を引く
           backgroundColor: 'grey.100',
           borderRight: '1px solid',
           borderColor: 'grey.200',

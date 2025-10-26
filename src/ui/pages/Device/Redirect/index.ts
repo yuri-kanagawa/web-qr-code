@@ -1,1 +1,1 @@
-export { DeviceRedirectPage } from './Page';
+export { DeviceRedirectPage } from './Page'

@@ -17,7 +17,6 @@ export const usePhoneQrCodeForm = () => {
     SearchParamsManager.remove(['phoneNumber'])
   }, [])
 
-
   const defaultValues: RegisterQrCodePhoneSchema = useMemo(() => {
     return {
       phoneNumber
@@ -61,13 +60,14 @@ export const usePhoneQrCodeForm = () => {
       setFocus('phoneNumber')
       return
     }
-    return "qr-generated"
+    return 'qr-generated'
   }
   return {
     control,
     watch,
     onConfirm: handleConfirm,
-    onDownload: () => console.log("Download functionality temporarily disabled"),
+    onDownload: () =>
+      console.log('Download functionality temporarily disabled'),
     ...rest
   }
 }

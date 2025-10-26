@@ -23,4 +23,3 @@ export class DownloadQrCodeUseCaseResult {
     return new DownloadQrCodeUseCaseResult(false, undefined, undefined, error)
   }
 }
-

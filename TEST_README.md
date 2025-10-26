@@ -50,8 +50,13 @@ import { Language } from '@/domains/valueObjects/language'
 
 describe('GeoLocation', () => {
   it('正しい緯度・経度で作成できる', () => {
-    const geoLocation = GeoLocation.create(35.68, 139.76, 'Tokyo', Language.default())
-    
+    const geoLocation = GeoLocation.create(
+      35.68,
+      139.76,
+      'Tokyo',
+      Language.default()
+    )
+
     expect(geoLocation).not.toBeNull()
     expect(geoLocation?.latitude).toBe(35.68)
   })
@@ -110,10 +115,10 @@ import { test, expect } from '@playwright/test'
 test.describe('機能名', () => {
   test('テストケース名', async ({ page }) => {
     await page.goto('/url')
-    
+
     const input = page.locator('input[type="url"]')
     await input.fill('https://example.com')
-    
+
     const qrCode = page.locator('canvas')
     await expect(qrCode).toBeVisible()
   })
@@ -181,18 +186,21 @@ export const Primary: Story = {
 ## 🎯 ベストプラクティス
 
 ### Unit Test (推奨順)
+
 1. **Domain層（最優先）**: Value Objects、Domain Services
 2. **Infrastructure層**: Repository実装（モックを使用）
 3. **Hooks**: 複雑なロジックを持つカスタムフック
 4. **UI Components**: 必要な場合のみ（基本はStorybookで十分）
 
 ### E2Eテスト
+
 - ユーザーの実際の操作フローをテスト
 - 重要な機能を優先的にカバー
 - テストは独立して実行可能に
 - `data-testid` 属性でセレクタを安定化
 
 ### Storybook
+
 - コンポーネントの全バリエーションを網羅
 - インタラクティブなコントロールを提供
 - アクセシビリティをチェック（addon-a11y）
@@ -204,7 +212,7 @@ export const Primary: Story = {
 テストピラミッド:
         /\
        /  \  E2E Tests (少数・重要フローのみ)
-      /----\  
+      /----\
      /      \ Integration Tests (中)
     /--------\
    /          \ Unit Tests (多数・Domain層中心)
@@ -212,6 +220,7 @@ export const Primary: Story = {
 ```
 
 ### 優先順位:
+
 1. 🔴 **Domain層のUnit Test** - ビジネスロジックの核心
 2. 🟠 **E2Eテスト** - クリティカルなユーザーフロー
 3. 🟡 **Repository層のUnit Test** - 外部依存のテスト
@@ -233,4 +242,3 @@ export const Primary: Story = {
 - name: Build Storybook
   run: yarn build-storybook
 ```
-

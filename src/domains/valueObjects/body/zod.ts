@@ -8,7 +8,7 @@ export const createBodyZodSchema = (language: Language) =>
     if (value.trim().length === 0) {
       return Body.empty(language)
     }
-    
+
     const result = Body.create(value, language)
     if (result.isFailure) {
       ctx.addIssue({
