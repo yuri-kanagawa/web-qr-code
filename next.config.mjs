@@ -13,7 +13,15 @@ const nextConfig = {
   },
   trailingSlash: true,
   skipTrailingSlashRedirect: true,
-  distDir: 'out'
+  distDir: 'out',
+  // CSS最適化設定
+  experimental: {
+    optimizePackageImports: ['@mui/material', '@mui/icons-material']
+  },
+  // コンパイラ最適化
+  compiler: {
+    removeConsole: process.env.NODE_ENV === 'production'
+  }
 }
 
 export default nextConfig
