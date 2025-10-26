@@ -23,11 +23,10 @@ export const theme = createTheme({
     tooltip: 1400, // Tooltip 用の zIndex
     snackbar: 1500 // Snackbar 用の zIndex
   },
-  // 積極的なCSS-in-JS最適化
+  // シンプルなCSS-in-JS最適化
   components: {
     MuiCssBaseline: {
       styleOverrides: {
-        // グローバルスタイルの最適化
         '*': {
           boxSizing: 'border-box'
         },
@@ -37,55 +36,6 @@ export const theme = createTheme({
           fontFamily: 'inherit'
         }
       }
-    },
-    // よく使われるコンポーネントのスタイルを事前定義
-    MuiButton: {
-      styleOverrides: {
-        root: {
-          textTransform: 'none', // デフォルトの大文字変換を無効化
-          fontWeight: 500
-        }
-      }
-    },
-    MuiTextField: {
-      styleOverrides: {
-        root: {
-          '& .MuiOutlinedInput-root': {
-            borderRadius: 8
-          }
-        }
-      }
-    },
-    MuiContainer: {
-      styleOverrides: {
-        root: {
-          paddingLeft: 16,
-          paddingRight: 16
-        }
-      }
-    },
-    MuiTypography: {
-      styleOverrides: {
-        root: {
-          fontFamily: 'inherit'
-        }
-      }
-    }
-  },
-  // テーマの最適化
-  shape: {
-    borderRadius: 8
-  },
-  // アニメーションの最適化（適度な速度に調整）
-  transitions: {
-    duration: {
-      shortest: 150,
-      shorter: 200,
-      short: 250,
-      standard: 300,
-      complex: 375,
-      enteringScreen: 225,
-      leavingScreen: 195
     }
   }
 })
