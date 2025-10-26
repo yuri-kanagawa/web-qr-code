@@ -14,9 +14,13 @@ const nextConfig = {
   trailingSlash: true,
   skipTrailingSlashRedirect: true,
   distDir: 'out',
-  // CSS最適化設定
+  // 積極的なCSS最適化設定
   experimental: {
-    optimizePackageImports: ['@mui/material', '@mui/icons-material']
+    optimizePackageImports: ['@mui/material', '@mui/icons-material'],
+    // バンドル最適化
+    optimizeServerReact: true,
+    // メモリ使用量最適化
+    memoryBasedWorkersCount: true
   },
   // コンパイラ最適化
   compiler: {
