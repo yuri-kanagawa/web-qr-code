@@ -50,7 +50,7 @@ export class Language {
     label: string
   }> {
     return Object.entries(Language.LANGUAGES)
-      .filter(([key]) => key !== 'en')
+      .filter(([key]) => key !== Language.default().value)
       .map(([key, label]) => ({
         key: key as LanguageKey,
         label
