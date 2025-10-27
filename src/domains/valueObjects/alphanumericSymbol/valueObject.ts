@@ -1,5 +1,5 @@
 import { AlphanumericSymbolValueError } from './error'
-import { AlphanumericSymbol, AlphanumericSymbolResult } from './result'
+import { AlphanumericSymbolResult } from './result'
 
 export class AlphanumericSymbol {
   private readonly _value: string

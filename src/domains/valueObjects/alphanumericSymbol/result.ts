@@ -1,5 +1,5 @@
 import { AlphanumericSymbolValueError } from './error'
-
+import { AlphanumericSymbol } from './valueObject'
 export class AlphanumericSymbolResult {
   constructor(
     public readonly alphanumericSymbol: AlphanumericSymbol | null,
@@ -12,21 +12,5 @@ export class AlphanumericSymbolResult {
 
   get isFailure(): boolean {
     return this.error !== null
-  }
-}
-
-export class AlphanumericSymbol {
-  private constructor(private readonly _value: string) {}
-
-  get value(): string {
-    return this._value
-  }
-
-  equals(other: AlphanumericSymbol): boolean {
-    return this._value === other._value
-  }
-
-  toString(): string {
-    return this._value
   }
 }
