@@ -47,7 +47,7 @@ export const PageWrapper = ({ language, children }: Props) => {
         />
       )}
 
-      <Box display={'flex'} minHeight="100vh">
+      <Box display={'flex'} minHeight="100vh" sx={{ width: '100%', overflowX: 'hidden' }}>
         {/* サイドバー - 全デバイスで表示 */}
         <LeftDrawer language={language} />
 
@@ -64,6 +64,9 @@ export const PageWrapper = ({ language, children }: Props) => {
             pb: isFooterFixed ? '50px' : 0,
             height: isOverLaptop ? '100vh' : 'auto',
             overflow: isOverLaptop ? 'hidden' : 'visible',
+            overflowX: 'hidden', // 横スクロールを防止
+            width: '100%',
+            maxWidth: '100%',
             boxSizing: 'border-box'
           }}
         >
@@ -71,7 +74,10 @@ export const PageWrapper = ({ language, children }: Props) => {
             flex={1}
             sx={{
               overflow: isOverLaptop ? 'hidden' : 'visible',
+              overflowX: 'hidden', // 横スクロールを防止
               height: isOverLaptop ? 'calc(100vh - 50px)' : 'auto',
+              width: '100%',
+              maxWidth: '100%',
               boxSizing: 'border-box'
             }}
           >

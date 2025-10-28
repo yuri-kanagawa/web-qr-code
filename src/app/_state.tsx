@@ -33,7 +33,15 @@ export const theme = createTheme({
         body: {
           margin: 0,
           padding: 0,
-          fontFamily: 'inherit'
+          fontFamily: 'inherit',
+          overflowX: 'hidden', // 横スクロールを防止
+          width: '100%',
+          maxWidth: '100%'
+        },
+        html: {
+          overflowX: 'hidden', // 横スクロールを防止
+          width: '100%',
+          maxWidth: '100%'
         }
       }
     }
