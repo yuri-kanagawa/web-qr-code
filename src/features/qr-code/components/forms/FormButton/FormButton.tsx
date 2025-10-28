@@ -100,16 +100,15 @@ export const FormButton: FC<Props> = ({
               overflow: 'visible'
             }}
           >
-            <Box sx={{ position: 'relative', height: '100%', pt: 2 }}>
+            <Box sx={{ position: 'relative', height: '100%' }}>
               <Box
                 sx={{
                   position: 'absolute',
-                  top: 10,
-                  left: 12,
+                  top: -10,
+                  left: 10,
                   backgroundColor: 'background.paper',
-                  px: 1,
+                  px: 0.5,
                   fontSize: '0.875rem',
-                  fontWeight: 500,
                   color: 'text.secondary',
                   zIndex: 2
                 }}
@@ -119,6 +118,7 @@ export const FormButton: FC<Props> = ({
               <FormCard
                 cardProps={{
                   sx: {
+                    mt: 2,
                     pt: 4,
                     pb: 2,
                     px: 0,
