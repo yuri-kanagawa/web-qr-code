@@ -1,8 +1,8 @@
-import { QrCode } from '@/domains'
+import { Country, QrCode } from '@/domains'
+import { PhoneTextField } from '@/features/country'
 import { FormButton } from '@/features/qr-code'
 import { FormCard } from '@/ui/fragments/form'
 import { BodyTextField } from '@/ui/fragments/textField'
-import { CellPhoneTextField } from '@/ui/fragments/textField/PhoneTextField'
 import { Stack } from '@mui/material'
 import { FC } from 'react'
 import { Controller } from 'react-hook-form'
@@ -11,12 +11,12 @@ import { useSmsQrCodeForm } from './hooks/useSmsQrCodeForm'
 interface Props {
   qr: QrCode
   onChange: (qr: QrCode) => void
+  detectedCountry?: Country | null
 }
 
-export const SmsForm: FC<Props> = ({ qr, onChange }) => {
+export const SmsForm: FC<Props> = ({ qr, onChange, detectedCountry }) => {
   const {
     control,
-    ref,
     onConfirm,
     onDownload,
     watch,
@@ -26,14 +26,7 @@ export const SmsForm: FC<Props> = ({ qr, onChange }) => {
   })
 
   return (
-    <FormButton
-      onConfirm={onConfirm}
-      onDownload={onDownload}
-      isValid={isValid}
-      qr={qr}
-      onChange={onChange}
-      ref={ref}
-    >
+    <FormButton isValid={isValid} qr={qr} onChange={onChange}>
       <FormCard cardProps={{ sx: { p: 2 } }}>
         <Stack spacing={3}>
           <Controller
@@ -44,7 +37,7 @@ export const SmsForm: FC<Props> = ({ qr, onChange }) => {
               formState: { isValid },
               fieldState: { error }
             }) => (
-              <CellPhoneTextField
+              <PhoneTextField
                 value={value}
                 onChange={(newValue) => {
                   onChange(newValue) // react-hook-formの状態を更新
@@ -55,7 +48,9 @@ export const SmsForm: FC<Props> = ({ qr, onChange }) => {
                 helperText={error?.message}
                 inputRef={inputRef}
                 language={qr.language}
+                label={qr.language.locale.word.form.phoneNumber}
                 isRequired={false}
+                detectedCountry={detectedCountry}
               />
             )}
           />

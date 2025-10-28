@@ -1,5 +1,5 @@
 import { GeoLocation } from '@/domains/entities/geoLocation'
-
+import { Country } from '@/domains/valueObjects/country'
 /**
  * 位置情報取得のためのリポジトリインターフェース
  * サーバーサイド実装とクライアントサイド実装の両方をサポート
@@ -17,4 +17,10 @@ export interface IGeoLocationRepository {
    * @throws Error - 位置情報取得失敗時
    */
   getCurrentPosition(): Promise<GeoLocation>
+
+  /**
+   * 国コードを取得
+   * @returns Country - 取得した国コード
+   */
+  getCountryFromIP(): Promise<Country>
 }

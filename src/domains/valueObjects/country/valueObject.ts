@@ -1,66 +1,80 @@
 import { Language } from '@/domains/valueObjects/language'
-import { CountryValueError } from './error'
 import { CountryResult } from './result'
 
 export class Country {
-  static readonly CODES = {
-    JP: 'jp',
-    US: 'us',
-    FR: 'fr',
-    DE: 'de',
-    GB: 'gb',
-    CN: 'cn',
-    KR: 'kr',
-    IT: 'it',
-    ES: 'es',
-    BR: 'br',
-    AU: 'au',
-    CA: 'ca',
-    IN: 'in',
-    RU: 'ru',
-    MX: 'mx'
-  } as const
+  static readonly JP = 'jp'
+  static readonly US = 'us'
+  static readonly FR = 'fr'
+  static readonly DE = 'de'
+  static readonly GB = 'gb'
+  static readonly CN = 'cn'
+  static readonly KR = 'kr'
+  static readonly IT = 'it'
+  static readonly ES = 'es'
+  static readonly BR = 'br'
+  static readonly AU = 'au'
+  static readonly CA = 'ca'
+  static readonly IN = 'in'
+  static readonly RU = 'ru'
+  static readonly MX = 'mx'
 
-  private readonly _code: string
+  private readonly _value: string
   private readonly _language: Language
 
-  private constructor(code: string, language: Language) {
-    this._code = code
+  private constructor(value: string, language: Language) {
+    this._value = value
     this._language = language
   }
 
-  static create(code: string, language: Language): CountryResult {
-    // 簡易的なバリデーション（2文字の小文字）
-    if (!/^[a-z]{2}$/.test(code)) {
-      const errorMessage =
-        language.locale.message.validation.country.invalidCode
-      return new CountryResult(null, new CountryValueError(errorMessage))
+  static create(value: string, language: Language): CountryResult {
+    // 言語コードから国コードを決定
+    let countryCode: string
+    switch (value) {
+      case 'ja':
+        countryCode = Country.JP
+        break
+      case 'en':
+        countryCode = Country.US
+        break
+      case 'fr':
+        countryCode = Country.FR
+        break
+      case 'de':
+        countryCode = Country.DE
+        break
+      default:
+        countryCode = Country.US // デフォルトはUS
     }
-    return new CountryResult(new Country(code, language), null)
+
+    return new CountryResult(new Country(countryCode, language), null)
   }
 
   static jp(language: Language): Country {
-    return new Country(Country.CODES.JP, language)
+    return new Country(Country.JP, language)
   }
 
   static us(language: Language): Country {
-    return new Country(Country.CODES.US, language)
+    return new Country(Country.US, language)
   }
 
   static fr(language: Language): Country {
-    return new Country(Country.CODES.FR, language)
+    return new Country(Country.FR, language)
   }
 
   static de(language: Language): Country {
-    return new Country(Country.CODES.DE, language)
+    return new Country(Country.DE, language)
   }
 
   static default(): Country {
-    return new Country(Country.CODES.US, Language.default())
+    return new Country(Country.US, Language.default())
   }
 
-  get code(): string {
-    return this._code
+  get value(): string {
+    return this._value || 'us'
+  }
+
+  get codeUpperCase(): string {
+    return this._value?.toUpperCase() || 'US'
   }
 
   get language(): Language {
@@ -68,6 +82,6 @@ export class Country {
   }
 
   equals(other: Country): boolean {
-    return this._code === other._code
+    return this._value === other._value
   }
 }

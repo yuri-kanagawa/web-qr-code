@@ -1,8 +1,8 @@
 'use client'
-import { QrCode } from '@/domains'
+import { Country, QrCode } from '@/domains'
+import { PhoneTextField } from '@/features/country'
 import { FormButton } from '@/features/qr-code'
 import { FormCard } from '@/ui/fragments/form/FormCard'
-import { CellPhoneTextField } from '@/ui/fragments/textField/PhoneTextField'
 import { FC, useState } from 'react'
 import { Controller } from 'react-hook-form'
 import { usePhoneQrCodeForm } from './hooks/usePhoneQrCodeForm'
@@ -10,9 +10,10 @@ import { usePhoneQrCodeForm } from './hooks/usePhoneQrCodeForm'
 interface Props {
   qr: QrCode
   onChange: (qr: QrCode) => void
+  detectedCountry?: Country | null
 }
 
-export const PhoneForm: FC<Props> = ({ qr, onChange }) => {
+export const PhoneForm: FC<Props> = ({ qr, onChange, detectedCountry }) => {
   const [currentQr, setCurrentQr] = useState<QrCode>(qr)
   const { control, watch } = usePhoneQrCodeForm({ qr })
 
@@ -34,7 +35,7 @@ export const PhoneForm: FC<Props> = ({ qr, onChange }) => {
           }}
         >
           <FormCard cardProps={{ sx: { p: 2 } }}>
-            <CellPhoneTextField
+            <PhoneTextField
               value={value}
               onChange={(newValue) => {
                 console.log('PhoneForm onChange:', newValue)
@@ -50,6 +51,7 @@ export const PhoneForm: FC<Props> = ({ qr, onChange }) => {
               language={qr.language}
               label={qr.language.locale.word.form.phoneNumber}
               isRequired={false}
+              detectedCountry={detectedCountry}
             />
           </FormCard>
         </FormButton>

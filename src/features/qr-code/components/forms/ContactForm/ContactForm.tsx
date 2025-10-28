@@ -1,11 +1,11 @@
 'use client'
+import { PhoneTextField } from '@/features/country'
 import {
   EmailTextField,
   NameTextField,
   OrganizationForm,
   UrlTextField
 } from '@/ui/fragments/textField'
-import { CellPhoneTextField } from '@/ui/fragments/textField/PhoneTextField'
 import { FC } from 'react'
 
 import { FormButton } from '@/features/qr-code'
@@ -15,17 +15,19 @@ import { FormSection } from '@/ui/fragments/box'
 import { FormCard } from '@/ui/fragments/form'
 import { Controller } from 'react-hook-form'
 
-import { QrCode } from '@/domains'
+import { Country, QrCode } from '@/domains'
 import { useContactQrCodeForm } from './hooks'
 
 interface Props {
   qr: QrCode
   onChange: (qr: QrCode) => void
+  detectedCountry?: Country | null
 }
 
-export const ContactForm: FC<Props> = ({ qr, onChange }) => {
+export const ContactForm: FC<Props> = ({ qr, onChange, detectedCountry }) => {
   const locale = qr.language.locale
   const { isOverLaptop } = useWindowSize()
+
   const {
     control,
 
@@ -124,7 +126,7 @@ export const ContactForm: FC<Props> = ({ qr, onChange }) => {
                     formState: { isValid },
                     fieldState: { error }
                   }) => (
-                    <CellPhoneTextField
+                    <PhoneTextField
                       value={value}
                       onChange={onChange}
                       error={!!error}
@@ -133,6 +135,7 @@ export const ContactForm: FC<Props> = ({ qr, onChange }) => {
                       language={qr.language}
                       label={locale.word.form.mobilePhone}
                       isRequired={false}
+                      detectedCountry={detectedCountry}
                     />
                   )}
                 />
@@ -144,7 +147,7 @@ export const ContactForm: FC<Props> = ({ qr, onChange }) => {
                     formState: { isValid },
                     fieldState: { error }
                   }) => (
-                    <CellPhoneTextField
+                    <PhoneTextField
                       value={value}
                       onChange={onChange}
                       error={!!error}
@@ -153,6 +156,7 @@ export const ContactForm: FC<Props> = ({ qr, onChange }) => {
                       language={qr.language}
                       label={locale.word.form.homePhone}
                       isRequired={false}
+                      detectedCountry={detectedCountry}
                     />
                   )}
                 />
@@ -247,7 +251,7 @@ export const ContactForm: FC<Props> = ({ qr, onChange }) => {
                     formState: { isValid },
                     fieldState: { error }
                   }) => (
-                    <CellPhoneTextField
+                    <PhoneTextField
                       value={value}
                       onChange={onChange}
                       error={!!error}
@@ -256,6 +260,7 @@ export const ContactForm: FC<Props> = ({ qr, onChange }) => {
                       language={qr.language}
                       label={locale.word.form.workMobile}
                       isRequired={false}
+                      detectedCountry={detectedCountry}
                     />
                   )}
                 />
@@ -267,7 +272,7 @@ export const ContactForm: FC<Props> = ({ qr, onChange }) => {
                     formState: { isValid },
                     fieldState: { error }
                   }) => (
-                    <CellPhoneTextField
+                    <PhoneTextField
                       value={value}
                       onChange={onChange}
                       error={!!error}
@@ -276,6 +281,7 @@ export const ContactForm: FC<Props> = ({ qr, onChange }) => {
                       language={qr.language}
                       label={locale.word.form.workPhone}
                       isRequired={false}
+                      detectedCountry={detectedCountry}
                     />
                   )}
                 />

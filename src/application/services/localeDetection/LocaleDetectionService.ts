@@ -1,43 +1,47 @@
+import { IGeoLocationRepository } from '@/domains/repositories/external'
 import { Country } from '@/domains/valueObjects/country'
 import { Language } from '@/domains/valueObjects/language'
 
-export interface GeoLocationRepository {
-  getCountryFromIP(): Promise<string | null>
-}
-
 export class LocaleDetectionService {
   constructor(
-    private readonly geoLocationRepository: GeoLocationRepository,
+    private readonly geoLocationRepository: IGeoLocationRepository,
     private readonly language: Language
   ) {}
 
   async detectCountry(): Promise<Country> {
     // 1. IPアドレスから国を取得（最も確実）
-    let countryCode = await this.geoLocationRepository.getCountryFromIP()
+    let country = await this.geoLocationRepository.getCountryFromIP()
 
     // 2. IPから取得できない場合はロケール情報から取得
-    if (!countryCode) {
+    if (!country || country.value === 'us') {
       const locale =
         Intl.DateTimeFormat().resolvedOptions().locale || navigator.language
-      countryCode = this.extractCountryCodeFromLocale(locale)
+      const countryCode = this.extractCountryCodeFromLocale(locale)
+      if (countryCode) {
+        const result = Country.create(countryCode, this.language)
+        country = result.isSuccess && result.country ? result.country : country
+      }
     }
 
     // 3. ロケールから取得できない場合はタイムゾーンから推測
-    if (!countryCode) {
-      countryCode = this.extractCountryFromTimezone()
+    if (!country || country.value === 'us') {
+      const countryCode = this.extractCountryFromTimezone()
+      if (countryCode) {
+        const result = Country.create(countryCode, this.language)
+        country = result.isSuccess && result.country ? result.country : country
+      }
     }
 
     // 4. それでも取得できない場合は従来の方法
-    if (!countryCode) {
+    if (!country || country.value === 'us') {
       const locale =
         Intl.DateTimeFormat().resolvedOptions().locale || navigator.language
-      countryCode = this.extractCountryCode(locale)
+      const countryCode = this.extractCountryCode(locale)
+      const result = Country.create(countryCode, this.language)
+      country = result.isSuccess && result.country ? result.country : country
     }
 
-    const result = Country.create(countryCode, this.language)
-    return result.isSuccess && result.country
-      ? result.country
-      : Country.default()
+    return country || Country.default()
   }
 
   private extractCountryCode(locale: string): string {

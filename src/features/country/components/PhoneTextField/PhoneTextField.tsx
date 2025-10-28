@@ -1,61 +1,46 @@
-import { Language } from '@/domains/valueObjects/language'
-import { PhoneNumber } from '@/ui/cores/PhoneNumber/PhoneNumber'
+import { Country } from '@/domains'
+import { PhoneNumber } from '@/ui/cores/PhoneNumber'
 import { TextFieldProps } from '@mui/material/TextField/TextField'
 import { FC, useEffect, useRef, useState } from 'react'
 
-type Props = {
+export interface Props
+  extends Omit<TextFieldProps, 'value' | 'onChange' | 'label'> {
   value: string
   onChange: (value: string) => void
-  language: Language
+  language: any // Language型を後で修正
   label: string
   isRequired?: boolean
   inputRef?: React.Ref<HTMLInputElement>
-} & Omit<TextFieldProps, 'onChange' | 'value' | 'label'>
+  detectedCountry?: Country | null
+}
 
 /**
- * 基本のPhoneTextField
- * CellPhone, HomePhone, Fax, WorkPhoneなどに使用される
+ * 電話番号入力フィールド
+ * 検出された国または言語の国コードを使用してデフォルト国を設定
  */
-export const BasePhoneTextField: FC<Props> = ({
+export const PhoneTextField: FC<Props> = ({
   value,
   onChange,
   language,
   label,
   isRequired = true,
   inputRef,
+  detectedCountry,
   ...rest
 }) => {
   const displayLabel = isRequired ? `*${label}` : label
-  const [defaultCountry, setDefaultCountry] = useState<string>('US')
   const [isMounted, setIsMounted] = useState(false)
   const internalRef = useRef<any>(null)
 
+  // マウント状態を管理
   useEffect(() => {
     setIsMounted(true)
-    const country = language.country
-    if (country?.code) {
-      setDefaultCountry(country.code)
-    }
-  }, [language])
-
-  // refを適切に処理してsetSelectionRangeエラーを防ぐ
-  useEffect(() => {
-    if (inputRef && internalRef.current) {
-      // inputRefが関数の場合
-      if (typeof inputRef === 'function') {
-        inputRef(internalRef.current)
-      } else if (inputRef.current !== undefined) {
-        // inputRefがオブジェクトの場合
-        inputRef.current = internalRef.current
-      }
-    }
-  }, [inputRef])
+  }, [])
 
   if (!isMounted) return null
 
   const handleChange = (e: any) => {
     const newValue = typeof e === 'string' ? e : e.target.value
-    // 常に値を更新（バリデーションはZodで行う）
     onChange(newValue)
   }
 
@@ -64,22 +49,18 @@ export const BasePhoneTextField: FC<Props> = ({
       try {
         // setSelectionRangeエラーを防ぐための特別な処理
         if (eventName === 'onKeyDown' || eventName === 'onInput') {
-          // ネイティブinput要素のsetSelectionRangeを安全に呼び出す
           const inputElement = internalRef.current?.querySelector?.('input')
           if (
             inputElement &&
             typeof inputElement.setSelectionRange === 'function'
           ) {
             try {
-              // 入力タイプがsetSelectionRangeをサポートしているかチェック
               const supportedTypes = ['text', 'search', 'tel', 'url']
               if (supportedTypes.includes(inputElement.type)) {
-                // カーソル位置を安全に設定
                 const cursorPosition = inputElement.selectionStart || 0
                 inputElement.setSelectionRange(cursorPosition, cursorPosition)
               }
             } catch (selectionError) {
-              // setSelectionRangeエラーを無視
               console.warn('setSelectionRange error ignored:', selectionError)
             }
           }
@@ -90,6 +71,14 @@ export const BasePhoneTextField: FC<Props> = ({
       }
     }
 
+  // 国コードを取得（検出された国または言語の国を使用）
+  const defaultCountry = detectedCountry?.value || language.country.value
+
+  console.log('PhoneTextField language:', language)
+  console.log('PhoneTextField detectedCountry:', detectedCountry)
+  console.log('PhoneTextField defaultCountry:', defaultCountry)
+
+  // mui-phone-numberライブラリを使用
   return (
     <PhoneNumber
       label={displayLabel}
@@ -99,9 +88,6 @@ export const BasePhoneTextField: FC<Props> = ({
       variant="outlined"
       fullWidth
       ref={internalRef}
-      disableFormatting={false}
-      preferredCountries={['US', 'JP']}
-      regions={['america', 'asia']}
       onKeyDown={handleEvent('onKeyDown', rest.onKeyDown)}
       onInput={handleEvent('onInput', rest.onInput)}
       onBlur={handleEvent('onBlur', rest.onBlur)}

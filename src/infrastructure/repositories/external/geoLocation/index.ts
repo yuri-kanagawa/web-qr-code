@@ -1,2 +1,1 @@
-export * from './client'
-export * from './server'
+export { GeoLocationRepository } from './GeoLocationRepository'
