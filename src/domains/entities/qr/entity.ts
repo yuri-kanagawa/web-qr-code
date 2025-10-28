@@ -294,7 +294,6 @@ export class QrCode {
       this._language,
       this._deviceData
     )
-    console.log('qrValue getter - generatedValue.value:', generatedValue.value)
     return generatedValue
   }
 
@@ -456,9 +455,7 @@ export class QrCode {
 
   // QRコードの有効性をチェック
   isValid(): boolean {
-    const result = !!this.qrValue.value && this.qrValue.value.trim() !== ''
-    console.log('isValid - qrValue:', this.qrValue.value, 'result:', result)
-    return result
+    return !!this.qrValue.value && this.qrValue.value.trim() !== ''
   }
 
   private downloadVCard(vcardData: string): void {

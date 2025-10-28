@@ -1,6 +1,6 @@
 import { QrCode } from '@/domains'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 import { SubmitErrorHandler, useForm } from 'react-hook-form'
 import {
   createRegisterQrCodeContactSchema,
@@ -12,34 +12,55 @@ interface Props {
 }
 
 export function useContactQrCodeForm({ qr }: Props) {
-  const defaultValues: RegisterQrCodeContactSchema = {
-    firstName: qr.firstName.value,
-    lastName: qr.lastName.value,
-    middleName: qr.middleName.value,
-    email: qr.emailContact.value,
-    mobilePhone: qr.mobilePhone.value,
-    homePhone: qr.homePhone.value,
-    homeAddress: qr.homeAddress.value,
-    homeUrl: qr.homeUrl.value,
-    organization: qr.organization.value,
-    post: qr.post.value,
-    workMobile: qr.workMobile.value,
-    workPhone: qr.workPhone.value,
-    workAddress: qr.workAddress.value,
-    workUrl: qr.workUrl.value
-  }
+  const defaultValues: RegisterQrCodeContactSchema = useMemo(() => {
+    return {
+      firstName: qr.firstName.value,
+      lastName: qr.lastName.value,
+      middleName: qr.middleName.value,
+      email: qr.emailContact.value,
+      mobilePhone: qr.mobilePhone.value,
+      homePhone: qr.homePhone.value,
+      homeAddress: qr.homeAddress.value,
+      homeUrl: qr.homeUrl.value,
+      organization: qr.organization.value,
+      post: qr.post.value,
+      workMobile: qr.workMobile.value,
+      workPhone: qr.workPhone.value,
+      workAddress: qr.workAddress.value,
+      workUrl: qr.workUrl.value
+    }
+  }, [
+    qr.firstName.value,
+    qr.lastName.value,
+    qr.middleName.value,
+    qr.emailContact.value,
+    qr.mobilePhone.value,
+    qr.homePhone.value,
+    qr.homeAddress.value,
+    qr.homeUrl.value,
+    qr.organization.value,
+    qr.post.value,
+    qr.workMobile.value,
+    qr.workPhone.value,
+    qr.workAddress.value,
+    qr.workUrl.value
+  ])
 
   const schema = useMemo(
     () => createRegisterQrCodeContactSchema(qr.language),
     [qr.language]
   )
 
-  const { handleSubmit, setFocus, getFieldState, ...rest } =
+  const { handleSubmit, reset, setFocus, getFieldState, ...rest } =
     useForm<RegisterQrCodeContactSchema>({
       defaultValues,
       resolver: zodResolver(schema),
       mode: 'onChange'
     })
+
+  useEffect(() => {
+    reset(defaultValues)
+  }, [defaultValues, reset])
 
   const fieldsToCheck: (keyof RegisterQrCodeContactSchema)[] = [
     'email',

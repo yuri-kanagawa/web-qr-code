@@ -5,7 +5,7 @@ import { closestCenter, DndContext } from '@dnd-kit/core'
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
 import AddIcon from '@mui/icons-material/Add'
 import { Button, Stack } from '@mui/material'
-import { FC } from 'react'
+import { FC, useState } from 'react'
 import { SortableDeviceItem } from './_internal'
 import { useViewModel } from './viewModels'
 
@@ -14,6 +14,8 @@ type Props = {
   onChange: (qr: QrCode) => void
 }
 export const DeviceForm: FC<Props> = ({ qr, onChange }) => {
+  const [currentQr, setCurrentQr] = useState<QrCode>(qr)
+
   const {
     control,
     formState: { isValid },
@@ -28,10 +30,23 @@ export const DeviceForm: FC<Props> = ({ qr, onChange }) => {
     hasIncompleteDevices,
     allCombinationsUsed,
     getHiddenItemsForField
-  } = useViewModel({ qr, onChange })
+  } = useViewModel({
+    qr: currentQr,
+    onChange: (newQr) => {
+      setCurrentQr(newQr)
+      onChange(newQr)
+    }
+  })
 
   return (
-    <FormButton qr={qr} onChange={onChange} isValid={isValid}>
+    <FormButton
+      qr={currentQr}
+      onChange={(newQr) => {
+        setCurrentQr(newQr)
+        onChange(newQr)
+      }}
+      isValid={isValid}
+    >
       <DndContext
         sensors={sensors}
         collisionDetection={closestCenter}

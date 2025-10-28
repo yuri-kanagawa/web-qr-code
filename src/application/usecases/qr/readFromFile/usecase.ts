@@ -1,7 +1,11 @@
 import { QrCode } from '@/domains'
 import { IQrScannerRepository } from '@/domains/repositories/external/qrScanner'
+import { DeviceOsService } from '@/domains/services/deviceOs'
+import { Device } from '@/domains/valueObjects/device'
 import { Language } from '@/domains/valueObjects/language'
+import { Os } from '@/domains/valueObjects/os'
 import { Qr as QrValue } from '@/domains/valueObjects/qr'
+import { Url } from '@/domains/valueObjects/url'
 import { ReadQrFromFileUseCaseResult } from './result'
 
 /**
@@ -66,8 +70,7 @@ export class ReadQrFromFileUseCase {
 
     // DeviceリダイレクトURLの場合
     if (qrValue.isDeviceRedirectUrl) {
-      const qrCode = QrCode.createDevice(this.language)
-      return qrCode.updateData((qrData) => qrData.changeUrl(qrValue.value))
+      return this.parseDeviceQr(qrValue)
     }
 
     // Mapの場合
@@ -122,7 +125,7 @@ export class ReadQrFromFileUseCase {
         data = data.changeWifiPassword(wifiData.password)
       }
       if (wifiData.type !== undefined) {
-        data = data.changeWifiType(wifiData.type)
+        data = data.changeWifiType(wifiData.type.toString())
       }
       return data
     })
@@ -167,6 +170,94 @@ export class ReadQrFromFileUseCase {
       }
       return data
     })
+  }
+
+  /**
+   * Device QRコードをパース
+   */
+  private parseDeviceQr(qrValue: QrValue): QrCode {
+    const qrCode = QrCode.createDevice(this.language)
+
+    try {
+      const url = new URL(qrValue.value)
+      const deviceOsParam = url.searchParams.get('deviceOs')
+      const urlsParam = url.searchParams.get('urls')
+
+      // クエリパラメータがない場合はURLのみ保存
+      if (!deviceOsParam || !urlsParam) {
+        return qrCode.updateData((qrData) => qrData.changeUrl(qrValue.value))
+      }
+
+      // デバイスとURLのリストを取得
+      const deviceOsList = deviceOsParam.split(',')
+      const urlList = urlsParam.split(',').map((u) => decodeURIComponent(u))
+
+      // DeviceQrCodeDataにデータを設定
+      const deviceData = qrCode.deviceData
+      if (!deviceData) {
+        return qrCode.updateData((qrData) => qrData.changeUrl(qrValue.value))
+      }
+
+      let newDeviceData = deviceData
+      for (let i = 0; i < deviceOsList.length && i < urlList.length; i++) {
+        const deviceOsId = parseInt(deviceOsList[i], 10)
+        const urlString = urlList[i]
+
+        // deviceOsIdからDeviceとOsを逆引き
+        const deviceOs = this.getDeviceOsFromId(deviceOsId)
+        if (deviceOs) {
+          // Url ValueObjectを作成
+          const urlResult = Url.create(urlString, this.language)
+          const url = urlResult.url || Url.empty(this.language)
+
+          newDeviceData = newDeviceData.updateDeviceOsUrl(
+            i,
+            deviceOs.device,
+            deviceOs.os,
+            url
+          )
+        }
+      }
+
+      return qrCode.updateDeviceData(newDeviceData)
+    } catch (error) {
+      // URLのパースに失敗した場合はURLのみ保存
+      return qrCode.updateData((qrData) => qrData.changeUrl(qrValue.value))
+    }
+  }
+
+  /**
+   * deviceOsIdからDeviceとOsを取得（逆引き）
+   */
+  private getDeviceOsFromId(
+    deviceOsId: number
+  ): { device: Device; os: Os } | null {
+    // すべての組み合わせを試して逆引き
+    const devices = [
+      Device.all(this.language),
+      Device.mobile(this.language),
+      Device.tablet(this.language),
+      Device.pc(this.language)
+    ]
+
+    const oss = [
+      Os.windows(this.language),
+      Os.macintosh(this.language),
+      Os.ios(this.language),
+      Os.android(this.language),
+      Os.linux(this.language),
+      Os.other(this.language)
+    ]
+
+    for (const device of devices) {
+      for (const os of oss) {
+        if (DeviceOsService.getDeviceOs(device, os) === deviceOsId) {
+          return { device, os }
+        }
+      }
+    }
+
+    return null
   }
 
   /**

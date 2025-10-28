@@ -30,22 +30,14 @@ export const ConfirmButton: FC<Props> = ({
   const locale = qr.language.locale
 
   const onConfirm = async () => {
-    console.log('=== ConfirmButton onConfirm 開始 ===')
-    console.log('onClick存在チェック:', !!onClick)
-    console.log('isValid:', isValid)
-
     if (!onClick) {
-      console.log('onClickが存在しません')
       return
     }
     try {
-      console.log('onClick実行開始')
       await onClick()
-      console.log('onClick実行完了、モーダルを開きます')
       // onClickが成功したらモーダルを開く
       onOpen()
     } catch (error) {
-      console.error('Confirm処理でエラー:', error)
       // エラーの場合はモーダルを開かない
     }
   }
@@ -88,9 +80,6 @@ export const ConfirmButton: FC<Props> = ({
       <Button
         variant={'contained'}
         onClick={(e) => {
-          console.log('=== ボタンクリックイベント発火 ===')
-          console.log('イベント:', e)
-          console.log('disabled:', !isValid || isLoading)
           if (!isLoading) {
             // onClick が渡されていなければモーダルを開くだけで完結
             if (!onClick) {

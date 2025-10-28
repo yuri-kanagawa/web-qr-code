@@ -1,6 +1,6 @@
 import { QrCode } from '@/domains'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 import { SubmitErrorHandler, useForm } from 'react-hook-form'
 import {
   createRegisterQrCodeWiFiSchema,
@@ -38,6 +38,10 @@ export const useWiFiQrCodeForm = ({ qr }: Props) => {
     mode: 'onChange',
     resolver: zodResolver(schema)
   })
+
+  useEffect(() => {
+    reset(defaultValues)
+  }, [defaultValues, reset])
 
   const submitErrorHandler: SubmitErrorHandler<RegisterQrCodeWiFiSchema> = (
     errors

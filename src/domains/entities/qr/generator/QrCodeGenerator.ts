@@ -191,6 +191,7 @@ export class QrCodeGenerator {
     }
 
     const redirectUrl = `${baseUrl}?deviceOs=${deviceOsParams}&urls=${urlsParams}`
+    console.log('generateDeviceQr - redirectUrl:', redirectUrl)
     const result = QrValue.create(redirectUrl, language)
     return result.qr || QrValue.default(language)
   }

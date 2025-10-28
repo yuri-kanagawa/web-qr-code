@@ -18,8 +18,6 @@ export class QrGeneratorRepository implements IQrGeneratorRepository {
     this.language = language
   }
   async generateCanvas(qrCode: QrCode): Promise<HTMLCanvasElement> {
-    console.log('=== QrGeneratorRepository.generateCanvas 開始 ===')
-
     if (
       !qrCode.isValid() ||
       qrCode.qrValue.value === '' ||
@@ -47,14 +45,6 @@ export class QrGeneratorRepository implements IQrGeneratorRepository {
       // Canvasのサイズを設定
       canvas.width = size
       canvas.height = size
-
-      console.log('QRコード生成設定:', {
-        size: size,
-        quietZone: quietZone,
-        eyeColor1: qrCode.settings.colors.eyeColor1.value,
-        eyeColor2: qrCode.settings.colors.eyeColor2.value,
-        eyeColor3: qrCode.settings.colors.eyeColor3.value
-      })
 
       // QRコードを生成
       await this.generateQrCodeCanvas(canvas, qrCode, size, quietZone)
@@ -87,13 +77,6 @@ export class QrGeneratorRepository implements IQrGeneratorRepository {
     size: number,
     quietZone: number
   ): Promise<void> {
-    console.log('=== generateQrCodeCanvas 開始 ===')
-    console.log('eyeColor設定:', {
-      eyeColor1: qrCode.settings.colors.eyeColor1.value,
-      eyeColor2: qrCode.settings.colors.eyeColor2.value,
-      eyeColor3: qrCode.settings.colors.eyeColor3.value
-    })
-
     // react-qrcode-logoを使用してCanvas生成（プレビューと同じライブラリ）
     const container = document.createElement('div')
     container.style.position = 'absolute'
@@ -116,27 +99,6 @@ export class QrGeneratorRepository implements IQrGeneratorRepository {
           ? 'transparent'
           : qrCode.settings.colors.eyeColor3.value
       ]
-
-      console.log('=== QRCodeコンポーネントに渡すプロパティ ===')
-      console.log({
-        value: qrCode.qrValue.value,
-        size: size,
-        bgColor: qrCode.settings.colors.bgColor.isTransparent()
-          ? 'transparent'
-          : qrCode.settings.colors.bgColor.value,
-        fgColor: qrCode.settings.colors.fgColor.value,
-        eyeColor: eyeColorArray,
-        eyeRadius: [
-          qrCode.settings.eye.radius1,
-          qrCode.settings.eye.radius2,
-          qrCode.settings.eye.radius3
-        ],
-        ecLevel: qrCode.settings.ecLevel.value.toLowerCase(),
-        quietZone: quietZone
-      })
-
-      console.log('=== React.createElement 実行前 ===')
-      console.log('QRCode:', QRCode)
 
       let qrComponent
       try {
@@ -165,55 +127,33 @@ export class QrGeneratorRepository implements IQrGeneratorRepository {
         if (qrCode.settings.colors.bgColor.isTransparent()) {
           qrProps.includeMargin = false
           qrProps.enableCORS = false
-          console.log('透過背景のためSVG生成を強制')
-          console.log('QRCode props:', qrProps)
         }
 
         qrComponent = React.createElement(QRCode, qrProps)
-        console.log('=== React.createElement 実行後 ===')
       } catch (error) {
-        console.error('=== React.createElement エラー ===')
-        console.error(error)
+        console.error('QRCode作成エラー:', error)
         document.body.removeChild(container)
         reject(error)
         return
       }
-
-      console.log('=== root.render 実行前 ===')
-      console.log('qrComponent:', qrComponent)
 
       try {
         root.render(qrComponent)
-        console.log('=== root.render 実行後 ===')
       } catch (error) {
-        console.error('=== root.render エラー ===')
-        console.error(error)
+        console.error('QRCode描画エラー:', error)
         document.body.removeChild(container)
         reject(error)
         return
       }
-
-      console.log('=== QRCodeコンポーネントをレンダリング完了 ===')
-      console.log('container:', container)
-      console.log('container.children:', container.children)
 
       // SVGの読み込みを待つ
       let attempts = 0
       const maxAttempts = 100 // 最大10秒待つ
 
       const checkForSvg = () => {
-        console.log(
-          'checkForSvg attempt:',
-          attempts,
-          'container.children.length:',
-          container.children.length
-        )
-        console.log('container HTML:', container.innerHTML)
-
         // Canvasが生成されているか確認
         const canvasElement = container.querySelector('canvas')
         if (canvasElement) {
-          console.log('=== Canvas生成完了 ===')
           try {
             const ctx = canvas.getContext('2d')
             if (ctx) {
@@ -246,42 +186,15 @@ export class QrGeneratorRepository implements IQrGeneratorRepository {
         const svgElement = container.querySelector('svg')
         if (svgElement) {
           try {
-            console.log('=== SVG生成完了 ===')
-
             // SVGのスタイルを確認・修正
             SvgProcessor.fixEyeColors(svgElement, qrCode.settings.colors)
 
             // 透過背景の処理
             if (qrCode.settings.colors.bgColor.isTransparent()) {
-              console.log('透過背景処理を実行')
               SvgProcessor.fixTransparentBackground(svgElement)
             }
 
             const svgData = new XMLSerializer().serializeToString(svgElement)
-
-            console.log('=== 生成されたSVGの内容 ===')
-            console.log(svgData)
-
-            // eyeColorが含まれているかチェック
-            console.log('=== eyeColorの確認 ===')
-            console.log(
-              'eyeColor1 (' +
-                qrCode.settings.colors.eyeColor1.value +
-                ') が含まれている:',
-              svgData.includes(qrCode.settings.colors.eyeColor1.value)
-            )
-            console.log(
-              'eyeColor2 (' +
-                qrCode.settings.colors.eyeColor2.value +
-                ') が含まれている:',
-              svgData.includes(qrCode.settings.colors.eyeColor2.value)
-            )
-            console.log(
-              'eyeColor3 (' +
-                qrCode.settings.colors.eyeColor3.value +
-                ') が含まれている:',
-              svgData.includes(qrCode.settings.colors.eyeColor3.value)
-            )
             const img = new Image()
             img.onload = () => {
               const ctx = canvas.getContext('2d')
