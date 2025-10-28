@@ -15,57 +15,29 @@ export class DetectCountryUseCase {
    * 3. タイムゾーンから検出
    */
   async execute(): Promise<Country> {
-    console.log('DetectCountryUseCase - 国検出開始')
-    try {
-      // 1. IPアドレスから国を取得（最も確実）
-      console.log('DetectCountryUseCase - IPアドレスから検出開始')
-      const countryFromIP = await this.geoLocationRepository.getCountryFromIP()
-      console.log('DetectCountryUseCase - IPアドレス検出結果:', countryFromIP)
+    // 1. IPアドレスから国を取得（最も確実）
+    const countryFromIP = await this.geoLocationRepository.getCountryFromIP()
 
-      if (countryFromIP && countryFromIP.value !== 'us') {
-        console.log(
-          'DetectCountryUseCase - IPアドレスから検出成功:',
-          countryFromIP.value
-        )
-        return countryFromIP
-      }
-
-      // 2. ブラウザのロケール情報から検出
-      console.log('DetectCountryUseCase - ロケール情報から検出開始')
-      const countryFromLocale = this.detectFromLocale()
-      console.log('DetectCountryUseCase - ロケール検出結果:', countryFromLocale)
-
-      if (countryFromLocale) {
-        console.log(
-          'DetectCountryUseCase - ロケールから検出成功:',
-          countryFromLocale.value
-        )
-        return countryFromLocale
-      }
-
-      // 3. タイムゾーンから検出
-      console.log('DetectCountryUseCase - タイムゾーンから検出開始')
-      const countryFromTimezone = this.detectFromTimezone()
-      console.log(
-        'DetectCountryUseCase - タイムゾーン検出結果:',
-        countryFromTimezone
-      )
-
-      if (countryFromTimezone) {
-        console.log(
-          'DetectCountryUseCase - タイムゾーンから検出成功:',
-          countryFromTimezone.value
-        )
-        return countryFromTimezone
-      }
-
-      // デフォルトはUS
-      console.log('DetectCountryUseCase - デフォルト国を返す')
-      return Country.default()
-    } catch (error) {
-      console.error('DetectCountryUseCase - エラー:', error)
-      return Country.default()
+    if (countryFromIP) {
+      return countryFromIP
     }
+
+    // 2. ブラウザのロケール情報から検出
+    const countryFromLocale = this.detectFromLocale()
+
+    if (countryFromLocale) {
+      return countryFromLocale
+    }
+
+    // 3. タイムゾーンから検出
+    const countryFromTimezone = this.detectFromTimezone()
+
+    if (countryFromTimezone) {
+      return countryFromTimezone
+    }
+
+    // デフォルトはUS
+    return Country.default()
   }
 
   /**

@@ -21,7 +21,6 @@ export class GeoLocationRepository implements IGeoLocationRepository {
     try {
       // ipapi.coを使用してIPアドレスから位置情報を取得
       const response = await fetch('https://ipapi.co/json/')
-
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`)
       }
@@ -29,7 +28,10 @@ export class GeoLocationRepository implements IGeoLocationRepository {
       const data = await response.json()
 
       // データの検証
-      if (!data.latitude || !data.longitude || !data.country_name) {
+      // ipapi.coはcountry_codeを返すが、country_nameも存在する
+      const countryName = data.country_name || data.country || 'Unknown'
+
+      if (!data.latitude || !data.longitude) {
         throw new Error('Invalid location data received')
       }
 
@@ -37,7 +39,7 @@ export class GeoLocationRepository implements IGeoLocationRepository {
         GeoLocation.create(
           data.latitude,
           data.longitude,
-          data.country_name,
+          countryName,
           this.language
         ) || GeoLocation.default()
       )
@@ -94,13 +96,12 @@ export class GeoLocationRepository implements IGeoLocationRepository {
   async getCountryFromIP(): Promise<Country> {
     try {
       const geoLocation = await this.getLocationFromIpAddress()
-
       // 国名から国コードを推測
       const countryCode = this.getCountryCodeFromName(geoLocation.country)
 
-      return (
-        Country.create(countryCode, this.language).country || Country.default()
-      )
+      const countryResult = Country.create(countryCode, this.language)
+
+      return countryResult.country || Country.default()
     } catch (error) {
       console.error('Error getting country from IP:', error)
       return Country.default()

@@ -11,9 +11,15 @@ interface Props {
   qr: QrCode
   onChange: (qr: QrCode) => void
   detectedCountry?: Country | null
+  isCountryDetecting?: boolean
 }
 
-export const PhoneForm: FC<Props> = ({ qr, onChange, detectedCountry }) => {
+export const PhoneForm: FC<Props> = ({
+  qr,
+  onChange,
+  detectedCountry,
+  isCountryDetecting
+}) => {
   const [currentQr, setCurrentQr] = useState<QrCode>(qr)
   const { control, watch } = usePhoneQrCodeForm({ qr })
 
@@ -38,10 +44,8 @@ export const PhoneForm: FC<Props> = ({ qr, onChange, detectedCountry }) => {
             <PhoneTextField
               value={value}
               onChange={(newValue) => {
-                console.log('PhoneForm onChange:', newValue)
                 fieldOnChange(newValue) // react-hook-formの状態を更新
                 const newQr = qr.changePhoneNumber(newValue) // QrCodeの状態を更新
-                console.log('PhoneForm newQr:', newQr.qrValue.value)
                 setCurrentQr(newQr) // ローカル状態を更新
                 onChange(newQr) // 親コンポーネントに新しいQrCodeを渡す
               }}
@@ -52,6 +56,7 @@ export const PhoneForm: FC<Props> = ({ qr, onChange, detectedCountry }) => {
               label={qr.language.locale.word.form.phoneNumber}
               isRequired={false}
               detectedCountry={detectedCountry}
+              isCountryDetecting={isCountryDetecting}
             />
           </FormCard>
         </FormButton>

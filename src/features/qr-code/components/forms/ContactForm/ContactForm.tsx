@@ -22,9 +22,15 @@ interface Props {
   qr: QrCode
   onChange: (qr: QrCode) => void
   detectedCountry?: Country | null
+  isCountryDetecting?: boolean
 }
 
-export const ContactForm: FC<Props> = ({ qr, onChange, detectedCountry }) => {
+export const ContactForm: FC<Props> = ({
+  qr,
+  onChange,
+  detectedCountry,
+  isCountryDetecting
+}) => {
   const locale = qr.language.locale
   const { isOverLaptop } = useWindowSize()
 
@@ -136,6 +142,7 @@ export const ContactForm: FC<Props> = ({ qr, onChange, detectedCountry }) => {
                       label={locale.word.form.mobilePhone}
                       isRequired={false}
                       detectedCountry={detectedCountry}
+                      isCountryDetecting={isCountryDetecting}
                     />
                   )}
                 />
@@ -157,6 +164,7 @@ export const ContactForm: FC<Props> = ({ qr, onChange, detectedCountry }) => {
                       label={locale.word.form.homePhone}
                       isRequired={false}
                       detectedCountry={detectedCountry}
+                      isCountryDetecting={isCountryDetecting}
                     />
                   )}
                 />
@@ -261,6 +269,7 @@ export const ContactForm: FC<Props> = ({ qr, onChange, detectedCountry }) => {
                       label={locale.word.form.workMobile}
                       isRequired={false}
                       detectedCountry={detectedCountry}
+                      isCountryDetecting={isCountryDetecting}
                     />
                   )}
                 />

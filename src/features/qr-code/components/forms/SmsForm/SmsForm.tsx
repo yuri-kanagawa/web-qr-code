@@ -12,9 +12,15 @@ interface Props {
   qr: QrCode
   onChange: (qr: QrCode) => void
   detectedCountry?: Country | null
+  isCountryDetecting?: boolean
 }
 
-export const SmsForm: FC<Props> = ({ qr, onChange, detectedCountry }) => {
+export const SmsForm: FC<Props> = ({
+  qr,
+  onChange,
+  detectedCountry,
+  isCountryDetecting
+}) => {
   const {
     control,
     onConfirm,
@@ -51,6 +57,7 @@ export const SmsForm: FC<Props> = ({ qr, onChange, detectedCountry }) => {
                 label={qr.language.locale.word.form.phoneNumber}
                 isRequired={false}
                 detectedCountry={detectedCountry}
+                isCountryDetecting={isCountryDetecting}
               />
             )}
           />

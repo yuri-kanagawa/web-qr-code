@@ -1,5 +1,6 @@
 import { Country } from '@/domains'
 import { PhoneNumber } from '@/ui/cores/PhoneNumber'
+import { CenterLoading } from '@/ui/fragments'
 import { TextFieldProps } from '@mui/material/TextField/TextField'
 import { FC, useEffect, useRef, useState } from 'react'
 
@@ -12,6 +13,7 @@ export interface Props
   isRequired?: boolean
   inputRef?: React.Ref<HTMLInputElement>
   detectedCountry?: Country | null
+  isCountryDetecting?: boolean
 }
 
 /**
@@ -26,6 +28,7 @@ export const PhoneTextField: FC<Props> = ({
   isRequired = true,
   inputRef,
   detectedCountry,
+  isCountryDetecting,
   ...rest
 }) => {
   const displayLabel = isRequired ? `*${label}` : label
@@ -71,28 +74,59 @@ export const PhoneTextField: FC<Props> = ({
       }
     }
 
+  // ローディング中の場合
+  if (isCountryDetecting) {
+    return (
+      <CenterLoading
+        message=""
+        boxProps={{
+          sx: {
+            height: '56px',
+            background: 'transparent'
+          }
+        }}
+      />
+    )
+  }
+
   // 国コードを取得（検出された国または言語の国を使用）
   const defaultCountry = detectedCountry?.value || language.country.value
 
-  console.log('PhoneTextField language:', language)
-  console.log('PhoneTextField detectedCountry:', detectedCountry)
-  console.log('PhoneTextField defaultCountry:', defaultCountry)
-
   // mui-phone-numberライブラリを使用
-  return (
-    <PhoneNumber
-      label={displayLabel}
-      defaultCountry={defaultCountry}
-      value={value || ''}
-      onChange={handleChange}
-      variant="outlined"
-      fullWidth
-      ref={internalRef}
-      onKeyDown={handleEvent('onKeyDown', rest.onKeyDown)}
-      onInput={handleEvent('onInput', rest.onInput)}
-      onBlur={handleEvent('onBlur', rest.onBlur)}
-      onFocus={handleEvent('onFocus', rest.onFocus)}
-      {...rest}
-    />
-  )
+  try {
+    return (
+      <PhoneNumber
+        label={displayLabel}
+        defaultCountry={defaultCountry}
+        value={value || ''}
+        onChange={handleChange}
+        variant="outlined"
+        fullWidth
+        ref={internalRef}
+        onKeyDown={handleEvent('onKeyDown', rest.onKeyDown)}
+        onInput={handleEvent('onInput', rest.onInput)}
+        onBlur={handleEvent('onBlur', rest.onBlur)}
+        onFocus={handleEvent('onFocus', rest.onFocus)}
+        {...rest}
+      />
+    )
+  } catch (error) {
+    // エラーが発生した場合は'us'をフォールバック
+    return (
+      <PhoneNumber
+        label={displayLabel}
+        defaultCountry="us"
+        value={value || ''}
+        onChange={handleChange}
+        variant="outlined"
+        fullWidth
+        ref={internalRef}
+        onKeyDown={handleEvent('onKeyDown', rest.onKeyDown)}
+        onInput={handleEvent('onInput', rest.onInput)}
+        onBlur={handleEvent('onBlur', rest.onBlur)}
+        onFocus={handleEvent('onFocus', rest.onFocus)}
+        {...rest}
+      />
+    )
+  }
 }

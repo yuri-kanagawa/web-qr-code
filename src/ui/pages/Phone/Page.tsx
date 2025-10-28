@@ -1,8 +1,9 @@
+'use client'
 import { QrCode } from '@/domains'
+import { PhoneForm } from '@/features/qr-code'
 import { PageWrapper } from '@/ui/fragments/pageWrapper'
 import { FC, useState } from 'react'
-
-import { PhoneForm } from '@/features/qr-code'
+import { useDetectCountry } from '../hooks/detectCountry'
 
 interface Props {
   qr: QrCode
@@ -10,17 +11,15 @@ interface Props {
 
 export const PhonePage: FC<Props> = (props) => {
   const [currentQr, setCurrentQr] = useState<QrCode>(props.qr.changeToPhone())
-
-  console.log('PhonePage currentQr:', currentQr.qrValue.value)
+  const { detectedCountry, isLoading } = useDetectCountry(currentQr.language)
 
   return (
     <PageWrapper language={currentQr.language}>
       <PhoneForm
         qr={currentQr}
-        onChange={(newQr) => {
-          console.log('PhonePage onChange:', newQr.qrValue.value)
-          setCurrentQr(newQr)
-        }}
+        onChange={setCurrentQr}
+        detectedCountry={detectedCountry}
+        isCountryDetecting={isLoading}
       />
     </PageWrapper>
   )

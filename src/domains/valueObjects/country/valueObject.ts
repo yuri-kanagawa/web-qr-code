@@ -27,7 +27,31 @@ export class Country {
   }
 
   static create(value: string, language: Language): CountryResult {
-    // 言語コードから国コードを決定
+    // 有効な国コードのマップ
+    const validCodes = [
+      Country.JP,
+      Country.US,
+      Country.FR,
+      Country.DE,
+      Country.GB,
+      Country.CN,
+      Country.KR,
+      Country.IT,
+      Country.ES,
+      Country.BR,
+      Country.AU,
+      Country.CA,
+      Country.IN,
+      Country.RU,
+      Country.MX
+    ]
+
+    // 国コードが直接渡された場合
+    if (validCodes.includes(value)) {
+      return new CountryResult(new Country(value, language), null)
+    }
+
+    // 言語コードから国コードを決定（後方互換性のため）
     let countryCode: string
     switch (value) {
       case 'ja':
