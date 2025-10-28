@@ -3,12 +3,20 @@ import { PhoneNumberValueError } from './error'
 import { PhoneNumberResult } from './result'
 
 export class PhoneNumber {
-  // より厳密な電話番号の正規表現
-  private static readonly PHONE_REGEX =
-    /^(\+?1[-.\s]?)?\(?([0-9]{3})\)?[-.\s]?([0-9]{3})[-.\s]?([0-9]{4})$|^(\+?[1-9]\d{1,14})$|^(\+?81[-.\s]?)?\(?([0-9]{2,4})\)?[-.\s]?([0-9]{2,4})[-.\s]?([0-9]{4})$/
-
   static isValidFormat(phoneNumber: string): boolean {
-    return PhoneNumber.PHONE_REGEX.test(phoneNumber)
+    // 数字以外の文字を除去
+    const digitsOnly = phoneNumber.replace(/[^\d]/g, '')
+
+    // +で始まる場合（国際形式）
+    if (phoneNumber.startsWith('+')) {
+      // 最低でも7桁の数字が必要（+を含めると8文字以上）
+      // 国コード（1-3桁）+ 番号（7桁以上）
+      return digitsOnly.length >= 8 && digitsOnly.length <= 15
+    }
+
+    // 国内形式の場合
+    // 最低でも7桁の数字が必要
+    return digitsOnly.length >= 7 && digitsOnly.length <= 15
   }
 
   private readonly _value: string

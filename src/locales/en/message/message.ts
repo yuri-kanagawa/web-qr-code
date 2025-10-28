@@ -124,6 +124,11 @@ export const message = {
       tooLong: (max: number) => `Name is too long (maximum ${max} characters)`
     },
 
+    // Contact validation
+    contact: {
+      atLeastOneField: 'Please enter at least one field'
+    },
+
     // Subject validation
     subject: {
       pleaseEnterValid: 'Please enter a valid subject'

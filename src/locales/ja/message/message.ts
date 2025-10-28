@@ -126,6 +126,11 @@ export const message = {
       tooLong: (max: number) => `名前が長すぎます（最大${max}文字）`
     },
 
+    // Contact validation
+    contact: {
+      atLeastOneField: '最低限、どれか1つのフィールドを入力してください'
+    },
+
     // Subject validation
     subject: {
       pleaseEnterValid: '有効な件名を入力してください'

@@ -3,7 +3,7 @@ import { QrCode } from '@/domains'
 import { ContactForm } from '@/features/qr-code'
 import { PageWrapper } from '@/ui/fragments'
 import { FC, useState } from 'react'
-import { useDetectCountry } from '../hooks/useDetectCountry'
+import { useDetectCountry } from '../hooks/detectCountry'
 
 interface Props {
   qr: QrCode

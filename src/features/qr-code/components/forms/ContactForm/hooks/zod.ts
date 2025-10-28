@@ -30,17 +30,21 @@ export const createRegisterQrCodeContactSchema = (language: Language) =>
     })
     .refine(
       (data) => {
-        // 最低限の入力が必要：名前（姓または名）またはメールアドレス
+        // 最低限の入力が必要：名前（姓または名）またはメールアドレス、または電話番号、またはURL
         const hasName =
-          (data.firstName && data.firstName !== '') ||
-          (data.lastName && data.lastName !== '')
-        const hasEmail = data.email && data.email !== ''
-        return hasName || hasEmail
+          (data.firstName && data.firstName.value !== '') ||
+          (data.lastName && data.lastName.value !== '')
+        const hasEmail = data.email && data.email.value !== ''
+        const hasPhone =
+          (data.mobilePhone && data.mobilePhone !== '') ||
+          (data.homePhone && data.homePhone !== '')
+        const hasUrl =
+          (data.homeUrl && data.homeUrl.value !== '') ||
+          (data.workUrl && data.workUrl.value !== '')
+        return hasName || hasEmail || hasPhone || hasUrl
       },
       {
-        message: language.isEnglish
-          ? 'Please enter at least a name (first name or last name) or email address'
-          : '最低限、名前（姓または名）またはメールアドレスを入力してください',
+        message: language.locale.message.validation.contact.atLeastOneField,
         path: ['firstName'] // エラーメッセージを表示するフィールド
       }
     )
