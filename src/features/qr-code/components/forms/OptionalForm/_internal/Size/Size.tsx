@@ -1,9 +1,8 @@
 import { QrCode } from '@/domains'
-import { useWindowSize } from '@/hooks'
 import { WarningAlert } from '@/ui/fragments/box'
 import { LabeledBox } from '@/ui/fragments/form'
 import { Slider, Stack, TextField } from '@mui/material'
-import { FC, useEffect, useMemo, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 
 type Props = {
   qr: QrCode
@@ -11,20 +10,14 @@ type Props = {
 }
 
 export const Size: FC<Props> = ({ qr, onChange }) => {
-  const { height, width } = useWindowSize()
   const locale = qr.language.locale
   const [savedMaxSize, setSavedMaxSize] = useState<number | null>(null)
 
-  // 画面サイズから計算される推奨最大値
-  const calculatedMaxSize = useMemo(() => {
-    if (height < width) {
-      return height - 150
-    }
-    return width - 500
-  }, [height, width])
+  // 最大値を1000に固定（画面サイズに関係なく）
+  const MAX_SIZE = 1000
 
-  // 実際に使用する最大値（保存された値 or デフォルト計算値）
-  const currentMaxSize = savedMaxSize ?? calculatedMaxSize
+  // 実際に使用する最大値（保存された値 or デフォルト値1000）
+  const currentMaxSize = savedMaxSize ?? MAX_SIZE
 
   const [previousMaxSize, setPreviousMaxSize] = useState(currentMaxSize)
 
@@ -121,7 +114,7 @@ export const Size: FC<Props> = ({ qr, onChange }) => {
             sx={{ width: 100 }}
           />
         </Stack>
-        {currentMaxSize > calculatedMaxSize && (
+        {currentMaxSize > MAX_SIZE && (
           <WarningAlert
             language={qr.language}
             title={locale.word.warnings.sizeDisplay}

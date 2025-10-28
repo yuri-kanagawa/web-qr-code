@@ -1,5 +1,5 @@
-import { BoxProps, Box } from '@/ui/cores'
-import React, { FC, ReactNode } from 'react'
+import { Box, BoxProps } from '@/ui/cores'
+import { FC, ReactNode } from 'react'
 type Props = {
   children: ReactNode
 } & BoxProps
@@ -22,8 +22,8 @@ export const CornerHighlightBox: FC<Props> = ({ children, ...boxProps }) => {
       <Box
         sx={{
           position: 'absolute',
-          top: 0,
-          left: 0,
+          top: '16px',
+          left: '16px',
           width: '20px', // 横線の長さ
           height: '2px', // 横線の太さ
           backgroundColor: 'black' // 線の色
@@ -32,8 +32,8 @@ export const CornerHighlightBox: FC<Props> = ({ children, ...boxProps }) => {
       <Box
         sx={{
           position: 'absolute',
-          top: 0,
-          left: 0,
+          top: '16px',
+          left: '16px',
           width: '2px', // 縦線の太さ
           height: '20px', // 縦線の長さ
           backgroundColor: 'black'
@@ -44,8 +44,8 @@ export const CornerHighlightBox: FC<Props> = ({ children, ...boxProps }) => {
       <Box
         sx={{
           position: 'absolute',
-          top: 0,
-          right: 0,
+          top: '16px',
+          right: '16px',
           width: '20px',
           height: '2px',
           backgroundColor: 'black'
@@ -54,8 +54,8 @@ export const CornerHighlightBox: FC<Props> = ({ children, ...boxProps }) => {
       <Box
         sx={{
           position: 'absolute',
-          top: 0,
-          right: 0,
+          top: '16px',
+          right: '16px',
           width: '2px',
           height: '20px',
           backgroundColor: 'black'
@@ -66,8 +66,8 @@ export const CornerHighlightBox: FC<Props> = ({ children, ...boxProps }) => {
       <Box
         sx={{
           position: 'absolute',
-          bottom: 0,
-          left: 0,
+          bottom: '16px',
+          left: '16px',
           width: '20px',
           height: '2px',
           backgroundColor: 'black'
@@ -76,8 +76,8 @@ export const CornerHighlightBox: FC<Props> = ({ children, ...boxProps }) => {
       <Box
         sx={{
           position: 'absolute',
-          bottom: 0,
-          left: 0,
+          bottom: '16px',
+          left: '16px',
           width: '2px',
           height: '20px',
           backgroundColor: 'black'
@@ -88,8 +88,8 @@ export const CornerHighlightBox: FC<Props> = ({ children, ...boxProps }) => {
       <Box
         sx={{
           position: 'absolute',
-          bottom: 0,
-          right: 0,
+          bottom: '16px',
+          right: '16px',
           width: '20px',
           height: '2px',
           backgroundColor: 'black'
@@ -98,8 +98,8 @@ export const CornerHighlightBox: FC<Props> = ({ children, ...boxProps }) => {
       <Box
         sx={{
           position: 'absolute',
-          bottom: 0,
-          right: 0,
+          bottom: '16px',
+          right: '16px',
           width: '2px',
           height: '20px',
           backgroundColor: 'black'

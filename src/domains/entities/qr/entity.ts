@@ -30,7 +30,7 @@ export interface ValidationError {
  */
 export class QrCode {
   // 表示サイズの固定値
-  static readonly MOBILE_DISPLAY_SIZE = 250
+  static readonly MOBILE_DISPLAY_SIZE = 100
   static readonly LAPTOP_DISPLAY_SIZE = 300
 
   private constructor(

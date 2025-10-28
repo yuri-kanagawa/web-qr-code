@@ -187,8 +187,6 @@ export const FormButton: FC<Props> = ({
             <GeneratedQrCode
               isValid={canGenerate}
               showHiddenIcon={true}
-              height={50}
-              width={50}
               qr={qr}
             />
             <Stack
@@ -242,7 +240,6 @@ export const FormButton: FC<Props> = ({
                 <GeneratedQrCode
                   ref={qrRef}
                   qr={qr}
-                  file={qr.settings.logoFile}
                   isValid={canGenerate}
                   height={250}
                   width={250}
