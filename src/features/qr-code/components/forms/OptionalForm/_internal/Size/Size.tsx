@@ -85,12 +85,19 @@ export const Size: FC<Props> = ({ qr, onChange }) => {
         />
         <Stack direction="row" spacing={3} alignItems="center">
           <Slider
-            max={currentMaxSize}
-            value={Math.min(qr.settings.size.value, currentMaxSize)}
+            max={Math.max(currentMaxSize, qr.settings.size.value)}
+            value={qr.settings.size.value}
             min={1}
             onChange={(event, value) => {
               const numValue = Number(value)
               console.log('Size slider changed:', numValue)
+
+              // maxSizeを超えた場合はmaxSizeも拡張
+              if (numValue > currentMaxSize) {
+                setSavedMaxSize(numValue)
+                setPreviousMaxSize(numValue)
+              }
+
               const newQr = qr.updateSettings((settings) =>
                 settings.changeSize(numValue)
               )
@@ -99,7 +106,10 @@ export const Size: FC<Props> = ({ qr, onChange }) => {
             }}
             marks={[
               { value: 1, label: 1 },
-              { value: currentMaxSize, label: currentMaxSize }
+              {
+                value: Math.max(currentMaxSize, qr.settings.size.value),
+                label: Math.max(currentMaxSize, qr.settings.size.value)
+              }
             ]}
             valueLabelDisplay="auto"
             sx={{ flex: 1 }}
