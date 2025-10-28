@@ -1,148 +1,71 @@
 'use client'
 
+import { DownloadQrCodeUseCase } from '@/application/usecases'
 import { QrCode } from '@/domains'
-import { GeneratedQrCode } from '@/features/qr-code'
-import { Box, Button } from '@/ui/cores'
-import { CircularProgress } from '@mui/material'
-import { FC, useCallback, useRef, useState } from 'react'
+import { QrGeneratorRepository } from '@/infrastructure/repositories/external/qrGenerator/client/repository'
+import { QrScannerRepository } from '@/infrastructure/repositories/external/qrScanner/client/repository'
+import { Button } from '@/ui/cores'
+import { FC, useCallback } from 'react'
 
 type Props = {
   onClick?: () => void
   isValid?: boolean
   qr: QrCode
-  isLoading?: boolean
 }
 
-export const DownloadButton: FC<Props> = ({
-  onClick,
-  isValid = true,
-  qr,
-  isLoading = false
-}) => {
-  const [internalLoading, setInternalLoading] = useState(false)
-  const loading = isLoading || internalLoading
+export const DownloadButton: FC<Props> = ({ onClick, isValid = true, qr }) => {
   const locale = qr.language.locale
-  const qrRef = useRef<HTMLDivElement>(null)
-
-  const generateFileName = (): string => {
-    const timestamp = new Date().toISOString().replace(/[:.]/g, '-')
-    return `qr-code-${timestamp}.png`
-  }
 
   const handleInternalDownload = useCallback(async () => {
     if (!qr) {
       console.log('QRオブジェクトが存在しません')
       return
     }
-    setInternalLoading(true)
+
     try {
       console.log('=== ダウンロード処理開始 ===')
-      console.log('背景色デバッグ:', {
-        bgColorValue: qr.settings.colors.bgColor.value,
-        isTransparent: qr.settings.colors.bgColor.isTransparent(),
-        bgColorClass: qr.settings.colors.bgColor.constructor.name
-      })
 
-      // 透過背景の場合は、QrGeneratorRepositoryを使って新しくCanvasを生成
-      if (qr.settings.colors.bgColor.isTransparent()) {
-        console.log('透過背景のため、新しいCanvasを生成')
-        const { QrGeneratorRepository } = await import(
-          '@/infrastructure/repositories/external/qrGenerator/client/repository'
-        )
-        const repository = new QrGeneratorRepository(qr.language)
-        const canvas = await repository.generateCanvas(qr)
-        const dataUrl = canvas.toDataURL('image/png')
+      // 既存のusecaseを使用
+      const qrGeneratorRepository = new QrGeneratorRepository(qr.language)
+      const qrScannerRepository = new QrScannerRepository(qr.language)
+      const downloadUseCase = new DownloadQrCodeUseCase(
+        qrGeneratorRepository,
+        qrScannerRepository,
+        qr.language
+      )
 
+      const result = await downloadUseCase.execute(qr)
+
+      if (result.isSuccess && result.fileName && result.dataUrl) {
+        // ダウンロード実行
         const link = document.createElement('a')
-        link.download = generateFileName()
-        link.href = dataUrl
+        link.download = result.fileName
+        link.href = result.dataUrl
         document.body.appendChild(link)
         link.click()
         document.body.removeChild(link)
         console.log('ダウンロード完了')
-        return
+      } else {
+        console.error('ダウンロード失敗:', result.error)
       }
-
-      // 通常の場合はプレビューCanvasを使用
-      console.log('qrRef.current:', qrRef.current)
-      console.log('qrRef.currentのHTML:', qrRef.current?.innerHTML)
-
-      // レンダリング完了を待つ
-      await new Promise((resolve) => setTimeout(resolve, 100))
-
-      const canvas = qrRef.current?.querySelector('canvas') as
-        | HTMLCanvasElement
-        | undefined
-      console.log('見つかったcanvas:', canvas)
-
-      if (!canvas) {
-        console.error('キャンバスが見つかりませんでした')
-        console.log('利用可能な要素:', qrRef.current?.querySelectorAll('*'))
-        return
-      }
-
-      console.log('キャンバスサイズ:', canvas.width, 'x', canvas.height)
-      const dataUrl = canvas.toDataURL('image/png')
-      console.log('DataURL生成完了:', dataUrl.substring(0, 50) + '...')
-
-      const link = document.createElement('a')
-      link.download = generateFileName()
-      link.href = dataUrl
-      document.body.appendChild(link)
-      link.click()
-      document.body.removeChild(link)
-      console.log('ダウンロード完了')
-    } catch (e) {
-      console.error('ダウンロード処理でエラーが発生しました', e)
-    } finally {
-      setInternalLoading(false)
+    } catch (error) {
+      console.error('ダウンロード処理でエラーが発生しました', error)
     }
   }, [qr])
 
   const onPress = useCallback(() => {
-    if (loading || !isValid) return
+    if (!isValid) return
     // 外部 onClick があればそれを優先し、なければ内部処理
     if (onClick) {
       onClick()
       return
     }
     void handleInternalDownload()
-  }, [loading, isValid, onClick, handleInternalDownload])
+  }, [isValid, onClick, handleInternalDownload])
 
   return (
-    <>
-      {/* 非表示のQRコンポーネント（ダウンロード用に内部生成） */}
-      <Box
-        sx={{
-          position: 'absolute',
-          width: 0,
-          height: 0,
-          overflow: 'hidden',
-          pointerEvents: 'none'
-        }}
-      >
-        {qr && (
-          <GeneratedQrCode
-            ref={qrRef}
-            qr={qr}
-            isValid={isValid && qr.isValid()}
-          />
-        )}
-      </Box>
-      <Button
-        variant="contained"
-        onClick={onPress}
-        disabled={!isValid || loading}
-      >
-        {loading ? (
-          <>
-            <CircularProgress size={20} sx={{ mr: 1, color: 'white' }} />
-            {locale.word.loading.downloading}
-          </>
-        ) : (
-          locale.word.buttons.download
-        )}
-      </Button>
-    </>
+    <Button variant="contained" onClick={onPress} disabled={!isValid}>
+      {locale.word.buttons.download}
+    </Button>
   )
 }
