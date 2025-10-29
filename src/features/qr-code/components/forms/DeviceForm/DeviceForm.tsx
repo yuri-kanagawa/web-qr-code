@@ -1,13 +1,17 @@
 'use client'
 import { QrCode } from '@/domains'
-import { FormButton } from '@/features/qr-code'
+import { Device } from '@/domains/valueObjects/device'
+import { DeviceSelect, FormButton, OsSelect } from '@/features/qr-code'
 import { closestCenter, DndContext } from '@dnd-kit/core'
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
 import AddIcon from '@mui/icons-material/Add'
 import { Button, Stack } from '@mui/material'
 import { FC, useState } from 'react'
+import { Controller } from 'react-hook-form'
 import { SortableDeviceItem } from './_internal'
 import { useViewModel } from './viewModels'
+import { Os } from '@/domains/valueObjects/os'
+import { UrlTextField } from '@/ui/fragments/textField'
 
 type Props = {
   qr: QrCode
@@ -68,18 +72,107 @@ export const DeviceForm: FC<Props> = ({ qr, onChange }) => {
                 <SortableDeviceItem
                   key={field.id}
                   id={field.id}
-                  index={index}
-                  language={qr.language}
-                  hiddenOsItems={hiddenOsItems}
-                  hiddenDeviceItems={hiddenDeviceItems}
                   canDelete={canDelete}
-                  control={control}
-                  trigger={trigger}
-                  getHiddenItemsForField={getHiddenItemsForField}
-                  remove={remove}
-                  syncDeviceData={syncDeviceData}
-                  setDeviceValue={setDeviceValue}
-                />
+                  onDelete={() => {
+                    remove(index)
+                    syncDeviceData()
+                  }}
+                >
+                  <Controller
+                    control={control}
+                    name={`devices.${index}.os`}
+                    render={({ field: { value, onChange }, fieldState: { error } }) => {
+                      const osResult = Os.create(value, qr.language)
+                      const os =
+                        osResult.isSuccess && osResult.os
+                          ? osResult.os
+                          : Os.notSet(qr.language)
+
+                      return (
+                        <OsSelect
+                          value={os}
+                          onChange={(selectedOs) => {
+                            onChange(selectedOs.value)
+
+                            // OS選択後の状態で利用可能なDeviceを再計算
+                            const { hiddenDeviceItems: newHiddenDeviceItems } =
+                              getHiddenItemsForField(index, selectedOs.value)
+
+                            const availableDevices = Device.list.filter((d) => {
+                              if (newHiddenDeviceItems.includes(d)) return false
+                              const deviceObj = Device.create(d, qr.language)
+                              return deviceObj.isSuccess && !deviceObj.device!.isNotSet
+                            })
+
+                            // 選択可能なDeviceが1つだけの場合は自動設定
+                            if (availableDevices.length === 1) {
+                              setDeviceValue(index, availableDevices[0])
+                            }
+
+                            // フォーム全体を再バリデーション
+                            trigger()
+
+                            // ドメインのdeviceDataを更新
+                            syncDeviceData()
+                          }}
+                          language={qr.language}
+                          isRequired={true}
+                          hiddenItems={hiddenOsItems}
+                          error={!!error}
+                          helperText={error?.message}
+                        />
+                      )
+                    }}
+                  />
+                  <Controller
+                    control={control}
+                    name={`devices.${index}.device`}
+                    render={({ field: { value, onChange }, fieldState: { error } }) => {
+                      const deviceResult = Device.create(value, qr.language)
+                      const device =
+                        deviceResult.isSuccess && deviceResult.device
+                          ? deviceResult.device
+                          : Device.notSet(qr.language)
+
+                      return (
+                        <DeviceSelect
+                          value={device}
+                          onChange={(selectedDevice) => {
+                            onChange(selectedDevice.value)
+                            // フォーム全体を再バリデーション
+                            trigger()
+                            // ドメインのdeviceDataを更新
+                            syncDeviceData()
+                          }}
+                          language={qr.language}
+                          isRequired={true}
+                          hiddenItems={hiddenDeviceItems}
+                          error={!!error}
+                          helperText={error?.message}
+                        />
+                      )
+                    }}
+                  />
+                  <Controller
+                    control={control}
+                    name={`devices.${index}.url`}
+                    render={({ field: { value, onChange }, fieldState: { error } }) => (
+                      <UrlTextField
+                        value={value}
+                        onChange={(event) => {
+                          onChange(event.target.value)
+                        }}
+                        onBlur={() => {
+                          // フォームフィールドからフォーカスが外れた時に確実にデータを同期
+                          syncDeviceData()
+                        }}
+                        isRequired={true}
+                        error={!!error}
+                        helperText={error?.message}
+                      />
+                    )}
+                  />
+                </SortableDeviceItem>
               )
             })}
             <Button
