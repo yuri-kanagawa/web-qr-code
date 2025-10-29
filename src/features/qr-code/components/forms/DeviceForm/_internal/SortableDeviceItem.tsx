@@ -9,7 +9,17 @@ import { CSS } from '@dnd-kit/utilities'
 import CancelIcon from '@mui/icons-material/Cancel'
 import { IconButton, Stack } from '@mui/material'
 import { FC } from 'react'
-import { Controller } from 'react-hook-form'
+import {
+  Control,
+  UseFormTrigger,
+  Controller
+} from 'react-hook-form'
+import { RegisterDeviceQrCodeSchema } from '../viewModels/useQrCodeForm'
+
+type HiddenItemsResult = {
+  hiddenOsItems: number[]
+  hiddenDeviceItems: number[]
+}
 
 type Props = {
   id: string
@@ -18,12 +28,12 @@ type Props = {
   hiddenOsItems: number[]
   hiddenDeviceItems: number[]
   canDelete: boolean
-  control: any
-  setValue: any
-  trigger: any
-  getHiddenItemsForField: (index: number, selectedOs?: number) => any
+  control: Control<RegisterDeviceQrCodeSchema>
+  trigger: UseFormTrigger<RegisterDeviceQrCodeSchema>
+  getHiddenItemsForField: (index: number, selectedOs?: number) => HiddenItemsResult
   remove: (index: number) => void
   syncDeviceData: () => void
+  setDeviceValue: (index: number, value: number) => void
 }
 
 export const SortableDeviceItem: FC<Props> = ({
@@ -34,11 +44,11 @@ export const SortableDeviceItem: FC<Props> = ({
   hiddenDeviceItems,
   canDelete,
   control,
-  setValue,
   trigger,
   getHiddenItemsForField,
   remove,
-  syncDeviceData
+  syncDeviceData,
+  setDeviceValue
 }) => {
   const {
     attributes,
@@ -121,7 +131,7 @@ export const SortableDeviceItem: FC<Props> = ({
 
                     // 選択可能なDeviceが1つだけの場合は自動設定
                     if (availableDevices.length === 1) {
-                      setValue(`devices.${index}.device`, availableDevices[0])
+                      setDeviceValue(index, availableDevices[0])
                     }
 
                     // フォーム全体を再バリデーション

@@ -15,6 +15,7 @@ import { sortableKeyboardCoordinates } from '@dnd-kit/sortable'
 import { useCallback } from 'react'
 import { useFieldArray, useWatch } from 'react-hook-form'
 import { useDeviceQrCodeForm } from './useQrCodeForm/useDeviceQrCodeForm'
+import { RegisterDeviceQrCodeSchema } from './useQrCodeForm/zod'
 
 type Props = {
   qr: QrCode
@@ -24,7 +25,10 @@ type Props = {
 export const useViewModel = ({ qr, onChange }: Props) => {
   const { control, trigger, ...rest } = useDeviceQrCodeForm({ qr })
 
-  const { fields, append, remove, move } = useFieldArray({
+  const { fields, append, remove, move, update } = useFieldArray<
+    RegisterDeviceQrCodeSchema,
+    'devices'
+  >({
     control,
     name: 'devices'
   })
@@ -365,6 +369,12 @@ export const useViewModel = ({ qr, onChange }: Props) => {
     setTimeout(updateDeviceData, 0)
   }, [qr.language, append, updateDeviceData])
 
+  // デバイス値を変更する関数（updateメソッドを使用）
+  const setDeviceValue = useCallback((index: number, value: number) => {
+    if (!devices || !fields[index]) return
+    update(index, { ...devices[index], device: value })
+  }, [devices, fields, update])
+
   return {
     control,
     trigger,
@@ -377,6 +387,7 @@ export const useViewModel = ({ qr, onChange }: Props) => {
     hasIncompleteDevices,
     allCombinationsUsed,
     getHiddenItemsForField,
+    setDeviceValue,
     ...rest
   }
 }

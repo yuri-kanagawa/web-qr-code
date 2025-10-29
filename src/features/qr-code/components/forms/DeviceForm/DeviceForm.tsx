@@ -19,7 +19,7 @@ export const DeviceForm: FC<Props> = ({ qr, onChange }) => {
   const {
     control,
     formState: { isValid },
-    setValue,
+    setDeviceValue,
     trigger,
     fields,
     sensors,
@@ -74,11 +74,11 @@ export const DeviceForm: FC<Props> = ({ qr, onChange }) => {
                   hiddenDeviceItems={hiddenDeviceItems}
                   canDelete={canDelete}
                   control={control}
-                  setValue={setValue}
                   trigger={trigger}
                   getHiddenItemsForField={getHiddenItemsForField}
                   remove={remove}
                   syncDeviceData={syncDeviceData}
+                  setDeviceValue={setDeviceValue}
                 />
               )
             })}
