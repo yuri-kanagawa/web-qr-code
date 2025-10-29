@@ -5,10 +5,10 @@ import { DeviceResult } from './result'
 export class Device {
   static readonly TYPES = {
     NOT_SET: 0,
-    ALL: 1,
-    MOBILE: 2,
-    TABLET: 3,
-    PC: 4
+    ALL: 10,
+    MOBILE: 20,
+    TABLET: 30,
+    PC: 40
   } as const
 
   static readonly list = [
@@ -57,10 +57,6 @@ export class Device {
 
   static pc(language: Language): Device {
     return new Device(Device.TYPES.PC, language)
-  }
-
-  static default(): Device {
-    return new Device(Device.TYPES.NOT_SET, Language.default())
   }
 
   static detect(): Device {

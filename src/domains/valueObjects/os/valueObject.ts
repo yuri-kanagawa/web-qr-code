@@ -5,12 +5,12 @@ import { OsResult } from './result'
 export class Os {
   static readonly TYPES = {
     NOT_SET: 0,
-    WINDOWS: 1,
-    MACINTOSH: 2,
-    IOS: 3,
-    ANDROID: 4,
-    LINUX: 5,
-    OTHER: 6
+    WINDOWS: 10,
+    MACINTOSH: 20,
+    IOS: 30,
+    ANDROID: 40,
+    LINUX: 50,
+    OTHER: 60
   } as const
 
   static readonly list = [

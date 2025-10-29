@@ -1,14 +1,14 @@
 export class QrCodeType {
   // 固定の定数として定義
   static readonly URL = 0
-  static readonly EMAIL = 1
-  static readonly TEXT = 2
-  static readonly SMS = 3
-  static readonly WIFI = 4
-  static readonly CONTACT = 5
-  static readonly DEVICE = 6
-  static readonly MAP = 7
-  static readonly PHONE = 8
+  static readonly EMAIL = 10
+  static readonly TEXT = 20
+  static readonly SMS = 30
+  static readonly WIFI = 40
+  static readonly CONTACT = 50
+  static readonly DEVICE = 60
+  static readonly MAP = 70
+  static readonly PHONE = 80
   private constructor(private readonly _value: number) {}
 
   static create(): QrCodeType {
