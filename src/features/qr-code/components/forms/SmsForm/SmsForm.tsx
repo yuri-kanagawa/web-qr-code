@@ -39,14 +39,14 @@ export const SmsForm: FC<Props> = ({
             control={control}
             name="phoneNumber"
             render={({
-              field: { value, onChange, ref: inputRef },
+              field: { value, onChange: fieldOnChange, ref: inputRef },
               formState: { isValid },
               fieldState: { error }
             }) => (
               <PhoneTextField
                 value={value}
                 onChange={(newValue) => {
-                  onChange(newValue) // react-hook-formの状態を更新
+                  fieldOnChange(newValue) // react-hook-formの状態を更新
                   const newQr = qr.changePhoneNumber(newValue) // QrCodeの状態を更新
                   onChange(newQr) // 親コンポーネントに新しいQrCodeを渡す
                 }}
@@ -65,14 +65,14 @@ export const SmsForm: FC<Props> = ({
             control={control}
             name="body"
             render={({
-              field: { value, onChange, ref: inputRef },
+              field: { value, onChange: fieldOnChange, ref: inputRef },
               formState: { isValid },
               fieldState: { error }
             }) => (
               <BodyTextField
                 value={value}
                 onChange={(newValue) => {
-                  onChange(newValue) // react-hook-formの状態を更新
+                  fieldOnChange(newValue)
                   const newQr = qr.changeBody(newValue) // QrCodeの状態を更新
                   onChange(newQr) // 親コンポーネントに新しいQrCodeを渡す
                 }}
