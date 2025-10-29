@@ -1,6 +1,9 @@
 'use client'
 
+import { DeviceOsService } from '@/domains/services/deviceOs'
+import { Device } from '@/domains/valueObjects/device'
 import { Language } from '@/domains/valueObjects/language'
+import { Os } from '@/domains/valueObjects/os'
 import { useNavigation } from '@/hooks'
 import {
   Dialog,
@@ -11,9 +14,6 @@ import {
 } from '@/ui/cores'
 import { Button } from '@mui/material'
 import { useEffect, useState } from 'react'
-import { Device } from '@/domains/valueObjects/device'
-import { Os } from '@/domains/valueObjects/os'
-import { DeviceOsService } from '@/domains/services/deviceOs'
 
 type ErrorType = 'noDestination' | 'invalidUrl' | null
 
@@ -53,15 +53,13 @@ export const DeviceRedirectPage = ({ language }: Props) => {
     const deviceOsIds = rawIds.map(normalizeId)
 
     // urls: カンマ区切り、URLエンコード済み
-    const urls = urlsParam
-      .split(',')
-      .map((s) => {
-        try {
-          return decodeURIComponent(s)
-        } catch {
-          return ''
-        }
-      })
+    const urls = urlsParam.split(',').map((s) => {
+      try {
+        return decodeURIComponent(s)
+      } catch {
+        return ''
+      }
+    })
 
     // 配列長の整合性チェック
     if (deviceOsIds.length === 0 || deviceOsIds.length !== urls.length) {
