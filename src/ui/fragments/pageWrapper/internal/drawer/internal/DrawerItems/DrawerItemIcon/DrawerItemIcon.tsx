@@ -18,9 +18,8 @@ type Props = {
 
 export const DrawerItemIcon: FC<Props> = ({ icon, path, label }) => {
   const pathname = usePathname()
-  // 完全一致、または /edit (または /ja/edit等) の場合は配下のパスもアクティブに
-  const isCurrentPath =
-    pathname === path || (path.includes('/edit') && pathname.startsWith(path))
+  // 完全一致、または配下のパス（/ja/text 配下など）もアクティブに
+  const isCurrentPath = pathname === path || pathname.startsWith(path)
   const { isSidebarOpen, toggleSidebar, setIsSidebarOpen } = useSidebar()
 
   // アイコンに色を適用
