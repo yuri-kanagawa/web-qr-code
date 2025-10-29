@@ -370,10 +370,13 @@ export const useViewModel = ({ qr, onChange }: Props) => {
   }, [qr.language, append, updateDeviceData])
 
   // デバイス値を変更する関数（updateメソッドを使用）
-  const setDeviceValue = useCallback((index: number, value: number) => {
-    if (!devices || !fields[index]) return
-    update(index, { ...devices[index], device: value })
-  }, [devices, fields, update])
+  const setDeviceValue = useCallback(
+    (index: number, value: number) => {
+      if (!devices || !fields[index]) return
+      update(index, { ...devices[index], device: value })
+    },
+    [devices, fields, update]
+  )
 
   return {
     control,

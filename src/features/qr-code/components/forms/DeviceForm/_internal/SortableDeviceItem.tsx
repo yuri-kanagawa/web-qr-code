@@ -9,11 +9,7 @@ import { CSS } from '@dnd-kit/utilities'
 import CancelIcon from '@mui/icons-material/Cancel'
 import { IconButton, Stack } from '@mui/material'
 import { FC } from 'react'
-import {
-  Control,
-  UseFormTrigger,
-  Controller
-} from 'react-hook-form'
+import { Control, Controller, UseFormTrigger } from 'react-hook-form'
 import { RegisterDeviceQrCodeSchema } from '../viewModels/useQrCodeForm'
 
 type HiddenItemsResult = {
@@ -30,7 +26,10 @@ type Props = {
   canDelete: boolean
   control: Control<RegisterDeviceQrCodeSchema>
   trigger: UseFormTrigger<RegisterDeviceQrCodeSchema>
-  getHiddenItemsForField: (index: number, selectedOs?: number) => HiddenItemsResult
+  getHiddenItemsForField: (
+    index: number,
+    selectedOs?: number
+  ) => HiddenItemsResult
   remove: (index: number) => void
   syncDeviceData: () => void
   setDeviceValue: (index: number, value: number) => void
