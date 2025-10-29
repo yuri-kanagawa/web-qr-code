@@ -26,7 +26,7 @@ export const DeviceForm: FC<Props> = ({ qr, onChange }) => {
     handleDragEnd,
     handleAddDevice,
     remove,
-    updateDeviceData,
+    syncDeviceData,
     hasIncompleteDevices,
     allCombinationsUsed,
     getHiddenItemsForField
@@ -78,7 +78,7 @@ export const DeviceForm: FC<Props> = ({ qr, onChange }) => {
                   trigger={trigger}
                   getHiddenItemsForField={getHiddenItemsForField}
                   remove={remove}
-                  onDeviceDataChange={updateDeviceData}
+                  syncDeviceData={syncDeviceData}
                 />
               )
             })}

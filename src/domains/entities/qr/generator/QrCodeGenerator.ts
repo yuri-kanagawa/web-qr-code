@@ -16,8 +16,6 @@ export class QrCodeGenerator {
     language: Language,
     deviceData?: DeviceQrCodeData
   ): QrValue {
-    console.log('generateQrValue - qrCodeType.value:', qrCodeType.value)
-
     switch (qrCodeType.value) {
       case QrCodeType.URL:
         return this.generateUrlQr(data, language)
@@ -43,19 +41,10 @@ export class QrCodeGenerator {
   }
 
   private static generateUrlQr(data: QrCodeData, language: Language): QrValue {
-    console.log(
-      'generateQrValue URL case - _url:',
-      data.url,
-      'isEmpty:',
-      data.url?.isEmpty
-    )
     if (data.url && !data.url.isEmpty) {
-      console.log('generateQrValue URL case - _url.value:', data.url.value)
       const result = QrValue.create(data.url.value, language)
-      console.log('generateQrValue URL case - QrValue.create result:', result)
       return result.qr || QrValue.default(language)
     }
-    console.log('generateQrValue URL case - returning default')
     return QrValue.default(language)
   }
 
@@ -191,7 +180,6 @@ export class QrCodeGenerator {
     }
 
     const redirectUrl = `${baseUrl}?deviceOs=${deviceOsParams}&urls=${urlsParams}`
-    console.log('generateDeviceQr - redirectUrl:', redirectUrl)
     const result = QrValue.create(redirectUrl, language)
     return result.qr || QrValue.default(language)
   }
@@ -211,14 +199,11 @@ export class QrCodeGenerator {
     data: QrCodeData,
     language: Language
   ): QrValue {
-    console.log('generateQrValue phone case, _phoneNumber:', data.phoneNumber)
     if (data.phoneNumber && !data.phoneNumber.isEmpty) {
       const telValue = `tel:${data.phoneNumber.value}`
-      console.log('generateQrValue phone telValue:', telValue)
       const result = QrValue.create(telValue, language)
       return result.qr || QrValue.default(language)
     }
-    console.log('generateQrValue phone case, _phoneNumber is undefined')
     return QrValue.default(language)
   }
 }

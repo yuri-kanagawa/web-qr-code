@@ -99,6 +99,50 @@ export const useViewModel = ({ qr, onChange }: Props) => {
     onChange(next)
   }, [devices, qr, onChange])
 
+  // 現在のdevicesからDeviceDataを生成してQRを更新する
+  const syncDeviceData = useCallback(() => {
+    if (!devices) return
+
+    // 有効な組み合わせのみ抽出
+    const valid = devices.filter(
+      (d) =>
+        typeof d?.device === 'number' &&
+        typeof d?.os === 'number' &&
+        typeof d?.url === 'string' &&
+        d?.url !== ''
+    )
+
+    let deviceData = DeviceQrCodeData.default(qr.language)
+
+    if (valid.length > 0) {
+      // 先頭要素を更新
+      const firstDevice = Device.create(valid[0].device, qr.language)
+      const firstOs = Os.create(valid[0].os, qr.language)
+      const firstUrl = Url.create(valid[0].url, qr.language)
+      if (firstDevice.isSuccess && firstOs.isSuccess && firstUrl.isSuccess) {
+        deviceData = deviceData.updateDeviceOsUrl(
+          0,
+          firstDevice.device!,
+          firstOs.os!,
+          firstUrl.url!
+        )
+      }
+
+      // 2件目以降を追加
+      for (let i = 1; i < valid.length; i++) {
+        const dv = Device.create(valid[i].device, qr.language)
+        const ov = Os.create(valid[i].os, qr.language)
+        const uv = Url.create(valid[i].url, qr.language)
+        if (dv.isSuccess && ov.isSuccess && uv.isSuccess) {
+          deviceData = deviceData.addDeviceOsUrl(dv.device!, ov.os!, uv.url!)
+        }
+      }
+    }
+
+    const next = qr.updateDeviceData(deviceData)
+    onChange(next)
+  }, [devices, qr, onChange])
+
   // デバイスセットが完全に選択されているかチェック
   const isDeviceComplete = useCallback(
     (device: { device: number; os: number } | undefined): boolean => {
@@ -329,7 +373,7 @@ export const useViewModel = ({ qr, onChange }: Props) => {
     handleDragEnd,
     handleAddDevice,
     remove,
-    updateDeviceData,
+    syncDeviceData,
     hasIncompleteDevices,
     allCombinationsUsed,
     getHiddenItemsForField,

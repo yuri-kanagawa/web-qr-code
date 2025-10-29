@@ -23,7 +23,7 @@ type Props = {
   trigger: any
   getHiddenItemsForField: (index: number, selectedOs?: number) => any
   remove: (index: number) => void
-  onDeviceDataChange: () => void
+  syncDeviceData: () => void
 }
 
 export const SortableDeviceItem: FC<Props> = ({
@@ -38,7 +38,7 @@ export const SortableDeviceItem: FC<Props> = ({
   trigger,
   getHiddenItemsForField,
   remove,
-  onDeviceDataChange
+  syncDeviceData
 }) => {
   const {
     attributes,
@@ -78,7 +78,7 @@ export const SortableDeviceItem: FC<Props> = ({
           onClick={() => {
             remove(index)
             // ドメインのdeviceDataを更新
-            onDeviceDataChange()
+            syncDeviceData()
           }}
           color="error"
           disabled={!canDelete}
@@ -128,7 +128,7 @@ export const SortableDeviceItem: FC<Props> = ({
                     trigger()
 
                     // ドメインのdeviceDataを更新
-                    onDeviceDataChange()
+                    syncDeviceData()
                   }}
                   language={language}
                   isRequired={true}
@@ -157,7 +157,7 @@ export const SortableDeviceItem: FC<Props> = ({
                     // フォーム全体を再バリデーション
                     trigger()
                     // ドメインのdeviceDataを更新
-                    onDeviceDataChange()
+                    syncDeviceData()
                   }}
                   language={language}
                   isRequired={true}
@@ -174,10 +174,12 @@ export const SortableDeviceItem: FC<Props> = ({
             render={({ field: { value, onChange }, fieldState: { error } }) => (
               <UrlTextField
                 value={value}
-                onChange={(newValue) => {
-                  onChange(newValue)
-                  // ドメインのdeviceDataを更新
-                  onDeviceDataChange()
+                onChange={(event) => {
+                  onChange(event.target.value)
+                }}
+                onBlur={() => {
+                  // フォームフィールドからフォーカスが外れた時に確実にデータを同期
+                  syncDeviceData()
                 }}
                 isRequired={true}
                 error={!!error}
