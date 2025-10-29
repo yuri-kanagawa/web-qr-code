@@ -1,7 +1,9 @@
 'use client'
 import { QrCode } from '@/domains'
 import { Device } from '@/domains/valueObjects/device'
+import { Os } from '@/domains/valueObjects/os'
 import { DeviceSelect, FormButton, OsSelect } from '@/features/qr-code'
+import { UrlTextField } from '@/ui/fragments/textField'
 import { closestCenter, DndContext } from '@dnd-kit/core'
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
 import AddIcon from '@mui/icons-material/Add'
@@ -10,8 +12,6 @@ import { FC, useState } from 'react'
 import { Controller } from 'react-hook-form'
 import { SortableDeviceItem } from './_internal'
 import { useViewModel } from './viewModels'
-import { Os } from '@/domains/valueObjects/os'
-import { UrlTextField } from '@/ui/fragments/textField'
 
 type Props = {
   qr: QrCode
@@ -81,7 +81,10 @@ export const DeviceForm: FC<Props> = ({ qr, onChange }) => {
                   <Controller
                     control={control}
                     name={`devices.${index}.os`}
-                    render={({ field: { value, onChange }, fieldState: { error } }) => {
+                    render={({
+                      field: { value, onChange },
+                      fieldState: { error }
+                    }) => {
                       const osResult = Os.create(value, qr.language)
                       const os =
                         osResult.isSuccess && osResult.os
@@ -101,7 +104,10 @@ export const DeviceForm: FC<Props> = ({ qr, onChange }) => {
                             const availableDevices = Device.list.filter((d) => {
                               if (newHiddenDeviceItems.includes(d)) return false
                               const deviceObj = Device.create(d, qr.language)
-                              return deviceObj.isSuccess && !deviceObj.device!.isNotSet
+                              return (
+                                deviceObj.isSuccess &&
+                                !deviceObj.device!.isNotSet
+                              )
                             })
 
                             // 選択可能なDeviceが1つだけの場合は自動設定
@@ -127,7 +133,10 @@ export const DeviceForm: FC<Props> = ({ qr, onChange }) => {
                   <Controller
                     control={control}
                     name={`devices.${index}.device`}
-                    render={({ field: { value, onChange }, fieldState: { error } }) => {
+                    render={({
+                      field: { value, onChange },
+                      fieldState: { error }
+                    }) => {
                       const deviceResult = Device.create(value, qr.language)
                       const device =
                         deviceResult.isSuccess && deviceResult.device
@@ -156,7 +165,10 @@ export const DeviceForm: FC<Props> = ({ qr, onChange }) => {
                   <Controller
                     control={control}
                     name={`devices.${index}.url`}
-                    render={({ field: { value, onChange }, fieldState: { error } }) => (
+                    render={({
+                      field: { value, onChange },
+                      fieldState: { error }
+                    }) => (
                       <UrlTextField
                         value={value}
                         onChange={(event) => {
